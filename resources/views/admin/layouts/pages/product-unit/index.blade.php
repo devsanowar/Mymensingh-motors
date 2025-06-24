@@ -30,7 +30,18 @@
                     </h4>
                 </div>
                 <div class="body">
-                    <table id="districtDataTable" class="table table-bordered table-striped table-hover dataTable js-exportable" >
+                    @if ($errors->any())
+                        <div id="validationAlert" class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+
+                    <table id="productUnitDatatable" class="table table-bordered table-striped table-hover dataTable js-exportable" >
                         <thead>
                             <tr>
                                 <th style="width: 60px">S/N</th>
@@ -56,7 +67,7 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm editDistrict"
+                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm editProductUnit"
                                        data-id="{{ $unit->id }}"
                                        data-name="{{ $unit->fullname }}"
                                        data-shortname="{{ $unit->short_name }}"
@@ -123,7 +134,16 @@
     const csrfToken = "{{ csrf_token() }}";
 </script> --}}
 <script src="{{ asset('backend') }}/assets/js/product_unit.js"></script>
-
+<script>
+    setTimeout(function () {
+        const alertBox = document.getElementById('validationAlert');
+        if (alertBox) {
+            alertBox.style.transition = 'opacity 0.5s ease-out';
+            alertBox.style.opacity = '0';
+            setTimeout(() => alertBox.style.display = 'none', 500);
+        }
+    }, 3000);
+</script>
 @endpush
 
 

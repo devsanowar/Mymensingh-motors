@@ -32,7 +32,7 @@ $.extend(true, $.fn.dataTable.defaults, {
     });
 
     $(document).ready(function() {
-        $('#districtDataTable').DataTable();
+        $('#productUnitDatatable').DataTable();
     });
 
 

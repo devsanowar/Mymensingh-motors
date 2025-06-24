@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add District</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Product Unit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,24 +15,19 @@
                         <label><b>Full Name</b></label>
                         <div class="form-line case-input">
                             <input type="text" name="fullname" id="fullname"
-                                class="form-control @error('fullname') is-invalid @enderror" placeholder="e.g. Kilogram"
+                                class="form-control" placeholder="e.g. Kilogram"
                                 value="{{ old('fullname') }}" required>
                         </div>
-                        @error('fullname')
-                            <div class="text-danger mt-1">{{ $message }}</div>
-                        @enderror
                     </div>
 
                     <div class="form-group mb-4">
                         <label><b>Short Name</b></label>
                         <div class="form-line case-input">
                             <input type="text" name="short_name" id="short_name"
-                                class="form-control @error('short_name') is-invalid @enderror"
+                                class="form-control"
                                 placeholder="e.g. kg, pcs, box" value="{{ old('short_name') }}" required>
                         </div>
-                        @error('short_name')
-                            <div class="text-danger mt-1">{{ $message }}</div>
-                        @enderror
+                       
                     </div>
 
                     <div class="form-group mb-4">
@@ -45,15 +40,13 @@
 
                     <div class="form-group">
                         <label><b>Status</b></label>
-                        <select class="form-control show-tick @error('is_active') is-invalid @enderror"
+                        <select class="form-control show-tick"
                             name="is_active">
                             <option value="">Select Status</option>
                             <option value="1">Active</option>
                             <option value="0">Deactive</option>
                         </select>
-                        @error('is_active')
-                            <div class="text-danger mt-1">{{ $message }}</div>
-                        @enderror
+
                     </div>
 
                     <div class="modal-footer">
@@ -72,12 +65,6 @@
 
 
 @push('scripts')
-    @if ($errors->any())
-        <script>
-            $(document).ready(function() {
-                $('#addProductUnitModal').modal('show');
-            });
-        </script>
-    @endif
+   
 
 @endpush

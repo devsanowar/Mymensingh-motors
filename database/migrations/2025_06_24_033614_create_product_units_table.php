@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('fullname')->nullable();
             $table->string('short_name')->nullable();
             $table->longText('description')->nullable();
-            $table->tinyInteger('is_active')->nullable();
+            $table->tinyInteger('is_active')->default(0);
             $table->timestamps();
         });
     }
