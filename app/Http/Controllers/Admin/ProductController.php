@@ -11,6 +11,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Brand;
+use App\Models\ProductUnit;
 use Intervention\Image\Laravel\Facades\Image;
 
 class ProductController extends Controller
@@ -29,9 +30,20 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::latest()->get(['id', 'category_name']);
+        $categories = Category::where('is_active', 1)
+            ->where('category_slug', '!=', 'default')
+            ->latest()
+            ->get(['id', 'category_name']);
+            
+
+        $units = ProductUnit::where('is_active', 1)
+            ->latest()
+            ->get(['id', 'fullname', 'short_name']);
+           
+
         $brands = Brand::latest()->get(['id', 'brand_name']);
-        return view('admin.layouts.pages.product.create', compact('categories', 'brands'));
+        
+        return view('admin.layouts.pages.product.create', compact('categories', 'brands', 'units'));
     }
 
     /**
@@ -39,12 +51,14 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
+
         $productThumbnail = $this->productImage($request);
         $images = $this->productMultipleImages($request);
         Product::create([
             'category_id' => $request->category_id,
             // 'subcategory_id' => $request->subcategory_id,
             'brand_id' => $request->brand_id,
+            'unit_id' => $request->unit_id,
             'product_name' => $request->product_name,
             'product_slug' => Str::slug($request->product_name),
             // 'sku' => $request->sku,

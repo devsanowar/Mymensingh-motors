@@ -100,9 +100,9 @@
 
                             <div class="row mb-3">
                                 <div class="col-lg-6">
-                                    <label for="category_id"><b>Brand</b></label>
+                                    <label for="brand_id"><b>Brand</b></label>
                                     <div class="form-group" style="border: 1px solid #ccc">
-                                        <select name="category_id" class="form-control show-tick">
+                                        <select name="brand_id" class="form-control show-tick">
                                             <option disabled selected>Select Brand ....</option>
                                             @foreach ($brands as $brand)
                                                 <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
@@ -140,11 +140,22 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <label for="stock_quantity"><b>Stock Quantity</b></label>
                                     <div class="form-group" style="border: 1px solid #ccc">
                                         <input type="text" id="stock_quantity" name="stock_quantity" class="form-control"
                                             placeholder="Enter stock Quantity">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="product_unit"><b>Product Unit</b></label>
+                                    <div class="form-group" style="border: 1px solid #ccc">
+                                        <select name="unit_id" class="form-control show-tick">
+                                            <option disabled selected>Select Unit ....</option>
+                                            @foreach ($units as $unit)
+                                                <option value="{{ $unit->id }}">{{ $unit->short_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -313,31 +324,34 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                // Hide spinner and enable submit button
+                // Reset UI
+                $('#submitBtn').attr('disabled', false);
+                $('#spinner').addClass('d-none');
+                $('#submitBtnText').text('SAVE PRODUCT');
+                $('#productForm')[0].reset();
+
+                // Toastr Success
+                toastr.success('Product successfully created!');
+            },
+            error: function(xhr) {
+                // Reset UI
                 $('#submitBtn').attr('disabled', false);
                 $('#spinner').addClass('d-none');
                 $('#submitBtnText').text('SAVE PRODUCT');
 
-                toastr.options = {
-                    "closeButton": true,
-                    "progressBar": true,
-                    "timeOut": "2000",
-                    "extendedTimeOut": "1000",
-                    "positionClass": "toast-top-right",
-                };
-                toastr.success('Product successfully created!');
-                $('#productForm')[0].reset(); // Reset form
-            },
-            error: function(xhr) {
-                // Hide spinner and enable submit button
-                $('#submitBtn').attr('disabled', false);
-                $('#spinner').addClass('d-none');
-                $('#submitBtnText').text('Save');
-
-                toastr.error('Something went wrong!');
+                // Validation errors
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        toastr.error(value[0]);
+                    });
+                } else {
+                    toastr.error('Something went wrong!');
+                }
             }
         });
     });
 </script>
+
 
 @endpush
