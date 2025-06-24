@@ -129,10 +129,10 @@
 
 
  <!-- Script For status change -->
- {{-- <script>
-    const districtStatusRoute = "{{ route('district.status') }}";
+ <script>
+    const productUnitStatusRoute = "{{ route('product_unit.status') }}";
     const csrfToken = "{{ csrf_token() }}";
-</script> --}}
+</script>
 <script src="{{ asset('backend') }}/assets/js/product_unit.js"></script>
 <script>
     setTimeout(function () {

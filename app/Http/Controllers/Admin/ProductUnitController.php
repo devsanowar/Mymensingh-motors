@@ -18,7 +18,7 @@ class ProductUnitController extends Controller
 
     public function store(UnitStoreRequest $request){
         ProductUnit::create($request->all());
-        
+
         Toastr::success('Product unit successfully added.');
         return redirect()->back();
     }
@@ -40,4 +40,26 @@ class ProductUnitController extends Controller
         Toastr::success('Product Unit Deleted Successfully.');
         return redirect()->back();
     }
+
+
+    public function unitStatusChange(Request $request)
+    {
+        $productUnit = ProductUnit::find($request->id);
+
+        if (!$productUnit) {
+            return response()->json(['status' => false, 'message' => 'Product Unit not found.']);
+        }
+
+        $productUnit->is_active = !$productUnit->is_active;
+        $productUnit->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status changed successfully.',
+            'new_status' => $productUnit->is_active ? 'Active' : 'DeActive',
+            'class' => $productUnit->is_active ? 'btn-success' : 'btn-danger',
+        ]);
+    }
+
+
 }

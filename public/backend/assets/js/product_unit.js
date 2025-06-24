@@ -40,14 +40,14 @@ $(document).on('click', '.status-toggle-btn', function(e) {
     e.preventDefault();
 
     let button = $(this);
-    let districtId = button.data('id');
+    let unitId = button.data('id');
 
     $.ajax({
-        url: districtStatusRoute,
+        url: productUnitStatusRoute,
         type: 'POST',
         data: {
             _token: csrfToken,
-            id: districtId
+            id: unitId
         },
         success: function(response) {
             if (response.status) {
