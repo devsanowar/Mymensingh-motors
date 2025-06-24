@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\ReturnrefundController;
 use App\Http\Controllers\Admin\WebsiteColorController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\PrivacypolicyController;
+use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
 use App\Http\Controllers\Admin\TermsAdnCondiotnController;
 
@@ -146,6 +147,11 @@ Route::prefix('admin')
 
         // Sub Category
         Route::resource('subcategory', SubcategoryController::class);
+
+        // Product unit
+        Route::prefix('unit')->group(function () {
+            Route::get('/', [ProductUnitController::class, 'index'])->name('product_unit.index');
+        });
 
         // Product
         Route::resource('product', ProductController::class);

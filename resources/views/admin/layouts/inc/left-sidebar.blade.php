@@ -86,6 +86,10 @@
                         <a href="{{ route('brand.index') }}">Brand</a>
                     </li>
 
+                    <li class="{{ request()->routeIs('brand.*') ? 'active' : '' }}">
+                        <a href="{{ route('product_unit.index') }}">Product unit</a>
+                    </li>
+
                 </ul>
             </li>
 
