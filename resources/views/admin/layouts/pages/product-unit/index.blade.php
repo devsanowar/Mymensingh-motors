@@ -76,7 +76,7 @@
                                         <i class="material-icons text-white">edit</i>
                                     </a>
 
-                                    <form class="d-inline-block" action="{{ route('district.destroy',$unit->id) }}" method="POST">
+                                    <form class="d-inline-block" action="{{ route('product_unit.destroy',$unit->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm show_confirm"><i class="material-icons">delete</i></button>

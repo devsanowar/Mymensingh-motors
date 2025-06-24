@@ -153,6 +153,7 @@ Route::prefix('admin')
             Route::get('/', [ProductUnitController::class, 'index'])->name('product_unit.index');
             Route::post('/store', [ProductUnitController::class, 'store'])->name('product_unit.store');
             Route::put('/update', [ProductUnitController::class, 'update'])->name('product_unit.update');
+            Route::delete('/delete/{id}', [ProductUnitController::class, 'destroy'])->name('product_unit.destroy');
         });
 
         // Product

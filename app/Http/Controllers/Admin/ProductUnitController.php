@@ -18,6 +18,7 @@ class ProductUnitController extends Controller
 
     public function store(UnitStoreRequest $request){
         ProductUnit::create($request->all());
+        
         Toastr::success('Product unit successfully added.');
         return redirect()->back();
     }
@@ -26,7 +27,17 @@ class ProductUnitController extends Controller
     public function update(UnitUpdateRequest $request){
         $unit = ProductUnit::findOrFail($request->unit_id);
         $unit->update($request->all());
+
         Toastr::success('Product unit successfully added.');
+        return redirect()->back();
+    }
+
+
+    public function destroy($id){
+        $deleteUnit = ProductUnit::findOrFail($id);
+        $deleteUnit->delete();
+
+        Toastr::success('Product Unit Deleted Successfully.');
         return redirect()->back();
     }
 }
