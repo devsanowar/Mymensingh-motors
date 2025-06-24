@@ -350,3 +350,11 @@ margin-bottom: 15px;
   order: 3;
   text-align: right;
 }
+.form-line.case-input {
+	border: 1px solid #8a8a8a;
+}
+
+
+.input-group input[type="text"], .input-group .form-control {
+	padding-left: 10px !important;
+}

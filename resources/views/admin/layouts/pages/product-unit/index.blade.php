@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'All District')
+@section('title', 'All Units')
 
 @push('styles')
 
@@ -7,65 +7,6 @@
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/sweetalert2.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-select/css/bootstrap-select.css" />
-
-
-<style>
-
-.form-line.case-input {
-	border: 1px solid #8a8a8a;
-}
-
-.input-group .input-group-addon {
-	padding-left: 10px;
-}
-
-.input-group .input-group-addon + .form-line {
-	padding-left: 35px;
-}
-
-.bootstrap-select.btn-group.show-tick > .btn {
-	border: 1px solid #444 !important;
-	padding-left: 10px;
-	color: #888;
-	font-size: 17px;
-	padding-bottom: 0;
-	font-weight: 300;
-}
-
-.dropdown-toggle::after {
-	display: inline-block;
-	margin-left: .255em;
-	vertical-align: .480em;
-	content: "";
-	border-top: .3em solid;
-	border-right: .3em solid transparent;
-	border-bottom: 0;
-	border-left: .3em solid transparent;
-}
-
-
-
-.bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
-	color: #444;
-}
-
-
-
-.form-group .form-line.access_info {
-	border: 1px solid #424242 !important;
-	padding-left: 10px;
-}
-.btn.btn-primary.btn-lg.custom_btn {
-	padding: 10px 15px;
-}
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
-	color: #fff;
-	background-color: #0062cc !important;
-	border-color: #005cbf;
-}
-</style>
-
-
 
 @endpush
 
@@ -79,10 +20,10 @@
             <div class="card">
                 <div class="card-header">
                     <h4>
-                        All District
+                        All Unit
                         <span>
                             <!-- Button to trigger modal -->
-                            <button type="button" class="btn btn-warning text-white text-uppercase text-bold right" data-toggle="modal" data-target="#addDistrictModal">
+                            <button type="button" class="btn btn-warning text-white text-uppercase text-bold right" data-toggle="modal" data-target="#addProductUnitModal">
                                 + Add New
                             </button>
                         </span>
@@ -93,32 +34,38 @@
                         <thead>
                             <tr>
                                 <th style="width: 60px">S/N</th>
-                                <th>District Name</th>
+                                <th>Full Name</th>
+                                <th>Short Name</th>
+                                <th>Description</th>
                                 <th style="width: 60px">Status</th>
                                 <th style="width: 160px">Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($districts as $key=>$district)
-                            <tr id="districtRow-{{ $district->id }}">
+                            @foreach ($units as $key=>$unit)
+                            <tr id="unitRow-{{ $unit->id }}">
                                 <td>{{ $key+1 }}</td>
-                                <td class="district-name">{{ $district->district_name }}</td>
+                                <td class="unit-fullname">{{ $unit->fullname }}</td>
+                                <td class="unit-short_name">{{ $unit->short_name }}</td>
+                                <td class="unit-description">{{ Str::limit($unit->description, 30, '...') }}</td>
 
                                 <td>
-                                    <button data-id="{{ $district->id }}" class="btn btn-sm status-toggle-btn {{ $district->is_active ? 'btn-success' : 'btn-danger' }}">
-                                        {{ $district->is_active ? 'Active' : 'DeActive' }}
+                                    <button data-id="{{ $unit->id }}" class="btn btn-sm status-toggle-btn {{ $unit->is_active ? 'btn-success' : 'btn-danger' }}">
+                                        {{ $unit->is_active ? 'Active' : 'DeActive' }}
                                     </button>
                                 </td>
                                 <td>
                                     <a href="javascript:void(0)" class="btn btn-warning btn-sm editDistrict"
-                                       data-id="{{ $district->id }}"
-                                       data-name="{{ $district->district_name }}"
-                                       data-status="{{ $district->is_active }}">
+                                       data-id="{{ $unit->id }}"
+                                       data-name="{{ $unit->fullname }}"
+                                       data-shortname="{{ $unit->short_name }}"
+                                       data-description="{{ $unit->description }}"
+                                       data-status="{{ $unit->is_active }}">
                                         <i class="material-icons text-white">edit</i>
                                     </a>
 
-                                    <form class="d-inline-block" action="{{ route('district.destroy',$district->id) }}" method="POST">
+                                    <form class="d-inline-block" action="{{ route('district.destroy',$unit->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm show_confirm"><i class="material-icons">delete</i></button>
@@ -134,11 +81,11 @@
                 </div>
 
                 <!--Add District Bootstrap Modal -->
-                @include('admin.layouts.pages.district.create')
+                @include('admin.layouts.pages.product-unit.create')
 
 
                 <!-- Edit District Modal -->
-                @include('admin.layouts.pages.district.edit')
+                @include('admin.layouts.pages.product-unit.edit')
 
 
 
@@ -171,11 +118,11 @@
 
 
  <!-- Script For status change -->
- <script>
+ {{-- <script>
     const districtStatusRoute = "{{ route('district.status') }}";
     const csrfToken = "{{ csrf_token() }}";
-</script>
-<script src="{{ asset('backend') }}/assets/js/district.js"></script>
+</script> --}}
+<script src="{{ asset('backend') }}/assets/js/product_unit.js"></script>
 
 @endpush
 
