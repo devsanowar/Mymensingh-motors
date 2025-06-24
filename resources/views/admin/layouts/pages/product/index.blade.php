@@ -47,7 +47,7 @@
                                 <td><img src="{{ asset($product->thumbnail) }}" alt="" width="30"></td>
 								<td>{{ Str::words($product->product_name, 6, '...') }}</td>
 								<td>{{ $product->category->category_name ?? 'N/A' }}</td>
-								<td>{{ $product->stock_quantity }}</td>
+								<td>{{ $product->stock_quantity }} {{ $product->unit->short_name }}</td>
 								<td>{{ $product->regular_price }}</td>
                                 {{-- <td>
                                     @if($product->is_active == 1)
