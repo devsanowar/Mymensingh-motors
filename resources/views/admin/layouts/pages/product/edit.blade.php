@@ -147,11 +147,22 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <label for="stock_quantity"><b>Stock Quantity</b></label>
                                     <div class="form-group" style="border: 1px solid #ccc">
                                         <input type="text" id="stock_quantity" name="stock_quantity" class="form-control"
                                             placeholder="Enter stock Quantity" value="{{ $product->stock_quantity }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="product_unit"><b>Product Unit</b></label>
+                                    <div class="form-group" style="border: 1px solid #ccc">
+                                        <select name="unit_id" class="form-control show-tick">
+                                            <option disabled selected>Select Unit ....</option>
+                                            @foreach ($units as $unit)
+                                                <option {{ $unit->id == $product->unit_id ? 'selected' : '' }} value="{{ $unit->id }}">{{ $unit->short_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

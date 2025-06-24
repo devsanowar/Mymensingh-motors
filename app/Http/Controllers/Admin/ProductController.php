@@ -41,7 +41,7 @@ class ProductController extends Controller
             ->get(['id', 'fullname', 'short_name']);
            
 
-        $brands = Brand::latest()->get(['id', 'brand_name']);
+        $brands = Brand::where('is_active', 1)->latest()->get(['id','brand_name']);
         
         return view('admin.layouts.pages.product.create', compact('categories', 'brands', 'units'));
     }
@@ -96,9 +96,18 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::findOrFail($id);
-        $categories = Category::get(['id', 'category_name']);
-        $brands = Brand::get(['id','brand_name']);
-        return view('admin.layouts.pages.product.edit', compact('product', 'categories', 'brands'));
+        $categories = Category::where('is_active', 1)
+            ->where('category_slug', '!=', 'default')
+            ->latest()
+            ->get(['id', 'category_name']);
+            
+
+        $units = ProductUnit::where('is_active', 1)
+            ->latest()
+            ->get(['id', 'fullname', 'short_name']);
+            
+        $brands = Brand::where('is_active', 1)->latest()->get(['id','brand_name']);
+        return view('admin.layouts.pages.product.edit', compact('product', 'categories', 'brands', 'units'));
     }
 
     /**
@@ -201,6 +210,7 @@ class ProductController extends Controller
         $product->update([
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
+            'unit_id' => $request->unit_id,
             'product_name' => $request->product_name,
             'product_slug' => Str::slug($request->product_name),
             'short_description' => $request->short_description,
