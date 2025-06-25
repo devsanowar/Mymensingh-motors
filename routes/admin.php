@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\ReturnrefundController;
 use App\Http\Controllers\Admin\WebsiteColorController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\PrivacypolicyController;
+use App\Http\Controllers\Admin\StockLogController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
 use App\Http\Controllers\Admin\TermsAdnCondiotnController;
 
@@ -172,6 +173,11 @@ Route::prefix('admin')
         Route::get('/stocks', [StockController::class, 'index'])->name('admin.stock.index');
         Route::get('/stocks/{id}/edit', [StockController::class, 'edit'])->name('admin.stock.edit');
         Route::post('/stocks/{id}/update', [StockController::class, 'update'])->name('admin.stock.update');
+
+        // Stock log route here
+        Route::get('stocklog', [StockLogController::class, 'index'])->name('stocklog');
+        // Route::get('/admin/stock-logs', [StockLogController::class, 'StockLogFilter'])->name('stocklog.filter');
+
 
         // District route
         Route::get('district', [DistrictController::class, 'index'])->name('district.index');

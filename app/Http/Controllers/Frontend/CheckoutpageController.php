@@ -6,13 +6,16 @@ use App\Models\Order;
 use App\Models\Upazila;
 use App\Models\District;
 use App\Models\Shipping;
+use App\Models\StockLog;
+use App\Models\Blocklist;
 use App\Models\Orderitem;
+use App\Models\ProductStock;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 use App\Models\Paymentmethod;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\Blocklist;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutpageController extends Controller
@@ -43,6 +46,8 @@ class CheckoutpageController extends Controller
         return response()->json($upazilas);
     }
 
+
+
     public function placeOrder(Request $request, SmsService $smsService)
     {
         $request->validate([
@@ -68,44 +73,67 @@ class CheckoutpageController extends Controller
             return back()->with('error', 'দুঃখিত, মোবাইল নম্বরটি ব্লক করা হয়েছে। অনুগ্রহ করে একটি বৈধ নম্বর প্রদান করুন।');
         }
 
-        $total = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+        DB::beginTransaction();
+        try {
+            $total = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+            $shipping_charge = $request->has('shipping_charge') && floatval($request->shipping_charge) > 0 ? floatval($request->shipping_charge) : 0;
 
-        $shipping_charge = $request->has('shipping_charge') && floatval($request->shipping_charge) > 0 ? floatval($request->shipping_charge) : 0;
+            $total += $shipping_charge;
 
-        $total += $shipping_charge;
-
-        $order = Order::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone' => $request->phone,
-            'district_id' => $request->district_id,
-            'upazila_id' => $request->upazila_id,
-            'address' => $request->address,
-            'payment_method' => $request->payment_method,
-            'transaction_number' => $request->transaction_number ?? null,
-            'transaction_id' => $request->transaction_id ?? null,
-            'shipping_charge' => $shipping_charge,
-            'total_price' => $total,
-            'status' => 'pending',
-            'order_id' => 'MB-' . strtoupper(uniqid()),
-        ]);
-
-        foreach ($cart as $item) {
-            Orderitem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
+            // Order create
+            $order = Order::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'district_id' => $request->district_id,
+                'upazila_id' => $request->upazila_id,
+                'address' => $request->address,
+                'payment_method' => $request->payment_method,
+                'transaction_number' => $request->transaction_number ?? null,
+                'transaction_id' => $request->transaction_id ?? null,
+                'shipping_charge' => $shipping_charge,
+                'total_price' => $total,
+                'status' => 'pending',
+                'order_id' => 'MM-' . strtoupper(uniqid()),
             ]);
+
+            foreach ($cart as $item) {
+                // Order item create
+                Orderitem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                ]);
+
+                // Stock decrement
+                $stock = ProductStock::where('product_id', $item['id'])->first();
+                if ($stock) {
+                    $stock->decrement('quantity', $item['quantity']);
+                }
+
+                // Stock log entry
+                StockLog::create([
+                    'product_id' => $item['id'],
+                    'change_type' => 'out',
+                    'quantity' => $item['quantity'],
+                    'note' => 'Customer Order #' . $order->order_id,
+                ]);
+            }
+
+            session()->forget('cart');
+
+            // Send SMS confirmation
+            $smsService->sendOrderConfirmationSMS($request->phone, $order);
+
+            DB::commit();
+
+            return redirect()->route('order.confirmation', $order->id)->with('success', 'অর্ডার সফল হয়েছে!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'অর্ডার সম্পন্ন হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
         }
-
-        session()->forget('cart');
-
-        $smsService->sendOrderConfirmationSMS($request->phone, $order);
-
-        return redirect()->route('order.confirmation', $order->id)->with('success', 'অর্ডার সফল হয়েছে!');
     }
-
     
 
     public function showOrderConfirmation($id)

@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Stock Management')
+@section('title', 'Stock Logs')
 @push('styles')
     <!-- JQuery DataTable Css -->
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css">
@@ -13,38 +13,36 @@
             <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="text-uppercase"> Product Stock List <span><a href="{{ route('stocklog') }}" class="btn btn-primary btn-sm float-right">Stock Log</a></span></h4>
-
+                        <h4 class="text-uppercase">Stock Logs</h2>
                     </div>
                     <div class="body">
-                        <table id="stockTable"
+                        <table id="stockLogTable"
                             class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
-                                    <th>S/N</th>
+                                    <th>#</th>
                                     <th>Product</th>
-                                    <th>Stock Quantity</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Type</th>
+                                    <th>Quantity</th>
+                                    <th>Note</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $key => $product)
+                                @foreach ($logs as $key => $log)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
-                                        <td>{{ $product->product_name }}</td>
-                                        <td>{{ $product->stock->quantity ?? 0 }} {{ $product->unit->short_name }}</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $log->product->product_name ?? 'N/A' }}</td>
                                         <td>
-                                            @if (($product->stock->quantity ?? 0) <= ($product->stock->low_stock_threshold ?? 10))
-                                                <span class="btn btn-danger btn-sm">Low Stock</span>
+                                            @if($log->change_type === 'in')
+                                                <span class="badge bg-success">IN</span>
                                             @else
-                                                <span class="btn btn-success btn-sm">In Stock</span>
+                                                <span class="badge bg-danger">OUT</span>
                                             @endif
                                         </td>
-                                        <td>
-                                            <a href="{{ route('admin.stock.edit', $product->id) }}"
-                                                class="btn btn-primary btn-sm">Edit</a>
-                                        </td>
+                                        <td>{{ $log->quantity }}</td>
+                                        <td>{{ $log->note }}</td>
+                                        <td>{{ $log->created_at->format('d M Y h:i A') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -82,7 +80,7 @@
         });
 
         $(document).ready(function() {
-            $('#stockTable').DataTable();
+            $('#stockLogTable').DataTable();
         });
     </script>
 @endpush
