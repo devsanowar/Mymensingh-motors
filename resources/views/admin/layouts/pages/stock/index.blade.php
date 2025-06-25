@@ -18,7 +18,7 @@
                     </div>
                     <div class="body">
                         <table id="stockTable"
-                            class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
                                     <th>S/N</th>
@@ -36,9 +36,9 @@
                                         <td>{{ $product->stock->quantity ?? 0 }} {{ $product->unit->short_name }}</td>
                                         <td>
                                             @if (($product->stock->quantity ?? 0) <= ($product->stock->low_stock_threshold ?? 10))
-                                                <span class="badge bg-danger">Low Stock</span>
+                                                <span class="btn btn-danger btn-sm">Low Stock</span>
                                             @else
-                                                <span class="badge bg-success">In Stock</span>
+                                                <span class="btn btn-success btn-sm">In Stock</span>
                                             @endif
                                         </td>
                                         <td>
