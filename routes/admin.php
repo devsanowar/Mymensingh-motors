@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\InboxController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SliderController;
@@ -167,6 +168,11 @@ Route::prefix('admin')
         Route::delete('/permanant/{id}/productdata', [ProductController::class, 'forceDeleteData'])->name('product.forceDelete');
         Route::get('changeStatus/{id}', [ProductController::class, 'changeStatus'])->name('changeStatus');
 
+        // Stock route here
+        Route::get('/stocks', [StockController::class, 'index'])->name('admin.stock.index');
+        Route::get('/stocks/{id}/edit', [StockController::class, 'edit'])->name('admin.stock.edit');
+        Route::post('/stocks/{id}/update', [StockController::class, 'update'])->name('admin.stock.update');
+
         // District route
         Route::get('district', [DistrictController::class, 'index'])->name('district.index');
         Route::post('/district/store/', [DistrictController::class, 'store'])->name('district.store');
@@ -207,7 +213,7 @@ Route::prefix('admin')
         Route::post('/payment-method/status-change', [PaymentMethodController::class, 'paymentMethodChangeStatus'])->name('payment_method.status');
 
         // Post Category
-        Route::get('/post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');
+        Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');
         Route::post('/post-category/store', [PostCategoryController::class, 'store'])->name('post_category.store');
         Route::post('/post-category/update', [PostCategoryController::class, 'update'])->name('post_category.update');
         Route::delete('/post-category/delete/{id}', [PostCategoryController::class, 'destroy'])->name('post_category.destroy');
@@ -293,6 +299,8 @@ Route::prefix('admin')
             Route::get('sms-report', [SmsReportController::class, 'index'])->name('sms-report.index');
             Route::delete('destroy/{id}', [SmsReportController::class, 'destroy'])->name('sms-report.destroy');
         });
+
+        
 
 
     });

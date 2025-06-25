@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/custom.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/color_skins.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/toastr.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 @php
     use App\Models\WebsiteColor;
     $websiteColor = WebsiteColor::first();

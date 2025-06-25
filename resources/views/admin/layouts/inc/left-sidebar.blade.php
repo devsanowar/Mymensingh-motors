@@ -93,6 +93,14 @@
                 </ul>
             </li>
 
+            <li class="{{ $isPostActive ? 'active open' : '' }}">
+                <a href="{{ route('admin.stock.index') }}">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Stock Management</span>
+                </a>
+            </li>
+
+
 
             <li class="{{ $isShippingPageActive ? 'active' : '' }}">
                 <a href="{{ route('shipping.index') }}"><i class="zmdi zmdi-money-box"></i>

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\StockLog;
+use App\Models\ProductUnit;
 use Illuminate\Support\Str;
+use App\Models\ProductStock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductStoreRequest;
-use App\Models\Brand;
-use App\Models\ProductUnit;
 use Intervention\Image\Laravel\Facades\Image;
 
 class ProductController extends Controller
@@ -21,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->latest()->get();
+        $products = Product::with(['category:id,category_name', 'stock:product_id,quantity'])->latest()->get();
         return view('admin.layouts.pages.product.index', compact('products'));
     }
 
@@ -49,38 +52,96 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(ProductStoreRequest $request)
+    // {
+
+    //     $productThumbnail = $this->productImage($request);
+    //     $images = $this->productMultipleImages($request);
+    //     Product::create([
+    //         'category_id' => $request->category_id,
+    //         'brand_id' => $request->brand_id,
+    //         'unit_id' => $request->unit_id,
+    //         'product_name' => $request->product_name,
+    //         'product_slug' => Str::slug($request->product_name),
+    //         'short_description' => $request->short_description,
+    //         'long_description' => $request->long_description,
+    //         'regular_price' => $request->regular_price,
+    //         'discount_price' => $request->discount_price,
+    //         'discount_type' => $request->discount_type,
+    //         'stock_quantity' => $request->stock_quantity,
+    //         'thumbnail' => $productThumbnail,
+    //         'images' => $images ? json_encode($images) : null,
+    //         'is_featured' => $request->is_featured,
+    //         'is_active' => $request->is_active,
+    //     ]);
+
+    //     return response()->json([
+    //         'success' => true,
+    //     ]);
+    // }
+
+
+
     public function store(ProductStoreRequest $request)
     {
+        DB::beginTransaction();
 
-        $productThumbnail = $this->productImage($request);
-        $images = $this->productMultipleImages($request);
-        Product::create([
-            'category_id' => $request->category_id,
-            // 'subcategory_id' => $request->subcategory_id,
-            'brand_id' => $request->brand_id,
-            'unit_id' => $request->unit_id,
-            'product_name' => $request->product_name,
-            'product_slug' => Str::slug($request->product_name),
-            // 'sku' => $request->sku,
-            'short_description' => $request->short_description,
-            'long_description' => $request->long_description,
-            'regular_price' => $request->regular_price,
-            'discount_price' => $request->discount_price,
-            'discount_type' => $request->discount_type,
-            'stock_quantity' => $request->stock_quantity,
-            // 'in_stock' => $request->in_stock,
-            // 'colors' => $request->colors ? json_encode($request->colors) : null,
-            // 'sizes' => $request->sizes ? json_encode($request->sizes) : null,
-            'thumbnail' => $productThumbnail,
-            'images' => $images ? json_encode($images) : null,
-            'is_featured' => $request->is_featured,
-            'is_active' => $request->is_active,
-        ]);
+        try {
+            $productThumbnail = $this->productImage($request);
+            $images = $this->productMultipleImages($request);
 
-        return response()->json([
-            'success' => true,
-        ]);
+            // Step 1: Create Product
+            $product = Product::create([
+                'category_id' => $request->category_id,
+                'brand_id' => $request->brand_id,
+                'unit_id' => $request->unit_id,
+                'product_name' => $request->product_name,
+                'product_slug' => Str::slug($request->product_name),
+                'short_description' => $request->short_description,
+                'long_description' => $request->long_description,
+                'regular_price' => $request->regular_price,
+                'discount_price' => $request->discount_price,
+                'discount_type' => $request->discount_type,
+                'thumbnail' => $productThumbnail,
+                'images' => $images ? json_encode($images) : null,
+                'is_featured' => $request->is_featured,
+                'is_active' => $request->is_active,
+            ]);
+
+            // Step 2: Add initial stock
+            ProductStock::create([
+                'product_id' => $product->id,
+                'quantity' => $request->stock_quantity,
+                'low_stock_threshold' => 10, // Default, or set via $request
+            ]);
+
+            // Step 3: Optional stock log
+            StockLog::create([
+                'product_id' => $product->id,
+                'change_type' => 'in',
+                'quantity' => $request->stock_quantity,
+                'note' => 'Initial stock on product create',
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Something went wrong!',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
+        }
     }
+
+    
 
     /**
      * Display the specified resource.
