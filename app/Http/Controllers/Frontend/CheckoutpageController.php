@@ -55,29 +55,24 @@ class CheckoutpageController extends Controller
             'payment_method' => 'required|string|max:50',
         ]);
 
+        if ($request->payment_method == 'bkash' && !$request->transaction_number) {
+            return back()->with('error', 'বিকাশ ট্রানজেকশন নাম্বার আবশ্যক।');
+        }
+
         $cart = session()->get('cart', []);
         if (empty($cart)) {
             return back()->with('error', 'কার্ট খালি!');
         }
 
-        $blockNumber = Blocklist::pluck('number')->toArray();
-
-        if (in_array($request->phone, $blockNumber)) {
+        if (Blocklist::where('number', $request->phone)->exists()) {
             return back()->with('error', 'দুঃখিত, মোবাইল নম্বরটি ব্লক করা হয়েছে। অনুগ্রহ করে একটি বৈধ নম্বর প্রদান করুন।');
         }
 
-        $total = 0;
+        $total = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
 
-        foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
-        }
+        $shipping_charge = $request->has('shipping_charge') && floatval($request->shipping_charge) > 0 ? floatval($request->shipping_charge) : 0;
 
-        // শিপিং চার্জ
-        $shipping_charge = 0;
-        if ($request->has('shipping_charge') && floatval($request->shipping_charge) > 0) {
-            $shipping_charge = floatval($request->shipping_charge);
-            $total += $shipping_charge;
-        }
+        $total += $shipping_charge;
 
         $order = Order::create([
             'first_name' => $request->first_name,
@@ -106,12 +101,12 @@ class CheckoutpageController extends Controller
 
         session()->forget('cart');
 
-        // $this->sendOrderConfirmationSMS($request->phone, $order);
-
         $smsService->sendOrderConfirmationSMS($request->phone, $order);
 
         return redirect()->route('order.confirmation', $order->id)->with('success', 'অর্ডার সফল হয়েছে!');
     }
+
+    
 
     public function showOrderConfirmation($id)
     {
@@ -153,6 +148,4 @@ class CheckoutpageController extends Controller
     //         Log::error('SMS sending failed: ' . json_encode($response));
     //     }
     // }
-
-
 }

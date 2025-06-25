@@ -43,69 +43,67 @@ class SmsSettingController extends Controller
         return back()->with('success', 'SMS Settings updated successfully!');
     }
 
-    public function moblie_sms()
-    {
-        return view('admin.layouts.pages.sms.moblie_sms');
-    }
+   
 
-    public function custom_sms()
-    {
-        return view('admin.layouts.pages.sms.custom_sms');
-    }
+    // public function sendCustomSms(Request $request)
+    // {
+    //     $request->validate([
+    //         'mobile_numbers' => 'required|string',
+    //         'message' => 'required|string|max:1080',
+    //     ]);
 
-    public function sendCustomSms(Request $request)
-    {
-        $request->validate([
-            'mobile_numbers' => 'required|string',
-            'message' => 'required|string|max:1080',
-        ]);
+    //     $apiKey = 'KEY-gtdu11carybws8n5hm31h8z3qpn51x0e';
+    //     $apiSecret = 'eGLXoyke0eRzYZI5';
+    //     $apiUrl = 'https://portal.adnsms.com/api/v1/secure/send-sms';
 
-        $apiKey = 'KEY-gtdu11carybws8n5hm31h8z3qpn51x0e';
-        $apiSecret = 'eGLXoyke0eRzYZI5';
-        $apiUrl = 'https://portal.adnsms.com/api/v1/secure/send-sms';
+    //     $mobileNumbers = explode(',', str_replace(' ', '', $request->mobile_numbers));
+    //     $message = $request->input('message');
+    //     $totalCharacters = strlen($message);
+    //     $totalMessageParts = ceil($totalCharacters / 160); // SMS message part calculation
 
-        $mobileNumbers = explode(',', str_replace(' ', '', $request->mobile_numbers));
-        $message = $request->input('message');
-        $totalCharacters = strlen($message);
-        $totalMessageParts = ceil($totalCharacters / 160); // SMS message part calculation
+    //     foreach ($mobileNumbers as $mobile) {
+    //         if (!preg_match('/^\d{10,15}$/', $mobile)) {
+    //             return back()->with('error', "Invalid mobile number: $mobile");
+    //         }
 
-        foreach ($mobileNumbers as $mobile) {
-            if (!preg_match('/^\d{10,15}$/', $mobile)) {
-                return back()->with('error', "Invalid mobile number: $mobile");
-            }
+    //         $data = [
+    //             'api_key' => $apiKey,
+    //             'api_secret' => $apiSecret,
+    //             'request_type' => 'single_sms',
+    //             'message_type' => 'UNICODE',
+    //             'mobile' => $mobile,
+    //             'message_body' => $message,
+    //         ];
 
-            $data = [
-                'api_key' => $apiKey,
-                'api_secret' => $apiSecret,
-                'request_type' => 'single_sms',
-                'message_type' => 'UNICODE',
-                'mobile' => $mobile,
-                'message_body' => $message,
-            ];
+    //         $response = Http::post($apiUrl, $data);
 
-            $response = Http::post($apiUrl, $data);
+    //         if ($response->failed()) {
+    //             return back()->with('error', "Failed to send SMS to $mobile");
+    //         }
 
-            if ($response->failed()) {
-                return back()->with('error', "Failed to send SMS to $mobile");
-            }
+    //         // Save SMS details in the database
+    //         SmsLog::create([
+    //             'delivery_date' => Carbon::now()->toDateString(),
+    //             'delivery_time' => Carbon::now()->toTimeString(),
+    //             'mobile' => $mobile,
+    //             'message' => $message,
+    //             'total_characters' => $totalCharacters,
+    //             'total_message' => $totalMessageParts,
+    //             'delivery_report' => $response->json()['status'] ?? 'success', // Adjust based on API response
+    //         ]);
+    //     }
 
-            // Save SMS details in the database
-            SmsLog::create([
-                'delivery_date' => Carbon::now()->toDateString(),
-                'delivery_time' => Carbon::now()->toTimeString(),
-                'mobile' => $mobile,
-                'message' => $message,
-                'total_characters' => $totalCharacters,
-                'total_message' => $totalMessageParts,
-                'delivery_report' => $response->json()['status'] ?? 'success', // Adjust based on API response
-            ]);
-        }
+    //     return back()->with('success', 'SMS sent successfully!');
+    // }
 
-        return back()->with('success', 'SMS sent successfully!');
-    }
 
-    public function sms_report()
-    {
-        return view('admin.layouts.pages.sms.sms_report');
-    }
+    
+
+    // public function sms_report()
+    // {
+    //     return view('admin.layouts.pages.sms.sms_report');
+    // }
+
+
+
 }

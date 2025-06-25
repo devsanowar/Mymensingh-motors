@@ -153,11 +153,28 @@
                 </li>
             @endif
 
-            <li class="{{ Request::is('moblieSMS*') ? 'active' : '' }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-email"></i><span>SMS</span> </a>
+            {{-- <li class="{{ Request::is('moblieSMS*') ? 'active' : '' }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-email"></i><span>SMS</span> </a>
                 <ul class="ml-menu">
                     <li class="{{ Request::is('moblieSMS/sms') ? 'active' : '' }}"><a href="{{ route('mobile.sms') }}">Send SMS</a></li>
                     <li class="{{ Request::is('moblieSMS/custom-sms') ? 'active' : '' }}"><a href="{{ route('custom.sms') }}">Custome SMS</a></li>
                     <li class="{{ Request::is('moblieSMS/sms-report') ? 'active' : '' }}"><a href="{{ route('sms_report.sms') }}">SMS Report</a></li>
+                </ul>
+            </li> --}}
+
+            <li class="{{ Request::is('moblieSMS*') ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="zmdi zmdi-email"></i><span>SMS</span>
+                </a>
+                <ul class="ml-menu">
+                    <li class="{{ Request::is('moblieSMS/sms') ? 'active' : '' }}">
+                        <a href="{{ route('message.index') }}">Send SMS</a>
+                    </li>
+                    <li class="{{ Request::is('moblieSMS/custom-sms') ? 'active' : '' }}">
+                        <a href="{{ route('custom.sms') }}">Custom SMS</a>
+                    </li>
+                    <li class="{{ Request::is('moblieSMS/sms-report') ? 'active' : '' }}">
+                        <a href="{{ route('sms-report.index') }}">SMS Report</a>
+                    </li>
                 </ul>
             </li>
 
@@ -172,7 +189,7 @@
             </li>
 
             <li class="{{ $isMessagePageActive ? 'active' : '' }}">
-                <a href="{{ route('inboxed_message') }}"><i class="zmdi zmdi-email-open"></i>
+                <a href="{{ route('contact_form.message') }}"><i class="zmdi zmdi-email-open"></i>
                     <span>Messages</span>
                 </a>
             </li>

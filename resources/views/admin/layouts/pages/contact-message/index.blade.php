@@ -45,7 +45,7 @@
 
                                     <a href="{{ route('message.show', $message->id) }}" class="btn btn-warning btn-sm"> <i class="material-icons text-white">visibility</i></a>
 
-                                    <form class="d-inline-block" action="{{ route('message.destroy', $message->id) }}" method="POST">
+                                    <form class="d-inline-block" action="{{ route('contact_form_message.destroy', $message->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm show_confirm"><i class="material-icons">delete</i></button>

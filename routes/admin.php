@@ -21,12 +21,15 @@ use App\Http\Controllers\Admin\DistrictController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\AboutPageController;
 use App\Http\Controllers\Admin\BlocklistController;
+use App\Http\Controllers\Admin\SmsReportController;
 use App\Http\Controllers\Admin\AdminPanelController;
 use App\Http\Controllers\Admin\NewslatterController;
 use App\Http\Controllers\Admin\SmsSettingController;
 use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\WhyChoseUsController;
 use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\MessageSendController;
+use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PromobannerController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\PostCategoryController;
@@ -34,7 +37,6 @@ use App\Http\Controllers\Admin\ReturnrefundController;
 use App\Http\Controllers\Admin\WebsiteColorController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\PrivacypolicyController;
-use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
 use App\Http\Controllers\Admin\TermsAdnCondiotnController;
 
@@ -228,9 +230,9 @@ Route::prefix('admin')
         });
 
         // Contact form message route
-        Route::get('message', [InboxController::class, 'index'])->name('inboxed_message');
-        Route::get('message-show/{id}', [InboxController::class, 'show'])->name('message.show');
-        Route::delete('message/delete/{id}', [InboxController::class, 'destroy'])->name('message.destroy');
+        Route::get('contact-form', [InboxController::class, 'index'])->name('contact_form.message');
+        Route::get('contact-form-msg-show/{id}', [InboxController::class, 'show'])->name('message.show');
+        Route::delete('contact-form-msg/delete/{id}', [InboxController::class, 'destroy'])->name('contact_form_message.destroy');
 
         // Newsletter
         Route::get('Newslatter', [NewslatterController::class, 'index'])->name('newslatter');
@@ -242,12 +244,12 @@ Route::prefix('admin')
 
 
         // SMS routes here
-        Route::group(['prefix' => 'moblieSMS'], function(){
-            Route::get('sms', [SmsSettingController::class, 'moblie_sms'])->name('mobile.sms');
-            Route::get('custom-sms', [SmsSettingController::class, 'custom_sms'])->name('custom.sms');
-            Route::get('sms-report', [SmsSettingController::class, 'sms_report'])->name('sms_report.sms');
-            Route::post('/send/custom/message', [SmsSettingController::class, 'sendCustomSms'])->name('send.custom_sms');
-        });
+        // Route::group(['prefix' => 'moblieSMS'], function(){
+        //     Route::get('sms', [SmsSettingController::class, 'moblie_sms'])->name('mobile.sms');
+        //     Route::get('custom-sms', [SmsSettingController::class, 'custom_sms'])->name('custom.sms');
+        //     Route::get('sms-report', [SmsSettingController::class, 'sms_report'])->name('sms_report.sms');
+        //     Route::post('/send/custom/message', [SmsSettingController::class, 'sendCustomSms'])->name('send.custom_sms');
+        // });
 
 
         // block list routes
@@ -270,6 +272,27 @@ Route::prefix('admin')
         // Website Color routes
         Route::get('website-color', [WebsiteColorController::class, 'edit'])->name('website_color.edit');
         Route::put('/website-color/update/{id}', [WebsiteColorController::class, 'update'])->name('website_color.update');
+
+
+        // Message
+        Route::prefix('message')->group(function () {
+            Route::get('/', [MessageSendController::class, 'index'])->name('message.index');
+            Route::get('create', [MessageSendController::class, 'create'])->name('message.create');
+            Route::post('store', [MessageSendController::class, 'store'])->name('message.store');
+            Route::get('edit/{id}', [MessageSendController::class, 'edit'])->name('message.edit');
+            Route::get('detail/{id}', [MessageSendController::class, 'detail'])->name('message.detail');
+            Route::put('update/{id}', [MessageSendController::class, 'update'])->name('message.update');
+            Route::delete('destroy/{id}', [MessageSendController::class, 'destroy'])->name('message.destroy');
+        });
+
+        Route::post('/send-message', [MessageSendController::class, 'send'])->name('send.message');
+        Route::get('/custom-sms', [MessageSendController::class, 'customSms'])->name('custom.sms');
+
+        // Sms Report
+        Route::prefix('sms-report')->group(function () {
+            Route::get('sms-report', [SmsReportController::class, 'index'])->name('sms-report.index');
+            Route::delete('destroy/{id}', [SmsReportController::class, 'destroy'])->name('sms-report.destroy');
+        });
 
 
     });
