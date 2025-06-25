@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Contact;
+use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\WebsiteSetting;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,10 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+
+        $inStockCount = ProductStock::where('quantity', '>', 0)->count();
+        $outStockCount = ProductStock::where('quantity', '<=', 0)->count();
+
         $user_count = User::count();
         $order_count = Order::count();
         $total_order_amount = Order::sum('total_price');
@@ -42,7 +47,9 @@ class AdminController extends Controller
             'cancelled_order_count',
             'confirmed_order_count',
             'shipped_order_count',
-            'delivered_order_count'
+            'delivered_order_count',
+            'inStockCount',
+            'outStockCount',
         ));
     }
 
