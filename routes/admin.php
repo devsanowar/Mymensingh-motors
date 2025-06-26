@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\PrivacypolicyController;
 use App\Http\Controllers\Admin\StockLogController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
 use App\Http\Controllers\Admin\TermsAdnCondiotnController;
+use App\Http\Controllers\Admin\VisitLogController;
 
 Route::prefix('admin')
     ->middleware(['auth', 'admin'])
@@ -306,7 +307,8 @@ Route::prefix('admin')
             Route::delete('destroy/{id}', [SmsReportController::class, 'destroy'])->name('sms-report.destroy');
         });
 
-        
-
+        //Visit log route
+        Route::get('visit-log', [VisitLogController::class, 'index'])->name('visit.log.index');
+        Route::get('visit-track', [VisitLogController::class, 'trackVisitor'])->name('visit.log.track');
 
     });

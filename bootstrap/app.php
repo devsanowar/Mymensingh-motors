@@ -1,32 +1,36 @@
 <?php
 
-use Illuminate\Http\Client\Request;
+use App\Http\Middleware\isUser;
+use App\Http\Middleware\isAdmin;
+use App\Http\Middleware\LogVisitorInfo;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use \Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Foundation\Configuration\Exceptions;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware('web')
-            ->group(base_path('routes/admin.php'));
+            Route::middleware('web')->group(base_path('routes/admin.php'));
 
-            Route::middleware('web')
-            ->group(base_path('routes/developer.php'));
+            Route::middleware('web')->group(base_path('routes/developer.php'));
         },
     )
-
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'admin' => \App\Http\Middleware\isAdmin::class,
-            'user' => \App\Http\Middleware\isUser::class,
+            'admin' => isAdmin::class,
+            'user' => isUser::class,
+            'logVisitorInfo' => LogVisitorInfo::class,
         ]);
-    })
-    ->withExceptions(function (Exceptions $exceptions) {
 
-    })->create();
+        // 👇 Correct way to make it global in Laravel 11
+        // $middleware->prependToGroup('web', LogVisitorInfo::class);
+    })
+
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })
+    ->create();

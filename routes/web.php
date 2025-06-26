@@ -20,8 +20,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 
 
-
+Route::middleware(['web', 'logVisitorInfo'])->group(function () {
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+});
 
 Route::get('/search', action: [FrontendController::class, 'search'])->name('search');
 
@@ -84,9 +85,6 @@ Route::get('return/refund', [FrontendController::class, 'returnRefund'])->name('
 
 
 // Route::get('/social-work-page', [SocialworkPageController::class, 'socialWorkPage'])->name('social_work_page.page');
-
-
-
 
 
 
