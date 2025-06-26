@@ -33,13 +33,13 @@ line-height: 50px;
 
 
 .sidebar .menu .list a {
-	color: #2f2f2f !important;
-	font-weight: 500 !important;
-	font-size: 18px !important;
+color: #2f2f2f !important;
+font-weight: 500 !important;
+font-size: 18px !important;
 }
 
 .sidebar .menu .list a i {
-	font-size: 18px !important;
+font-size: 18px !important;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show >
@@ -297,7 +297,7 @@ color: #fff;
 }
 
 .form-check-input {
-    margin-top: -10px;
+margin-top: -10px;
 }
 
 
@@ -315,51 +315,65 @@ margin-bottom: 15px;
 .dataTables_wrapper .dataTables_length,
 .dataTables_wrapper .dt-buttons,
 .dataTables_wrapper .dataTables_filter {
-  display: inline-block;
-  vertical-align: middle;
-  margin-bottom: 10px;
+display: inline-block;
+vertical-align: middle;
+margin-bottom: 10px;
 }
 
 .dataTables_wrapper .dataTables_filter {
-  float: right;
+float: right;
 }
 .dataTables_wrapper .dt-buttons {
-  float: left;
+float: left;
 }
 
 .dataTables_wrapper .top-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-  gap: 10px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+margin-bottom: 10px;
+gap: 10px;
 }
 
 .dataTables_wrapper .dataTables_length {
-  order: 1;
+order: 1;
 }
 
 .dataTables_wrapper .dt-buttons {
-  order: 2;
-  display: flex;
-  justify-content: center;
+order: 2;
+display: flex;
+justify-content: center;
 }
 
 .dataTables_wrapper .dataTables_filter {
-  order: 3;
-  text-align: right;
+order: 3;
+text-align: right;
 }
 .form-line.case-input {
-	border: 1px solid #8a8a8a;
+border: 1px solid #8a8a8a;
 }
 
 
 .input-group input[type="text"], .input-group .form-control {
-	padding-left: 10px !important;
+padding-left: 10px !important;
 }
 
 
 [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-	display: none !important;
+display: none !important;
+}
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+width: 90% !important;
+border: 1px solid #ccc !important;
+}
+
+#privilege-form label{
+margin-right: 10px;
+font-weight: bold;
+}
+
+[type="checkbox"] + label::before, [type="checkbox"]:not(.filled-in) + label::after {
+border: 1px solid #c8c8c8 !important;
 }

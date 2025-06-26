@@ -54,11 +54,11 @@
                                 </div>
                             </div>
 
-                            <table class="table table-bordered permission-table">
-                                <thead>
+                            <table class="table table-bordered table-hover permission-table">
+                                <thead style="background: #e6e6e6; border-color: #ccc;">
                                     <tr>
-                                        <th style="width: 250px;">Menu Group</th>
-                                        <th>Permissions</th>
+                                        <th style="width: 250px; font-size:20px">Menu Group</th>
+                                        <th style="font-size:20px">Permissions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,9 +66,10 @@
                                         <td><strong>Dashboard</strong></td>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="dashboard" id="perm-dashboard">
-                                                <label class="form-check-label" for="perm-dashboard">Access Dashboard</label>
+                                                <input class="form-check-input permission-checkbox" type="checkbox"
+                                                    data-id="dashboard" id="perm-dashboard">
+                                                <label class="form-check-label" for="perm-dashboard">Access
+                                                    Dashboard</label>
                                             </div>
                                         </td>
                                     </tr>
@@ -102,7 +103,7 @@
                                                     type="checkbox" data-id="home.faq" id="perm-home-faq"><label
                                                     class="form-check-label" for="perm-home-faq">FAQ</label></div>
                                         </td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td><strong>About Page</strong></td>
