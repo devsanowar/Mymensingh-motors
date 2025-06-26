@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\ReturnrefundController;
 use App\Http\Controllers\Admin\WebsiteColorController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\PrivacypolicyController;
+use App\Http\Controllers\Admin\PrivilegeController;
 use App\Http\Controllers\Admin\StockLogController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
 use App\Http\Controllers\Admin\TermsAdnCondiotnController;
@@ -310,5 +311,8 @@ Route::prefix('admin')
         //Visit log route
         Route::get('visit-log', [VisitLogController::class, 'index'])->name('visit.log.index');
         Route::get('visit-track', [VisitLogController::class, 'trackVisitor'])->name('visit.log.track');
+
+        // Privillige route here
+        Route::get('privilege', [PrivilegeController::class, 'index'])->name('privilege.index');
 
     });

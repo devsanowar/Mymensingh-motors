@@ -296,6 +296,12 @@
                 </a>
             </li>
 
+            <li class="{{ request()->routeIs('visit.log.index.*') ? 'active' : '' }}">
+                <a href="{{ route('privilege.index') }}"><i class="zmdi zmdi-settings"></i>
+                    <span>Privilege</span>
+                </a>
+            </li>
+
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

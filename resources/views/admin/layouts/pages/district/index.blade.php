@@ -19,50 +19,7 @@
 	padding-left: 10px;
 }
 
-.input-group .input-group-addon + .form-line {
-	padding-left: 35px;
-}
 
-.bootstrap-select.btn-group.show-tick > .btn {
-	border: 1px solid #444 !important;
-	padding-left: 10px;
-	color: #888;
-	font-size: 17px;
-	padding-bottom: 0;
-	font-weight: 300;
-}
-
-.dropdown-toggle::after {
-	display: inline-block;
-	margin-left: .255em;
-	vertical-align: .480em;
-	content: "";
-	border-top: .3em solid;
-	border-right: .3em solid transparent;
-	border-bottom: 0;
-	border-left: .3em solid transparent;
-}
-
-
-
-.bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
-	color: #444;
-}
-
-
-
-.form-group .form-line.access_info {
-	border: 1px solid #424242 !important;
-	padding-left: 10px;
-}
-.btn.btn-primary.btn-lg.custom_btn {
-	padding: 10px 15px;
-}
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
-	color: #fff;
-	background-color: #0062cc !important;
-	border-color: #005cbf;
-}
 </style>
 
 

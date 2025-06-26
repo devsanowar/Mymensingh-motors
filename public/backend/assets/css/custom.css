@@ -358,3 +358,8 @@ margin-bottom: 15px;
 .input-group input[type="text"], .input-group .form-control {
 	padding-left: 10px !important;
 }
+
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+	display: none !important;
+}
