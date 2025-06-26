@@ -18,27 +18,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'system_admin',
-        'phone',
-        'image',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'system_admin', 'phone', 'image'];
 
-
-    public function roles() {
-        return $this->belongsToMany(Role::class);
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 
-    public function hasPermission($permissionName) {
-        foreach ($this->roles as $role) {
-            if ($role->permissions->contains('name', $permissionName)) {
-                return true;
-            }
-        }
-        return false;
+    public function hasPermission($permission)
+    {
+        return $this->role && $this->role->permissions->contains('name', $permission);
     }
 
     /**
@@ -46,10 +35,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * Get the attributes that should be cast.

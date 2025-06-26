@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\WebsiteSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\VisitorLog;
 
 class AdminController extends Controller
 {
@@ -19,6 +20,12 @@ class AdminController extends Controller
 
         $inStockCount = ProductStock::where('quantity', '>', 0)->count();
         $outStockCount = ProductStock::where('quantity', '<=', 0)->count();
+
+        $browsers = VisitorLog::select('browser', DB::raw('count(*) as total'))
+        ->groupBy('browser')
+        ->orderByDesc('total')
+        ->limit(5)
+        ->get();
 
         $user_count = User::count();
         $order_count = Order::count();
@@ -50,6 +57,7 @@ class AdminController extends Controller
             'delivered_order_count',
             'inStockCount',
             'outStockCount',
+            'browsers'
         ));
     }
 

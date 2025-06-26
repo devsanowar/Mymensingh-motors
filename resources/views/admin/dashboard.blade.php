@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 @push('styles')
-    
 @endpush
 
 @section('admin_content')
@@ -47,7 +46,7 @@
                     ['icon' => 'zmdi-shopping-cart', 'value' => $shipped_order_count, 'label' => 'Shipped Order'],
                     ['icon' => 'zmdi-check-all', 'value' => $delivered_order_count, 'label' => 'Delivered Orders'],
                     ['icon' => 'zmdi-accounts', 'value' => $user_count, 'label' => 'Users'],
-                    ['icon' => 'zmdi-email', 'value' => $message_count, 'label' => 'Inbox'],
+                    // ['icon' => 'zmdi-email', 'value' => $message_count, 'label' => 'Inbox'],
                 ];
             @endphp
 
@@ -82,39 +81,24 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <div id="donut_chart" class="dashboard-donut-chart"></div>
+                        {{-- <div id="donut_chart" class="dashboard-donut-chart"></div> --}}
+                        <canvas id="donut_chart" class="dashboard-donut-chart"></canvas>
                         <table class="table m-t-15 m-b-0">
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Chrome</td>
-                                    <td>6985</td>
-                                    <td><i class="zmdi zmdi-caret-up text-success"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Other</td>
-                                    <td>2697</td>
-                                    <td><i class="zmdi zmdi-caret-up text-success"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Safari</td>
-                                    <td>3597</td>
-                                    <td><i class="zmdi zmdi-caret-down text-danger"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Firefox</td>
-                                    <td>2145</td>
-                                    <td><i class="zmdi zmdi-caret-up text-success"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Opera</td>
-                                    <td>1854</td>
-                                    <td><i class="zmdi zmdi-caret-down text-danger"></i></td>
-                                </tr>
+                                @foreach ($browsers as $index => $browser)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $browser->browser ?? 'Unknown' }}</td>
+                                        <td>{{ $browser->total }}</td>
+                                        <td>
+                                            @if ($loop->index % 2 === 0)
+                                                <i class="zmdi zmdi-caret-up text-success"></i>
+                                            @else
+                                                <i class="zmdi zmdi-caret-down text-danger"></i>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -122,13 +106,15 @@
             </div>
 
 
-             <!-- Pie Chart -->
+            <!-- Pie Chart -->
             <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="header">
                         <h2>PIE CHART</h2>
                         <ul class="header-dropdown m-r--5">
-                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more-vert"></i> </a>
+                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                    data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
+                                        class="zmdi zmdi-more-vert"></i> </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li><a href="javascript:void(0);">Action</a></li>
                                     <li><a href="javascript:void(0);">Another action</a></li>
@@ -142,7 +128,7 @@
                     </div>
                 </div>
             </div>
-            <!-- #END# Pie Chart --> 
+            <!-- #END# Pie Chart -->
 
 
 
@@ -153,81 +139,126 @@
 
 @push('scripts')
 
-<script src="{{ asset('backend') }}/assets/plugins/chartjs/Chart.bundle.js"></script>
-
-{{-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById("pie_chart").getContext('2d');
-
-        var pieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['In Stock', 'Out Stock'],
-                datasets: [{
-                    label: 'Stock',
-                    data: [120, 80], // ➤ তুমি এখানে ডায়নামিক সংখ্যা দিতে পারো
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.7)', // Blue
-                        'rgba(255, 99, 132, 0.7)'  // Red
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255,99,132,1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    });
-</script> --}}
-
+    <script src="{{ asset('backend') }}/assets/plugins/chartjs/Chart.bundle.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById("pie_chart").getContext('2d');
+    document.addEventListener('DOMContentLoaded', function () {
+        const browserData = @json($browsers);
 
-        var inStock = {{ $inStockCount }};
-        var outStock = {{ $outStockCount }};
+        const labels = browserData.map(item => item.browser ?? 'Unknown');
+        const data = browserData.map(item => item.total);
+        const total = data.reduce((sum, val) => sum + val, 0);
 
-        var pieChart = new Chart(ctx, {
-            type: 'pie',
+        const maxIndex = data.indexOf(Math.max(...data));
+        const maxBrowser = labels[maxIndex];
+        const maxPercent = ((data[maxIndex] / total) * 100).toFixed(1);
+
+        const ctx = document.getElementById("donut_chart").getContext("2d");
+
+        new Chart(ctx, {
+            type: 'doughnut',
             data: {
-                labels: ['In Stock', 'Out of Stock'],
+                labels: labels,
                 datasets: [{
-                    label: 'Stock Status',
-                    data: [inStock, outStock],
+                    data: data,
                     backgroundColor: [
-                        'rgba(54, 162, 235, 0.7)', // Blue
-                        'rgba(255, 99, 132, 0.7)'  // Red
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
                     ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255,99,132,1)'
-                    ],
-                    borderWidth: 1
+                    hoverOffset: 4
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                cutout: '70%',
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 13
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.raw;
+                                const percent = ((value / total) * 100).toFixed(1);
+                                return `${context.label}: ${value} (${percent}%)`;
+                            }
+                        }
                     }
                 }
-            }
+            },
+            plugins: [{
+                // ✅ Custom plugin to show center text
+                id: 'centerText',
+                beforeDraw: function (chart) {
+                    const width = chart.width;
+                    const height = chart.height;
+                    const ctx = chart.ctx;
+                    ctx.restore();
+
+                    const fontSize = (height / 140).toFixed(2);
+                    ctx.font = `bold ${fontSize}em sans-serif`;
+                    ctx.textBaseline = "middle";
+
+                    const text1 = maxBrowser;
+                    const text2 = maxPercent + "%";
+
+                    const text1Width = ctx.measureText(text1).width;
+                    const text2Width = ctx.measureText(text2).width;
+
+                    ctx.fillStyle = "#000";
+                    ctx.fillText(text1, (width - text1Width) / 2, height / 2 - 10);
+                    ctx.fillText(text2, (width - text2Width) / 2, height / 2 + 10);
+
+                    ctx.save();
+                }
+            }]
         });
     });
 </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ctx = document.getElementById("pie_chart").getContext('2d');
+
+            var inStock = {{ $inStockCount }};
+            var outStock = {{ $outStockCount }};
+
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['In Stock', 'Out of Stock'],
+                    datasets: [{
+                        label: 'Stock Status',
+                        data: [inStock, outStock],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)', // Blue
+                            'rgba(255, 99, 132, 0.7)' // Red
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255,99,132,1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 
 
 
@@ -281,11 +312,11 @@
                             value: response.user_count,
                             label: 'Users'
                         },
-                        {
-                            icon: 'zmdi-email',
-                            value: response.message_count,
-                            label: 'Inbox'
-                        },
+                        // {
+                        //     icon: 'zmdi-email',
+                        //     value: response.message_count,
+                        //     label: 'Inbox'
+                        // },
                     ];
 
                     cards.forEach(card => {
@@ -311,12 +342,9 @@
         }
 
         $(document).ready(function() {
-            // প্রথমে ডিফল্ট ডাটা লোড করুন
             loadDashboardStats(1);
 
-            // বাটনে ক্লিক ইভেন্ট হ্যান্ডল করুন
             $('.filter-btn').on('click', function() {
-                // active ক্লাস পরিবর্তন
                 $('.filter-btn').removeClass('active');
                 $(this).addClass('active');
 

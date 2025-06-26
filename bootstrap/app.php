@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckPermission;
 use App\Http\Middleware\isUser;
 use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\LogVisitorInfo;
@@ -24,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => isAdmin::class,
             'user' => isUser::class,
             'logVisitorInfo' => LogVisitorInfo::class,
+            'permission' => CheckPermission::class,
         ]);
 
         // 👇 Correct way to make it global in Laravel 11
