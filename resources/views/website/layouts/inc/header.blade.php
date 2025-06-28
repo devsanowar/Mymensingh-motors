@@ -2,44 +2,101 @@
     use App\Models\WebsiteSetting;
     $website_setting = WebsiteSetting::first();
 @endphp
-<!DOCTYPE html>
-<html lang="en">
+<div class="header_middle">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-3">
+                <div class="logo">
+                    <a href="{{ route('home') }}">
+                        @if ($website_setting && $website_setting->website_logo)
+                            <img src="{{ asset($website_setting->website_logo) }}"
+                                alt="{{ $website_setting->website_title ?? 'Logo' }}">
+                        @else
+                            <img src="{{ asset('frontend') }}/assets/img/logo/logo.png" alt="Default Logo">
+                        @endif
+                    </a>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-8">
+                <div class="category_search">
+                    <form action="#">
+                        <div class="category_search_inner">
+                            <div class="select">
+                                <select name="categroy_search">
+                                    <option value="1" selected>All Categories</option>
+                                    <option value="2">Latest Bikes</option>
+                                    <option value="3">Upcoming Bike</option>
+                                    <option value="4">popular Bike</option>
+                                    <option value="5">Best Selling Bike</option>
+                                </select>
+                            </div>
+                            <div class="search">
+                                <input type="text" placeholder="Search Keyword Here">
+                            </div>
+                            <div class="submit">
+                                <button type="submit"><i class="zmdi zmdi-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-1">
+                <div class="mini_cart_box_wrapper text-right">
+                    <a href="#">
+                        <img src="{{ asset('frontend') }}/assets/img/icon/cart.png" alt="Mini Cart Icon">
+                        <span class="cart_count">02</span>
+                    </a>
+                    <ul class="mini_cart_box">
+                        <li class="single_product_cart">
+                            <div class="cart_img">
+                                <a href="product-details.html"><img
+                                        src="{{ asset('frontend') }}/assets/img/product/pro_sm_1.png"
+                                        alt=""></a>
+                            </div>
+                            <div class="cart_title">
+                                <h5><a href="product-details.html"> Soffer Pro x33</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>৳95.00 x 1</span>
+                            </div>
+                            <div class="cart_delete">
+                                <a href="#"><i class="zmdi zmdi-delete"></i></a>
+                            </div>
+                        </li>
+                        <li class="single_product_cart">
+                            <div class="cart_img">
+                                <a href="product-details.html"><img
+                                        src="{{ asset('frontend') }}/assets/img/product/pro_sm_2.png"
+                                        alt=""></a>
+                            </div>
+                            <div class="cart_title">
+                                <h5><a href="product-details.html"> Lotafaj una khdii</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>৳85.00 x 1</span>
+                            </div>
+                            <div class="cart_delete">
+                                <a href="#"><i class="zmdi zmdi-delete"></i></a>
+                            </div>
+                        </li>
 
-    <!-- Title -->
-    <title>@yield('title') {{ $website_setting->website_title }}</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset($website_setting->website_favicon)}}" />
-    @include('website.layouts.inc.style')
-</head>
+                        <li class="cart_space">
+                            <div class="cart_sub">
+                                <h4>Subtotal</h4>
+                            </div>
+                            <div class="cart_price">
+                                <h4>৳180.00</h4>
+                            </div>
+                        </li>
+                        <li class="cart_btn_wrapper">
+                            <a class="cart_btn" href="cart.html">view cart</a>
+                            <a class="cart_btn " href="checkout.html">checkout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<body id="home-page">
 
-    <!--==================== Overlay Start ====================-->
-    <div class="body-overlay"></div>
-    <!--==================== Overlay End ====================-->
-
-    <!--==================== Sidebar Overlay End ====================-->
-    <div class="sidebar-overlay"></div>
-    <!--==================== Sidebar Overlay End ====================-->
-
-    <!-- ==================== Scroll to Top End Here ==================== -->
-    <a class="scroll-top"><i class="fas fa-angle-double-up"></i></a>
-    <!-- ==================== Scroll to Top End Here ==================== -->
-
-    <!-- ==================== Header Top Start Here ==================== -->
 @include('website.layouts.inc.navber')
-    <!-- ==================== Bottom Header End Here ==================== -->
-
-    <!--========================== Search Modal Start ==========================-->
-@include('website.layouts.inc.search-modal')
-    <!--========================== Search Modal End ==========================-->
-
-
-
-

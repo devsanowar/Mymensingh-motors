@@ -25,10 +25,15 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function hasPermission($permission)
+    // ইউজারের পারমিশন চেক করার ফাংশন
+    public function hasPermission($permissionName)
     {
-        return $this->role && $this->role->permissions->contains('name', $permission);
+        if (!$this->role) {
+            return false;
+        }
+        return $this->role->permissions->contains('name', $permissionName);
     }
+
 
     /**
      * The attributes that should be hidden for serialization.

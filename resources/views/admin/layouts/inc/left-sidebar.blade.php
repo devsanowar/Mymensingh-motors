@@ -1,6 +1,6 @@
 @php
     $homePageRoutes = [
-        'banner.*',
+        'slider.*',
         'about.*',
         'promobanner.*',
         'why-choose-us.*',
@@ -68,8 +68,8 @@
                     <span>Home Page</span>
                 </a>
                 <ul class="ml-menu">
-                    <li class="{{ request()->routeIs('banner.*') ? 'active' : '' }}">
-                        <a href="{{ route('banner.index') }}"><span>Banner</span></a>
+                    <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
+                        <a href="{{ route('slider.index') }}"><span>Banner</span></a>
                     </li>
 
                     <li class="{{ request()->routeIs('promobanner.*') ? 'active' : '' }}">

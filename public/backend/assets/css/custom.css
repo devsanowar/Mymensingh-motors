@@ -360,20 +360,30 @@ padding-left: 10px !important;
 }
 
 
-[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-display: none !important;
-}
-
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
 width: 90% !important;
 border: 1px solid #ccc !important;
 }
 
-#privilege-form label{
-margin-right: 10px;
-font-weight: bold;
+#privilege-form label {
+	margin-right: 10px;
+	font-weight: 400;
+	font-size: 18px;
+    padding-left: 6px !important;
 }
 
 [type="checkbox"] + label::before, [type="checkbox"]:not(.filled-in) + label::after {
-border: 1px solid #c8c8c8 !important;
+	display: none !important;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+	top: 10px !important;
+}
+
+[type="checkbox"] + label {
+	padding-left: 6px !important;
+}
+
+table.permission-table td, table.permission-table th {
+	font-size: 18px !important;
 }

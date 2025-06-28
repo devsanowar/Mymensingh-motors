@@ -23,31 +23,23 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+{
+    $setting = WebsiteSetting::select('id', 'website_logo', 'website_title', 'phone')->first();
 
-        $setting = WebsiteSetting::first();
+    if ($setting) {
+        config(['app.name' => $setting->website_title ?? config('app.name')]);
+        config(['app.website_logo' => $setting->website_logo]);
 
-        if ($setting) {
-            // Dynamically set app.name
-            if ($setting->website_title) {
-                config(['app.name' => $setting->website_title]);
-            }
+        View::share('website_setting', $setting);
+    } else {
+        config(['app.name' => config('app.name')]);
+        config(['app.website_logo' => null]);
 
-            // Optional: Also store in config for later use
-            config([
-                'app.website_logo' => $setting->website_logo,
-                'app.website_title' => $setting->website_title,
-            ]);
-
-            // Share globally to all blade views
-            View::share('website_setting', $setting);
-        }
-
-        // Set Bootstrap for Pagination
-        Paginator::useBootstrap();
-
-        // Enable Toastr with Vite
-        Toastr::useVite();
-
+        View::share('website_setting', null);
     }
+
+    Paginator::useBootstrap();
+    Toastr::useVite();
+}
+
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CtaController;
 use App\Http\Controllers\Admin\FaqController;
@@ -81,7 +80,6 @@ Route::prefix('admin')
             Route::post('social-icon/update', [SocialIconController::class, 'socialIconUpdate'])->name('website_social_icon.update');
         });
 
-
         // Admin Panel Settings
         Route::prefix('admin-panel')->group(function () {
             Route::get('setting', [AdminPanelController::class, 'adminPanelSetting'])->name('admin_panel_setting');
@@ -131,11 +129,9 @@ Route::prefix('admin')
             Route::delete('/promobanner/delete/{id}', [PromobannerController::class, 'destroy'])->name('promobanner.destroy');
             Route::post('/promobanner/status-change', [PromobannerController::class, 'PromoBannerChangeStatus'])->name('promobanner.status');
 
-
             // Cta routes here
             Route::resource('cta', CtaController::class);
             Route::post('/cta/status-change', [CtaController::class, 'ctaChangeStatus'])->name('cta.status');
-
         });
 
         // Categories
@@ -179,7 +175,6 @@ Route::prefix('admin')
         // Stock log route here
         Route::get('stocklog', [StockLogController::class, 'index'])->name('stocklog');
         // Route::get('/admin/stock-logs', [StockLogController::class, 'StockLogFilter'])->name('stocklog.filter');
-
 
         // District route
         Route::get('district', [DistrictController::class, 'index'])->name('district.index');
@@ -256,7 +251,6 @@ Route::prefix('admin')
         Route::get('sms-settings', [SmsSettingController::class, 'edit'])->name('sms-settings.edit');
         Route::put('sms-settings', [SmsSettingController::class, 'update'])->name('sms-settings.update');
 
-
         // SMS routes here
         // Route::group(['prefix' => 'moblieSMS'], function(){
         //     Route::get('sms', [SmsSettingController::class, 'moblie_sms'])->name('mobile.sms');
@@ -264,7 +258,6 @@ Route::prefix('admin')
         //     Route::get('sms-report', [SmsSettingController::class, 'sms_report'])->name('sms_report.sms');
         //     Route::post('/send/custom/message', [SmsSettingController::class, 'sendCustomSms'])->name('send.custom_sms');
         // });
-
 
         // block list routes
         Route::get('block-list', [BlocklistController::class, 'index'])->name('block.list');
@@ -286,7 +279,6 @@ Route::prefix('admin')
         // Website Color routes
         Route::get('website-color', [WebsiteColorController::class, 'edit'])->name('website_color.edit');
         Route::put('/website-color/update/{id}', [WebsiteColorController::class, 'update'])->name('website_color.update');
-
 
         // Message
         Route::prefix('message')->group(function () {
@@ -312,7 +304,15 @@ Route::prefix('admin')
         Route::get('visit-log', [VisitLogController::class, 'index'])->name('visit.log.index');
         Route::get('visit-track', [VisitLogController::class, 'trackVisitor'])->name('visit.log.track');
 
-        // Privillige route here
+        // প্রিভিলেজ পেইজ
         Route::get('privilege', [PrivilegeController::class, 'index'])->name('privilege.index');
 
+        // রোল অনুযায়ী ইউজার লোড করার জন্য
+        Route::get('/get-users-by-role/{roleId}', [PrivilegeController::class, 'getUsersByRole'])->name('privilege.getUsersByRole');
+
+        // ইউজারের পারমিশন লোড করার জন্য (Ajax)
+        Route::get('/users/{user}/permissions', [PrivilegeController::class, 'getUserPermissions'])->name('privilege.getUserPermissions');
+
+        // পারমিশন আপডেট করার জন্য POST Ajax route
+        Route::post('/user-permissions', [PrivilegeController::class, 'updateUserPermission'])->name('privilege.updateUserPermission');
     });

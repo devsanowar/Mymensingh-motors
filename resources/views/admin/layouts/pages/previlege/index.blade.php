@@ -40,19 +40,25 @@
 
                         <form id="privilege-form">
                             <div class="row mb-3">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label for="role" class="form-label">Role</label>
-                                    <select id="role" name="role_id" class="form-select">
+                                    <select id="role" name="role_id" class="form-select show-tick">
                                         <option value="">Select Role</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+
+                                <div class="col-md-5">
                                     <label for="user" class="form-label">User</label>
-                                    <select id="user" name="user_id" class="form-select">
+                                    <select id="user" name="user_id" class="form-select show-tick">
                                         <option value="">Select User</option>
                                     </select>
+
                                 </div>
                             </div>
+
 
                             <table class="table table-bordered table-hover permission-table">
                                 <thead style="background: #e6e6e6; border-color: #ccc;">
@@ -304,72 +310,86 @@
 
 @endsection
 
+
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $.get('/api/roles', function(roles) {
-                roles.forEach(role => {
-                    $('#role').append(`<option value="${role.id}">${role.name}</option>`);
-                });
-            });
+{{-- <script>
+$(document).ready(function() {
+    function clearPermissions() {
+        $('.permission-checkbox').prop('checked', false);
+    }
 
-            $('#role').on('change', function() {
-                const roleId = $(this).val();
-                $('#user').empty().append(`<option value="">Select User</option>`);
-                if (roleId) {
-                    $.get(`/api/roles/${roleId}/users`, function(users) {
-                        users.forEach(user => {
-                            $('#user').append(
-                                `<option value="${user.id}">${user.name}</option>`);
-                        });
+    $('#role').on('change', function() {
+        var roleId = $(this).val();
+        $('#user').empty().append('<option value="">Select User</option>');
+        clearPermissions();
+
+        if (roleId) {
+            $.ajax({
+                url: '/admin/get-users-by-role/' + roleId,
+                type: 'GET',
+                success: function(data) {
+                    $.each(data, function(index, user) {
+                        $('#user').append('<option value="' + user.id + '">' + user.name + '</option>');
                     });
+                },
+                error: function() {
+                    alert('Failed to load users');
                 }
             });
+        }
+    });
 
-            $('#user').on('change', function() {
-                const userId = $(this).val();
-                if (userId) {
-                    loadPermissions(userId);
-                }
-            });
+    $('#user').on('change', function() {
+        var userId = $(this).val();
+        clearPermissions();
 
-            function loadPermissions(userId) {
-                $.get(`/api/users/${userId}/permissions`, function(permissions) {
-                    $('.permission-checkbox').prop('checked', false);
-                    permissions.forEach(id => {
-                        $(`.permission-checkbox[data-id="${id}"]`).prop('checked', true);
-                    });
+        if (!userId) {
+            return;
+        }
+
+        $.ajax({
+            url: '/admin/users/' + userId + '/permissions',
+            type: 'GET',
+            success: function(permissions) {
+                permissions.forEach(function(permissionName) {
+                    $('.permission-checkbox[data-id="' + permissionName + '"]').prop('checked', true);
                 });
+            },
+            error: function() {
+                alert('Failed to load permissions');
             }
-
-            $('.permission-checkbox').on('change', function() {
-                const userId = $('#user').val();
-                const permission = $(this).data('id');
-                const action = $(this).is(':checked') ? 'attach' : 'detach';
-
-                if (!userId) {
-                    alert("Please select a user first");
-                    $(this).prop('checked', !$(this).is(':checked'));
-                    return;
-                }
-
-                $.ajax({
-                    url: '/api/user-permissions',
-                    type: 'POST',
-                    data: {
-                        user_id: userId,
-                        permission: permission,
-                        action: action,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        console.log("Permission updated successfully");
-                    },
-                    error: function() {
-                        alert("Something went wrong!");
-                    }
-                });
-            });
         });
-    </script>
+    });
+
+    $('.permission-checkbox').on('change', function() {
+        var userId = $('#user').val();
+        var permission = $(this).data('id');
+        var action = $(this).is(':checked') ? 'attach' : 'detach';
+
+        if (!userId) {
+            alert('Please select a user first');
+            $(this).prop('checked', !$(this).is(':checked'));
+            return;
+        }
+
+        $.ajax({
+            url: '/admin/user-permissions',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                user_id: userId,
+                permission: permission,
+                action: action
+            },
+            success: function() {
+                console.log('Permission updated successfully');
+            },
+            error: function() {
+                alert('Something went wrong while updating permission');
+            }
+        });
+    });
+});
+</script> --}}
 @endpush
+
