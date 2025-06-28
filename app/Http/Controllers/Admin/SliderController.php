@@ -26,7 +26,9 @@ class SliderController extends Controller
         $sliderImage = $this->sliderImage($request);
         Slider::create([
             'slider_title' =>$request->slider_title,
+            'sub_title' =>$request->sub_title,
             'slider_content' =>$request->slider_content,
+            'slider_button_name' =>$request->slider_button_name,
             'button_url' =>$request->button_url,
             'image' =>$sliderImage,
             'is_active' =>$request->is_active,
@@ -56,9 +58,11 @@ class SliderController extends Controller
         }
 
         $slider->update([
-            'slider_title' => $request->slider_title,
-            'slider_content' => $request->slider_content,
-            'button_url' => $request->button_url,
+            'slider_title' =>$request->slider_title,
+            'sub_title' =>$request->sub_title,
+            'slider_content' =>$request->slider_content,
+            'slider_button_name' =>$request->slider_button_name,
+            'button_url' =>$request->button_url,
             'image' => $slider->image,
             'is_active' => $request->is_active,
         ]);

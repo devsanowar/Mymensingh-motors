@@ -32,12 +32,38 @@
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
+                            <label for="sub_title_id"><b>Sub Title*</b></label>
+                            <div class="form-group">
+                                <div class="" style="border: 1px solid #ccc">
+                                    <input type="text" id="sub_title_id" name="sub_title" class="form-control @error('sub_title')invalid @enderror"
+                                        placeholder="Enter sub title ">
+                                </div>
+                                @error('sub_title')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
                             <label for="banner_description"><b>Slider Description</b></label>
                             <div class="form-group">
                                 <div class="" style="border: 1px solid #ccc">
                                     <textarea type="text" id="ckeditor" name="slider_content" class="form-control" >
                                     </textarea>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
+                            <label for="slider_button_id"><b> Button Name</b></label>
+                            <div class="form-group">
+                                <div class="" style="border: 1px solid #ccc">
+                                    <input type="text" id="slider_button_id" name="slider_button_name" class="form-control @error('slider_button_name')invalid @enderror"
+                                        placeholder="Enter button name ">
+                                </div>
+                                @error('slider_button_name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 

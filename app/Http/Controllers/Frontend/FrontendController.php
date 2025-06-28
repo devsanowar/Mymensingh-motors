@@ -30,7 +30,7 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $banner = Banner::select(['id', 'title', 'sub_title', 'description', 'button_name', 'button_url', 'image'])->first();
+        $sliders = Slider::latest()->select(['id', 'slider_title', 'sub_title', 'slider_content', 'slider_button_name', 'button_url', 'image'])->get();
         $categories = Category::with('products')
             ->where('category_slug', '!=', 'default')
             ->where('is_active', 1)
@@ -69,7 +69,7 @@ class FrontendController extends Controller
 
         $blogs = Post::latest()->take(3)->get();
 
-        return view('website.home', compact(['banner', 'categories', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta']));
+        return view('website.home', compact(['sliders', 'categories', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta']));
     }
 
     public function shopPage(Request $request)

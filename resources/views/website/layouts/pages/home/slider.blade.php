@@ -1,23 +1,46 @@
-<div class="slider-area">
-    <div class="slider-active">
-        @foreach ($sliders as $index => $slider)
-            <div class="single-slider slider-height-2 d-flex align-items-center {{ $index == 0 ? 'active' : '' }}"
-                style="background-image: url('{{ asset($slider->image) }}'); background-size: cover; background-position: center;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="slider-content">
-                                <h1 data-animation="fadeInUp" data-delay=".6s">{{ $slider->slider_title }}</h1>
-                                <p data-animation="fadeInUp" data-delay=".8s">{!! $slider->slider_content !!}</p>
-                                <div class="slider-button">
-                                    <a data-animation="fadeInRight" data-delay="1s" class="btn active text-uppercase"
-                                        href="{{ $slider->button_url }}">Our Products</a>
-                                </div>
-                            </div>
+<div class="slider-active owl-carousel">
+
+    <!--Single Slide-->
+    @forelse ($sliders as $index => $slider)
+        <div class="single__slider bg-opacity"
+            style="background-image:url({{ asset('frontend') }}/assets/img/slide/1.jpg)">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="slider-content slider-text-animation">
+                            <h1>{{ $slider->sub_title }}</h1>
+                            <h2>{{ $slider->slider_title }}</h2>
+                            <p>{!! $slider->slider_content !!}</p>
+                            <a href="#" class="mym-btn mym-btn-primary">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="slider_layer_image">
+                            <img src="{{ asset($slider->image) }}" alt="Slider image">
                         </div>
                     </div>
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @empty
+
+        <div class="single__slider bg-opacity"
+            style="background-image:url({{ asset('frontend') }}/assets/img/slide/1.jpg)">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="slider-content slider-text-animation">
+
+                            <h2 style="color:red">Slider Not Found!</h2>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    @endforelse
+
+    <!--Single slide end-->
+
 </div>

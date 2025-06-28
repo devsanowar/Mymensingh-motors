@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -16,7 +17,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend') }}/assets/img/logo/logo.jpeg">
 
-   @include('website.layouts.inc.style')
+    @include('website.layouts.inc.style')
 
 </head>
 
@@ -27,14 +28,14 @@
     <!-- Add your site or application content here -->
 
     <div class="mymensingh_wrapper">
-        
-
-    <header>
-        @include('website.layouts.inc.header')
-    </header>
 
 
-@yield('website_content')
+        <header>
+            @include('website.layouts.inc.header')
+        </header>
+
+
+        @yield('website_content')
 
 
 
