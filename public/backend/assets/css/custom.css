@@ -372,7 +372,7 @@ border: 1px solid #ccc !important;
     padding-left: 6px !important;
 }
 
-[type="checkbox"] + label::before, [type="checkbox"]:not(.filled-in) + label::after {
+/* [type="checkbox"] + label::before, [type="checkbox"]:not(.filled-in) + label::after {
 	display: none !important;
 }
 
@@ -386,4 +386,4 @@ border: 1px solid #ccc !important;
 
 table.permission-table td, table.permission-table th {
 	font-size: 18px !important;
-}
+} */

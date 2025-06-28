@@ -31,8 +31,7 @@ class FrontendController extends Controller
     public function index()
     {
         $sliders = Slider::latest()->select(['id', 'slider_title', 'sub_title', 'slider_content', 'slider_button_name', 'button_url', 'image'])->get();
-        $categories = Category::with('products')
-            ->where('category_slug', '!=', 'default')
+        $categories = Category::where('category_slug', '!=', 'default')
             ->where('is_active', 1)
             ->select('id', 'category_name', 'image', 'category_slug','position')
             ->orderBy('position', 'asc')
@@ -42,16 +41,18 @@ class FrontendController extends Controller
             ->latest()
             ->get(['id', 'image', 'url']);
 
+        $brands = Brand::where('is_active', 1)->latest()->select('id', 'image')->get();
+
         $about = About::first();
         $social_icon = WebsiteSocialIcon::select(['id', 'messanger_url'])->first();
         $website_setting = WebsiteSetting::select(['id', 'phone'])->first();
 
-        $featured_products = Product::with(['category:id,category_name'])
+        $featured_products = Product::with(['category:id,category_name', 'brand:id,brand_name'])
             ->where('is_active', 1)
             ->where('is_featured', 1)
             ->latest()
             ->limit(8)
-            ->get(['id', 'category_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail']);
+            ->get(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail']);
 
         // $project_videos = ProjectVideo::latest()->limit(8)->get(['id', 'video_url']);
 
@@ -69,7 +70,7 @@ class FrontendController extends Controller
 
         $blogs = Post::latest()->take(3)->get();
 
-        return view('website.home', compact(['sliders', 'categories', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta']));
+        return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta']));
     }
 
     public function shopPage(Request $request)

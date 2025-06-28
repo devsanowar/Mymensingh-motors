@@ -3696,10 +3696,11 @@ h5.panel-title {
 }
 
 .price {
-  font-weight: bold;
-  color: var(--secondary-color);
-  margin: 10px 0;
-  text-align: left;
+	font-weight: bold;
+	color: var(--secondary-color);
+	margin: 10px 0;
+	text-align: left;
+	font-size: 15px;
 }
 
 .rating {
@@ -3814,7 +3815,7 @@ h5.panel-title {
 .single-product-card {
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;

@@ -20,7 +20,7 @@
 
 
                     <div class="body table-responsive">
-                        <table class="table table-bpositioned">
+                        <table class="table table-positioned table-bordered">
                             <thead>
                                 <tr>
                                     <th>

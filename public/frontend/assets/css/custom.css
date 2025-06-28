@@ -1,0 +1,10 @@
+.single__product_sm {
+    border: 1px solid #cccccc61;
+    box-shadow: 5px -2px -1px 0px #cccccc70;
+}
+
+
+.old-price {
+	text-decoration: line-through;
+    margin-left: 5px;
+}
