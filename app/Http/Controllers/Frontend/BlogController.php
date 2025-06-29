@@ -35,6 +35,6 @@ class BlogController extends Controller
         $postCategories = Postcategory::with('posts:id,post_title,category_id')->where('category_name', '!=', 'default')->latest()->get();
 
         $blog = Post::where('post_slug', $post_slug)->firstOrFail();
-        return view('website.layouts.single_blog', compact('singleBlogPage', 'recentBlogs', 'postCategories'));
+        return view('website.layouts.pages.blog.blog_single_page', compact('singleBlogPage', 'recentBlogs', 'postCategories'));
     }
 }

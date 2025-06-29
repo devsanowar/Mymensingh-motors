@@ -2,6 +2,7 @@
     use App\Models\WebsiteSetting;
     $website_setting = WebsiteSetting::first();
 @endphp
+
 <div class="header_middle">
     <div class="container">
         <div class="row align-items-center">

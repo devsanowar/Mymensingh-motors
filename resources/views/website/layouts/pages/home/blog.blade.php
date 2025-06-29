@@ -12,7 +12,7 @@
                  <div class="col-lg-4 col-md-6">
                      <div class="single_blog_post mb-40">
                          <div class="post_thumbnail">
-                             <a href="blog-details.html"><img src="{{ asset($blog->image) }}"
+                             <a href="{{ route('blog_single.page', $blog->post_slug) }}"><img src="{{ asset($blog->image) }}"
                                      alt=""></a>
                          </div>
                          <div class="post_content_meta">
@@ -30,12 +30,12 @@
                                  </ul>
                              </div>
                              <div class="blog_post_desc">
-                                 <h2><a href="blog-details.html">{{ $blog->post_title }}</a>
+                                 <h2><a href="{{ route('blog_single.page', $blog->post_slug) }}">{{ $blog->post_title }}</a>
                                  </h2>
                                  <p>{!! Str::limit($blog->post_content, 50, '...') !!}</p>
                              </div>
                              <div class="read_more_btn">
-                                 <a href="blog-details.html">Read More <span><i
+                                 <a href="{{ route('blog_single.page', $blog->post_slug) }}">Read More <span><i
                                              class="zmdi zmdi-arrow-right"></i></span></a>
                              </div>
                          </div>

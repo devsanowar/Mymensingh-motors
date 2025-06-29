@@ -58,7 +58,7 @@ Route::get('/about-page', [AboutPageController::class, 'aboutPage'])->name('abou
 Route::get('/contact', [ContactController::class, 'contactPage'])->name('contact.page');
 Route::post('/contact/submit', [ContactController::class, 'contactForm']);
 
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.page');
+// Route::get('/blog', [BlogController::class, 'index'])->name('blog.page');
 Route::get('/blog/{post_slug}/', [BlogController::class, 'blogSinglePage'])->name('blog_single.page');
 
 

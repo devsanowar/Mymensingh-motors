@@ -1,136 +1,274 @@
-@php
-    use App\Models\WebsiteSetting;
-    $website_setting = WebsiteSetting::select(['image'])->first();
-@endphp
-
-<!-- ==================== Breadcumb Start Here ==================== -->
-<section class="breadcumb py-120 bg-img" style="background-image: url({{ asset($website_setting->image) }})">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="breadcumb__wrapper">
-                    <h1 class="breadcumb__title">{{ $singleBlogPage->post_title }}</h1>
-                    <ul class="breadcumb__list">
-                        <li class="breadcumb__item">
-                            <a href="{{ route('home') }}" class="breadcumb__link">
-                                <i class="las la-home"></i> Home</a>
-                        </li>
-                        <li class="breadcumb__item">/</li>
-                        <li class="breadcumb__item">
-                            <span class="breadcumb__item-text"> Blog Single Page </span>
-                        </li>
-                    </ul>
+@extends('website.layouts.app')
+@section('title', 'Single Post')
+@section('website_content')
+    <!--Breadcrumb section-->
+    <div class="breadcrumb_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_inner">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><i class="zmdi zmdi-chevron-right"></i></li>
+                            <li><a href="blog.html">blog</a></li>
+                            <li><i class="zmdi zmdi-chevron-right"></i></li>
+                            <li>Bike safety consultation shows someone in government might understand cycling.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!-- ==================== Breadcumb End Here ==================== -->
-
-<div class="blog-section py-120">
-    <div class="container">
-        <div class="row flex-wrap-reverse gy-5">
-            <div class="col-lg-4">
-                <div class="blog-sidebar-wrapper">
-
-                    <div class="blog-sidebar" data-aos="fade-up">
-                        <h5 class="blog-sidebar__title">Category</h5>
-                        <ul class="text-list style-category">
-                            @forelse ($postCategories as $postCategory)
-                                <li class="text-list__item">
-                                    <a href="blog.html" class="text-list__link"><span class="text-list__icon"><i
-                                                class="fas fa-angle-right"></i></span>
-                                        {{ $postCategory->category_name }} ({{ $postCategory->posts->count() }})
-                                    </a>
-                                </li>
-                            @empty
-                                <li class="text-list__item">
-                                    Category not found
-                                </li>
-                            @endforelse
+    <!--Breadcrumb section end-->
 
 
-                        </ul>
-                    </div>
-                    <div class="blog-sidebar" data-aos="fade-up">
-                        <h5 class="blog-sidebar__title">Recent Post</h5>
 
-                        @forelse ($recentBlogs as $recentblog)
-                            <div class="latest-blog">
-                                <div class="latest-blog__thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{ asset($recentblog->image) }}" alt="" /></a>
+    <!--Our blob page-->
+    <div class="our_blog_area single_blog right_sidebar ptb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-12">
+                    <div class="post_details_inner">
+                        <div class="single_post_thumbnail">
+                            <img src="{{ asset('frontend') }}/assets/img/blog/large_1.jpg" alt="single post thumbail">
+                        </div>
+                        <div class="single_post_content">
+                            <div class="single_post_top_contnt">
+                                <div class="single_post_title">
+                                    <h2>Bike safety consultation shows someone in government might understand
+                                        cycling.</h2>
                                 </div>
-                                <div class="latest-blog__content">
-                                    <h6 class="latest-blog__title">
-                                        <a href="blog-details.html">
-                                            {{ $recentblog->post_title }}
-                                        </a>
-                                    </h6>
-                                    <span
-                                        class="latest-blog__date">{{ $recentblog->created_at->format('F d, Y') }}</span>
+                                <div class="single_post_meta">
+                                    <div class="single_post_left_meta">
+                                        <ul>
+                                            <li>Feb 13, 2018</li>
+                                            <li>By: blendpixels</li>
+                                            <li>UI/UX Design</li>
+                                        </ul>
+                                    </div>
+                                    <div class="single_post_right_meta">
+                                        <ul>
+                                            <li>2 Comments</li>
+                                            <li>20 Like</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="latest-blog">
-                                <h4>Post Not Found</h4>
+
+                            <div class="post_excerpt">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
+                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore fugiat null pariatur.
+                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                    deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
+                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore fugiat null pariatur.
+                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                    deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
+                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse .</p>
+
+                                <div class="row fix mt-30 mb-30">
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <div class="post_gallery_img">
+                                            <img src="{{ asset('frontend') }}/assets/img/blog/gallery_1.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <div class="additional_suupor_list">
+                                            <ul>
+                                                <li><i class="zmdi zmdi-check"></i>Contrary to popular belief, Lorem
+                                                </li>
+                                                <li><i class="zmdi zmdi-check"></i>There are many variations of
+                                                    passages</li>
+                                                <li><i class="zmdi zmdi-check"></i>The standard chunk of Lorem Ipsum
+                                                </li>
+                                                <li><i class="zmdi zmdi-check"></i>Contrary to popular belief, Lorem
+                                                </li>
+                                                <li><i class="zmdi zmdi-check"></i>Contrary to popular belief.</li>
+                                                <li><i class="zmdi zmdi-check"></i>Lorem Ipsum is simply dummy text.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
+                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore fugiat null pariatur.
+                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                    deserunt mollit anim id est laborum.</p>
+                                <blockquote class="mtb-50">
+                                    There are many variations of passages of Lorem Ipsum available, but the majority
+                                    have suffered alteration in some form.
+                                </blockquote>
+                                <p>Ipsum dolor sit amet, consectetur adipiscing esed do eiusmod tempor incididunt
+                                    labore dolore magna aliqua. Ut enim ad minim veniam, nostrud exercitation
+                                    ullamco laboris nisi aliquip consequat. Duis aute irure dolor in reprehenderit
+                                    in voluptate velit esse cillum dolore fugiat null pariatur. Excepteur sint
+                                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                                    id est laborum.</p>
                             </div>
-                        @endforelse
+
+
+                            <!--administrator start-->
+                            <div class="administrator">
+                                <div class="administrator_thumb">
+                                    <img src="{{ asset('frontend') }}/assets/img/blog/author.png" alt="">
+                                </div>
+                                <div class="administrator_contnet">
+                                    <h4>Mark Anderson</h4>
+                                    <p>Using the examples above, if you’re making a business website consider asking
+                                        users to add themselves to an email list in order to receive updatesas leads
+                                        for future sales.</p>
+                                    <div class="administrator_social_icon">
+                                        <a href="#"><i class="zmdi zmdi-twitter"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-pinterest"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-google-plus"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-whatsapp"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--administrator end-->
+                        </div>
+
+                        <!--Comment box -->
+                        <div class="comment_box_form mt-80">
+                            <div class="comment_box_title">
+                                <h3>Leave A Comment</h3>
+                                <p>Your email address will not be published. Required fields are marked *</p>
+                            </div>
+                            <div class="leave_comment_form">
+                                <form action="#">
+                                    <div class="text-areabox">
+                                        <textarea placeholder="Type Your Comment *"></textarea>
+                                    </div>
+                                    <div class="input_box half_left">
+                                        <input type="text" placeholder="Your Name *">
+
+                                    </div>
+                                    <div class="input_box half_right">
+                                        <input type="email" placeholder="Your Email *">
+                                    </div>
+                                    <div class="input_box">
+                                        <input type="text" placeholder="Your Website">
+                                    </div>
+                                    <div class="submit_button_inner">
+                                        <button type="submit">Submit Comment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--Comment box end-->
 
                     </div>
                 </div>
-            </div>
+                <div class="col-lg-4 col-md-8 col-12">
+                    <div class="sidebar_right">
+
+                        <div class="sidebar_widget banner mb-65">
+                            <div class="sidebar_title">
+                                <h3>Search</h3>
+                            </div>
+                            <div class="sidebar_search">
+                                <div class="search_form">
+                                    <form action="#">
+                                        <input type="text" placeholder="Search">
+                                        <button type="submit"><i class="zmdi zmdi-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
 
-            <div class="col-lg-8">
 
+                        <div class="sidebar_widget recent_post mb-65">
+                            <div class="sidebar_title">
+                                <h3>Recent Posts</h3>
+                            </div>
+                            <div class="single_recent_post">
+                                <div class="recent_post_img">
+                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_1.jpg" alt=""></a>
+                                </div>
+                                <div class="post_content">
+                                    <h3><a href="#">Anxiety disorder affects human life </a></h3>
+                                    <span class="post_publist_date">March 3, 2018</span>
+                                </div>
+                            </div>
+                            <div class="single_recent_post">
+                                <div class="recent_post_img">
+                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_2.jpg" alt=""></a>
+                                </div>
+                                <div class="post_content">
+                                    <h3><a href="#">Anxiety disorder affects human life</a></h3>
+                                    <span class="post_publist_date">March 3, 2018</span>
+                                </div>
+                            </div>
+                            <div class="single_recent_post">
+                                <div class="recent_post_img">
+                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_3.jpg" alt=""></a>
+                                </div>
+                                <div class="post_content">
+                                    <h3><a href="#">Anxiety disorder affects human life</a></h3>
+                                    <span class="post_publist_date">March 3, 2018</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="blog-card-wrapper" data-aos="fade-up">
-                    <a href="#" class="blog-card-wrapper__thumb">
-                        <img src="{{ asset($singleBlogPage->image) }}" alt="" />
-                    </a>
-                    <div class="blog-card-wrapper__content">
-                        <h4 class="blog-card-wrapper__title">
-                            <a href="#" class="blog-card-wrapper__title-link">
-                                {{ $singleBlogPage->post_title }}
-                            </a>
-                        </h4>
-                        <p class="blog-card-wrapper__date">
-                            By: {{ $singleBlogPage->user_name }} / {{ $singleBlogPage->created_at->format('j F, Y') }}
-                        </p>
-                        @php
-                            $shareUrl = urlencode(route('blog_single.page', $singleBlogPage->post_slug));
-                            $shareTitle = urlencode($singleBlogPage->post_title);
-                        @endphp
+                        <div class="sidebar_widget cartegories mb-65">
+                            <div class="sidebar_title">
+                                <h3>Categories</h3>
+                            </div>
+                            <div class="widget_categories">
+                                <ul>
+                                    <li><a href="#">Adventure Tourers <span class="caet_count">(6)</span></a></li>
+                                    <li><a href="#">Learner LAMS <span class="caet_count">(8)</span></a></li>
+                                    <li><a href="#"> Minibikes<span class="caet_count">(7)</span></a></li>
+                                    <li><a href="#"> Naked<span class="caet_count">(10)</span></a></li>
+                                    <li><a href="#">Competition<span class="caet_count">(5)</span></a></li>
+                                    <li><a href="#">Trail<span class="caet_count">(12)</span></a></li>
+                                    <li><a href="#">Scooters<span class="caet_count">(15)</span></a></li>
+                                </ul>
+                            </div>
 
-                        <p class="blog-card-wrapper__desc">
-                            {!! $singleBlogPage->post_content !!}
-                        </p>
+                        </div>
 
-                        <div class="blog-card-wrapper__icon">
-                            <ul class="social-list style-three">
-                                <li class="social-list__item">
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
-                                        class="social-list__link" target="_blank" rel="noopener noreferrer"
-                                        title="Share on Facebook">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                </li>
+                        <div class="sidebar_widget mb-50">
+                            <div class="widget_banner">
+                                <div class="single_banner">
+                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/banner/5.jpg" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
 
-                                <li class="social-list__item">
-                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ $shareUrl }}&title={{ $shareTitle }}"
-                                        class="social-list__link" target="_blank" rel="noopener noreferrer"
-                                        title="Share on LinkedIn">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="sidebar_widget">
+                            <div class="widget_title">
+                                <h3>Tags</h3>
+                            </div>
+                            <div class="widget_tags">
+                                <ul>
+                                    <li><a href="#">bike</a></li>
+                                    <li><a href="#">bicycle</a></li>
+                                    <li><a href="#">motor</a></li>
+                                    <li><a href="#">road bike</a></li>
+                                    <li><a href="#">city bike</a></li>
+                                    <li><a href="#">cars</a></li>
+                                    <li><a href="#">squters</a></li>
+                                </ul>
+                            </div>
                         </div>
 
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
-</div>
+    <!--Our blob page end-->
+@endsection
