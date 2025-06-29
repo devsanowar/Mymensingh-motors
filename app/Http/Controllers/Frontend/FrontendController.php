@@ -18,28 +18,38 @@ use App\Models\WhyChoseUs;
 use App\Models\Achievement;
 use App\Models\Promobanner;
 use App\Models\ProjectVideo;
+use App\Models\Returnrefund;
 use Illuminate\Http\Request;
+use App\Models\Privacypolicy;
+use App\Models\Termscondition;
 use App\Models\WebsiteSetting;
 use App\Models\WebsiteSocialIcon;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Privacypolicy;
-use App\Models\Returnrefund;
-use App\Models\Termscondition;
 
 class FrontendController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::latest()->select(['id', 'slider_title', 'sub_title', 'slider_content', 'slider_button_name', 'button_url', 'image'])->get();
-        $categories = Category::where('category_slug', '!=', 'default')
-            ->where('is_active', 1)
-            ->select('id', 'category_name', 'image', 'category_slug','position')
-            ->orderBy('position', 'asc')
+        $sliders = Slider::latest()
+            ->select(['id', 'slider_title', 'sub_title', 'slider_content', 'slider_button_name', 'button_url', 'image'])
             ->get();
+        $categories = Category::where('category_slug', '!=', 'default')->where('is_active', 1)->select('id', 'category_name', 'image', 'category_slug', 'position')->orderBy('position', 'asc')->get();
 
         $promobanners = Promobanner::where('is_active', 1)
             ->latest()
             ->get(['id', 'image', 'url']);
+
+        $bestSellings = Product::where('is_active', 1)
+            ->withCount([
+                'orderItems as total_sales' => function ($query) {
+                    $query->select(DB::raw('SUM(quantity)'));
+                },
+            ])
+            ->orderByDesc('total_sales')
+            ->take(3)
+            ->get();
+
 
         $brands = Brand::where('is_active', 1)->latest()->select('id', 'image')->get();
 
@@ -70,7 +80,7 @@ class FrontendController extends Controller
 
         $blogs = Post::latest()->take(3)->get();
 
-        return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta']));
+        return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta', 'bestSellings']));
     }
 
     public function shopPage(Request $request)

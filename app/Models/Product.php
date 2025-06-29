@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Brand;
+use App\Models\OrderItem;
 use App\Models\Category;
 use App\Models\StockLog;
 use App\Models\ProductUnit;
@@ -38,5 +39,10 @@ class Product extends Model
     public function stockLogs()
     {
         return $this->hasMany(StockLog::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
