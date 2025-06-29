@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Like;
 use App\Models\Postcategory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class Post extends Model
 {
     protected $guarded = ['id'];
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Postcategory::class);
     }
 
@@ -19,5 +22,15 @@ class Post extends Model
         $minutes = ceil($wordCount / 200);
 
         return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function isLikedBySession()
+    {
+        return $this->likes()->where('session_id', Session::getId())->exists();
     }
 }

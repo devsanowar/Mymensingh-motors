@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\LikeController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\ProjectController;
 use App\Http\Controllers\Frontend\ServiceController;
@@ -17,7 +19,6 @@ use App\Http\Controllers\Frontend\ContactPageController;
 use App\Http\Controllers\Frontend\CheckoutpageController;
 use App\Http\Controllers\Frontend\SocialworkPageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use Illuminate\Http\Request;
 
 
 Route::middleware(['web', 'logVisitorInfo'])->group(function () {
@@ -58,8 +59,11 @@ Route::get('/about-page', [AboutPageController::class, 'aboutPage'])->name('abou
 Route::get('/contact', [ContactController::class, 'contactPage'])->name('contact.page');
 Route::post('/contact/submit', [ContactController::class, 'contactForm']);
 
-// Route::get('/blog', [BlogController::class, 'index'])->name('blog.page');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.page');
 Route::get('/blog/{post_slug}/', [BlogController::class, 'blogSinglePage'])->name('blog_single.page');
+
+// Like Controller here
+Route::post('/post/{post}/like', [LikeController::class, 'toggle'])->name('post.like');
 
 
 Route::post('/subscribe-newsletter', [SubscriberController::class, 'subscribe'])->name('newsletter.subscribe');

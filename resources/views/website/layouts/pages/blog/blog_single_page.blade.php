@@ -8,11 +8,11 @@
                 <div class="col-12">
                     <div class="breadcrumb_inner">
                         <ul>
-                            <li><a href="#">Home</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
                             <li><i class="zmdi zmdi-chevron-right"></i></li>
-                            <li><a href="blog.html">blog</a></li>
+                            <li><a href="{{ route('blog.page') }}">blog</a></li>
                             <li><i class="zmdi zmdi-chevron-right"></i></li>
-                            <li>Bike safety consultation shows someone in government might understand cycling.</li>
+                            <li>{{ $singleBlogPage->post_title }}</li>
                         </ul>
                     </div>
                 </div>
@@ -22,7 +22,6 @@
     <!--Breadcrumb section end-->
 
 
-
     <!--Our blob page-->
     <div class="our_blog_area single_blog right_sidebar ptb-100">
         <div class="container">
@@ -30,95 +29,42 @@
                 <div class="col-lg-8 col-md-12 col-12">
                     <div class="post_details_inner">
                         <div class="single_post_thumbnail">
-                            <img src="{{ asset('frontend') }}/assets/img/blog/large_1.jpg" alt="single post thumbail">
+                            <img src="{{ asset($singleBlogPage->image) }}" alt="single post thumbail">
                         </div>
                         <div class="single_post_content">
                             <div class="single_post_top_contnt">
                                 <div class="single_post_title">
-                                    <h2>Bike safety consultation shows someone in government might understand
-                                        cycling.</h2>
+                                    <h2>{{ $singleBlogPage->post_title }}</h2>
                                 </div>
                                 <div class="single_post_meta">
                                     <div class="single_post_left_meta">
                                         <ul>
-                                            <li>Feb 13, 2018</li>
-                                            <li>By: blendpixels</li>
-                                            <li>UI/UX Design</li>
+                                            <li>{{ $singleBlogPage->created_at->format('M j, Y') }}</li>
+                                            <li>By: {{ $singleBlogPage->user_name }}</li>
+                                            <li>{{ $singleBlogPage->category->category_name }}</li>
                                         </ul>
                                     </div>
                                     <div class="single_post_right_meta">
                                         <ul>
-                                            <li>2 Comments</li>
-                                            <li>20 Like</li>
+                                            <li style="margin-top: 8px;">2 Comments</li>
+                                            <li><button id="like-btn" class="like-btn"
+                                                    data-post="{{ $singleBlogPage->id }}"
+                                                    data-liked="{{ $singleBlogPage->isLikedBySession() ? 'true' : 'false' }}">
+                                                    <i class="fa-solid fa-thumbs-up"></i>
+                                                    <span id="like-count">{{ $singleBlogPage->likes()->count() }}</span>
+                                                </button>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="post_excerpt">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
-                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore fugiat null pariatur.
-                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                    deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
-                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore fugiat null pariatur.
-                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                    deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
-                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse .</p>
-
-                                <div class="row fix mt-30 mb-30">
-                                    <div class="col-lg-6 col-md-12 col-xs-12">
-                                        <div class="post_gallery_img">
-                                            <img src="{{ asset('frontend') }}/assets/img/blog/gallery_1.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12 col-xs-12">
-                                        <div class="additional_suupor_list">
-                                            <ul>
-                                                <li><i class="zmdi zmdi-check"></i>Contrary to popular belief, Lorem
-                                                </li>
-                                                <li><i class="zmdi zmdi-check"></i>There are many variations of
-                                                    passages</li>
-                                                <li><i class="zmdi zmdi-check"></i>The standard chunk of Lorem Ipsum
-                                                </li>
-                                                <li><i class="zmdi zmdi-check"></i>Contrary to popular belief, Lorem
-                                                </li>
-                                                <li><i class="zmdi zmdi-check"></i>Contrary to popular belief.</li>
-                                                <li><i class="zmdi zmdi-check"></i>Lorem Ipsum is simply dummy text.
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud
-                                    exercitation ullamco laboris nisi aliquip consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore fugiat null pariatur.
-                                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                    deserunt mollit anim id est laborum.</p>
-                                <blockquote class="mtb-50">
-                                    There are many variations of passages of Lorem Ipsum available, but the majority
-                                    have suffered alteration in some form.
-                                </blockquote>
-                                <p>Ipsum dolor sit amet, consectetur adipiscing esed do eiusmod tempor incididunt
-                                    labore dolore magna aliqua. Ut enim ad minim veniam, nostrud exercitation
-                                    ullamco laboris nisi aliquip consequat. Duis aute irure dolor in reprehenderit
-                                    in voluptate velit esse cillum dolore fugiat null pariatur. Excepteur sint
-                                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                                    id est laborum.</p>
+                                <p>{!! $singleBlogPage->post_content !!}</p>
                             </div>
 
-
                             <!--administrator start-->
-                            <div class="administrator">
+                            {{-- <div class="administrator">
                                 <div class="administrator_thumb">
                                     <img src="{{ asset('frontend') }}/assets/img/blog/author.png" alt="">
                                 </div>
@@ -134,7 +80,7 @@
                                         <a href="#"><i class="zmdi zmdi-whatsapp"></i></a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!--administrator end-->
                         </div>
 
@@ -170,101 +116,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-8 col-12">
-                    <div class="sidebar_right">
-
-                        <div class="sidebar_widget banner mb-65">
-                            <div class="sidebar_title">
-                                <h3>Search</h3>
-                            </div>
-                            <div class="sidebar_search">
-                                <div class="search_form">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search">
-                                        <button type="submit"><i class="zmdi zmdi-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="sidebar_widget recent_post mb-65">
-                            <div class="sidebar_title">
-                                <h3>Recent Posts</h3>
-                            </div>
-                            <div class="single_recent_post">
-                                <div class="recent_post_img">
-                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_1.jpg" alt=""></a>
-                                </div>
-                                <div class="post_content">
-                                    <h3><a href="#">Anxiety disorder affects human life </a></h3>
-                                    <span class="post_publist_date">March 3, 2018</span>
-                                </div>
-                            </div>
-                            <div class="single_recent_post">
-                                <div class="recent_post_img">
-                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_2.jpg" alt=""></a>
-                                </div>
-                                <div class="post_content">
-                                    <h3><a href="#">Anxiety disorder affects human life</a></h3>
-                                    <span class="post_publist_date">March 3, 2018</span>
-                                </div>
-                            </div>
-                            <div class="single_recent_post">
-                                <div class="recent_post_img">
-                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_3.jpg" alt=""></a>
-                                </div>
-                                <div class="post_content">
-                                    <h3><a href="#">Anxiety disorder affects human life</a></h3>
-                                    <span class="post_publist_date">March 3, 2018</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar_widget cartegories mb-65">
-                            <div class="sidebar_title">
-                                <h3>Categories</h3>
-                            </div>
-                            <div class="widget_categories">
-                                <ul>
-                                    <li><a href="#">Adventure Tourers <span class="caet_count">(6)</span></a></li>
-                                    <li><a href="#">Learner LAMS <span class="caet_count">(8)</span></a></li>
-                                    <li><a href="#"> Minibikes<span class="caet_count">(7)</span></a></li>
-                                    <li><a href="#"> Naked<span class="caet_count">(10)</span></a></li>
-                                    <li><a href="#">Competition<span class="caet_count">(5)</span></a></li>
-                                    <li><a href="#">Trail<span class="caet_count">(12)</span></a></li>
-                                    <li><a href="#">Scooters<span class="caet_count">(15)</span></a></li>
-                                </ul>
-                            </div>
-
-                        </div>
-
-                        <div class="sidebar_widget mb-50">
-                            <div class="widget_banner">
-                                <div class="single_banner">
-                                    <a href="#"><img src="{{ asset('frontend') }}/assets/img/banner/5.jpg" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar_widget">
-                            <div class="widget_title">
-                                <h3>Tags</h3>
-                            </div>
-                            <div class="widget_tags">
-                                <ul>
-                                    <li><a href="#">bike</a></li>
-                                    <li><a href="#">bicycle</a></li>
-                                    <li><a href="#">motor</a></li>
-                                    <li><a href="#">road bike</a></li>
-                                    <li><a href="#">city bike</a></li>
-                                    <li><a href="#">cars</a></li>
-                                    <li><a href="#">squters</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
+                    @include('website.layouts.pages.blog.single_post_sidebar')
                 </div>
             </div>
 
@@ -272,3 +124,28 @@
     </div>
     <!--Our blob page end-->
 @endsection
+
+@push('scripts')
+    <script>
+        $('#like-btn').click(function() {
+            var postId = $(this).data('post');
+            var token = '{{ csrf_token() }}';
+
+            $.ajax({
+                url: '/post/' + postId + '/like',
+                type: 'POST',
+                data: {
+                    _token: token
+                },
+                success: function(data) {
+                    $('#like-count').text(data.count);
+                    if (data.liked) {
+                        $('#like-btn').attr('data-liked', 'true');
+                    } else {
+                        $('#like-btn').attr('data-liked', 'false');
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

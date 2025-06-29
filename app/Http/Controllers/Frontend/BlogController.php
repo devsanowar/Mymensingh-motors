@@ -25,7 +25,7 @@ class BlogController extends Controller
 
     public function blogSinglePage($post_slug)
     {
-        $singleBlogPage = Post::where('post_slug', $post_slug)->firstOrFail();
+        $singleBlogPage = Post::with('category:id,category_name')->where('post_slug', $post_slug)->firstOrFail();
         $singleBlogPage->increment('views');
 
         $recentBlogs = Post::latest()
