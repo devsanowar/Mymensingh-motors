@@ -17,7 +17,7 @@ class BlogController extends Controller
         $postCategories = Postcategory::withCount('posts')->where('category_name', '!=', 'default')->latest()->get();
 
         $recentPosts = Post::latest()
-            ->limit(4)
+            ->limit(5)
             ->get(['id', 'post_title', 'post_slug', 'image', 'created_at']);
 
         return view('website.blog', compact('blogs', 'recentPosts', 'pageTitle', 'postCategories'));
@@ -29,7 +29,7 @@ class BlogController extends Controller
         $singleBlogPage->increment('views');
 
         $recentBlogs = Post::latest()
-            ->limit(4)
+            ->limit(5)
             ->get(['id', 'post_title', 'post_slug', 'post_content', 'image', 'created_at']);
 
         $postCategories = Postcategory::with('posts:id,post_title,category_id')->where('category_name', '!=', 'default')->latest()->get();

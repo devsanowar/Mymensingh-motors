@@ -39,7 +39,7 @@
 
     </div>
 
-    <div class="sidebar_widget cartegories mb-65">
+    {{-- <div class="sidebar_widget cartegories mb-65">
         <div class="sidebar_title">
             <h3>Categories</h3>
         </div>
@@ -55,7 +55,7 @@
             </ul>
         </div>
 
-    </div>
+    </div> --}}
 
     <div class="sidebar_widget mb-50">
         <div class="widget_banner">

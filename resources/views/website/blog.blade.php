@@ -8,9 +8,9 @@
                 <div class="col-12">
                     <div class="breadcrumb_inner">
                         <ul>
-                            <li><a href="#">Home</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
                             <li><i class="zmdi zmdi-chevron-right"></i></li>
-                            <li>Blog Sidebar</li>
+                            <li>{{ $pageTitle }}</li>
                         </ul>
                     </div>
                 </div>
@@ -33,7 +33,8 @@
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="single_blog_post mb-40">
                                     <div class="post_thumbnail">
-                                        <a href="{{ route('blog_single.page', $blog->post_slug) }}"><img src="{{ asset($blog->image) }}" alt=""></a>
+                                        <a href="{{ route('blog_single.page', $blog->post_slug) }}"><img
+                                                src="{{ asset($blog->image) }}" alt=""></a>
                                     </div>
                                     <div class="post_content_meta">
                                         <div class="post_meta">
@@ -58,7 +59,9 @@
                                             </ul>
                                         </div>
                                         <div class="blog_post_desc">
-                                            <h2><a href="{{ route('blog_single.page', $blog->post_slug) }}">{{ Str::limit($blog->post_content, 50, '...') }}</a></h2>
+                                            <h2><a
+                                                    href="{{ route('blog_single.page', $blog->post_slug) }}">{{ Str::limit($blog->post_content, 50, '...') }}</a>
+                                            </h2>
                                             <p>{!! Str::limit($blog->post_content, 50, '...') !!}</p>
                                         </div>
                                         <div class="read_more_btn">
@@ -76,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row pagination_box mt-30">
+            {{-- <div class="row pagination_box mt-30">
                 <div class="col-12">
                     <div class="pagination">
                         <ul>
@@ -92,7 +95,48 @@
                         </ul>
                     </div>
                 </div>
+            </div> --}}
+
+            <div class="row pagination_box mt-30">
+                <div class="col-12">
+                    <div class="pagination">
+                        <ul>
+                            {{-- Prev Button --}}
+                            @if ($blogs->onFirstPage())
+                                <li class="disabled"><span><i class="zmdi zmdi-chevron-left"></i> prev</span></li>
+                            @else
+                                <li><a href="{{ $blogs->previousPageUrl() }}"><i class="zmdi zmdi-chevron-left"></i>
+                                        prev</a></li>
+                            @endif
+
+                            {{-- Page Numbers --}}
+                            @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
+                                @if ($page == $blogs->currentPage())
+                                    <li class="active"><span>{{ $page }}</span></li>
+                                @elseif (
+                                    $page == 1 ||
+                                        $page == $blogs->lastPage() ||
+                                        ($page >= $blogs->currentPage() - 1 && $page <= $blogs->currentPage() + 1))
+                                    <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                @elseif ($page == $blogs->currentPage() - 2 || $page == $blogs->currentPage() + 2)
+                                    <li><span>..</span></li>
+                                @endif
+                            @endforeach
+
+                            {{-- Next Button --}}
+                            @if ($blogs->hasMorePages())
+                                <li><a href="{{ $blogs->nextPageUrl() }}">next <i class="zmdi zmdi-chevron-right"></i></a>
+                                </li>
+                            @else
+                                <li class="disabled"><span>next <i class="zmdi zmdi-chevron-right"></i></span></li>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+
+
         </div>
     </div>
     <!--shop area end-->
