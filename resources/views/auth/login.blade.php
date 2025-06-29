@@ -1,6 +1,7 @@
 @php
     use App\Models\WebsiteSetting;
     $website_setting = WebsiteSetting::first();
+
 @endphp
 
 <!doctype html>

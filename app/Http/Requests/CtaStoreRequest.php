@@ -22,7 +22,7 @@ class CtaStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' =>'required|string|max:255',
+            'title' =>'nullable|string|max:255',
             'sub_title' =>'nullable|string|max:255',
             'content' =>'nullable',
             'button_name' =>'nullable|string|max:255',

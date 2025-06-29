@@ -596,13 +596,9 @@
     <!--Banner product section end-->
 
 
-    <!--Full Width  banner start-->
-    <div class="full_width_banner pb-110">
-        <div class="single_banner">
-            <a href="#"><img src="{{ asset('frontend') }}/assets/img/banner/8.jpg" alt="Shop Banner"></a>
-        </div>
-    </div>
-    <!--Full Width Banner end-->
+    <!--Full Width  banner cta start-->
+    @include('website.layouts.pages.home.cta')
+    <!--Full Width Banner cta end-->
 
     <!--Latest Post start-->
     <div class="latest_post pb-70">

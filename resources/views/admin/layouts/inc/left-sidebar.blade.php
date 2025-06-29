@@ -69,7 +69,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
-                        <a href="{{ route('slider.index') }}"><span>Banner</span></a>
+                        <a href="{{ route('slider.index') }}"><span>Slider</span></a>
                     </li>
 
                     <li class="{{ request()->routeIs('promobanner.*') ? 'active' : '' }}">

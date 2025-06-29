@@ -19,7 +19,7 @@
                             enctype="multipart/form-data">
                             @csrf
 
-                            <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
+                            {{-- <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
                                 <label for="title"><b>Title*</b></label>
                                 <div class="form-group">
                                     <div class="" style="border: 1px solid #ccc">
@@ -80,7 +80,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
 
                             <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">

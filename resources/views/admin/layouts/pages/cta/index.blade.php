@@ -42,8 +42,8 @@
                                 <tr>
                                     <th style="width: 60px">S/N</th>
                                     <th>Bg Image</th>
-                                    <th>Title</th>
-                                    <th>Sub Title</th>
+                                    {{-- <th>Title</th>
+                                    <th>Sub Title</th> --}}
                                     <th>status</th>
                                     <th style="width: 160px">Action</th>
                                 </tr>
@@ -53,9 +53,9 @@
                                 @foreach ($ctas as $key => $cta)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td><img src="{{ asset($cta->image) }}" alt="" width="60"></td>
-                                        <td>{{ $cta->title }}</td>
-                                        <td>{{ $cta->sub_title }}</td>
+                                        <td><img src="{{ asset($cta->image) }}" alt="" width="200"></td>
+                                        {{-- <td>{{ $cta->title }}</td>
+                                        <td>{{ $cta->sub_title }}</td> --}}
 
                                         <td>
                                             <button data-id="{{ $cta->id }}"
