@@ -21,7 +21,7 @@
                                     <li><a href="my-account.html">My Account</a></li>
                                 </ul>
                             </li>
-                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="{{ route('blog.page') }}">Blog</a></li>
                             <li><a href="contact-us.html">Contact </a></li>
                         </ul>
                     </nav>
@@ -52,7 +52,7 @@
                                         <li><a href="shop-without-sidebar.html">shop without Sidebar</a>
                                     </ul>
                                 </li>
-                                <li><a href="blog.html">Blog</a> </li>
+                                <li><a href="{{ route('blog.page') }}">Blog</a> </li>
                                 <li><a href="contact-us.html">CONTACT </a></li>
                             </ul>
                         </nav>

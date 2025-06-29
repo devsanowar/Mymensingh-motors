@@ -20,33 +20,23 @@
         <div class="sidebar_title">
             <h3>Recent Posts</h3>
         </div>
-        <div class="single_recent_post">
-            <div class="recent_post_img">
-                <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_1.jpg" alt=""></a>
+
+        @forelse ($recentBlogs as $recentPost)
+            <div class="single_recent_post">
+                <div class="recent_post_img">
+                    <a href="#"><img src="{{ asset($recentPost->image) }}"
+                            alt=""></a>
+                </div>
+                <div class="post_content">
+                    <h3><a href="#">{{ Str::limit($recentPost->post_title, 30, '...') }}</a></h3>
+                    <span class="post_publist_date">{{ $recentPost->created_at->format('F j, Y') }}</span>
+                </div>
             </div>
-            <div class="post_content">
-                <h3><a href="#">Anxiety disorder affects human life </a></h3>
-                <span class="post_publist_date">March 3, 2018</span>
-            </div>
-        </div>
-        <div class="single_recent_post">
-            <div class="recent_post_img">
-                <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_2.jpg" alt=""></a>
-            </div>
-            <div class="post_content">
-                <h3><a href="#">Anxiety disorder affects human life</a></h3>
-                <span class="post_publist_date">March 3, 2018</span>
-            </div>
-        </div>
-        <div class="single_recent_post">
-            <div class="recent_post_img">
-                <a href="#"><img src="{{ asset('frontend') }}/assets/img/blog/latest_3.jpg" alt=""></a>
-            </div>
-            <div class="post_content">
-                <h3><a href="#">Anxiety disorder affects human life</a></h3>
-                <span class="post_publist_date">March 3, 2018</span>
-            </div>
-        </div>
+        @empty
+        <p>Recent post not found!</p>
+        @endforelse
+
+
     </div>
 
     <div class="sidebar_widget cartegories mb-65">

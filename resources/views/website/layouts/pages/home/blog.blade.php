@@ -12,25 +12,34 @@
                  <div class="col-lg-4 col-md-6">
                      <div class="single_blog_post mb-40">
                          <div class="post_thumbnail">
-                             <a href="{{ route('blog_single.page', $blog->post_slug) }}"><img src="{{ asset($blog->image) }}"
-                                     alt=""></a>
+                             <a href="{{ route('blog_single.page', $blog->post_slug) }}"><img
+                                     src="{{ asset($blog->image) }}" alt=""></a>
                          </div>
                          <div class="post_content_meta">
                              <div class="post_meta">
                                  <ul>
                                      <li>Posted {{ $blog->created_at->format('F j') }}.</li>
                                      <li>
-                                        @if ($blog->views >= 1000)
-                                            {{ floor($blog->views / 1000) }}k+ View
-                                        @else
-                                            {{ $blog->views }} View
-                                        @endif
-                                    </li>
-                                     <li><a href="#"> 20+ Like</a></li>
+                                         @if ($blog->views >= 1000)
+                                             {{ floor($blog->views / 1000) }}k+ View
+                                         @else
+                                             {{ $blog->views }} View
+                                         @endif
+                                     </li>
+                                     <li>
+                                         <a href="#">
+                                             @if ($blog->likes()->count() >= 1000)
+                                                 {{ number_format($blog->likes()->count() / 1000, 1) }}k+ Like
+                                             @else
+                                                 {{ $blog->likes()->count() }} Like
+                                             @endif
+                                         </a>
+                                     </li>
                                  </ul>
                              </div>
                              <div class="blog_post_desc">
-                                 <h2><a href="{{ route('blog_single.page', $blog->post_slug) }}">{{ $blog->post_title }}</a>
+                                 <h2><a
+                                         href="{{ route('blog_single.page', $blog->post_slug) }}">{{ $blog->post_title }}</a>
                                  </h2>
                                  <p>{!! Str::limit($blog->post_content, 50, '...') !!}</p>
                              </div>
@@ -42,7 +51,7 @@
                      </div>
                  </div>
              @empty
-             <p class="text-center">Post not found!</p>
+                 <p class="text-center">Post not found!</p>
              @endforelse
 
 

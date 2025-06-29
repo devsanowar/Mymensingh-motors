@@ -78,7 +78,7 @@ class FrontendController extends Controller
 
         // $faqs = Faq::latest()->get(['id', 'question', 'answer']);
 
-        $blogs = Post::latest()->take(3)->get();
+        $blogs = Post::with('likes')->latest()->take(3)->get();
 
         return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta', 'bestSellings']));
     }

@@ -20,7 +20,7 @@ class BlogController extends Controller
             ->limit(5)
             ->get(['id', 'post_title', 'post_slug', 'image','created_at']);
 
-        return view('website.layouts.blog', compact('blogs', 'recentBlogs', 'pageTitle', 'postCategories'));
+        return view('website.blog', compact('blogs', 'recentBlogs', 'pageTitle', 'postCategories'));
     }
 
     public function blogSinglePage($post_slug)
@@ -29,7 +29,7 @@ class BlogController extends Controller
         $singleBlogPage->increment('views');
 
         $recentBlogs = Post::latest()
-            ->limit(5)
+            ->limit(4)
             ->get(['id', 'post_title', 'post_slug', 'post_content', 'image', 'created_at']);
 
         $postCategories = Postcategory::with('posts:id,post_title,category_id')->where('category_name', '!=', 'default')->latest()->get();
