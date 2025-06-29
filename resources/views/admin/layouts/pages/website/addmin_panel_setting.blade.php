@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-Website Social Icon
+Admin Panel Settings
 @endsection
 @push('styles')
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
