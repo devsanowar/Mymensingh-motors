@@ -1,3 +1,28 @@
+        <!--Newsletter section start -->
+        <div class="newsletter_section ptb-80">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-12">
+                        <div class="newsletter_text">
+                            <h2>Get All Updates</h2>
+                            <p>Sign up our newsleter today. Also get allert for new product.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-12">
+                        <div class="newsletter_form">
+                            <form id="newsletterForm">
+                                @csrf
+                                <input type="text" name="phone" placeholder="Type your phone number">
+                                <button type="submit" class="subscribe-button">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Newsletter section end -->
+
+
         <!--Footer start-->
         <footer class="footer_area">
             <div class="footer_top">
@@ -150,3 +175,37 @@
             </div>
         </footer>
         <!--Footer end-->
+
+        @push('scripts')
+            <script>
+                $(document).ready(function() {
+                    $(document).on('click', '.subscribe-button', function(e) {
+                        e.preventDefault();
+
+                        var formData = $('#newsletterForm').serialize(); // ✅ ফর্মের ডাটা সংগ্রহ করো
+
+                        $.ajax({
+                            url: '/subscribe-newsletter',
+                            method: 'POST',
+                            data: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                toastr.success('বার্তাটি সফলভাবে পাঠানো হয়েছে');
+                                $('#newsletterForm')[0].reset();
+                            },
+                            error: function(xhr) {
+                                if (xhr.status === 422) {
+                                    $.each(xhr.responseJSON.errors, function(key, value) {
+                                        toastr.error(value[0]);
+                                    });
+                                } else {
+                                    toastr.error('ত্রুটি হয়েছে, আবার চেষ্টা করুন');
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
+        @endpush

@@ -910,7 +910,7 @@ header {
   font-weight: 700;
   margin-bottom: 0;
 }
-.newsletter_form input[type="email"] {
+.newsletter_form input[type="text"] {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: 1px solid #151320;
   border-radius: 27.5px;

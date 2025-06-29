@@ -6,8 +6,8 @@
  <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/style.css">
  <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/responsive.css">
  <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom.css">
-
  <script src="{{ asset('frontend') }}/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 
 
  @php
