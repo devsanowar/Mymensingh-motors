@@ -245,7 +245,7 @@ Route::prefix('admin')
 
         // Newsletter
         Route::get('Newslatter', [NewslatterController::class, 'index'])->name('newslatter');
-        Route::get('Newslatter/destroy/{id}', [NewslatterController::class, 'destroy'])->name('newslatter.destroy');
+        Route::delete('newsletter/destroy/{id}', [NewslatterController::class, 'destroy'])->name('newslatter.destroy');
 
         // SMS Settings
         Route::get('sms-settings', [SmsSettingController::class, 'edit'])->name('sms-settings.edit');
