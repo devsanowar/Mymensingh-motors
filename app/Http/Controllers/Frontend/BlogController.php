@@ -14,11 +14,11 @@ class BlogController extends Controller
         $pageTitle = 'Blog';
         $blogs = Post::latest()->paginate(8);
 
-        $postCategories = Postcategory::with('posts:id,post_title,category_id')->where('category_name', '!=', 'default')->latest()->get();
+        $postCategories = Postcategory::withCount('posts')->where('category_name', '!=', 'default')->latest()->get();
 
         $recentPosts = Post::latest()
             ->limit(4)
-            ->get(['id', 'post_title', 'post_slug', 'image','created_at']);
+            ->get(['id', 'post_title', 'post_slug', 'image', 'created_at']);
 
         return view('website.blog', compact('blogs', 'recentPosts', 'pageTitle', 'postCategories'));
     }
@@ -36,5 +36,17 @@ class BlogController extends Controller
 
         $blog = Post::where('post_slug', $post_slug)->firstOrFail();
         return view('website.layouts.pages.blog.blog_single_page', compact('singleBlogPage', 'recentBlogs', 'postCategories'));
+    }
+
+    public function getCategoryPosts($id)
+    {
+        $category = Postcategory::findOrFail($id);
+        $posts = $category->posts()->withCount('likes') ->latest()
+            ->get(['id', 'post_title', 'post_slug', 'post_content', 'image', 'views', 'created_at']);
+
+        return response()->json([
+            'category' => $category->category_name,
+            'posts' => $posts,
+        ]);
     }
 }

@@ -28,7 +28,7 @@
                     @include('website.layouts.blog_left_sidebar')
                 </div>
                 <div class="col-lg-8 col-md-12 col-12 blog_details_content">
-                    <div class="row">
+                    <div class="row" id="category-posts">
                         @forelse ($blogs as $blog)
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="single_blog_post mb-40">
