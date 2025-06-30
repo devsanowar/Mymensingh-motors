@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 
-
 class CartController extends Controller
 {
     public function cartPage()
@@ -18,7 +17,6 @@ class CartController extends Controller
         foreach ($cartContents as $item) {
             $totalAmount += $item['price'] * $item['quantity'];
         }
-
 
         return view('website.layouts.pages.cart.cart_page', compact('cartContents', 'totalAmount'));
     }
@@ -45,7 +43,7 @@ class CartController extends Controller
             $cart[$product->id]['quantity'] += $qty;
         } else {
             $cart[$product->id] = [
-                'id'       => $product->id,
+                'id' => $product->id,
                 'name' => $product->product_name,
                 'price' => $final_price,
                 'quantity' => $qty,
@@ -82,7 +80,6 @@ class CartController extends Controller
         return back();
     }
 
-
     // public function cartUpdate(Request $request)
     // {
     //     // dd($request->all());
@@ -95,7 +92,6 @@ class CartController extends Controller
     //     return redirect()->back();
     // }
 
-
     public function updateCart(Request $request)
     {
         $cart = session()->get('cart', []);
@@ -104,19 +100,22 @@ class CartController extends Controller
         $action = $request->action;
 
         if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] = intval($cart[$productId]['quantity']);
+
             if ($action === 'increase') {
                 $cart[$productId]['quantity'] += 1;
             } elseif ($action === 'decrease' && $cart[$productId]['quantity'] > 1) {
                 $cart[$productId]['quantity'] -= 1;
+            } elseif ($action === 'set') {
+                $newQty = intval($request->quantity);
+                $cart[$productId]['quantity'] = $newQty >= 1 ? $newQty : 1;
             }
 
             session()->put('cart', $cart);
 
-            $subtotal = $cart[$productId]['price'] * $cart[$productId]['quantity'];
-            $totalAmount = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
-
+            $subtotal = number_format($cart[$productId]['price'] * $cart[$productId]['quantity'], 2);
+            $totalAmount = number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart)), 2);
             $itemCount = array_sum(array_column($cart, 'quantity'));
-
 
             return response()->json([
                 'success' => true,
@@ -129,7 +128,4 @@ class CartController extends Controller
 
         return response()->json(['success' => false]);
     }
-
-
-
 }
