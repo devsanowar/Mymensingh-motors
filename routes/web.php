@@ -29,7 +29,7 @@ Route::get('/search', action: [FrontendController::class, 'search'])->name('sear
 
 Route::get('/shop-page', [FrontendController::class, 'shopPage'])->name('shop_page');
 
-// Price filtering
+// Product filtering
 Route::get('/price-filter', [FrontendController::class, 'priceFilter'])->name('website.price.filter');
 Route::get('/category-filter-multi', [FrontendController::class, 'multiCategoryFilter'])->name('category_product.filter.multi');
 Route::get('/brand-filter-multi', [FrontendController::class, 'multiBrandFilter'])->name('brand_product.filter.multi');
