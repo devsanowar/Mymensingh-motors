@@ -126,7 +126,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div> 
     <!-- PAGE SECTION END -->
 @endsection
 
