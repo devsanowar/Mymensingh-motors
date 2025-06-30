@@ -64,9 +64,12 @@ class FrontendController extends Controller
             ->limit(8)
             ->get(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail']);
 
-        // $project_videos = ProjectVideo::latest()->limit(8)->get(['id', 'video_url']);
+        $categoriesWiseProducts = Category::with(['products' => function($q) {
+            $q->latest()->take(10);
+        }])->get();
 
-        // $whychoses = WhyChoseUs::where('is_active', 1)->latest()->get(['id', 'title', 'description', 'image']);
+        $allProducts = Product::latest()->take(6)->get();
+
 
         $achievements = Achievement::where('is_active', 1)
             ->latest()
@@ -76,11 +79,9 @@ class FrontendController extends Controller
 
         $cta = Cta::where('is_active', 1)->first();
 
-        // $faqs = Faq::latest()->get(['id', 'question', 'answer']);
-
         $blogs = Post::with('likes')->latest()->take(3)->get();
 
-        return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta', 'bestSellings']));
+        return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta', 'bestSellings', 'categoriesWiseProducts', 'allProducts']));
     }
 
     public function shopPage(Request $request)
