@@ -1,46 +1,101 @@
 .single__product_sm {
-    border: 1px solid #cccccc61;
-    box-shadow: 5px -2px -1px 0px #cccccc70;
+border: 1px solid #cccccc61;
+box-shadow: 5px -2px -1px 0px #cccccc70;
 }
 
 
 .old-price {
-	text-decoration: line-through;
-    margin-left: 5px;
+text-decoration: line-through;
+margin-left: 5px;
 }
 
 .single_post_thumbnail img {
-	width: 100%;
+width: 100%;
 }
 
 
 .like-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    color: #555;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+background-color: #f0f0f0;
+border: 1px solid #ddd;
+color: #555;
+font-weight: 500;
+padding: 6px 12px;
+border-radius: 30px;
+cursor: pointer;
+transition: all 0.2s ease-in-out;
 }
 
 .like-btn:hover {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: #fff;
+background-color: #007bff;
+border-color: #007bff;
+color: #fff;
 }
 
 .like-btn i {
-    font-size: 18px;
+font-size: 18px;
 }
 
 .like-btn[data-liked="true"] {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: #fff;
+background-color: #007bff;
+border-color: #007bff;
+color: #fff;
 }
 
+
+/* Custom Nav Container */
+.custom-owl-nav {
+position: absolute;
+/* make sure it's positioned properly */
+top: 50%;
+left: 0;
+right: 0;
+transform: translateY(-50%);
+z-index: 2;
+pointer-events: none;
+/* prevent blocking hover */
+}
+
+.custom-owl-nav button {
+position: absolute;
+background-color: #f44336;
+/* same as your design */
+color: #fff;
+border: none;
+border-radius: 50%;
+width: 32px;
+height: 32px;
+font-size: 16px;
+line-height: 32px;
+text-align: center;
+cursor: pointer;
+opacity: 0;
+/* hidden by default */
+transition: opacity 0.3s ease;
+pointer-events: auto;
+/* enable click */
+}
+
+/* Position left arrow */
+.custom-owl-prev {
+left: -16px;
+}
+
+/* Position right arrow */
+.custom-owl-next {
+right: -16px;
+}
+
+/* Show nav on hover */
+.single-zoom-thumb:hover .custom-owl-nav button {
+opacity: 1;
+/* visible on hover */
+}
+
+
+.produc_thumb img {
+
+	width: 100%;
+}

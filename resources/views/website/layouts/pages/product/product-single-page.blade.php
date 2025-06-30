@@ -1,57 +1,5 @@
 @extends('website.layouts.app')
 @section('title', 'Product Single Page')
-@push('styles')
-    <style>
-        /* Custom Nav Container */
-        .custom-owl-nav {
-            position: absolute;
-            /* make sure it's positioned properly */
-            top: 50%;
-            left: 0;
-            right: 0;
-            transform: translateY(-50%);
-            z-index: 2;
-            pointer-events: none;
-            /* prevent blocking hover */
-        }
-
-        .custom-owl-nav button {
-            position: absolute;
-            background-color: #f44336;
-            /* same as your design */
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            font-size: 16px;
-            line-height: 32px;
-            text-align: center;
-            cursor: pointer;
-            opacity: 0;
-            /* hidden by default */
-            transition: opacity 0.3s ease;
-            pointer-events: auto;
-            /* enable click */
-        }
-
-        /* Position left arrow */
-        .custom-owl-prev {
-            left: -16px;
-        }
-
-        /* Position right arrow */
-        .custom-owl-next {
-            right: -16px;
-        }
-
-        /* Show nav on hover */
-        .single-zoom-thumb:hover .custom-owl-nav button {
-            opacity: 1;
-            /* visible on hover */
-        }
-    </style>
-@endpush
 @section('website_content')
     <!--Breadcrumb section-->
     <div class="breadcrumb_section">
@@ -72,7 +20,7 @@
     <!--Breadcrumb section end-->
 
     <!--product Details Inner-->
-    <div class="product_details_inner left_sidebar ptb-110">
+    <div class="product_details_inner left_sidebar ptb-70">
         <div class="container">
             <div class="row">
                 <!--Product Tab Style start-->
@@ -123,15 +71,13 @@
                         <div class="price_amount">
                             @if ($product->discount_price && $product->discount_type === 'flat')
                                 @php
-                                    $product_discount_price =
-                                        $product->regular_price - $product->discount_price;
+                                    $product_discount_price = $product->regular_price - $product->discount_price;
                                 @endphp
                                 <span class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
                                 <span class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
                             @elseif ($product->discount_price && $product->discount_type === 'percent')
                                 @php
-                                    $discount_amount =
-                                        ($product->regular_price * $product->discount_price) / 100;
+                                    $discount_amount = ($product->regular_price * $product->discount_price) / 100;
                                     $product_discount_price = $product->regular_price - $discount_amount;
                                 @endphp
                                 <span class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
@@ -163,27 +109,52 @@
                                 </select>
                             </div>
                         </div> --}}
-                        <div class="single_product_action d-flex align-items-center">
-                            <div class="cart-plus-minus">
-                                <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
+
+
+                        <form class="add-to-cart-form mt-4">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <div class="single_product_action d-flex align-items-center">
+                                <div class="cart-plus-minus">
+                                    <input type="text" value="1" name="order_qty" class="cart-plus-minus-box">
+                                </div>
+                                <div class="add_to_cart_btn">
+                                    <a href="#" class="btn-add-to-cart-link">add to cart</a>
+                                </div>
                             </div>
-                            <div class="add_to_cart_btn">
-                                <a href="#">add to cart</a>
-                            </div>
-                            <div class="wishlist">
-                                <a href="#"><i class="zmdi zmdi-favorite-outline"></i></a>
-                            </div>
+                        </form>
+
+                        {{-- <div class="single_product_action d-flex align-items-center">
+                                <div class="cart-plus-minus">
+                                    <input type="text" value="02" name="order_qty" class="cart-plus-minus-box">
+                                </div>
+                                <div class="add_to_cart_btn">
+                                    <a href="#">add to cart</a>
+                                </div>
+                                <div class="wishlist">
+                                    <a href="#"><i class="zmdi zmdi-favorite-outline"></i></a>
+                                </div>
+                            </div> --}}
+
+
+                        {{-- <div class="wishlist">
+                            <a href="#"><i class="zmdi zmdi-favorite-outline"></i></a>
+                        </div> --}}
+                    </div>
+
+
+
+
+                    <div class="product_details_cat_list mt-35">
+                        <div class="categories_label">
+                            <span>Categories: </span>
                         </div>
-                        <div class="product_details_cat_list mt-35">
-                            <div class="categories_label">
-                                <span>Categories: </span>
-                            </div>
-                            <ul>
-                                <li><a href="#">{{ $product->category->category_name }}</a></li>
-                                
-                            </ul>
-                        </div>
-                        {{-- <div class="product_details_tag_list mtb-10">
+                        <ul>
+                            <li><a href="#">{{ $product->category->category_name }}</a></li>
+
+                        </ul>
+                    </div>
+                    {{-- <div class="product_details_tag_list mtb-10">
                             <div class="tag_label">
                                 <span>Tags : </span>
                             </div>
@@ -195,36 +166,36 @@
                                 <li><a href="#">jewellery</a></li>
                             </ul>
                         </div> --}}
-                        <div class="product-share">
-                            <div class="share_label">
-                                <span>Share :</span>
-                            </div>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="product-share">
+                        <div class="share_label">
+                            <span>Share :</span>
                         </div>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="zmdi zmdi-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="zmdi zmdi-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="zmdi zmdi-google-plus"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="zmdi zmdi-pinterest"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
+
             <!-- Product Thumbnail Description Start -->
             <div class="product_desc_tab_container mt-100 ">
 
@@ -332,159 +303,68 @@
                 </div>
             </div>
             <!--Realted Product section start-->
-            <div class="related_product_section mt-100">
-
+            <section class="featured-section">
                 <div class="row">
                     <div class="col-12">
                         <div class="section_title">
-                            <h2>Related Product</h2>
+                            <h2>Related Products</h2>
                         </div>
                     </div>
                 </div>
-                <div class="row related_product_guttters owl-carousel mt-60">
-                    <div class="col-lg-3">
-                        <div class="single__product">
-                            <div class="produc_thumb">
-                                <a href="#"><img src="{{ asset('frontend') }}/assets/img/product/home2/4.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="product_hover">
-                                <div class="product_action">
-                                    <a href="#" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i>
-                                        Add
-                                        To Cart</a>
-                                </div>
-                                <div class="product__desc">
-                                    <h3><a href="product-details.html">Soffer Pro x33</a></h3>
-                                    <div class="price_amount">
-                                        <span class="current_price">$2999.99</span>
-                                        <span class="discount_price">-08%</span>
-                                        <span class="old_price">$3700.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="single__product">
-                            <div class="produc_thumb">
-                                <a href="#"><img src="{{ asset('frontend') }}/assets/img/product/home2/5.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="product_hover">
-                                <div class="product_action">
-                                    <a href="#" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i>
-                                        Add
-                                        To Cart</a>
-                                </div>
-                                <div class="product__desc">
-                                    <h3><a href="product-details.html">Soffer Pro x33</a></h3>
-                                    <div class="price_amount">
-                                        <span class="current_price">$2999.99</span>
-                                        <span class="discount_price">-08%</span>
-                                        <span class="old_price">$3700.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="single__product">
-                            <div class="produc_thumb">
-                                <a href="#"><img src="{{ asset('frontend') }}/assets/img/product/home2/6.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="product_hover">
-                                <div class="product_action">
-                                    <a href="#" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i>
-                                        Add
-                                        To Cart</a>
-                                </div>
-                                <div class="product__desc">
-                                    <h3><a href="product-details.html">Soffer Pro x33</a></h3>
-                                    <div class="price_amount">
-                                        <span class="current_price">$2999.99</span>
-                                        <span class="discount_price">-08%</span>
-                                        <span class="old_price">$3700.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="single__product">
-                            <div class="produc_thumb">
-                                <a href="#"><img src="{{ asset('frontend') }}/assets/img/product/home2/7.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="product_hover">
-                                <div class="product_action">
-                                    <a href="#" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i>
-                                        Add
-                                        To Cart</a>
-                                </div>
-                                <div class="product__desc">
-                                    <h3><a href="product-details.html">Soffer Pro x33</a></h3>
-                                    <div class="price_amount">
-                                        <span class="current_price">$2999.99</span>
-                                        <span class="discount_price">-08%</span>
-                                        <span class="old_price">$3700.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="single__product">
-                            <div class="produc_thumb">
-                                <a href="#"><img src="{{ asset('frontend') }}/assets/img/product/home2/8.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="product_hover">
-                                <div class="product_action">
-                                    <a href="#" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i>
-                                        Add
-                                        To Cart</a>
-                                </div>
-                                <div class="product__desc">
-                                    <h3><a href="product-details.html">Soffer Pro x33</a></h3>
-                                    <div class="price_amount">
-                                        <span class="current_price">$2999.99</span>
-                                        <span class="discount_price">-08%</span>
-                                        <span class="old_price">$3700.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="single__product">
-                            <div class="produc_thumb">
-                                <a href="#"><img src="{{ asset('frontend') }}/assets/img/product/home2/9.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="product_hover">
-                                <div class="product_action">
-                                    <a href="#" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i>
-                                        Add
-                                        To Cart</a>
-                                </div>
-                                <div class="product__desc">
-                                    <h3><a href="product-details.html">Soffer Pro x33</a></h3>
-                                    <div class="price_amount">
-                                        <span class="current_price">$2999.99</span>
-                                        <span class="discount_price">-08%</span>
-                                        <span class="old_price">$3700.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- <h2>Related Products</h2> -->
+                <div class="slider-container" id="sliderContainer1">
+                    <button class="slider-arrow left" id="arrowLeft1">&#10094;</button>
+                    <div class="slider-track" id="sliderTrack1">
 
-            </div>
+                        @forelse ($relatedProducts as $product)
+                            <div class="product-card"><img src="{{ asset($product->thumbnail) }}" alt="">
+                                <div class="single-product-card-price_amount">
+                                    @if ($product->discount_price && $product->discount_type === 'flat')
+                                        @php
+                                            $product_discount_price =
+                                                $product->regular_price - $product->discount_price;
+                                        @endphp
+                                        <span
+                                            class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
+                                        <span class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                    @elseif ($product->discount_price && $product->discount_type === 'percent')
+                                        @php
+                                            $discount_amount =
+                                                ($product->regular_price * $product->discount_price) / 100;
+                                            $product_discount_price = $product->regular_price - $discount_amount;
+                                        @endphp
+                                        <span
+                                            class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
+                                        <span class="discount_price">-{{ $product->discount_price }}%</span>
+                                        <span class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                    @else
+                                        <span
+                                            class="current_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                    @endif
+                                </div>
+                                <div class="card-title">{{ $product->product_name }}</div>
+                                <div class="rating">
+                                    <span><i class="fa-solid fa-star"></i></span>
+                                    <span><i class="fa-solid fa-star"></i></span>
+                                    <span><i class="fa-solid fa-star"></i></span>
+                                    <span><i class="fa-solid fa-star"></i></span>
+                                    <span><i class="fa-regular fa-star"></i></span>
+                                </div>
+                                <div class="product-overlay-add-to-cart">
+                                    <a href="#" class="product-add-to-cart-btn">Add To Cart</a>
+                                </div>
+                            </div>
+                        @empty
+                        @endforelse
+
+                    </div>
+                    <button class="slider-arrow right" id="arrowRight1">&#10095;</button>
+                </div>
+                <div class="pagination" id="pagination1"></div>
+            </section>
             <!--Realted Product section end-->
         </div>
+    </div>
     </div>
     <!--product Details End-->
 @endsection
@@ -509,6 +389,60 @@
             // Custom Next
             $(".custom-owl-next").click(function() {
                 owl.trigger('next.owl.carousel');
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.plus', function() {
+                let input = $(this).closest('form').find('.cart-plus-minus-box');
+                let current = parseInt(input.val()) || 1;
+                input.val(current + 1);
+            });
+
+            $(document).on('click', '.minus', function() {
+                let input = $(this).closest('form').find('.cart-plus-minus-box');
+                let current = parseInt(input.val()) || 1;
+                if (current > 1) {
+                    input.val(current - 1);
+                }
+            });
+
+            $(document).on('click', '.btn-add-to-cart-link', function(e) {
+                e.preventDefault();
+                $(this).closest('form').submit();
+            });
+
+            $(document).on('submit', '.add-to-cart-form', function(e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let formData = form.serialize();
+
+                let button = form.find('.btn-add-to-cart-link');
+                button.text('Adding...');
+
+                $.ajax({
+                    url: "{{ route('addToCart') }}",
+                    method: "POST",
+                    data: formData,
+                    success: function(response) {
+                        toastr.success(response.message, 'Success', {
+                            timeOut: 1500
+                        });
+                        $('#cart-count').text(response.itemCount);
+                        $('.cart-count').text(response.itemCount);
+                        button.text('Add to cart');
+                    },
+                    error: function() {
+                        toastr.error('Failed to add product.', 'Error', {
+                            timeOut: 2000
+                        });
+                        button.text('Add to cart');
+                    }
+                });
             });
         });
     </script>

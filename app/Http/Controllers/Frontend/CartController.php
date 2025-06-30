@@ -26,7 +26,7 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-        $qty = $request->order_qty ?? 1;
+        $qty = (int) $request->order_qty ?? 1;
 
         // Determine final price based on discount
         $final_price = $product->regular_price;
