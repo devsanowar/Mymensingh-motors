@@ -14,6 +14,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
+    // protected $casts = [
+    //     'images' => 'array',
+    // ];
+
     protected $guarded = ['id'];
 
     public function category()
