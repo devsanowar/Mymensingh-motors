@@ -24,7 +24,7 @@
             </div>
 
             <div class="row mt-60">
-                <div class="col-lg-12">
+                <div class="col-lg-9">
                     <div class="tab-content">
 
                         <!-- All Tab Content -->
@@ -36,25 +36,45 @@
                                         <div class="single-product-card">
                                             <div class="produc_thumb">
                                                 <a href="{{ route('product_single.page', $product->id) }}">
-                                                    <img src="{{ asset('storage/products/' . $product->image) }}"
-                                                        alt="{{ $product->name }}">
+                                                    <img src="{{ asset($product->thumbnail) }}"
+                                                        alt="{{ $product->product_name }}">
                                                 </a>
                                             </div>
                                             <div class="single-product-card_hover">
                                                 <div class="single-product-card__desc">
                                                     <h3>
                                                         <a href="{{ route('product_single.page', $product->id) }}">
-                                                            {{ $product->name }}
+                                                            {{ $product->product_name }}
                                                         </a>
                                                     </h3>
                                                     <div class="single-product-card-price_amount">
-                                                        <span
-                                                            class="current_price">৳{{ number_format($product->price, 2) }}</span>
-                                                        @if ($product->discount)
+                                                        @if ($product->discount_price && $product->discount_type === 'flat')
+                                                            @php
+                                                                $product_discount_price =
+                                                                    $product->regular_price - $product->discount_price;
+                                                            @endphp
                                                             <span
-                                                                class="discount_price">-{{ $product->discount }}%</span>
+                                                                class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
                                                             <span
-                                                                class="old_price">৳{{ number_format($product->old_price, 2) }}</span>
+                                                                class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                                        @elseif ($product->discount_price && $product->discount_type === 'percent')
+                                                            @php
+                                                                $discount_amount =
+                                                                    ($product->regular_price *
+                                                                        $product->discount_price) /
+                                                                    100;
+                                                                $product_discount_price =
+                                                                    $product->regular_price - $discount_amount;
+                                                            @endphp
+                                                            <span
+                                                                class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
+                                                            <span
+                                                                class="discount_price">-{{ $product->discount_price }}%</span>
+                                                            <span
+                                                                class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                                        @else
+                                                            <span
+                                                                class="current_price">৳{{ number_format($product->regular_price, 2) }}</span>
                                                         @endif
                                                     </div>
                                                     <div class="single-product-card_action">
@@ -83,25 +103,46 @@
                                             <div class="single-product-card">
                                                 <div class="produc_thumb">
                                                     <a href="{{ route('product_single.page', $product->id) }}">
-                                                        <img src="{{ asset('storage/products/' . $product->image) }}"
-                                                            alt="{{ $product->name }}">
+                                                        <img src="{{ asset($product->thumbnail) }}"
+                                                            alt="{{ $product->product_name }}">
                                                     </a>
                                                 </div>
                                                 <div class="single-product-card_hover">
                                                     <div class="single-product-card__desc">
                                                         <h3>
                                                             <a href="{{ route('product_single.page', $product->id) }}">
-                                                                {{ $product->name }}
+                                                                {{ $product->product_name }}
                                                             </a>
                                                         </h3>
                                                         <div class="single-product-card-price_amount">
-                                                            <span
-                                                                class="current_price">৳{{ number_format($product->price, 2) }}</span>
-                                                            @if ($product->discount)
+                                                            @if ($product->discount_price && $product->discount_type === 'flat')
+                                                                @php
+                                                                    $product_discount_price =
+                                                                        $product->regular_price -
+                                                                        $product->discount_price;
+                                                                @endphp
                                                                 <span
-                                                                    class="discount_price">-{{ $product->discount }}%</span>
+                                                                    class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
                                                                 <span
-                                                                    class="old_price">৳{{ number_format($product->old_price, 2) }}</span>
+                                                                    class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                                            @elseif ($product->discount_price && $product->discount_type === 'percent')
+                                                                @php
+                                                                    $discount_amount =
+                                                                        ($product->regular_price *
+                                                                            $product->discount_price) /
+                                                                        100;
+                                                                    $product_discount_price =
+                                                                        $product->regular_price - $discount_amount;
+                                                                @endphp
+                                                                <span
+                                                                    class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
+                                                                <span
+                                                                    class="discount_price">-{{ $product->discount_price }}%</span>
+                                                                <span
+                                                                    class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                                            @else
+                                                                <span
+                                                                    class="current_price">৳{{ number_format($product->regular_price, 2) }}</span>
                                                             @endif
                                                         </div>
                                                         <div class="single-product-card_action">
@@ -123,6 +164,14 @@
 
                     </div>
                 </div>
+                <div class="col-lg-3 col-md-12">
+                        <div class="single_banner long_hot_detals d-lg-none">
+                            <a href="#"><img src="{{ asset('frontend') }}/assets/img/banner/banner_tab_1.jpg" alt="Shop Banner"></a>
+                        </div>
+                        <div class="single_banner long_hot_detals d-none d-lg-block">
+                            <a href="#"><img src="{{ asset('frontend') }}/assets/img/bike/bike-longg.jpg" height="744px" alt="Shop Banner"></a>
+                        </div>
+                    </div>
             </div>
         </div>
         <!-- container ends -->

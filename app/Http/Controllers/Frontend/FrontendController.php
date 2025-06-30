@@ -64,7 +64,7 @@ class FrontendController extends Controller
             ->limit(8)
             ->get(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail']);
 
-        $categoriesWiseProducts = Category::with(['products' => function($q) {
+        $categoriesWiseProducts = Category::where('category_slug', '!=', 'default')->with(['products' => function($q) {
             $q->latest()->take(10);
         }])->get();
 
