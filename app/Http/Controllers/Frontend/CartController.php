@@ -97,48 +97,38 @@ class CartController extends Controller
 
 
     public function updateCart(Request $request)
-{
-    $cart = session()->get('cart', []);
+    {
+        $cart = session()->get('cart', []);
 
-    $productId = $request->product_id;
-    $action = $request->action;
+        $productId = $request->product_id;
+        $action = $request->action;
 
-    if (isset($cart[$productId])) {
-        if ($action === 'increase') {
-            $cart[$productId]['quantity'] += 1;
-        } elseif ($action === 'decrease' && $cart[$productId]['quantity'] > 1) {
-            $cart[$productId]['quantity'] -= 1;
+        if (isset($cart[$productId])) {
+            if ($action === 'increase') {
+                $cart[$productId]['quantity'] += 1;
+            } elseif ($action === 'decrease' && $cart[$productId]['quantity'] > 1) {
+                $cart[$productId]['quantity'] -= 1;
+            }
+
+            session()->put('cart', $cart);
+
+            $subtotal = $cart[$productId]['price'] * $cart[$productId]['quantity'];
+            $totalAmount = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
+
+            $itemCount = array_sum(array_column($cart, 'quantity'));
+
+
+            return response()->json([
+                'success' => true,
+                'quantity' => $cart[$productId]['quantity'],
+                'subtotal' => $subtotal,
+                'totalAmount' => $totalAmount,
+                'itemCount' => $itemCount,
+            ]);
         }
 
-        session()->put('cart', $cart);
-
-        $subtotal = $cart[$productId]['price'] * $cart[$productId]['quantity'];
-        $totalAmount = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
-
-        $itemCount = array_sum(array_column($cart, 'quantity'));
-
-
-        return response()->json([
-            'success' => true,
-            'quantity' => $cart[$productId]['quantity'],
-            'subtotal' => $subtotal,
-            'totalAmount' => $totalAmount,
-            'itemCount' => $itemCount,
-        ]);
+        return response()->json(['success' => false]);
     }
-
-    return response()->json(['success' => false]);
-}
-
-
-
-
-
-
-
-
-
-
 
 
 

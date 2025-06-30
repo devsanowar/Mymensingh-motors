@@ -20,11 +20,17 @@
         <!--Breadcrumb section end-->
 
         <!-- PAGE SECTION START -->
-        <div class="cart_page_area pt-100 pb-60">
+        <div class="cart_page_area pt-80 pb-60">
             <form action="#">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
+                            @if (session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
                             <div class="cart-table table-responsive mb-40">
                                 <table>
                                     <thead>
@@ -37,29 +43,27 @@
                                             <th class="pro-remove">Remove</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody class="quantity-input-field">
+                                        @forelse ($cartContents as $productId => $cartItem)
+                                        <tr data-id="{{ $productId }}">
                                             <td class="pro-thumbnail"><a href="#"><img
-                                                        src="assets/img/product/pro_sm_1.png" alt="" /></a></td>
-                                            <td class="pro-title"><a href="#">Le Parc Minotti Chair</a></td>
-                                            <td class="pro-price"><span class="amount">$169.00</span></td>
+                                                        src="{{ asset($cartItem['thumbnail']) }}" alt="" /></a></td>
+                                            <td class="pro-title"><a href="#">{{ $cartItem['name'] }}</a></td>
+                                            <td class="pro-price"><span class="amount">৳{{ number_format($cartItem['price'], 2) }}</span></td>
                                             <td class="pro-quantity">
-                                                <div class="product-quantity"><input type="number" value="1" /></div>
+                                                <div class="product-quantity"><input type="number" value="{{ $cartItem['quantity'] }}" /></div>
                                             </td>
-                                            <td class="pro-subtotal">$169.00</td>
-                                            <td class="pro-remove"><a href="#">×</a></td>
+                                            <td class="pro-subtotal">৳{{ number_format($cartItem['price'] * $cartItem['quantity'], 2) }}</td>
+                                            <td class="pro-remove"><a href="{{ route('removefrom.cart', $productId) }}" onclick="return confirm('Are you sure?')">×</a></td>
                                         </tr>
-                                        <tr>
-                                            <td class="pro-thumbnail"><a href="#"><img
-                                                        src="assets/img/product/pro_sm_2.png" alt="" /></a></td>
-                                            <td class="pro-title"><a href="#">DSR Eiffel chair</a></td>
-                                            <td class="pro-price"><span class="amount">$137.00</span></td>
-                                            <td class="pro-quantity">
-                                                <div class="product-quantity"><input type="number" value="1" /></div>
-                                            </td>
-                                            <td class="pro-subtotal">$137.00</td>
-                                            <td class="pro-remove"><a href="#">×</a></td>
-                                        </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center">
+                                                    <h4>Your cart is empty!</h4>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -86,12 +90,12 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span class="amount">$306.00</span></td>
+                                                <td><span class="amount cart-subtotal">৳{{ number_format($totalAmount, 2) }}</span></td>
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Total</th>
                                                 <td>
-                                                    <strong><span class="amount">$306.00</span></strong>
+                                                    <strong><span class="amount cart-total">৳{{ number_format($totalAmount, 2) }}</span></strong>
                                                 </td>
                                             </tr>
                                         </tbody>
