@@ -1,6 +1,13 @@
 @php
     use App\Models\WebsiteSetting;
     $website_setting = WebsiteSetting::first();
+
+    $carts = session()->get('cart', []);
+    $itemCount = 0;
+
+    foreach ($carts as $item) {
+        $itemCount += $item['quantity'];
+    }
 @endphp
 
 <div class="header_middle">
@@ -46,53 +53,28 @@
                 <div class="mini_cart_box_wrapper text-right">
                     <a href="#">
                         <img src="{{ asset('frontend') }}/assets/img/icon/cart.png" alt="Mini Cart Icon">
-                        <span class="cart_count">02</span>
+                        <span class="cart_count">{{ $itemCount }}</span>
                     </a>
-                    <ul class="mini_cart_box">
-                        <li class="single_product_cart">
-                            <div class="cart_img">
-                                <a href="product-details.html"><img
-                                        src="{{ asset('frontend') }}/assets/img/product/pro_sm_1.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="cart_title">
-                                <h5><a href="product-details.html"> Soffer Pro x33</a></h5>
-                                <h6><a href="#">Black</a></h6>
-                                <span>৳95.00 x 1</span>
-                            </div>
-                            <div class="cart_delete">
-                                <a href="#"><i class="zmdi zmdi-delete"></i></a>
-                            </div>
-                        </li>
-                        <li class="single_product_cart">
-                            <div class="cart_img">
-                                <a href="product-details.html"><img
-                                        src="{{ asset('frontend') }}/assets/img/product/pro_sm_2.png"
-                                        alt=""></a>
-                            </div>
-                            <div class="cart_title">
-                                <h5><a href="product-details.html"> Lotafaj una khdii</a></h5>
-                                <h6><a href="#">Black</a></h6>
-                                <span>৳85.00 x 1</span>
-                            </div>
-                            <div class="cart_delete">
-                                <a href="#"><i class="zmdi zmdi-delete"></i></a>
-                            </div>
-                        </li>
+                    @unless(request()->routeIs('cart.page'))
+                    <ul class="mini_cart_box" id="mini-cart-container">
+                        @php
+                            $cart = session()->get('cart', []);
+                            $subtotal = 0;
+                            foreach ($cart as $item) {
+                                $subtotal += $item['price'] * $item['quantity'];
+                            }
+                        @endphp
 
-                        <li class="cart_space">
-                            <div class="cart_sub">
-                                <h4>Subtotal</h4>
-                            </div>
-                            <div class="cart_price">
-                                <h4>৳180.00</h4>
-                            </div>
-                        </li>
-                        <li class="cart_btn_wrapper">
-                            <a class="cart_btn" href="{{ route('cart.page') }}">view cart</a>
-                            <a class="cart_btn " href="checkout.html">checkout</a>
-                        </li>
+                        @if (count($cart) > 0)
+                            @include('website.layouts.pages.cart.partials.mini-cart-items', [
+                                'cartItems' => $cart,
+                                'subtotal' => $subtotal,
+                            ])
+                        @else
+                            <li class="text-center py-3">Your cart is empty</li>
+                        @endif
                     </ul>
+                    @endunless
                 </div>
             </div>
         </div>

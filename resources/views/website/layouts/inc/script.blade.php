@@ -1,5 +1,5 @@
     <!-- all js here -->
-<script src="{{ asset('frontend') }}/assets/js/jquery-3.6.1.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/jquery-3.6.1.min.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/vendor/jquery-1.12.0.min.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/popper.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/bootstrap.min.js"></script>

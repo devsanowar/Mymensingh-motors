@@ -5,10 +5,10 @@
 
     $website_setting = WebsiteSetting::first();
 
-    $cart = session()->get('cart', []);
+    $carts = session()->get('cart', []);
     $itemCount = 0;
 
-    foreach ($cart as $item) {
+    foreach ($carts as $item) {
         $itemCount += $item['quantity'];
     }
 
