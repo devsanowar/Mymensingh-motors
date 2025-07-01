@@ -76,14 +76,24 @@
                                                         src="{{ asset($product->thumbnail) }}"
                                                         alt=""></a>
                                             </div>
+                                            <form class="add-to-cart-form">
                                             <div class="product_hover">
-                                                <div class="product_action">
+                                                {{-- <div class="product_action">
                                                     <a href="#" title="Add To Cart"><i
                                                             class="zmdi zmdi-shopping-cart-plus"></i>
                                                         Add
                                                         To Cart</a>
+                                                </div> --}}
+                                                <div class="product_action">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                        <input type="hidden" name="order_qty" value="1">
+                                                        <button type="submit" class="btn zmdi zmdi-shopping-cart-plus buy-btn">Add To Cart
+                                                            <span class="spinner-border spinner-border-sm d-none"></span>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
