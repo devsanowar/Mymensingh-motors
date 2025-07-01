@@ -90,7 +90,7 @@ class FrontendController extends Controller
         $products = Product::where('is_active', 1)
             ->latest()
             ->select(['id', 'category_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail'])
-            ->paginate(12);
+            ->paginate(9);
 
         if ($request->ajax()) {
             return view('website.layouts.pages.product.partials.products', compact('products'))->render();
