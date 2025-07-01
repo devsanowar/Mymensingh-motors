@@ -194,6 +194,9 @@ class CartController extends Controller
         return response()->json(['success' => false]);
     }
 
+
+    
+
     public function removeFromMiniCart(Request $request)
     {
         $cart = session()->get('cart', []);

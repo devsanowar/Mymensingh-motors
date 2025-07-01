@@ -78,7 +78,7 @@
                     <div class="col-md-8 col-12">
                         <div class="cart-buttons mb-30">
                             <input type="submit" value="Update Cart" />
-                            <a href="#">Continue Shopping</a>
+                            <a href="{{ route('shop_page') }}">Continue Shopping</a>
                         </div>
                         <div class="cart-coupon mb-40">
                             <h4>Coupon</h4>
@@ -126,7 +126,7 @@
                 </div>
             </div>
         </form>
-    </div> 
+    </div>
     <!-- PAGE SECTION END -->
 @endsection
 
@@ -156,7 +156,6 @@
                     console.log('Response:', response);
 
                     if (response.success) {
-
                         // Remove commas before parsing to float
                         let subtotal = parseFloat(response.subtotal.replace(/,/g, '')) || 0;
                         let totalAmount = parseFloat(response.totalAmount.replace(/,/g, '')) || 0;
@@ -172,8 +171,9 @@
                         $('.amount.cart-subtotal').text('৳' + totalAmount.toFixed(2));
                         $('.amount.cart-total').text('৳' + totalAmount.toFixed(2));
 
-                        // Update cart item count
-                        $('#cart-count').text(response.itemCount);
+                        // Update ALL cart item count elements
+                        $('#cart-count, .cart_count').text(response
+                        .itemCount); // এই লাইনটি পরিবর্তন করুন
 
                         // Toastr success notification (optional)
                         toastr.success('Cart updated successfully!', 'Success', {
