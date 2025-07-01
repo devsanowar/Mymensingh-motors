@@ -103,7 +103,10 @@ class FrontendController extends Controller
             ->orderBy('position')
             ->get();
 
-        $brands = Brand::with('products')->get(['id', 'brand_name']);
+        $brands = Brand::select(['id', 'brand_name'])
+            ->withCount('products')
+            ->where('is_active', 1)
+            ->get();
 
         return view('website.shop', compact('products', 'categories', 'brands', 'pageTitle'));
     }

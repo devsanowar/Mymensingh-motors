@@ -22,14 +22,13 @@
             </div>
             <div class="widget_brand">
                 <ul>
-                    <li><a href="#">Yamaha</a></li>
-                    <li><a href="#">Hero</a></li>
-                    <li><a href="#">Kawasaki</a></li>
-                    <li><a href="#">Suzuki</a></li>
-                    <li><a href="#">Fz</a></li>
-                    <li><a href="#">Discover</a></li>
-                    <li><a href="#">Hunk</a></li>
-                    <li><a href="#">Ducati</a></li>
+                    @forelse ($brands as $brand)
+                        <li><a href="#">{{ $brand->brand_name }} <span class="caet_count"> ( {{ $brand->products_count }} )</span></a></li>
+                    @empty
+                        
+                    @endforelse
+                    
+                    
                 </ul>
             </div>
         </div>
