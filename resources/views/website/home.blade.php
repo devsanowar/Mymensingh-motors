@@ -60,7 +60,7 @@
             let form = $(this);
             let formData = form.serialize();
 
-            let button = form.find('.product-add-to-cart-btn');
+            let button = form.find('.buy-btn');
             let spinner = button.find('.spinner-border');
 
             button.prop('disabled', true);

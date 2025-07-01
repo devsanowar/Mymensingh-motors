@@ -58,7 +58,7 @@
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $featured_product->id }}">
                             <input type="hidden" name="order_qty" value="1">
-                            <button type="submit" class="product-add-to-cart-btn">Add To Cart
+                            <button type="submit" class="btn product-add-to-cart-btn buy-btn">Add To Cart
                                 <span class="spinner-border spinner-border-sm d-none"></span>
                             </button>
                         </div>

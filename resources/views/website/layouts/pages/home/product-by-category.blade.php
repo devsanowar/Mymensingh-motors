@@ -77,11 +77,20 @@
                                                                 class="current_price">৳{{ number_format($product->regular_price, 2) }}</span>
                                                         @endif
                                                     </div>
-                                                    <div class="single-product-card_action">
-                                                        <a href="#" title="Add To Cart">
-                                                            <i class="zmdi zmdi-shopping-cart-plus"></i> Add To Cart
-                                                        </a>
-                                                    </div>
+                                                    <form class="add-to-cart-form">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id"
+                                                            value="{{ $product->id }}">
+                                                        <input type="hidden" name="order_qty" value="1">
+                                                        <div class="single-product-card_action">
+                                                            <button href="#" title="Add To Cart" class="btn btn-sm buy-btn">
+                                                                <i class="zmdi zmdi-shopping-cart-plus"></i> Add To Cart
+                                                                <span
+                                                                    class="spinner-border spinner-border-sm d-none"></span>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -165,13 +174,15 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-12">
-                        <div class="single_banner long_hot_detals d-lg-none">
-                            <a href="#"><img src="{{ asset('frontend') }}/assets/img/banner/banner_tab_1.jpg" alt="Shop Banner"></a>
-                        </div>
-                        <div class="single_banner long_hot_detals d-none d-lg-block">
-                            <a href="#"><img src="{{ asset('frontend') }}/assets/img/bike/bike-longg.jpg" height="744px" alt="Shop Banner"></a>
-                        </div>
+                    <div class="single_banner long_hot_detals d-lg-none">
+                        <a href="#"><img src="{{ asset('frontend') }}/assets/img/banner/banner_tab_1.jpg"
+                                alt="Shop Banner"></a>
                     </div>
+                    <div class="single_banner long_hot_detals d-none d-lg-block">
+                        <a href="#"><img src="{{ asset('frontend') }}/assets/img/bike/bike-longg.jpg"
+                                height="744px" alt="Shop Banner"></a>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- container ends -->
