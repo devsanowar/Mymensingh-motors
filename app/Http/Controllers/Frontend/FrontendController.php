@@ -96,7 +96,13 @@ class FrontendController extends Controller
             return view('website.layouts.pages.product.partials.products', compact('products'))->render();
         }
 
-        $categories = Category::where('is_active', 1)->get(['id', 'category_name', 'category_slug']);
+        $categories = Category::select('id', 'category_name', 'category_slug')
+            ->withCount('products')
+            ->where('category_name', '!=', 'default')
+            ->where('is_active', true)
+            ->orderBy('position')
+            ->get();
+
         $brands = Brand::with('products')->get(['id', 'brand_name']);
 
         return view('website.shop', compact('products', 'categories', 'brands', 'pageTitle'));

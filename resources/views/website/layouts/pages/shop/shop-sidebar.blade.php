@@ -7,13 +7,11 @@
             </div>
             <div class="widget_categories">
                 <ul>
-                    <li><a href="#">Adventure Tourers <span class="caet_count">(6)</span></a></li>
-                    <li><a href="#">Learner LAMS <span class="caet_count">(8)</span></a></li>
-                    <li><a href="#"> Minibikes<span class="caet_count">(7)</span></a></li>
-                    <li><a href="#"> Naked<span class="caet_count">(10)</span></a></li>
-                    <li><a href="#">Competition<span class="caet_count">(5)</span></a></li>
-                    <li><a href="#">Trail<span class="caet_count">(12)</span></a></li>
-                    <li><a href="#">Scooters<span class="caet_count">(15)</span></a></li>
+                    @forelse ($categories as $category)
+                        <li><a href="#"> {{ $category->category_name }}<span class="caet_count">( {{ $category->products_count }} )</span></a></li>
+                    @empty
+                        
+                    @endforelse 
                 </ul>
             </div>
         </div>
