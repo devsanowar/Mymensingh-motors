@@ -89,7 +89,7 @@
                             </div>
                         </li>
                         <li class="cart_btn_wrapper">
-                            <a class="cart_btn" href="cart.html">view cart</a>
+                            <a class="cart_btn" href="{{ route('cart.page') }}">view cart</a>
                             <a class="cart_btn " href="checkout.html">checkout</a>
                         </li>
                     </ul>

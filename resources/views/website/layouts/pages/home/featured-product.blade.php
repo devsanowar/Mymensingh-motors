@@ -13,32 +13,38 @@
 
             @forelse ($featured_products as $featured_product)
                 <div class="product-card">
-                    <img src="{{ asset($featured_product->thumbnail) }}" alt="product_thumbnail">
+                    <a href="{{ route('product_single.page', $featured_product->id) }}">
+                        <img src="{{ asset($featured_product->thumbnail) }}" alt="product_thumbnail">
+                    </a>
                     {{-- <div class="price">
                         <span>৳{{ $featured_product->regular_price }}</span>
                     </div> --}}
-                   
+
                     <div class="pro-price mb-2">
                         {{-- <span>BDT:{{ number_format($product->regular_price, 2) }}</span> --}}
                         @if ($featured_product->discount_price && $featured_product->discount_type === 'flat')
                             @php
-                                $product_discount_price = $featured_product->regular_price - $featured_product->discount_price;
+                                $product_discount_price =
+                                    $featured_product->regular_price - $featured_product->discount_price;
                             @endphp
-                            <span class="price"> ৳{{ number_format($product_discount_price, 2) }}</span> 
+                            <span class="price"> ৳{{ number_format($product_discount_price, 2) }}</span>
                             <span class="old-price"> ৳{{ number_format($featured_product->regular_price, 2) }}</span>
                         @elseif ($featured_product->discount_price && $featured_product->discount_type === 'percent')
                             @php
-                                $discount_amount = ($featured_product->regular_price * $featured_product->discount_price) / 100;
+                                $discount_amount =
+                                    ($featured_product->regular_price * $featured_product->discount_price) / 100;
                                 $product_discount_price = $featured_product->regular_price - $discount_amount;
                             @endphp
-                            <span> ৳{{ number_format($product_discount_price, 2) }}</span> 
+                            <span> ৳{{ number_format($product_discount_price, 2) }}</span>
                             <span class="old-price"> ৳{{ number_format($featured_product->regular_price, 2) }}</span>
                         @else
                             <span> ৳{{ number_format($featured_product->regular_price, 2) }}</span>
                         @endif
                     </div>
 
-                     <div class="card-title">{{ $featured_product->product_name }}</div>
+                    <div class="card-title"><a
+                            href="{{ route('product_single.page', $featured_product->id) }}">{{ $featured_product->product_name }}</a>
+                    </div>
 
                     <div class="rating">
                         <span><i class="fa-solid fa-star"></i></span>
@@ -47,9 +53,18 @@
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-regular fa-star"></i></span>
                     </div>
+                    <form class="add-to-cart-form">
                     <div class="product-overlay-add-to-cart">
-                        <a href="#" class="product-add-to-cart-btn">Add To Cart</a>
-                    </div>
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $featured_product->id }}">
+                            <input type="hidden" name="order_qty" value="1">
+                            <button type="submit" class="product-add-to-cart-btn">Add To Cart
+                                <span class="spinner-border spinner-border-sm d-none"></span>
+                            </button>
+                        </div>
+                    </form>
+
+
                 </div>
             @empty
                 <p style="text-align: center">Featured Product Not Found!</p>
