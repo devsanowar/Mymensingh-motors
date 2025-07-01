@@ -21,11 +21,11 @@
                         @forelse ($bestSellings as $bestSelling)
                             <div class="single__product_sm mb-30">
                                 <div class="produc_thumb">
-                                    <a href="product-details.html"><img src="{{ asset($bestSelling->thumbnail) }}"
+                                    <a href="{{ route('product_single.page', $bestSelling->id) }}"><img src="{{ asset($bestSelling->thumbnail) }}"
                                             alt=""></a>
                                 </div>
                                 <div class="product__desc">
-                                    <h3><a href="product-details.html">{{ $bestSelling->product_name }}</a></h3>
+                                    <h3><a href="{{ route('product_single.page', $bestSelling->id) }}">{{ $bestSelling->product_name }}</a></h3>
                                     <div class="product_ratting">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -69,7 +69,7 @@
                         @endforelse
 
                     </div>
-                    <div class="best_selling_single">
+                    {{-- <div class="best_selling_single">
                         <div class="single__product_sm mb-30">
                             <div class="produc_thumb">
                                 <a href="product-details.html"><img
@@ -139,8 +139,8 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="best_selling_single">
+                    </div> --}}
+                    {{-- <div class="best_selling_single">
                         <div class="single__product_sm mb-30">
                             <div class="produc_thumb">
                                 <a href="product-details.html"><img
@@ -210,7 +210,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

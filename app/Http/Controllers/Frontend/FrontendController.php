@@ -99,7 +99,7 @@ class FrontendController extends Controller
         $categories = Category::where('is_active', 1)->get(['id', 'category_name', 'category_slug']);
         $brands = Brand::with('products')->get(['id', 'brand_name']);
 
-        return view('website.layouts.pages.product.shop-page', compact('products', 'categories', 'brands', 'pageTitle'));
+        return view('website.shop', compact('products', 'categories', 'brands', 'pageTitle'));
     }
 
     public function productSinglePage($id)

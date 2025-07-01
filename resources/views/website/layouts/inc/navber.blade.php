@@ -7,20 +7,7 @@
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
                             <li><a href="about-us.html">About</a></li>
-                            <li><a href="shop.html">Shop <i class="zmdi zmdi-chevron-down"></i></a>
-                                <ul class="sub_menu">
-                                    <li><a href="shop.html">Shop </a></li>
-                                    <li><a href="shop-list-right-sidebar.html">shop Right Sidebar</a></li>
-                                    <li><a href="shop-without-sidebar.html">shop without Sidebar</a></li>
-                                    <li><a href="product-details.html">Product Details </a></li>
-                                    <li><a href="product-details-sidebar.html">Product Details Sidebar </a>
-                                    </li>
-                                    <li><a href="checkout.html">Checkout </a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="{{ route('shop_page') }}">Shop</a></li>
                             <li><a href="{{ route('blog.page') }}">Blog</a></li>
                             <li><a href="contact-us.html">Contact </a></li>
                         </ul>
@@ -44,14 +31,7 @@
                             <ul>
                                 <li><a href="{{ route('home') }}">HOME </a> </li>
                                 <li><a href="about-us.html">About</a></li>
-                                <li><a href="shop.html">Shop</a>
-                                    <ul>
-                                        <li><a href="shop.html">Shop </a></li>
-                                        <li><a href="shop-list-right-sidebar.html">shop Right Sidebar</a>
-                                        </li>
-                                        <li><a href="shop-without-sidebar.html">shop without Sidebar</a>
-                                    </ul>
-                                </li>
+                                <li><a href="{{ route('shop_page') }}">Shop</a></li>
                                 <li><a href="{{ route('blog.page') }}">Blog</a> </li>
                                 <li><a href="contact-us.html">CONTACT </a></li>
                             </ul>
