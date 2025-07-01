@@ -12,12 +12,13 @@
                                 <div class="single-product-card">
                                     <span class="sale-new_badge">New</span>
                                     <div class="produc_thumb">
-                                        <a href="{{ route('product_single.page', $product->id) }}"><img src="{{ asset($product->thumbnail) }}"
-                                                alt=""></a>
+                                        <a href="{{ route('product_single.page', $product->id) }}"><img
+                                                src="{{ asset($product->thumbnail) }}" alt=""></a>
                                     </div>
                                     <div class="single-product-card_hover">
                                         <div class="single-product-card__desc">
-                                            <h3><a href="{{ route('product_single.page', $product->id) }}">{{ $product->product_name }}</a>
+                                            <h3><a
+                                                    href="{{ route('product_single.page', $product->id) }}">{{ $product->product_name }}</a>
                                             </h3>
                                             <div class="single-product-card-price_amount">
                                                 @if ($product->discount_price && $product->discount_type === 'flat')
@@ -46,11 +47,23 @@
                                                         class="current_price">৳{{ number_format($product->regular_price, 2) }}</span>
                                                 @endif
                                             </div>
-                                            <div class="single-product-card-shop">
+                                            {{-- <div class="single-product-card-shop">
                                                 <a href="#" title="Add To Cart"><i
                                                         class="zmdi zmdi-shopping-cart-plus"></i> Add To
                                                     Cart</a>
-                                            </div>
+                                            </div> --}}
+                                            <form class="add-to-cart-form">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                <input type="hidden" name="order_qty" value="1">
+                                                <div class="single-product-card_action">
+                                                    <button href="#" title="Add To Cart"
+                                                        class="btn btn-sm buy-btn">
+                                                        <i class="zmdi zmdi-shopping-cart-plus"></i> Add To Cart
+                                                        <span class="spinner-border spinner-border-sm d-none"></span>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -63,52 +76,57 @@
                 </div>
                 <div class="tab-pane fade" id="list_view" role="tabpanel">
                     <div class="row">
-                        
+
                         @forelse ($products as $product)
-                        <div class="col-12 mb-40">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="single_Product_list">
-                                        <div class="single__product">
-                                            <span class="pro_badge">New</span>
-                                            <div class="produc_thumb">
-                                                <a href="{{ route('product_single.page', $product->id) }}"><img
-                                                        src="{{ asset($product->thumbnail) }}"
-                                                        alt=""></a>
-                                            </div>
-                                            <form class="add-to-cart-form">
-                                            <div class="product_hover">
-                                                {{-- <div class="product_action">
+                            <div class="col-12 mb-40">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="single_Product_list">
+                                            <div class="single__product">
+                                                <span class="pro_badge">New</span>
+                                                <div class="produc_thumb">
+                                                    <a href="{{ route('product_single.page', $product->id) }}"><img
+                                                            src="{{ asset($product->thumbnail) }}" alt=""></a>
+                                                </div>
+                                                <form class="add-to-cart-form">
+                                                    <div class="product_hover">
+                                                        {{-- <div class="product_action">
                                                     <a href="#" title="Add To Cart"><i
                                                             class="zmdi zmdi-shopping-cart-plus"></i>
                                                         Add
                                                         To Cart</a>
                                                 </div> --}}
-                                                <div class="product_action">
-                                                        @csrf
-                                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                        <input type="hidden" name="order_qty" value="1">
-                                                        <button type="submit" class="btn zmdi zmdi-shopping-cart-plus buy-btn">Add To Cart
-                                                            <span class="spinner-border spinner-border-sm d-none"></span>
-                                                        </button>
+                                                        <div class="product_action">
+                                                            @csrf
+                                                            <input type="hidden" name="product_id"
+                                                                value="{{ $product->id }}">
+                                                            <input type="hidden" name="order_qty" value="1">
+                                                            <button type="submit"
+                                                                class="btn zmdi zmdi-shopping-cart-plus buy-btn">Add To
+                                                                Cart
+                                                                <span
+                                                                    class="spinner-border spinner-border-sm d-none"></span>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="product__desc">
-                                        <h3><a href="{{ route('product_single.page', $product->id) }}">{{ $product->product_name }}</a></h3>
-                                        <div class="product_rating">
-                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                            <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                        </div>
-                                        <div class="price_amount">
-                                            @if ($product->discount_price && $product->discount_type === 'flat')
+                                    <div class="col-lg-8">
+                                        <div class="product__desc">
+                                            <h3><a
+                                                    href="{{ route('product_single.page', $product->id) }}">{{ $product->product_name }}</a>
+                                            </h3>
+                                            <div class="product_rating">
+                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
+                                            </div>
+                                            <div class="price_amount">
+                                                @if ($product->discount_price && $product->discount_type === 'flat')
                                                     @php
                                                         $product_discount_price =
                                                             $product->regular_price - $product->discount_price;
@@ -126,42 +144,66 @@
                                                     @endphp
                                                     <span
                                                         class="current_price">৳{{ number_format($product_discount_price, 2) }}</span>
-                                                    <span class="discount_price">-{{ $product->discount_price }}%</span>
+                                                    <span
+                                                        class="discount_price">-{{ $product->discount_price }}%</span>
                                                     <span
                                                         class="old_price">৳{{ number_format($product->regular_price, 2) }}</span>
                                                 @else
                                                     <span
                                                         class="current_price">৳{{ number_format($product->regular_price, 2) }}</span>
                                                 @endif
+                                            </div>
+                                            <p>{!! $product->short_description !!}</p>
                                         </div>
-                                        <p>{!! $product->short_description !!}</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @empty
-                        <p>Product not found.</p>
+                            <p>Product not found.</p>
                         @endforelse
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row pagination_box mt-70">
-        <div class="col-12">
-            <div class="pagination">
-                <ul>
-                    <li><a href="#"><i class="zmdi zmdi-chevron-left"></i> prev</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li class="active">4</li>
-                    <li>..</li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">next<i class="zmdi zmdi-chevron-right"></i></a></li>
-                </ul>
+    <!-- In your view -->
+    @if ($products->hasPages())
+        <div class="row pagination_box mt-70">
+            <div class="col-12">
+                <div class="pagination">
+                    <ul>
+                        {{-- Previous Page Link --}}
+                        @if ($products->onFirstPage())
+                            <li class="disabled"><span><i class="zmdi zmdi-chevron-left"></i> prev</span></li>
+                        @else
+                            <li><a href="{{ $products->previousPageUrl() }}"><i class="zmdi zmdi-chevron-left"></i>
+                                    prev</a></li>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                            @if ($page == $products->currentPage())
+                                <li class="active"><span>{{ $page }}</span></li>
+                            @else
+                                @if ($page == 1 || $page == $products->lastPage() || abs($page - $products->currentPage()) <= 2)
+                                    <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                @elseif(abs($page - $products->currentPage()) == 3)
+                                    <li><span>..</span></li>
+                                @endif
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($products->hasMorePages())
+                            <li><a href="{{ $products->nextPageUrl() }}">next <i
+                                        class="zmdi zmdi-chevron-right"></i></a></li>
+                        @else
+                            <li class="disabled"><span>next <i class="zmdi zmdi-chevron-right"></i></span></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
+
 </div>
