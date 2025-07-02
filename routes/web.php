@@ -32,9 +32,7 @@ Route::get('/product-single-page/{id}', [FrontendController::class, 'productSing
 
 // Product filtering
 Route::get('/price-filter', [FrontendController::class, 'priceFilter'])->name('website.price.filter');
-Route::get('/category-filter-multi', [FrontendController::class, 'multiCategoryFilter'])->name('category_product.filter.multi');
-Route::get('/brand-filter-multi', [FrontendController::class, 'multiBrandFilter'])->name('brand_product.filter.multi');
-Route::get('/get-category-products/{id}', [FrontendController::class, 'getCategoryProducts'])->name('get_category.products');
+
 
 
 Route::get('/shoping-cart', [CartController::class, 'cartPage'])->name('cart.page');

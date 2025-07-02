@@ -46,14 +46,30 @@
 
         <div class="sidebar_widget mb-50">
             <div class="widget_title">
-                <h3>Price</h3>
+                <h3>Filter by Price</h3>
             </div>
-            <div class="widget_price">
-                <div class="sidebar-price">
-                    <div id="price-range"></div>
-                    <input type="text" id="price-amount" readonly>
+
+            <form id="price-filter-form">
+                <div class="custom--range">
+                    <div id="slider-range" class="custom--range__range"></div>
+                    <div class="custom--range__content d-flex flex-wrap justify-content-betwwen">
+
+                        <input type="text" id="selected-price-range" class="custom--range__prices" id="amount"
+                            readonly />
+                        <!-- Hidden fields for real values -->
+                        <input type="hidden" id="filter-min-price" name="min_price">
+                        <input type="hidden" id="filter-max-price" name="max_price">
+                    </div>
                 </div>
-            </div>
+            </form>
+
+        </div>
+
+        <div class="sidebar-item widget_list widget_filter">
+            <h5 class="sidebar-item__title">Filter by Price</h5>
+
+
+
         </div>
 
     </div>

@@ -116,33 +116,51 @@ class FrontendController extends Controller
     public function shopPage(Request $request)
     {
         $pageTitle = 'Shop';
-
         $perPage = $request->get('per_page', 3);
 
-        $productsQuery = Product::where('is_active', 1);
+        $productsQuery = Product::query()->where('is_active', 1);
 
-        if ($request->has('category')) {
+
+        if ($request->filled('brand')) {
+            $productsQuery->where('brand_id', $request->brand);
+        }
+
+
+        if ($request->filled('category')) {
             $productsQuery->where('category_id', $request->category);
         }
 
 
-        if ($request->has('brand')) {
-            $productsQuery->where('brand_id', $request->brand);
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $min = (float) $request->min_price;
+            $max = (float) $request->max_price;
+
+            $productsQuery
+                ->selectRaw(
+                    'products.*,
+            CASE
+                WHEN discount_price > 0 AND discount_type = "percent"
+                    THEN regular_price - (regular_price * discount_price / 100)
+                WHEN discount_price > 0 AND discount_type = "flat"
+                    THEN regular_price - discount_price
+                ELSE regular_price
+            END AS final_price
+        ',
+                )
+                ->havingRaw('final_price BETWEEN ? AND ?', [$min, $max]);
+        } else {
+            $productsQuery->select(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail']);
         }
 
-        $productsQuery->latest();
 
-        $products = $productsQuery
-            ->select(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail'])
-            ->paginate($perPage)
-            ->appends($request->query());
+        $products = $productsQuery->paginate($perPage)->withQueryString();
 
-        $categories = Category::select('id', 'category_name', 'category_slug')->withCount('products')->where('category_name', '!=', 'default')->where('is_active', true)->orderBy('position')->get();
+        $categories = Category::withCount('products')->where('is_active', true)->get();
+        $brands = Brand::withCount('products')->where('is_active', true)->get();
 
-        $brands = Brand::select(['id', 'brand_name'])
-            ->withCount('products')
-            ->where('is_active', 1)
-            ->get();
+        if ($request->ajax()) {
+            return view('website.layouts.pages.shop.partials.product_filter_by_price', compact('products'))->render();
+        }
 
         return view('website.shop', compact('products', 'categories', 'brands', 'pageTitle'));
     }
@@ -177,7 +195,6 @@ class FrontendController extends Controller
                         $final_price = $product->regular_price - $product->discount_price;
                     }
 
-                    // যদি ডিসকাউন্ট করার পরেও ফাইনাল প্রাইস রেগুলার প্রাইসের চেয়ে কম হয়, তাহলেই ডিসকাউন্ট ধরবো
                     $has_discount = $final_price < $product->regular_price;
                 }
 
@@ -198,111 +215,35 @@ class FrontendController extends Controller
         return response()->json(['suggestions' => []]);
     }
 
-    public function priceFilter(Request $request)
-    {
-        $min = (float) $request->min_price;
-        $max = (float) $request->max_price;
+    // public function priceFilter(Request $request)
+    // {
+    //     $min = (float) $request->min_price;
+    //     $max = (float) $request->max_price;
 
-        $products = Product::all()->filter(function ($product) use ($min, $max) {
-            // Default price is regular
-            $final_price = $product->regular_price;
+    //     $products = Product::all()->filter(function ($product) use ($min, $max) {
+    //         // Default price is regular
+    //         $final_price = $product->regular_price;
 
-            // Calculate final price based on discount type
-            if ($product->discount_price > 0) {
-                if ($product->discount_type === 'percent') {
-                    $final_price = $product->regular_price - ($product->regular_price * $product->discount_price) / 100;
-                } elseif ($product->discount_type === 'flat') {
-                    $final_price = $product->regular_price - $product->discount_price;
-                }
-            }
+    //         // Calculate final price based on discount type
+    //         if ($product->discount_price > 0) {
+    //             if ($product->discount_type === 'percent') {
+    //                 $final_price = $product->regular_price - ($product->regular_price * $product->discount_price) / 100;
+    //             } elseif ($product->discount_type === 'flat') {
+    //                 $final_price = $product->regular_price - $product->discount_price;
+    //             }
+    //         }
 
-            // Filter by final calculated price
-            return $final_price >= $min && $final_price <= $max;
-        });
+    //         // Filter by final calculated price
+    //         return $final_price >= $min && $final_price <= $max;
+    //     });
 
-        $html = '';
-        foreach ($products as $product) {
-            $html .= view('website.layouts.partials.product_shop', compact('product'))->render();
-        }
+    //     $html = '';
+    //     foreach ($products as $product) {
+    //         $html .= view('website.layouts.partials.product_shop', compact('product'))->render();
+    //     }
 
-        return $html;
-    }
-
-    // Categorywise product filter
-    public function multiCategoryFilter(Request $request)
-    {
-        // Get the category_ids from the request, default to empty array if not present
-        $categoryIds = $request->input('category_ids', []);
-
-        // If no categories are selected, fetch all products
-        if (empty($categoryIds)) {
-            $products = Product::all(); // This will return all products
-        } else {
-            // If categories are selected, filter products by selected categories
-            $products = Product::whereIn('category_id', $categoryIds)->get();
-        }
-
-        $html = '';
-        foreach ($products as $product) {
-            $final_price = $product->regular_price;
-
-            // Apply discount if available
-            if ($product->discount_price > 0) {
-                if ($product->discount_type === 'percent') {
-                    $final_price = $product->regular_price - ($product->regular_price * $product->discount_price) / 100;
-                } elseif ($product->discount_type === 'flat') {
-                    $final_price = $product->regular_price - $product->discount_price;
-                }
-            }
-
-            // Append the rendered HTML for each product
-            $html .= view('website.layouts.partials.product_search_by_category', compact('product', 'final_price'))->render();
-        }
-
-        return response()->json(['html' => $html]);
-    }
-
-    // Product filter by brand
-
-    public function multiBrandFilter(Request $request)
-    {
-        // Get the category_ids from the request, default to empty array if not present
-        $brandIds = $request->input('brand_ids', []);
-
-        // If no categories are selected, fetch all products
-        if (empty($brandIds)) {
-            $products = Product::all(); // This will return all products
-        } else {
-            // If categories are selected, filter products by selected categories
-            $products = Product::whereIn('brand_id', $brandIds)->get();
-        }
-
-        $html = '';
-        foreach ($products as $product) {
-            $final_price = $product->regular_price;
-
-            // Apply discount if available
-            if ($product->discount_price > 0) {
-                if ($product->discount_type === 'percent') {
-                    $final_price = $product->regular_price - ($product->regular_price * $product->discount_price) / 100;
-                } elseif ($product->discount_type === 'flat') {
-                    $final_price = $product->regular_price - $product->discount_price;
-                }
-            }
-
-            // Append the rendered HTML for each product
-            $html .= view('website.layouts.partials.product_search_by_brand', compact('product', 'final_price'))->render();
-        }
-
-        return response()->json(['html' => $html]);
-    }
-
-    public function getCategoryProducts($id)
-    {
-        $pageTitle = 'Product Page';
-        $category = Category::with('products')->findOrFail($id);
-        return view('website.layouts.partials.get_category_products', compact('category', 'pageTitle'));
-    }
+    //     return $html;
+    // }
 
     public function termsAndCondtion()
     {

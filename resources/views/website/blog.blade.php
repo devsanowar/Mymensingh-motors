@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-8 col-12">
-                    @include('website.layouts.blog_left_sidebar')
+                    @include('website.layouts.pages.blog.blog_left_sidebar')
                 </div>
                 <div class="col-lg-8 col-md-12 col-12 blog_details_content">
                     <div class="row" id="category-posts">
