@@ -132,36 +132,16 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $removedItem = $cart[$id];
             unset($cart[$id]);
             session()->put('cart', $cart);
-
-            // Calculate new totals
-            $totalItems = 0;
-            $newTotal = 0;
-
-            foreach ($cart as $item) {
-                $totalItems += $item['quantity'];
-                $newTotal += $item['price'] * $item['quantity'];
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Product removed from cart successfully!',
-                'cart_count' => $totalItems, // Total items count
-                'new_total' => $newTotal,
-                'removed_quantity' => $removedItem['quantity'],
-            ]);
+            Toastr::success('Product removed from cart successfully!', 'Success');
+        } else {
+            Toastr::warning('Product not found in cart!', 'Warning');
         }
-
-        return response()->json(
-            [
-                'success' => false,
-                'message' => 'Product not found in cart!',
-            ],
-            404,
-        );
+        return back();
     }
+
+
 
     public function updateCart(Request $request)
     {
@@ -200,6 +180,9 @@ class CartController extends Controller
         return response()->json(['success' => false]);
     }
 
+
+    
+
     public function removeFromMiniCart(Request $request)
     {
         $cart = session()->get('cart', []);
@@ -232,4 +215,5 @@ class CartController extends Controller
             'subtotal' => number_format($subtotal, 2),
         ]);
     }
+    
 }

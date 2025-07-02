@@ -166,39 +166,36 @@
             </div>
         </div>
     </div>
-    <!-- In your view -->
     @if ($products->hasPages())
         <div class="row pagination_box mt-70">
             <div class="col-12">
                 <div class="pagination">
                     <ul>
-                        {{-- Previous Page Link --}}
+                        {{-- Previous --}}
                         @if ($products->onFirstPage())
-                            <li class="disabled"><span><i class="zmdi zmdi-chevron-left"></i> prev</span></li>
+                            <li class="disabled"><span><i class="zmdi zmdi-chevron-left"></i></span></li>
                         @else
-                            <li><a href="{{ $products->previousPageUrl() }}"><i class="zmdi zmdi-chevron-left"></i>
-                                    prev</a></li>
+                            <li><a href="{{ request()->fullUrlWithQuery(['page' => $products->currentPage() - 1]) }}"><i
+                                        class="zmdi zmdi-chevron-left"></i></a></li>
                         @endif
 
-                        {{-- Pagination Elements --}}
+                        {{-- Pages --}}
                         @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
                             @if ($page == $products->currentPage())
                                 <li class="active"><span>{{ $page }}</span></li>
                             @else
-                                @if ($page == 1 || $page == $products->lastPage() || abs($page - $products->currentPage()) <= 2)
-                                    <li><a href="{{ $url }}">{{ $page }}</a></li>
-                                @elseif(abs($page - $products->currentPage()) == 3)
-                                    <li><span>..</span></li>
-                                @endif
+                                <li><a
+                                        href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
+                                </li>
                             @endif
                         @endforeach
 
-                        {{-- Next Page Link --}}
+                        {{-- Next --}}
                         @if ($products->hasMorePages())
-                            <li><a href="{{ $products->nextPageUrl() }}">next <i
+                            <li><a href="{{ request()->fullUrlWithQuery(['page' => $products->currentPage() + 1]) }}"><i
                                         class="zmdi zmdi-chevron-right"></i></a></li>
                         @else
-                            <li class="disabled"><span>next <i class="zmdi zmdi-chevron-right"></i></span></li>
+                            <li class="disabled"><span><i class="zmdi zmdi-chevron-right"></i></span></li>
                         @endif
                     </ul>
                 </div>
@@ -206,4 +203,30 @@
         </div>
     @endif
 
+
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            // আইটেম পার পেজ সিলেক্টর চেঞ্জ ডিটেক্ট করুন
+            $('#itemsPerPage').change(function() {
+                var itemsPerPage = $(this).val();
+                updateUrlParameter('per_page', itemsPerPage);
+            });
+
+            // URL প্যারামিটার আপডেট করার ফাংশন
+            function updateUrlParameter(key, value) {
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                var searchParams = new URLSearchParams(url.search);
+
+                // বিদ্যমান প্যারামিটার আপডেট করুন বা নতুন যোগ করুন
+                searchParams.set(key, value);
+
+                // পেজ রিলোড করুন নতুন URL সহ
+                window.location.href = url.pathname + '?' + searchParams.toString();
+            }
+        });
+    </script>
+@endpush

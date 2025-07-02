@@ -8,10 +8,16 @@
     <script src="{{ asset('frontend') }}/assets/js/slider.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/main.js"></script>
 
+
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     {!! Toastr::message() !!}
 
 
 
+
     @stack('scripts')
+
+
+
+    

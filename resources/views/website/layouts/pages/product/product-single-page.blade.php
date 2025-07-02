@@ -370,6 +370,10 @@
 @endsection
 
 @push('scripts')
+
+    {{-- <script src="{{ asset('frontend') }}/assets/js/cart.js"></script> --}}
+
+    
     <script>
         $(document).ready(function() {
             var owl = $("#gallery_01");
@@ -394,185 +398,74 @@
     </script>
 
 
-    {{-- <script>
-        $(document).ready(function() {
-            $(document).on('click', '.plus', function() {
-                let input = $(this).closest('form').find('.cart-plus-minus-box');
-                let current = parseInt(input.val()) || 1;
-                input.val(current + 1);
-            });
+<script>
+    // Global flag to check if toastr is initialized
+    if (typeof toastrInitialized === 'undefined') {
+        var toastrInitialized = true;
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "timeOut": "1500",
+            "extendedTimeOut": "1000",
+            "preventDuplicates": true, // এই লাইনটি ডুপ্লিকেট মেসেজ প্রতিরোধ করবে
+            "newestOnTop": true
+        };
+    }
 
-            $(document).on('click', '.minus', function() {
-                let input = $(this).closest('form').find('.cart-plus-minus-box');
-                let current = parseInt(input.val()) || 1;
-                if (current > 1) {
-                    input.val(current - 1);
+    $(document).ready(function() {
+        // Quantity increment/decrement
+        $(document).on('click', '.plus', function() {
+            let input = $(this).closest('form').find('.cart-plus-minus-box');
+            input.val((i, val) => Math.max(1, (parseInt(val) || 1) + 1));
+        });
+
+        $(document).on('click', '.minus', function() {
+            let input = $(this).closest('form').find('.cart-plus-minus-box');
+            input.val((i, val) => Math.max(1, (parseInt(val) || 1) - 1));
+        });
+
+        $(document).on('click', '.btn-add-to-cart-link', function(e) {
+            e.preventDefault();
+            $(this).closest('form').submit();
+        });
+
+        // Add to cart with single event binding
+        var cartFormSubmitted = false;
+        $(document).off('submit.addToCart').on('submit.addToCart', '.add-to-cart-form', function(e) {
+            e.preventDefault();
+            
+            if (cartFormSubmitted) return;
+            cartFormSubmitted = true;
+            
+            let form = $(this);
+            let button = form.find('.buy-btn');
+            
+            button.prop('disabled', true)
+                 .find('.spinner-border').removeClass('d-none')
+                 .siblings('.btn-text').addClass('d-none');
+
+            $.ajax({
+                url: "{{ route('addToCart') }}",
+                method: "POST",
+                data: form.serialize(),
+                success: function(response) {
+                    toastr.success(response.message);
+                    updateCartUI(response);
+                },
+                error: function(xhr) {
+                    toastr.error(xhr.responseJSON?.message || 'Failed to add product.');
+                },
+                complete: function() {
+                    button.prop('disabled', false)
+                         .find('.spinner-border').addClass('d-none')
+                         .siblings('.btn-text').removeClass('d-none');
+                    cartFormSubmitted = false;
                 }
             });
-
-            $(document).on('click', '.btn-add-to-cart-link', function(e) {
-                e.preventDefault();
-                $(this).closest('form').submit();
-            });
-
-            $(document).on('submit', '.add-to-cart-form', function(e) {
-                e.preventDefault();
-
-                let form = $(this);
-                let formData = form.serialize();
-
-                let button = form.find('.btn-add-to-cart-link');
-                button.text('Adding...');
-
-                $.ajax({
-                    url: "{{ route('addToCart') }}",
-                    method: "POST",
-                    data: formData,
-                    success: function(response) {
-                        toastr.success(response.message, 'Success', {
-                            timeOut: 1500
-                        });
-                        $('#cart-count').text(response.itemCount);
-                        $('.cart-count').text(response.itemCount);
-                        button.text('Add to cart');
-                    },
-                    error: function() {
-                        toastr.error('Failed to add product.', 'Error', {
-                            timeOut: 2000
-                        });
-                        button.text('Add to cart');
-                    }
-                });
-            });
         });
-    </script> --}}
 
-
-
-    <script>
-        $(document).ready(function() {
-            // Qty increment and decrement cart item
-            $(document).on('click', '.plus', function() {
-                let input = $(this).closest('form').find('.cart-plus-minus-box');
-                let current = parseInt(input.val()) || 1;
-                input.val(current + 1);
-            });
-
-            $(document).on('click', '.minus', function() {
-                let input = $(this).closest('form').find('.cart-plus-minus-box');
-                let current = parseInt(input.val()) || 1;
-                if (current > 1) {
-                    input.val(current - 1);
-                }
-            });
-
-            $(document).on('click', '.btn-add-to-cart-link', function(e) {
-                e.preventDefault();
-                $(this).closest('form').submit();
-            });
-
-            // End increment and decrement cart item
-
-            $(document).on('submit', '.add-to-cart-form', function(e) {
-                e.preventDefault();
-
-                let form = $(this);
-                let formData = form.serialize();
-                let button = form.find('.buy-btn');
-                let spinner = button.find('.spinner-border');
-
-                button.prop('disabled', true);
-                spinner.removeClass('d-none');
-                button.find('.btn-text').addClass('d-none');
-
-                $.ajax({
-                    url: "{{ route('addToCart') }}",
-                    method: "POST",
-                    data: formData,
-                    success: function(response) {
-                        toastr.success(response.message, '', {
-                            timeOut: 1500,
-                            positionClass: 'toast-bottom-right'
-                        });
-
-                        // Update all cart count elements
-                        $('.cart_count').text(response.itemCount);
-                        $('#cart-count').text(response.itemCount);
-
-                        // Update mini cart
-                        $('#mini-cart-container').html(response.mini_cart_html);
-
-                        // Update subtotal if displayed elsewhere
-                        if (response.subtotal) {
-                            $('.cart-subtotal-amount').text('৳' + response.subtotal);
-                        }
-                    },
-                    error: function(xhr) {
-                        let errorMessage = xhr.responseJSON?.message ||
-                        'Failed to add product.';
-                        toastr.error(errorMessage, '', {
-                            timeOut: 2000,
-                            positionClass: 'toast-bottom-right'
-                        });
-                    },
-                    complete: function() {
-                        // Reset button state
-                        button.prop('disabled', false);
-                        spinner.addClass('d-none');
-                        button.find('.btn-text').removeClass('d-none');
-                    }
-                });
-            });
-
-            // Remove from cart functionality remains the same
-            $(document).on('click', '.remove-from-cart', function(e) {
-                e.preventDefault();
-
-                let itemId = $(this).data('item-id');
-                let cartItem = $(this).closest('li');
-
-                // Set loading state
-                cartItem.css('opacity', '0.6');
-                $(this).html('<i class="zmdi zmdi-spinner zmdi-hc-spin"></i>');
-
-                $.ajax({
-                    url: "{{ route('removeFromCart') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        item_id: itemId
-                    },
-                    success: function(response) {
-                        toastr.success(response.message, '', {
-                            timeOut: 1500,
-                            positionClass: 'toast-bottom-right'
-                        });
-
-                        // Update all cart count elements
-                        $('.cart_count').text(response.itemCount);
-                        $('#cart-count').text(response.itemCount);
-
-                        // Update mini cart
-                        $('#mini-cart-container').html(response.mini_cart_html);
-
-                        // Update subtotal if displayed elsewhere
-                        if (response.subtotal) {
-                            $('.cart-subtotal-amount').text('৳' + response.subtotal);
-                        }
-                    },
-                    error: function(xhr) {
-                        toastr.error(
-                            xhr.responseJSON?.message || 'Failed to remove item',
-                            '', {
-                                timeOut: 2000,
-                                positionClass: 'toast-bottom-right'
-                            }
-                        );
-                        cartItem.css('opacity', '1');
-                        $(this).html('<i class="zmdi zmdi-delete"></i>');
-                    }
-                });
-            });
-        });
-    </script>
+        
+    });
+</script>
 @endpush

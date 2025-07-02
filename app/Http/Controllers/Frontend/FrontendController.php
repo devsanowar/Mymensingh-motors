@@ -50,7 +50,6 @@ class FrontendController extends Controller
             ->take(3)
             ->get();
 
-
         $brands = Brand::where('is_active', 1)->latest()->select('id', 'image')->get();
 
         $about = About::first();
@@ -64,12 +63,15 @@ class FrontendController extends Controller
             ->limit(8)
             ->get(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail']);
 
-        $categoriesWiseProducts = Category::where('category_slug', '!=', 'default')->with(['products' => function($q) {
-            $q->latest()->take(10);
-        }])->get();
+        $categoriesWiseProducts = Category::where('category_slug', '!=', 'default')
+            ->with([
+                'products' => function ($q) {
+                    $q->latest()->take(10);
+                },
+            ])
+            ->get();
 
         $allProducts = Product::latest()->take(6)->get();
-
 
         $achievements = Achievement::where('is_active', 1)
             ->latest()
@@ -84,24 +86,58 @@ class FrontendController extends Controller
         return view('website.home', compact(['sliders', 'categories', 'brands', 'achievements', 'reviews', 'about', 'featured_products', 'blogs', 'promobanners', 'social_icon', 'website_setting', 'cta', 'bestSellings', 'categoriesWiseProducts', 'allProducts']));
     }
 
+    // public function shopPage(Request $request)
+    // {
+    //     $pageTitle = 'Shop';
+    //     $products = Product::where('is_active', 1)
+    //         ->latest()
+    //         ->select(['id', 'category_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail'])
+    //         ->paginate(9);
+
+    //     if ($request->ajax()) {
+    //         return view('website.layouts.pages.product.partials.products', compact('products'))->render();
+    //     }
+
+    //     $categories = Category::select('id', 'category_name', 'category_slug')
+    //         ->withCount('products')
+    //         ->where('category_name', '!=', 'default')
+    //         ->where('is_active', true)
+    //         ->orderBy('position')
+    //         ->get();
+
+    //     $brands = Brand::select(['id', 'brand_name'])
+    //         ->withCount('products')
+    //         ->where('is_active', 1)
+    //         ->get();
+
+    //     return view('website.shop', compact('products', 'categories', 'brands', 'pageTitle'));
+    // }
+
     public function shopPage(Request $request)
     {
         $pageTitle = 'Shop';
-        $products = Product::where('is_active', 1)
-            ->latest()
-            ->select(['id', 'category_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail'])
-            ->paginate(9);
 
-        if ($request->ajax()) {
-            return view('website.layouts.pages.product.partials.products', compact('products'))->render();
+        $perPage = $request->get('per_page', 3);
+
+        $productsQuery = Product::where('is_active', 1);
+
+        if ($request->has('category')) {
+            $productsQuery->where('category_id', $request->category);
         }
 
-        $categories = Category::select('id', 'category_name', 'category_slug')
-            ->withCount('products')
-            ->where('category_name', '!=', 'default')
-            ->where('is_active', true)
-            ->orderBy('position')
-            ->get();
+
+        if ($request->has('brand')) {
+            $productsQuery->where('brand_id', $request->brand);
+        }
+
+        $productsQuery->latest();
+
+        $products = $productsQuery
+            ->select(['id', 'category_id', 'brand_id', 'product_name', 'product_slug', 'regular_price', 'discount_price', 'discount_type', 'thumbnail'])
+            ->paginate($perPage)
+            ->appends($request->query());
+
+        $categories = Category::select('id', 'category_name', 'category_slug')->withCount('products')->where('category_name', '!=', 'default')->where('is_active', true)->orderBy('position')->get();
 
         $brands = Brand::select(['id', 'brand_name'])
             ->withCount('products')

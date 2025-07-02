@@ -31,9 +31,9 @@
     <div class="mymensingh_wrapper">
 
 
-        <header>
+        
             @include('website.layouts.inc.header')
-        </header>
+
 
 
         @yield('website_content')

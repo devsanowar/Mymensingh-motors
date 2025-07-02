@@ -63,19 +63,21 @@
                                             <td class="pro-subtotal cart-price">
                                                 ৳{{ number_format($cartItem['price'] * $cartItem['quantity'], 2) }}</td>
 
-                                            {{-- <td class="pro-remove"><a href="{{ route('removefrom.cart', $productId) }}"
-                                                    onclick="return confirm('Are you sure?')">×</a></td> --}}
-                                            <td>
+                                            <td class="pro-remove">
+                                                <a id="show_confirm" href="{{ route('removefrom.cart', $productId) }}">×</a>
+                                            </td>
+                                            {{-- <td>
                                                 <a id="show_confirm" href="#" class="remove-from-cart"
                                                     data-item-id="{{ $productId }}">
                                                     <i class="zmdi zmdi-delete"></i>
                                                 </a>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @empty
                                         <tr>
                                             <td colspan="6" class="text-center">
-                                                <h4 style="font-size: 18px; font-weight:600; color:#ccc">Your cart is empty!</h4>
+                                                <h4 style="font-size: 18px; font-weight:600; color:#ccc">Your cart is empty!
+                                                </h4>
                                             </td>
                                         </tr>
                                     @endforelse
@@ -217,12 +219,11 @@
         // cart item remove from cart page
 
         $(document).ready(function() {
-            // Remove item from cart with SweetAlert confirmation
+            // Remove item from cart with SweetAlert confirmation and page reload
             $(document).on('click', '#show_confirm', function(e) {
                 e.preventDefault();
 
-                var itemId = $(this).data('item-id');
-                var $row = $(this).closest('tr');
+                var deleteUrl = $(this).attr('href');
                 var $this = $(this);
 
                 Swal.fire({
@@ -236,59 +237,27 @@
                     cancelButtonText: "Cancel"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/cart/remove/' + itemId,
-                            type: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    // Format numbers properly
-                                    function formatNumber(num) {
-                                        return '৳' + parseFloat(num).toFixed(2).replace(
-                                            /\d(?=(\d{3})+\.)/g, '$&,');
-                                    }
+                        // Submit the delete request via form
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = deleteUrl;
 
-                                    // Remove item row
-                                    $row.remove();
+                        // Add CSRF token
+                        var csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = '{{ csrf_token() }}';
+                        form.appendChild(csrfInput);
 
-                                    // Update cart subtotal and total
-                                    $('.amount.cart-subtotal').text(formatNumber(
-                                        response.new_total));
-                                    $('.amount.cart-total').text(formatNumber(response
-                                        .new_total));
+                        // Add method spoofing for DELETE
+                        var methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = '_method';
+                        methodInput.value = 'DELETE';
+                        form.appendChild(methodInput);
 
-                                    // Update cart count
-                                    $('.cart-count, .cart_count, #cart-count').text(
-                                        response.cart_count);
-
-                                    // Show success message
-                                    Swal.fire({
-                                        title: "Removed!",
-                                        text: response.message,
-                                        icon: "success",
-                                        timer: 1500,
-                                        showConfirmButton: false
-                                    });
-
-                                    // If cart is empty, show empty message
-                                    if (response.cart_count === 0) {
-                                        $('.cart-table tbody').append(
-                                            '<tr><td colspan="6" class="text-center" style="font-size: 18px; font-weight:600; color:#ccc">Your cart is empty</td></tr>'
-                                        );
-                                    }
-                                }
-                            },
-                            error: function(xhr) {
-                                Swal.fire({
-                                    title: "Error!",
-                                    text: xhr.responseJSON?.message ||
-                                        'Error removing item',
-                                    icon: "error"
-                                });
-                            }
-                        });
+                        document.body.appendChild(form);
+                        form.submit();
                     }
                 });
             });

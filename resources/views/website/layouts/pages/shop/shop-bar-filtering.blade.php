@@ -12,7 +12,7 @@
             </div>
 
             <!-- Product Showing -->
-            <div class="product-showing d-flex">
+            {{-- <div class="product-showing d-flex">
                 <p>Showing</p>
                 <select name="showing" class="nice-select">
                     <option value="1">8</option>
@@ -21,10 +21,21 @@
                     <option value="4">20</option>
                     <option value="5">24</option>
                 </select>
+            </div> --}}
+
+            <div class="product-showing d-flex align-items-center">
+                <p>প্রতি পৃষ্ঠায় দেখান:</p>
+                <select name="per_page" class="nice-select" id="itemsPerPage">
+                    <option value="9" {{ request('per_page', 9) == 9 ? 'selected' : '' }}>9</option>
+                    <option value="12" {{ request('per_page', 9) == 12 ? 'selected' : '' }}>12</option>
+                    <option value="15" {{ request('per_page', 9) == 15 ? 'selected' : '' }}>15</option>
+                    <option value="18" {{ request('per_page', 9) == 18 ? 'selected' : '' }}>18</option>
+                    <option value="21" {{ request('per_page', 9) == 21 ? 'selected' : '' }}>21</option>
+                </select>
             </div>
 
             <!-- Product Short -->
-            <div class="product-short d-flex">
+            {{-- <div class="product-short d-flex">
                 <p>Short by</p>
                 <select name="sortby" class="nice-select">
                     <option value="trending">Trending items</option>
@@ -34,7 +45,7 @@
                     <option value="price-asc">Price: low to high</option>
                     <option value="price-desc">Price: high to low</option>
                 </select>
-            </div>
+            </div> --}}
 
         </div>
         <!-- Product Pages -->
