@@ -75,7 +75,6 @@ class CartController extends Controller
         $product = Product::findOrFail($request->product_id);
         $qty = (int) $request->order_qty ?? 1;
 
-        // Determine final price based on discount
         $final_price = $product->regular_price;
 
         if ($product->discount_price > 0) {
@@ -89,11 +88,9 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$product->id])) {
-            // Product already exists in cart - update quantity
             $cart[$product->id]['quantity'] += $qty;
             $message = 'Product quantity updated in cart';
         } else {
-            // New product - add to cart
             $cart[$product->id] = [
                 'id' => $product->id,
                 'name' => $product->product_name,
@@ -134,28 +131,37 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        // Remove the item if it exists in the cart
         if (isset($cart[$id])) {
+            $removedItem = $cart[$id];
             unset($cart[$id]);
             session()->put('cart', $cart);
-            Toastr::success('Product removed from cart successfully!', 'Success');
-        } else {
-            Toastr::warning('Product not found in cart!', 'Warning');
+
+            // Calculate new totals
+            $totalItems = 0;
+            $newTotal = 0;
+
+            foreach ($cart as $item) {
+                $totalItems += $item['quantity'];
+                $newTotal += $item['price'] * $item['quantity'];
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product removed from cart successfully!',
+                'cart_count' => $totalItems, // Total items count
+                'new_total' => $newTotal,
+                'removed_quantity' => $removedItem['quantity'],
+            ]);
         }
-        return back();
+
+        return response()->json(
+            [
+                'success' => false,
+                'message' => 'Product not found in cart!',
+            ],
+            404,
+        );
     }
-
-    // public function cartUpdate(Request $request)
-    // {
-    //     // dd($request->all());
-    //     foreach ($request->quantities as $rowId => $qty) {
-    //         // Cart::update($rowId, $qty);
-    //     }
-
-    //     Toastr::success('Cart Successfully Updated!!');
-
-    //     return redirect()->back();
-    // }
 
     public function updateCart(Request $request)
     {
@@ -193,9 +199,6 @@ class CartController extends Controller
 
         return response()->json(['success' => false]);
     }
-
-
-    
 
     public function removeFromMiniCart(Request $request)
     {

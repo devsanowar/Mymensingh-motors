@@ -39,8 +39,10 @@ Route::get('/get-category-products/{id}', [FrontendController::class, 'getCatego
 
 Route::get('/shoping-cart', [CartController::class, 'cartPage'])->name('cart.page');
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
-Route::get('remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removefrom.cart');
+Route::post('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+
+
 // Remove cart from mini cart box
 Route::post('/remove-from-cart-item', [CartController::class, 'removeFromMiniCart'])->name('removeFromCart');
 

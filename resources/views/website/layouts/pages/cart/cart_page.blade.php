@@ -1,5 +1,8 @@
 @extends('website.layouts.app')
 @section('title', 'Cart Page')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/sweetalert2.min.css">
+@endpush
 @section('website_content')
     <!--Breadcrumb section-->
     <div class="breadcrumb_section">
@@ -60,13 +63,19 @@
                                             <td class="pro-subtotal cart-price">
                                                 ৳{{ number_format($cartItem['price'] * $cartItem['quantity'], 2) }}</td>
 
-                                            <td class="pro-remove"><a href="{{ route('removefrom.cart', $productId) }}"
-                                                    onclick="return confirm('Are you sure?')">×</a></td>
+                                            {{-- <td class="pro-remove"><a href="{{ route('removefrom.cart', $productId) }}"
+                                                    onclick="return confirm('Are you sure?')">×</a></td> --}}
+                                            <td>
+                                                <a id="show_confirm" href="#" class="remove-from-cart"
+                                                    data-item-id="{{ $productId }}">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
                                             <td colspan="6" class="text-center">
-                                                <h4>Your cart is empty!</h4>
+                                                <h4 style="font-size: 18px; font-weight:600; color:#ccc">Your cart is empty!</h4>
                                             </td>
                                         </tr>
                                     @endforelse
@@ -77,7 +86,7 @@
                     </div>
                     <div class="col-md-8 col-12">
                         <div class="cart-buttons mb-30">
-                            <input type="submit" value="Update Cart" />
+                            {{-- <input type="submit" value="Update Cart" /> --}}
                             <a href="{{ route('shop_page') }}">Continue Shopping</a>
                         </div>
                         <div class="cart-coupon mb-40">
@@ -131,7 +140,11 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
+
+
     <script>
+        // Quantity increment and decrement
         $(document).on('change', '.product-quantity input[type="number"]', function(e) {
             let $input = $(this);
             let $row = $input.closest('tr');
@@ -173,7 +186,7 @@
 
                         // Update ALL cart item count elements
                         $('#cart-count, .cart_count').text(response
-                        .itemCount); // এই লাইনটি পরিবর্তন করুন
+                            .itemCount); // এই লাইনটি পরিবর্তন করুন
 
                         // Toastr success notification (optional)
                         toastr.success('Cart updated successfully!', 'Success', {
@@ -197,6 +210,87 @@
                         progressBar: true
                     });
                 }
+            });
+        });
+
+
+        // cart item remove from cart page
+
+        $(document).ready(function() {
+            // Remove item from cart with SweetAlert confirmation
+            $(document).on('click', '#show_confirm', function(e) {
+                e.preventDefault();
+
+                var itemId = $(this).data('item-id');
+                var $row = $(this).closest('tr');
+                var $this = $(this);
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you want to remove this item from your cart?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, remove it!",
+                    cancelButtonText: "Cancel"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/cart/remove/' + itemId,
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    // Format numbers properly
+                                    function formatNumber(num) {
+                                        return '৳' + parseFloat(num).toFixed(2).replace(
+                                            /\d(?=(\d{3})+\.)/g, '$&,');
+                                    }
+
+                                    // Remove item row
+                                    $row.remove();
+
+                                    // Update cart subtotal and total
+                                    $('.amount.cart-subtotal').text(formatNumber(
+                                        response.new_total));
+                                    $('.amount.cart-total').text(formatNumber(response
+                                        .new_total));
+
+                                    // Update cart count
+                                    $('.cart-count, .cart_count, #cart-count').text(
+                                        response.cart_count);
+
+                                    // Show success message
+                                    Swal.fire({
+                                        title: "Removed!",
+                                        text: response.message,
+                                        icon: "success",
+                                        timer: 1500,
+                                        showConfirmButton: false
+                                    });
+
+                                    // If cart is empty, show empty message
+                                    if (response.cart_count === 0) {
+                                        $('.cart-table tbody').append(
+                                            '<tr><td colspan="6" class="text-center" style="font-size: 18px; font-weight:600; color:#ccc">Your cart is empty</td></tr>'
+                                        );
+                                    }
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: xhr.responseJSON?.message ||
+                                        'Error removing item',
+                                    icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>
