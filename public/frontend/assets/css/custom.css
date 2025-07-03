@@ -415,7 +415,7 @@ Css For search result
     padding: 12px 15px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     font-size: 16px;
     transition: all 0.3s ease;
 }
@@ -461,7 +461,7 @@ Css For search result
 .toggle-password {
 	position: absolute;
 	right: 1px;
-	top: 56%;
+	top: 70%;
 	transform: translateY(-50%);
 	cursor: pointer;
 	color: #95a5a6;
@@ -483,4 +483,92 @@ Css For search result
 .login_input input[type="text"] {
     padding-right: 40px;
     width: 100%;
+}
+
+.login-link a {
+	float: unset !important;
+} 
+
+
+/* User Profile Card */
+.user-profile-card {
+	background: #F2F4F8;
+	padding: 30px 20px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+	border: 1px solid #eee;
+}
+
+.user-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+    border: 3px solid var(--secondary-color);
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-info {
+    margin-top: 10px;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.user-phone {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.user-phone i {
+    color: var(--secondary-color);
+    margin-right: 5px;
+}
+
+/* Nav Tabs Styling */
+.dashboard_tab_button {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.nav.flex-column.dashboard-list {
+    gap: 5px;
+}
+
+.nav.flex-column.dashboard-list li a {
+    color: #555;
+    padding: 12px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.nav.flex-column.dashboard-list li a:hover, .nav.flex-column.dashboard-list li a.active {
+	background: var(--secondary-color);
+	color: #fff;
+}
+
+.nav.flex-column.dashboard-list li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
 }

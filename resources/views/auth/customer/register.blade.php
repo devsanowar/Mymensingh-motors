@@ -28,7 +28,8 @@
                         <h2>Customer Registration</h2>
                     </div>
                     <div class="login_form form_register ">
-                        <form action="#">
+                        <form action="{{ route('customer.register') }}" method="POST">
+                            @csrf
                             <div class="login_input">
                                 <label>Name <span>*</span></label>
                                 <input type="text" name="name" placeholder="Enter Name" value="{{ old('name') }}">
@@ -56,13 +57,17 @@
 
                             <div class="login_input">
                                 <label>Confirm Password <span>*</span></label>
-                                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Enter confirm password">
+                                <input type="password" id="password_confirmation" name="password_confirmation"
+                                    placeholder="Enter confirm password">
                                 <span class="toggle-password" onclick="togglePassword('password_confirmation', this)"
                                     style="position:absolute; cursor:pointer;">👁️</span>
                             </div>
 
                             <div class="login_submit">
                                 <button type="submit">Register</button>
+                            </div>
+                            <div class="login-link mt-3 text-center">
+                                Already have an account? <a href="">Login</a>
                             </div>
                         </form>
                     </div>
