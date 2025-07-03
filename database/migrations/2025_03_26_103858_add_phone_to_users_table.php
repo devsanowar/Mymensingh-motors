@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone')->nullable();
-            $table->enum('system_admin', ['Supper_admin', 'Admin', 'User'])->nullable();
+            $table->enum('system_admin', ['Supper_admin', 'Admin', 'User','Customer'])->nullable();
             $table->string('image')->nullable();
         });
     }
