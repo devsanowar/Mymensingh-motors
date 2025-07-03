@@ -25,27 +25,26 @@
                 <div class="col-lg-6 col-md-12 register-form">
                     <div class="login_title">
                         <h2>Customer Login</h2>
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
                     </div>
                     <div class="login_form form_register ">
                         <form action="{{ route('customer.login') }}" method="POST">
                             @csrf
-                            
+
                             <div class="login_input">
                                 <label>Username (phone) <span>*</span></label>
                                 <input type="text" name="phone" placeholder="017XXXXXXXX" value="{{ old('phone') }}">
                             </div>
-                            @error('phone')
-                                <p style="color:red; margin-top:5px;">{{ $message }}</p>
-                            @enderror
 
                             <div class="login_input">
                                 <label>Password <span>*</span></label>
                                 <input type="password" id="password" name="password" placeholder="Enter password">
                             </div>
-                            @error('password')
-                                <p style="color:red; margin-top:5px;">{{ $message }}</p>
-                            @enderror
-
 
                             <div class="login_submit">
                                 <button type="submit">Login</button>
