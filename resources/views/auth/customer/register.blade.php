@@ -67,7 +67,7 @@
                                 <button type="submit">Register</button>
                             </div>
                             <div class="login-link mt-3 text-center">
-                                Already have an account? <a href="">Login</a>
+                                Already have an account? <a href="{{ route('customer.login.page') }}">Login</a>
                             </div>
                         </form>
                     </div>

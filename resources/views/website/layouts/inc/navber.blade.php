@@ -19,7 +19,7 @@
                     <ul>
                         <li><a href="wishlist.html">Wishlist<span> <i class="zmdi zmdi-favorite-outline"></i> (0)
                                 </span></a></li>
-                        <li> <a href="">Login</a></li>
+                        <li> <a href="{{ route('customer.login.page') }}">Login</a></li>
                         <li> <a href="{{ route('customer.register.page') }}">Register</a></li>
                     </ul>
                 </div>
