@@ -272,3 +272,86 @@ Css For search result
 	width: 100%; 
 	cursor: pointer;
 }
+
+
+/*Style for payment method - checkout page*/
+/* Base Styles */
+.payment-header {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.payment-methods-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.payment-method-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-width: 120px;
+    flex: 1;
+}
+
+.payment-radio {
+    position: absolute;
+    opacity: 0;
+}
+
+.payment-label {
+    display: block;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.payment-radio:checked + .payment-label {
+    border-color: #4CAF50;
+    background-color: #f0fff4;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.payment-radio:focus + .payment-label {
+    outline: 2px solid #4CAF50;
+    outline-offset: 2px;
+}
+
+.payment-extra-fields {
+    display: none;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.payment-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+.payment-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}

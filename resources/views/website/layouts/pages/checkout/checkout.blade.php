@@ -114,6 +114,14 @@
                                 </div>
                             </div>
 
+                            <div class="order-notes">
+                                <div class="checkout-form-list mrg-nn">
+                                    <label>Order Notes</label>
+                                    <textarea id="checkout-mess" cols="30" rows="10"
+                                        placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                 </div>
@@ -182,55 +190,37 @@
                                         <td><strong><span class="amount"
                                                     id="total-amount">৳{{ $totalAmount }}</span></strong></td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <h4 class="payment-header text-left">Payment Method</h4>
+                                            <ul class="payment-methods-list">
+                                                @foreach ($paymentMethods as $paymentMethod)
+                                                    <li class="payment-method-item">
+                                                        <input type="radio" name="payment_method"
+                                                            id="payment_{{ $loop->index }}"
+                                                            value="{{ $paymentMethod->name }}" class="payment-radio"
+                                                            required>
+                                                        <label for="payment_{{ $loop->index }}"
+                                                            class="payment-label">{{ $paymentMethod->name }}</label>
+                                                    </li>
+                                                @endforeach
+
+                                                <div id="bkash-fields" class="payment-extra-fields">
+                                                    <input type="text" name="transaction_number" class="payment-input"
+                                                        placeholder="Transaction Number">
+                                                    <input type="text" name="transaction_id" class="payment-input"
+                                                        placeholder="Transaction ID">
+                                                </div>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+
                                 </tfoot>
                             </table>
                         </div>
                         <div class="payment-method">
                             <div class="payment-accordion">
-                                <div class="panel-group" id="faq">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h5 class="panel-title"><a data-toggle="collapse" aria-expanded="true"
-                                                    data-parent="#faq" href="#payment-1">Direct Bank Transfer.</a>
-                                            </h5>
-                                        </div>
-                                        <div id="payment-1" class="panel-collapse collapse show">
-                                            <div class="panel-body">
-                                                <p>Make your payment directly into our bank account. Please use your
-                                                    Order ID as the payment reference. Your order won’t be shipped
-                                                    until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h5 class="panel-title"><a class="collapsed" data-toggle="collapse"
-                                                    aria-expanded="false" data-parent="#faq" href="#payment-2">Cheque
-                                                    Payment</a></h5>
-                                        </div>
-                                        <div id="payment-2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <p>Make your payment directly into our bank account. Please use your
-                                                    Order ID as the payment reference. Your order won’t be shipped
-                                                    until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h5 class="panel-title"><a class="collapsed" data-toggle="collapse"
-                                                    aria-expanded="false" data-parent="#faq" href="#payment-3">PayPal</a>
-                                            </h5>
-                                        </div>
-                                        <div id="payment-3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <p>Make your payment directly into our bank account. Please use your
-                                                    Order ID as the payment reference. Your order won’t be shipped
-                                                    until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="order-button-payment">
                                     <input type="submit" value="Place order" />
                                 </div>
@@ -312,6 +302,41 @@
                     const shipping = parseFloat(this.value) || 0;
                     const newTotal = subtotal + shipping;
                     totalElement.textContent = '৳' + newTotal.toFixed(2);
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentRadios = document.querySelectorAll('.payment-radio');
+            const bkashFields = document.getElementById('bkash-fields');
+            const nagadFields = document.getElementById('nagad-fields');
+
+            paymentRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Hide all payment fields first
+                    document.querySelectorAll('.payment-fields').forEach(field => {
+                        field.style.display = 'none';
+                        // Make all fields not required when hidden
+                        field.querySelectorAll('input').forEach(input => {
+                            input.required = false;
+                        });
+                    });
+
+                    // Show relevant fields based on selection
+                    if (this.dataset.method === 'bkash') {
+                        bkashFields.style.display = 'block';
+                        bkashFields.querySelectorAll('input').forEach(input => {
+                            input.required = true;
+                        });
+                    } else if (this.dataset.method === 'nagad') {
+                        nagadFields.style.display = 'block';
+                        nagadFields.querySelectorAll('input').forEach(input => {
+                            input.required = true;
+                        });
+                    }
                 });
             });
         });
