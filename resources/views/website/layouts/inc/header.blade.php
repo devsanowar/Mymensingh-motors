@@ -32,7 +32,7 @@
             <div class="col-md-6 d-none d-md-block">
                 <div class="category_search search-container d-flex justify-content-center">
                     <div class="category_search_inner">
-                        <div class="input-group search" style="max-width: 450px;">
+                        <div class="input-group search">
                             <input type="text" class="form-control search-input" id="searchInput"
                                 placeholder="Search here..." aria-label="Search" />
                             <button class="btn btn-search d-flex align-items-center submit justify-content-center"

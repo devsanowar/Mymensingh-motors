@@ -161,18 +161,18 @@ Css For search result
 	display: none;
 	position: absolute;
 	background: #D7DAE0;
-	width: 76%;
+	width: 84%;
 	border-top: 6px solid #DB1E3D;
 	max-height: 300px;
 	overflow-y: auto;
 	z-index: 1000;
-	left: 16%;
+	left: 12%;
 	top: 41px;
 }
 
 .category_search_inner .search {
 	position: relative;
-	width: 450px !important;
+	width: 500px !important;
 }
 
 .search-box-result ul {
@@ -234,4 +234,41 @@ Css For search result
 }
 
 
+/* shiping charge section design*/
+.shipping h4{
+	font-size: 18px; 
+	color: #333; 
+	margin-bottom: 15px; 
+	font-weight: 600;
+	text-align: left;
+}
+.shipping ul{
+	list-style-type: none; 
+	padding: 0; 
+	margin: 0;
+}
 
+.shipping ul li{
+	display: flex; 
+	align-items: center; 
+	margin-bottom: 12px; 
+	padding: 12px; 
+    background: #f9f9f9; 
+	border-radius: 8px; 
+	transition: all 0.3s ease;
+}
+
+.shipping ul li input{
+	margin-right: 12px; 
+	accent-color: #f83808; 
+	width: 18px; 
+	height: 18px;
+}
+
+.shipping ul li label{
+	display: flex; 
+	justify-content: space-between; 
+    align-items: center; 
+	width: 100%; 
+	cursor: pointer;
+}
