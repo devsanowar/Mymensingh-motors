@@ -382,7 +382,7 @@ Css For search result
 
 
 /* Form Styling */
-.col-lg-6 {
+.register-form {
     width: 100%;
     max-width: 500px;
     background: #fff;
@@ -450,4 +450,37 @@ Css For search result
 
 .login_submit button:hover {
     background-color: #000000;
+}
+
+
+/* Password toggle styling */
+.login_input {
+    position: relative;
+}
+
+.toggle-password {
+	position: absolute;
+	right: 1px;
+	top: 56%;
+	transform: translateY(-50%);
+	cursor: pointer;
+	color: #95a5a6;
+	font-size: 16px;
+	transition: all 0.3s ease;
+	/* background: none; */
+	border: none;
+	padding: 10px 12px;
+	border-left: 1px solid #ccc;
+	background: #ddd;
+}
+
+.toggle-password:hover {
+    color: #3498db;
+}
+
+/* Add padding to input fields to prevent text overlap */
+.login_input input[type="password"],
+.login_input input[type="text"] {
+    padding-right: 40px;
+    width: 100%;
 }

@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row">
                 <!--register area start-->
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 register-form">
                     <div class="login_title">
                         <h2>Customer Registration</h2>
                     </div>
@@ -31,21 +31,34 @@
                         <form action="#">
                             <div class="login_input">
                                 <label>Name <span>*</span></label>
-                                <input type="text" name="name" placeholder="Enter Name">
+                                <input type="text" name="name" placeholder="Enter Name" value="{{ old('name') }}">
                             </div>
+                            @error('name')
+                                <p style="color:red; margin-top:5px;">{{ $message }}</p>
+                            @enderror
                             <div class="login_input">
                                 <label>Phone <span>*</span></label>
-                                <input type="text" name="phone" placeholder="Enter phone number">
+                                <input type="text" name="phone" placeholder="017XXXXXXXX" value="{{ old('phone') }}">
                             </div>
+                            @error('phone')
+                                <p style="color:red; margin-top:5px;">{{ $message }}</p>
+                            @enderror
 
                             <div class="login_input">
                                 <label>Password <span>*</span></label>
-                                <input type="password" name="password" placeholder="Enter password">
+                                <input type="password" id="password" name="password" placeholder="Enter password">
+                                <span class="toggle-password" onclick="togglePassword('password', this)"
+                                    style="position:absolute; cursor:pointer;">👁️</span>
                             </div>
+                            @error('password')
+                                <p style="color:red; margin-top:5px;">{{ $message }}</p>
+                            @enderror
 
                             <div class="login_input">
                                 <label>Confirm Password <span>*</span></label>
-                                <input type="password" name="password_confirmation" placeholder="Enter confirm password">
+                                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Enter confirm password">
+                                <span class="toggle-password" onclick="togglePassword('password_confirmation', this)"
+                                    style="position:absolute; cursor:pointer;">👁️</span>
                             </div>
 
                             <div class="login_submit">
@@ -60,3 +73,14 @@
     </div>
     <!-- accont area end -->
 @endsection
+
+@push('scripts')
+    <script>
+        function togglePassword(id, el) {
+            const input = document.getElementById(id);
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            el.textContent = isPassword ? '🙈' : '👁️';
+        }
+    </script>
+@endpush
