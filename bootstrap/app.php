@@ -3,6 +3,7 @@
 use App\Http\Middleware\CheckPermission;
 use App\Http\Middleware\isUser;
 use App\Http\Middleware\isAdmin;
+use App\Http\Middleware\isCustomer;
 use App\Http\Middleware\LogVisitorInfo;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -25,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => isAdmin::class,
             'user' => isUser::class,
+            'customer' => isCustomer::class,
             'logVisitorInfo' => LogVisitorInfo::class,
             'permission' => CheckPermission::class,
         ]);

@@ -355,3 +355,99 @@ Css For search result
     border-color: #4CAF50;
     box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
+
+
+/* Base Styles */
+.account_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* min-height: 100vh; */
+    background-color: #f8f9fa;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+/* Form Styling */
+.col-lg-6 {
+    width: 100%;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+.login_title h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.login_form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.login_form label span {
+    color: #e74c3c;
+}
+
+.login_input input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.login_input input::placeholder {
+    color: #bbbbbb; /* Light gray color */
+    opacity: 1; /* Firefox reduces opacity by default */
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+
+
+.login_input input:focus {
+    outline: none;
+    border-color: #a7011c;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.login_submit button {
+    width: 100%;
+    padding: 12px;
+    background-color: #db1e3d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login_submit button:hover {
+    background-color: #000000;
+}
