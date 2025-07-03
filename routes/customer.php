@@ -12,6 +12,7 @@ Route::prefix('customer')->group(function(){
     // customer login route
     Route::get('login-page', [CustomerLoginController::class, 'loginPage'])->name('customer.login.page');
     Route::post('login', [CustomerLoginController::class, 'loginFormSubmit'])->name('customer.login');
+    Route::post('logout', [CustomerLoginController::class, 'customerLogout'])->name('customer.logout');
 
 
     Route::middleware(['customer'])->group(function () {

@@ -46,7 +46,11 @@
                                 <li><a href="#address" data-toggle="tab" class="nav-link">Addresses</a></li>
                                 <li><a href="#account-details" data-toggle="tab" class="nav-link">Account
                                         details</a></li>
-                                <li><a href="login.html" class="nav-link">logout</a></li>
+
+                                <form method="POST" action="{{ route('customer.logout') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger customer-logout-button"> logout </button>
+                                </form>
                             </ul>
                         </div>
                     </div>

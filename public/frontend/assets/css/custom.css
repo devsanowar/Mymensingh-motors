@@ -572,3 +572,10 @@ Css For search result
     width: 20px;
     text-align: center;
 }
+
+.customer-logout-button {
+	width: 100%;
+	text-transform: uppercase;
+	padding: ;
+	height: 42px;
+}

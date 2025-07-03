@@ -11,6 +11,10 @@ use App\Http\Requests\CustomerLoginRequest;
 class CustomerLoginController extends Controller
 {
     public function loginPage(){
+        if (Auth::check()) {
+            Toastr::info('You are already logged in.');
+            return redirect()->route('customer.dashboard');
+        }
         return view('auth.customer.login');
     }
 
@@ -23,5 +27,15 @@ class CustomerLoginController extends Controller
         }
 
         return back()->with('error', 'Invalid phone or password!!');
+    }
+
+    public function customerLogout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        Toastr::success('Successfully logged out.');
+        return redirect()->route('customer.login.page'); // আপনার লগইন রুট
     }
 }

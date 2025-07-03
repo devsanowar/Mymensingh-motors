@@ -21,7 +21,7 @@ class isCustomer
         }
 
         Auth::logout();
-        return redirect()->route('login')->with('error', 'You are not authorized to access this page.');
+        return redirect()->route('customer.login.page')->with('error', 'You are not authorized to access this page.');
 
     }
 }
