@@ -25,13 +25,15 @@ Route::middleware(['web', 'logVisitorInfo'])->group(function () {
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 });
 
-Route::get('/search', action: [FrontendController::class, 'search'])->name('search');
+Route::get('/category-product/{id}', [FrontendController::class, 'getProductsByCategory'])->name('category_product.page');
+// Route::get('/brand-product/{id}', [FrontendController::class, 'getProductsByBrand'])->name('brand_product.page');
 
+Route::get('/search', action: [FrontendController::class, 'search'])->name('search');
 Route::get('/shop-page', [FrontendController::class, 'shopPage'])->name('shop_page');
 Route::get('/product-single-page/{id}', [FrontendController::class, 'productSinglePage'])->name('product_single.page');
 
 // Product filtering
-Route::get('/price-filter', [FrontendController::class, 'priceFilter'])->name('website.price.filter');
+// Route::get('/price-filter', [FrontendController::class, 'priceFilter'])->name('website.price.filter');
 
 
 
@@ -39,7 +41,6 @@ Route::get('/shoping-cart', [CartController::class, 'cartPage'])->name('cart.pag
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
 Route::delete('remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removefrom.cart');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
-
 // Remove cart from mini cart box
 Route::post('/remove-from-cart-item', [CartController::class, 'removeFromMiniCart'])->name('removeFromCart');
 

@@ -245,6 +245,17 @@ class FrontendController extends Controller
     //     return $html;
     // }
 
+
+    public function getProductsByCategory($id){
+        $category = Category::with('products')->findOrFail($id);
+        return view('website.layouts.pages.product.category-product', compact('category'));
+    }
+
+    // public function getProductsByBrand(){
+    //     return view('website.layouts.pages.product.category-product');
+    // }
+
+
     public function termsAndCondtion()
     {
         $pageTitle = 'Term & Condition';

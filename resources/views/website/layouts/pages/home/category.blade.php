@@ -14,7 +14,7 @@
                 <div class="single-categories">
                     <img src="{{ asset($category->image) }}" class="img-fluid"
                         alt="category image">
-                    <h4 class="product-category-title"><a href="#">{{ $category->category_name }}</a></h4>
+                    <h4 class="product-category-title"><a href="{{ route('category_product.page', $category->id) }}">{{ $category->category_name }}</a></h4>
                 </div>
             </div>
         @empty

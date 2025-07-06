@@ -576,6 +576,13 @@ Css For search result
 .customer-logout-button {
 	width: 100%;
 	text-transform: uppercase;
-	padding: ;
 	height: 42px;
+}
+
+.search-result-item.d-flex.justify-content-between.align-items-center {
+	width: 100% !important;
+}
+
+#categorywiseProduct .single-product-card_hover {
+	padding: 15px 10px !important;
 }
