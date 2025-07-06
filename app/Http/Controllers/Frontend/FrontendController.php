@@ -251,9 +251,10 @@ class FrontendController extends Controller
         return view('website.layouts.pages.product.category-product', compact('category'));
     }
 
-    // public function getProductsByBrand(){
-    //     return view('website.layouts.pages.product.category-product');
-    // }
+    public function getProductsByBrand($id){
+        $brand = Brand::with('products')->findOrFail($id);
+        return view('website.layouts.pages.product.brand-product', compact('brand'));
+    }
 
 
     public function termsAndCondtion()

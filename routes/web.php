@@ -26,7 +26,7 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
 });
 
 Route::get('/category-product/{id}', [FrontendController::class, 'getProductsByCategory'])->name('category_product.page');
-// Route::get('/brand-product/{id}', [FrontendController::class, 'getProductsByBrand'])->name('brand_product.page');
+Route::get('/brand-product/{id}', [FrontendController::class, 'getProductsByBrand'])->name('brand_product.page');
 
 Route::get('/search', action: [FrontendController::class, 'search'])->name('search');
 Route::get('/shop-page', [FrontendController::class, 'shopPage'])->name('shop_page');

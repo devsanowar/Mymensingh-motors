@@ -9,7 +9,7 @@
             @forelse ($brands as $brand)
                 <div class="col-md-2">
                     <div class="single_banner">
-                        <a href="#"><img src="{{ asset($brand->image) }}" class="img-fluid"
+                        <a href="{{ route('brand_product.page', $brand->id) }}"><img src="{{ asset($brand->image) }}" class="img-fluid"
                                 alt=""></a>
                     </div>
                 </div>
