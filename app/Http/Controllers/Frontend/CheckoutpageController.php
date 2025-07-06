@@ -95,13 +95,13 @@ class CheckoutpageController extends Controller
                 'transaction_number' => $request->transaction_number ?? null,
                 'transaction_id' => $request->transaction_id ?? null,
                 'shipping_charge' => $shipping_charge,
+                'order_note' => $request->order_note ?? null,
                 'total_price' => $total,
                 'status' => 'pending',
                 'order_id' => 'MM-' . strtoupper(uniqid()),
             ]);
 
             foreach ($cart as $item) {
-                // Order item create
                 Orderitem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['id'],

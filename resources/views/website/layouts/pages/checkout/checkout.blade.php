@@ -60,7 +60,7 @@
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>First Name <span class="required">*</span></label>
-                                        <input type="text" name="first_name" placeholder="First full name" />
+                                        <input type="text" name="first_name" placeholder="First full name" value="{{ $customer->name ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -72,7 +72,7 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Phone <span class="required">*</span></label>
-                                        <input type="text" placeholder="Enter phone number" />
+                                        <input type="text" name="phone" placeholder="Enter phone number" />
                                     </div>
                                 </div>
 
@@ -109,7 +109,7 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text" placeholder="Street address" />
+                                        <input type="text" name="address" placeholder="Street address" />
                                     </div>
                                 </div>
                             </div>
@@ -117,13 +117,13 @@
                             <div class="order-notes">
                                 <div class="checkout-form-list mrg-nn">
                                     <label>Order Notes</label>
-                                    <textarea id="checkout-mess" cols="30" rows="10"
+                                    <textarea id="checkout-mess" name="order_note" cols="30" rows="10"
                                         placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                 </div>
                             </div>
 
                         </div>
-                    </form>
+                    
                 </div>
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="your-order">
@@ -226,6 +226,7 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                 </div>
             </div>
