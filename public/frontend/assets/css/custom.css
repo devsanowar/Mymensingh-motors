@@ -586,3 +586,16 @@ Css For search result
 #categorywiseProduct .single-product-card_hover {
 	padding: 15px 10px !important;
 }
+
+.nav-logout button {
+	background: unset;
+	border: unset;
+	line-height: 58px;
+	text-transform: capitalize;
+}
+
+.nav-logout button:hover {
+	background: unset;
+	border: unset;
+    color:#000;
+}

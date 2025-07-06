@@ -16,12 +16,17 @@ use App\Models\Paymentmethod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutpageController extends Controller
 {
     public function checkoutPage()
     {
+        if (!auth()->check() || auth()->user()->system_admin !== 'Customer') {
+            return redirect()->route('customer.login.page');
+        }
+
         $cartContents = session()->get('cart', []);
 
         if (empty($cartContents)) {
@@ -45,8 +50,6 @@ class CheckoutpageController extends Controller
 
         return response()->json($upazilas);
     }
-
-
 
     public function placeOrder(Request $request, SmsService $smsService)
     {
@@ -134,7 +137,6 @@ class CheckoutpageController extends Controller
             return back()->with('error', 'অর্ডার সম্পন্ন হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
         }
     }
-    
 
     public function showOrderConfirmation($id)
     {

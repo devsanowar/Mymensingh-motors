@@ -19,8 +19,22 @@
                     <ul>
                         <li><a href="wishlist.html">Wishlist<span> <i class="zmdi zmdi-favorite-outline"></i> (0)
                                 </span></a></li>
-                        <li> <a href="{{ route('customer.login.page') }}">Login</a></li>
-                        <li> <a href="{{ route('customer.register.page') }}">Register</a></li>
+                        @if (!Auth::check() || (Auth::check() && Auth::user()->system_admin !== 'Customer'))
+                            <li> <a href="{{ route('customer.login.page') }}">Login</a></li>
+                        @else
+                            <li class="nav-logout">
+                                <form method="POST" action="{{ route('customer.logout') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger customer-logout-button"> logout
+                                    </button>
+                                </form>
+                            </li>
+                        @endif
+                        @if (!Auth::check() || (Auth::check() && Auth::user()->system_admin !== 'Customer'))
+                            <li><a href="{{ route('customer.register.page') }}">Register</a></li>
+                        @else
+                            <li><a href="{{ route('customer.dashboard') }}">Dashboard</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>

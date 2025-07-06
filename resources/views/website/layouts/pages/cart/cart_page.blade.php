@@ -128,7 +128,7 @@
                             </div>
 
                             <div class="proceed-to-checkout section mt-30">
-                                <a href="#">Proceed to Checkout</a>
+                                <a href="{{ route('checkout.page') }}">Proceed to Checkout</a>
                             </div>
                         </div>
                     </div>
