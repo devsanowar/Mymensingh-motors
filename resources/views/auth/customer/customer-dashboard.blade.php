@@ -97,12 +97,12 @@
                                                         ({{ $order->orderItems->sum('quantity') }} টি আইটেম)
                                                     </td>
                                                     <td>
-    <a href="{{ route('orders.show', $order->id) }}" 
-       class="btn btn-sm btn-info view-order-btn" 
-       data-order-id="{{ $order->id }}">
-       বিস্তারিত
-    </a>
-</td>
+                                                        <a href="{{ route('orders.show', $order->id) }}"
+                                                            class="btn btn-sm btn-danger view-order-btn text-white"
+                                                            data-order-id="{{ $order->id }}">
+                                                            বিস্তারিত
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             @empty
                                                 <tr>
@@ -224,73 +224,75 @@
 
 
     <!-- Order Details Modal -->
-<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="orderDetailsModalLabel">অর্ডার বিস্তারিত: #<span id="modalOrderId"></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="orderDetailsContent">
-                <!-- ডাটা এখানে লোড হবে -->
-                <div class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog"
+        aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderDetailsModalLabel">অর্ডার বিস্তারিত: #<span
+                            id="modalOrderId"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="orderDetailsContent">
+                    <!-- ডাটা এখানে লোড হবে -->
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">বন্ধ করুন</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">বন্ধ করুন</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 @endsection
 
 @push('scripts')
     <script>
-$(document).ready(function() {
-    // Modal ট্রিগার করার জন্য
-    $('.view-order-btn').on('click', function(e) {
-        e.preventDefault();
-        var orderId = $(this).data('order-id');
-        var url = $(this).attr('href');
-        
-        // Modal টাইটেল আপডেট করুন
-        $('#modalOrderId').text(orderId);
-        
-        // AJAX রিকুয়েস্ট পাঠান
-        $.ajax({
-            url: url,
-            type: 'GET',
-            beforeSend: function() {
-                $('#orderDetailsContent').html(`
+        $(document).ready(function() {
+            // Modal ট্রিগার করার জন্য
+            $('.view-order-btn').on('click', function(e) {
+                e.preventDefault();
+                var orderId = $(this).data('order-id');
+                var url = $(this).attr('href');
+
+                // Modal টাইটেল আপডেট করুন
+                $('#modalOrderId').text(orderId);
+
+                // AJAX রিকুয়েস্ট পাঠান
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    beforeSend: function() {
+                        $('#orderDetailsContent').html(`
                     <div class="text-center">
                         <div class="spinner-border text-primary" role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                 `);
-            },
-            success: function(response) {
-                $('#orderDetailsContent').html(response);
-            },
-            error: function() {
-                $('#orderDetailsContent').html(`
+                    },
+                    success: function(response) {
+                        $('#orderDetailsContent').html(response);
+                    },
+                    error: function() {
+                        $('#orderDetailsContent').html(`
                     <div class="alert alert-danger">
                         ডাটা লোড করতে সমস্যা হয়েছে
                     </div>
                 `);
-            }
+                    }
+                });
+
+                // Modal শো করুন
+                $('#orderDetailsModal').modal('show');
+            });
         });
-        
-        // Modal শো করুন
-        $('#orderDetailsModal').modal('show');
-    });
-});
-</script>
+    </script>
 @endpush
