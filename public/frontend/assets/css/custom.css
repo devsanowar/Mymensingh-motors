@@ -676,3 +676,43 @@ Order success message template
         width: 100%;
     }
 }
+
+
+/*customer dashboard order details*/
+
+/* resources/css/app.css */
+.text-success {
+    color: #28a745;
+    font-weight: 500;
+}
+.text-primary {
+    color: #007bff;
+    font-weight: 500;
+}
+.text-warning {
+    color: #ffc107;
+    font-weight: 500;
+}
+.text-danger {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}

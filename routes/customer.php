@@ -17,5 +17,6 @@ Route::prefix('customer')->group(function(){
 
     Route::middleware(['customer'])->group(function () {
         Route::get('dashboard', [CustomerDashboardController::class, 'dashboard'])->name('customer.dashboard');
+        Route::get('/orders/{order}', [CustomerDashboardController::class, 'show'])->name('orders.show');
     });
 });

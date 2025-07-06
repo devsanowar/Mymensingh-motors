@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
+use App\Models\Order;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,12 +21,18 @@ class User extends Authenticatable
      */
     protected $fillable = ['name', 'email', 'password', 'system_admin', 'phone', 'image'];
 
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-    // ইউজারের পারমিশন চেক করার ফাংশন
+
     public function hasPermission($permissionName)
     {
         if (!$this->role) {
@@ -33,6 +40,8 @@ class User extends Authenticatable
         }
         return $this->role->permissions->contains('name', $permissionName);
     }
+
+
 
 
     /**

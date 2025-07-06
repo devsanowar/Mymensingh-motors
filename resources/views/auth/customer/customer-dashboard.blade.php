@@ -31,8 +31,8 @@
                                     class="img-fluid rounded-circle">
                             </div>
                             <div class="user-info">
-                                <h4 class="user-name">John Doe</h4>
-                                <p class="user-phone"><i class="fas fa-phone-alt"></i> +1 234 567 890</p>
+                                <h4 class="user-name">{{ Auth::user()->name }}</h4>
+                                <p class="user-phone"><i class="fas fa-phone-alt"></i> {{ Auth::user()->phone }}</p>
                             </div>
                         </div>
 
@@ -65,35 +65,57 @@
                                 </p>
                             </div>
                             <div class="tab-pane fade" id="orders">
-                                <h3>Orders</h3>
+                                <h3>আমার অর্ডারসমূহ</h3>
                                 <div class="lion_table_area table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Order</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
-                                                <th>Total</th>
-                                                <th>Actions</th>
+                                                <th>অর্ডার নং</th>
+                                                <th>তারিখ</th>
+                                                <th>স্ট্যাটাস</th>
+                                                <th>মোট Amount</th>
+                                                <th>অ্যাকশন</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>May 10, 2018</td>
-                                                <td><span class="success">Completed</span></td>
-                                                <td>$25.00 for 1 item </td>
-                                                <td><a href="cart.html" class="view">view</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>May 10, 2018</td>
-                                                <td>Processing</td>
-                                                <td>$17.00 for 1 item </td>
-                                                <td><a href="cart.html" class="view">view</a></td>
-                                            </tr>
+                                            @forelse($orders as $order)
+                                                <tr>
+                                                    <td>#{{ $order->id }}</td>
+                                                    <td>{{ $order->created_at->format('d M, Y') }}</td>
+                                                    <td>
+                                                        <span
+                                                            class="
+                                                                @if ($order->status == 'completed') text-success
+                                                                @elseif($order->status == 'processing') text-primary
+                                                                @elseif($order->status == 'cancelled') text-danger
+                                                                @else text-warning @endif">
+                                                            {{ ucfirst($order->status) }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ number_format($order->total_price, 2) }} টাকা
+                                                        ({{ $order->orderItems->sum('quantity') }} টি আইটেম)
+                                                    </td>
+                                                    <td>
+    <a href="{{ route('orders.show', $order->id) }}" 
+       class="btn btn-sm btn-info view-order-btn" 
+       data-order-id="{{ $order->id }}">
+       বিস্তারিত
+    </a>
+</td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">আপনার কোনো অর্ডার নেই</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
+
+                                    <!-- পেজিনেশন -->
+                                    <div class="mt-3">
+                                        {{ $orders->links() }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="downloads">
@@ -197,4 +219,78 @@
         </div>
     </section>
     <!-- End Maincontent  -->
+
+
+
+
+    <!-- Order Details Modal -->
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderDetailsModalLabel">অর্ডার বিস্তারিত: #<span id="modalOrderId"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- ডাটা এখানে লোড হবে -->
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">বন্ধ করুন</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
+
+@push('scripts')
+    <script>
+$(document).ready(function() {
+    // Modal ট্রিগার করার জন্য
+    $('.view-order-btn').on('click', function(e) {
+        e.preventDefault();
+        var orderId = $(this).data('order-id');
+        var url = $(this).attr('href');
+        
+        // Modal টাইটেল আপডেট করুন
+        $('#modalOrderId').text(orderId);
+        
+        // AJAX রিকুয়েস্ট পাঠান
+        $.ajax({
+            url: url,
+            type: 'GET',
+            beforeSend: function() {
+                $('#orderDetailsContent').html(`
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                `);
+            },
+            success: function(response) {
+                $('#orderDetailsContent').html(response);
+            },
+            error: function() {
+                $('#orderDetailsContent').html(`
+                    <div class="alert alert-danger">
+                        ডাটা লোড করতে সমস্যা হয়েছে
+                    </div>
+                `);
+            }
+        });
+        
+        // Modal শো করুন
+        $('#orderDetailsModal').modal('show');
+    });
+});
+</script>
+@endpush
