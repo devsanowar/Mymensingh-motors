@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\Customer\CustomerDashboardController;
-use App\Http\Controllers\Auth\Customer\CustomerLoginController;
-use App\Http\Controllers\Auth\Customer\CustomerRegisterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\Customer\CustomerLoginController;
+use App\Http\Controllers\Auth\Customer\CustomerProfileController;
+use App\Http\Controllers\Auth\Customer\CustomerRegisterController;
+use App\Http\Controllers\Auth\Customer\CustomerDashboardController;
 
 Route::prefix('customer')->group(function(){
     Route::get('register-page', [CustomerRegisterController::class, 'registerPage'])->name('customer.register.page');
@@ -21,5 +22,6 @@ Route::prefix('customer')->group(function(){
         ->name('customer.orders.show');
         Route::patch('/orders/{order}/cancel', [CustomerDashboardController::class, 'cancel'])->name('orders.cancel');
         Route::get('/orders/{order}/invoice', [CustomerDashboardController::class, 'invoice'])->name('orders.invoice');
+        Route::post('/account/update', [CustomerProfileController::class, 'update'])->name('customer_account.update');
     });
 });

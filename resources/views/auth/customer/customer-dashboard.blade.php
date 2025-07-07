@@ -27,8 +27,13 @@
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         <div class="user-profile-card text-center">
                             <div class="user-avatar">
+                            @if (Auth::check() && Auth::user()->system_admin == "Customer")
+                                <img src="{{ asset(Auth::user()->image) }}" alt="User Avatar" class="img-fluid rounded-circle">
+                            @else
                                 <img src="{{ asset('frontend') }}/assets/img/customer/customer-user2.png" alt="User Avatar"
                                     class="img-fluid rounded-circle">
+                            @endif
+                                
                             </div>
                             <div class="user-info">
                                 <h4 class="user-name">{{ Auth::user()->name }}</h4>
@@ -62,9 +67,18 @@
                                 <h3>Dashboard </h3>
                                 <p>From your account dashboard. you can easily check &amp; view your <a
                                         href="#">recent orders</a>, manage your <a href="#">shipping and billing
-                                        addresses</a> and <a href="#">Edit your password and account details.</a>
+                                        addresses</a> and <a href="#" data-toggle="modal"
+                                        data-target="#accountEditModal">
+                                        Edit your password and account details.
+                                    </a>
                                 </p>
                             </div>
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert"
+                                    id="success-alert">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                             <div class="tab-pane fade" id="orders">
                                 <h3>আমার অর্ডারসমূহ</h3>
                                 <div class="lion_table_area table-responsive">
@@ -203,21 +217,35 @@
                             </div>
 
 
-                            <div class="tab-pane" id="address">
-                                <p>The following addresses will be used on the checkout page by default.</p>
-                                <h4 class="billing-address">Billing address</h4>
-                                <a href="#" class="view">Edit</a>
-                                <p><strong>Bobby Jackson</strong></p>
-                                <address>
-                                    House #15<br>
-                                    Road #1<br>
-                                    Block #C <br>
-                                    Banasree <br>
-                                    Dhaka <br>
-                                    1212
-                                </address>
-                                <p>Bangladesh</p>
+                            <div class="tab-pane p-4" id="address">
+                                <p class="mb-4 text-muted">
+                                    The following addresses will be used on the checkout page by default.
+                                </p>
+
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="mb-0">Billing Address</h5>
+                                            <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        </div>
+
+                                        <h6 class="fw-bold mb-1">Bobby Jackson</h6>
+                                        <address class="mb-0">
+                                            House #15<br>
+                                            Road #1<br>
+                                            Block #C<br>
+                                            Banasree<br>
+                                            Dhaka - 1212<br>
+                                            Bangladesh
+                                        </address>
+                                    </div>
+                                </div>
                             </div>
+
+
+
+
+
                             <div class="tab-pane fade" id="account-details">
                                 <h3>Account details </h3>
                                 <div class="login">
@@ -305,21 +333,26 @@
     </div>
 
 
+    <!-- Customer info edit modal -->
+    @include('auth.customer.partials.edit-customer-info')
+
+
+
+
 @endsection
+
+
 
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // Modal ট্রিগার করার জন্য
             $('.view-order-btn').on('click', function(e) {
                 e.preventDefault();
                 var orderId = $(this).data('order-id');
                 var url = $(this).attr('href');
 
-                // Modal টাইটেল আপডেট করুন
                 $('#modalOrderId').text(orderId);
 
-                // AJAX রিকুয়েস্ট পাঠান
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -334,7 +367,7 @@
                     },
                     success: function(response) {
                         $('#orderDetailsContent').html(response);
-                        
+
                         $('#downloadPdfBtn').on('click', function() {
                             var element = document.getElementById('invoice-content');
                             html2pdf().from(element).save('invoice.pdf');
@@ -349,7 +382,6 @@
                     }
                 });
 
-                // Modal শো করুন
                 $('#orderDetailsModal').modal('show');
             });
         });
@@ -406,5 +438,15 @@
                 html2pdf().from(element).save('invoice.pdf');
             });
         });
+    </script>
+
+    <script>
+        setTimeout(function() {
+            let alert = document.getElementById('success-alert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+            }
+        }, 3000);
     </script>
 @endpush
