@@ -74,12 +74,24 @@
                                     </a>
                                 </p>
                             </div>
+                            @if ($errors->any())
+                                <div class="alert alert-danger show" id="error-alert">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             @if (session('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert"
-                                    id="success-alert">
+                                <div class="alert alert-success show" id="success-alert">
                                     {{ session('success') }}
                                 </div>
                             @endif
+
+
+
                             <div class="tab-pane fade" id="orders">
                                 <h3>আমার অর্ডারসমূহ</h3>
                                 <div class="lion_table_area table-responsive">
@@ -443,11 +455,17 @@
 
     <script>
         setTimeout(function() {
-            let alert = document.getElementById('success-alert');
-            if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
+            let successAlert = document.getElementById('success-alert');
+            if (successAlert) {
+                successAlert.classList.remove('show');
+                successAlert.classList.add('fade');
             }
-        }, 3000);
+
+            let errorAlert = document.getElementById('error-alert');
+            if (errorAlert) {
+                errorAlert.classList.remove('show');
+                errorAlert.classList.add('fade');
+            }
+        }, 3000); // 3 seconds
     </script>
 @endpush

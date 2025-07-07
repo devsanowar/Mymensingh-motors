@@ -6,20 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\CustomerUpdateRequest;
 
 class CustomerProfileController extends Controller
 {
-    public function update(Request $request)
+    public function update(CustomerUpdateRequest $request)
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-            'phone' => ['nullable', 'string', 'max:20'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'password' => ['nullable', 'min:8', 'confirmed'],
-        ]);
+        $validated = $request->validated(); // Get validated data
 
         $user->name = $validated['name'];
         $user->email = $validated['email'];
