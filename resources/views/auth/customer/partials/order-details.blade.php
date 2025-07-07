@@ -8,6 +8,9 @@
                     <strong>Order date:</strong> {{ $order->created_at->format('d M Y h:i A') }}
                 </li>
                 <li class="list-group-item">
+                    <strong>Order ID:</strong> {{ $order->order_id }}
+                </li>
+                <li class="list-group-item">
                     <strong>Status:</strong>
                     <span
                         class="badge badge-{{ $order->status == 'completed' ? 'success' : ($order->status == 'cancelled' ? 'danger' : 'warning') }}">

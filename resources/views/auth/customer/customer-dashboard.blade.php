@@ -50,6 +50,7 @@
                                 <li> <a href="#orders" data-toggle="tab" class="nav-link">Orders</a></li>
                                 <li><a href="#invoices" data-toggle="tab" class="nav-link">Invoices</a></li>
                                 <li><a href="#downloads" data-toggle="tab" class="nav-link">Downloads</a></li>
+                                <li><a href="#trackOrder" data-toggle="tab" class="nav-link">Track Order</a></li>
                                 <li><a href="#address" data-toggle="tab" class="nav-link">Addresses</a></li>
                                 <li><a href="#account-details" data-toggle="tab" class="nav-link">Account
                                         details</a></li>
@@ -228,6 +229,24 @@
                                     </table>
                                 </div>
                             </div>
+
+
+                            <div class="tab-pane fade" id="trackOrder">
+                                <h3>Track Order</h3>
+
+                                <form id="trackOrderForm">
+                                    @csrf
+                                    <label for="order_id">Enter Your Tracking Number (Order ID - do not use
+                                        #)</label>
+                                    <input type="text" name="order_id" id="order_id" required
+                                        class="form-control mb-2">
+                                    <button type="submit" class="btn btn-danger">Track Order</button>
+                                </form>
+
+                                <!-- Where the result will show -->
+                                <div id="trackOrderResult" class="mt-4"></div>
+                            </div>
+
 
 
                             <div class="tab-pane p-4" id="address">
@@ -440,6 +459,42 @@
             });
         });
     </script>
+
+    <script>
+        document.getElementById('trackOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let trackingNumber = document.getElementById('order_id').value.trim();
+            let resultDiv = document.getElementById('trackOrderResult');
+
+            resultDiv.innerHTML = 'Loading...';
+
+            fetch("{{ route('order.track') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        order_id: trackingNumber
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debug
+                    if (data.status === 'success') {
+                        resultDiv.innerHTML = data.html;
+                    } else {
+                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    resultDiv.innerHTML = `<div class="alert alert-danger">Something went wrong!</div>`;
+                });
+        });
+    </script>
+
 
 
     <!-- Your script -->

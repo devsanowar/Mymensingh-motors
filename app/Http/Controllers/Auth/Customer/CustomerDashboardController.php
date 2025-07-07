@@ -53,7 +53,8 @@ class CustomerDashboardController extends Controller
         return view('auth.customer.customer-dashboard', compact('order'));
     }
 
-    public function invoice(Order $order){
+    public function invoice(Order $order)
+    {
         if (auth()->id() !== $order->user_id) {
             abort(403);
         }
@@ -65,7 +66,6 @@ class CustomerDashboardController extends Controller
         }
 
         return view('auth.customer.customer-dashboard', compact('order'));
-
     }
 
     public function cancel(Request $request, $id)
@@ -105,6 +105,29 @@ class CustomerDashboardController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'অর্ডার সফলভাবে ক্যান্সেল করা হয়েছে',
+        ]);
+    }
+
+    public function trackOrder(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|string',
+        ]);
+
+        $order = Order::where('order_id', $request->order_id)->first();
+
+        if (!$order) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tracking number not found!',
+            ]);
+        }
+
+        $html = view('Auth.customer.partials.track_order_result', compact('order'))->render();
+
+        return response()->json([
+            'status' => 'success',
+            'html' => $html,
         ]);
     }
 }

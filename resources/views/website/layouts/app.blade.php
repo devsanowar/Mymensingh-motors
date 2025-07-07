@@ -32,7 +32,7 @@
 
 
         
-            @include('website.layouts.inc.header')
+        @include('website.layouts.inc.header')
 
 
 
