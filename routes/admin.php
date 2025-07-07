@@ -194,7 +194,8 @@ Route::prefix('admin')
         // Order routes Here
         Route::get('order', [OrderController::class, 'index'])->name('order.index');
         // Route::post('order-status/{id}', [OrderController::class, 'orderChangeStatus'])->name('orderChangeStatus');
-        Route::get('orders-show/{id}', [OrderController::class, 'show'])->name('orders.show');
+        // Route::get('orders-show/{id}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
         Route::delete('orders-destroy/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
         Route::get('/admin/filter-order', [OrderController::class, 'orderFilter'])->name('filter.orders');
         Route::post('/order/change-status/{id}', [OrderController::class, 'orderChangeStatus'])->name('orderChangeStatus');

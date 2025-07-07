@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-select/css/bootstrap-select.css" />
 
     <style>
-
         .table td,
         .table th {
             vertical-align: middle;
@@ -170,11 +169,16 @@
                                                         <div class="col-lg-8 col-md-8">
                                                             <select name="status"
                                                                 class="form-control status-select show-tick">
-                                                                <option value="pending" @selected($item->status == 'pending')> Pending </option>
-                                                                <option @selected($item->status == 'cancelled') value="cancelled">Cancelled</option>
-                                                                <option value="confirmed" @selected($item->status == 'confirmed')>Confirmed</option>
-                                                                <option value="shipped" @selected($item->status == 'shipped')>Shipped</option>
-                                                                <option value="delivered" @selected($item->status == 'delivered')>Delivered</option>
+                                                                <option value="pending" @selected($item->status == 'pending')>
+                                                                    Pending </option>
+                                                                <option @selected($item->status == 'cancelled') value="cancelled">
+                                                                    Cancelled</option>
+                                                                <option value="confirmed" @selected($item->status == 'confirmed')>
+                                                                    Confirmed</option>
+                                                                <option value="shipped" @selected($item->status == 'shipped')>Shipped
+                                                                </option>
+                                                                <option value="delivered" @selected($item->status == 'delivered')>
+                                                                    Delivered</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 status-update-button pl-0 mt-1">
@@ -188,8 +192,12 @@
 
 
                                         <td>
-                                            <a href="{{ route('orders.show', $item->id) }}" class="btn btn-primary btn-sm">
-                                                <i class="material-icons">visibility</i></a>
+                                            {{-- <a href="{{ route('orders.show', $item->id) }}" class="btn btn-primary btn-sm">
+                                                <i class="material-icons">visibility</i></a> --}}
+                                            <a href="{{ route('admin.orders.show', $item->id) }}"
+                                                class="btn btn-primary btn-sm">
+                                                <i class="material-icons">visibility</i>
+                                            </a>
 
                                             <form class="d-inline-block" action="{{ route('orders.destroy', $item->id) }}"
                                                 method="POST">
@@ -379,7 +387,5 @@
                 });
             });
         });
-
     </script>
-
 @endpush

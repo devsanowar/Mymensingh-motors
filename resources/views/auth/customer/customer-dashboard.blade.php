@@ -10,7 +10,7 @@
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
                             <li><i class="zmdi zmdi-chevron-right"></i></li>
-                            <li>Login</li>
+                            <li>Dashboard</li>
                         </ul>
                     </div>
                 </div>
@@ -42,6 +42,7 @@
                                 <li><a href="#dashboard" data-toggle="tab" class="nav-link active">Dashboard</a>
                                 </li>
                                 <li> <a href="#orders" data-toggle="tab" class="nav-link">Orders</a></li>
+                                <li><a href="#invoices" data-toggle="tab" class="nav-link">Invoices</a></li>
                                 <li><a href="#downloads" data-toggle="tab" class="nav-link">Downloads</a></li>
                                 <li><a href="#address" data-toggle="tab" class="nav-link">Addresses</a></li>
                                 <li><a href="#account-details" data-toggle="tab" class="nav-link">Account
@@ -97,7 +98,7 @@
                                                         ({{ $order->orderItems->sum('quantity') }} টি আইটেম)
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('orders.show', $order->id) }}"
+                                                        <a href="{{ route('customer.orders.show', $order->id) }}"
                                                             class="btn btn-sm btn-danger view-order-btn text-white"
                                                             data-order-id="{{ $order->id }}">
                                                             বিস্তারিত
@@ -118,6 +119,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="downloads">
                                 <h3>Downloads</h3>
                                 <div class="lion_table_area table-responsive">
@@ -131,24 +133,76 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Shopnovilla - Free Real Estate PSD Template</td>
-                                                <td>May 10, 2018</td>
-                                                <td><span class="danger">Expired</span></td>
-                                                <td><a href="#" class="view">Click Here To Download Your File</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Organic - ecommerce html template</td>
-                                                <td>Sep 11, 2018</td>
-                                                <td>Never</td>
-                                                <td><a href="#" class="view">Click Here To Download Your File</a>
-                                                </td>
-                                            </tr>
+                                            @forelse($downloads as $download)
+                                                <tr>
+                                                    <td>{{ $download['product_name'] }}</td>
+                                                    <td>{{ $download['order_date'] }}</td>
+                                                    <td>{{ $download['expires'] }}</td>
+                                                    <td><a href="{{ $download['download_link'] }}" class="view">Click
+                                                            Here To Download Your File</a></td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4">No downloadable products found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
+
+                            <div class="tab-pane fade" id="invoices">
+                                <h3>Invoices</h3>
+                                <div class="lion_table_area table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>অর্ডার নং</th>
+                                                <th>তারিখ</th>
+                                                <th>স্ট্যাটাস</th>
+                                                <th>মোট Amount</th>
+                                                <th>অ্যাকশন</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($orders as $order)
+                                                <tr>
+                                                    <td>#{{ $order->id }}</td>
+                                                    <td>{{ $order->created_at->format('d M, Y') }}</td>
+                                                    <td>
+                                                        <span
+                                                            class="
+                                                                @if ($order->status == 'completed') text-success
+                                                                @elseif($order->status == 'processing') text-primary
+                                                                @elseif($order->status == 'cancelled') text-danger
+                                                                @else text-warning @endif">
+                                                            {{ ucfirst($order->status) }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ number_format($order->total_price, 2) }} টাকা
+                                                        ({{ $order->orderItems->sum('quantity') }} টি আইটেম)
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('orders.invoice', $order->id) }}"
+                                                            class="btn btn-sm btn-danger view-order-btn text-white"
+                                                            data-order-id="{{ $order->id }}">
+                                                            Download
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">আপনার কোনো অর্ডার নেই</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
                             <div class="tab-pane" id="address">
                                 <p>The following addresses will be used on the checkout page by default.</p>
                                 <h4 class="billing-address">Billing address</h4>
@@ -229,8 +283,8 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="orderDetailsModalLabel">অর্ডার বিস্তারিত: #<span
-                            id="modalOrderId"></span></h5>
+                    <h5 class="modal-title" id="orderDetailsModalLabel">Order details: #<span id="modalOrderId"></span>
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -244,7 +298,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">বন্ধ করুন</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close It</button>
                 </div>
             </div>
         </div>
@@ -280,6 +334,11 @@
                     },
                     success: function(response) {
                         $('#orderDetailsContent').html(response);
+                        
+                        $('#downloadPdfBtn').on('click', function() {
+                            var element = document.getElementById('invoice-content');
+                            html2pdf().from(element).save('invoice.pdf');
+                        });
                     },
                     error: function() {
                         $('#orderDetailsContent').html(`
@@ -292,6 +351,59 @@
 
                 // Modal শো করুন
                 $('#orderDetailsModal').modal('show');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Cancel Order Button Click Event
+            $(document).on('click', '.cancel-order-btn', function(e) {
+                e.preventDefault();
+                let orderId = $(this).data('order-id');
+                let cancelUrl = "{{ route('orders.cancel', ':id') }}".replace(':id', orderId);
+
+                // Show confirmation dialog
+                if (confirm('আপনি কি নিশ্চিতভাবে এই অর্ডারটি ক্যান্সেল করতে চান?')) {
+                    // AJAX Request
+                    $.ajax({
+                        url: cancelUrl,
+                        type: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: 'PATCH',
+                            cancel_reason: prompt('অর্ডার ক্যান্সেল করার কারণ লিখুন:', '')
+                        },
+                        beforeSend: function() {
+                            // Show loading indicator
+                            $(`.cancel-order-btn[data-order-id="${orderId}"]`)
+                                .html('<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...')
+                                .prop('disabled', true);
+                        },
+                        success: function(response) {
+                            // Reload the page to see changes
+                            window.location.reload();
+                        },
+                        error: function(xhr) {
+                            alert('কিছু সমস্যা হয়েছে: ' + xhr.responseJSON.message);
+                            $(`.cancel-order-btn[data-order-id="${orderId}"]`)
+                                .html('অর্ডার ক্যান্সেল করুন')
+                                .prop('disabled', false);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <!-- Your script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+                var element = document.getElementById('invoice-content');
+                html2pdf().from(element).save('invoice.pdf');
             });
         });
     </script>

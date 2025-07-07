@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $guarded = ['id'];
+    
     public function orderItems()
     {
         return $this->hasMany(Orderitem::class);
@@ -17,5 +18,22 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'cancelled_at' => 'datetime',
+    ];
+
+    /**
+     * Check if order can be cancelled
+     */
+    public function canBeCancelled()
+    {
+        return $this->status === 'pending';
     }
 }

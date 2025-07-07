@@ -716,3 +716,18 @@ Order success message template
     line-height: 1.5;
     border-radius: 0.2rem;
 }
+
+/* Loading spinner */
+.fa-spinner {
+    margin-right: 5px;
+}
+
+/* Button styles */
+.btn-outline-danger {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}

@@ -1,31 +1,3 @@
-@extends('admin.layouts.app')
-@section('title', 'Order Details Page')
-@push('styles')
-<!-- Print Styling to hide button-->
-<style>
-    @media print {
-        body {
-            visibility: hidden;
-        }
-
-        .container {
-            visibility: visible;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        button {
-            display: none;
-            /* Hide buttons */
-        }
-    }
-</style>
-@endpush
-
-@section('admin_content')
-
 <div class="container-fluid">
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
@@ -36,11 +8,13 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>Payment Information</h4>
-                    <button class="btn btn-primary" onclick="printInvoice()">Print Invoice</button>
+                    {{-- <button class="btn btn-primary" onclick="printInvoice()">Print Invoice</button> --}}
+                    <button class="btn btn-danger" id="downloadPdfBtn">Download PDF</button>
                 </div>
-                <div class="card-body" id="invoice">
+                <div class="card-body" id="invoice-content">
                     <div class="container border p-4">
-                        <h2 class="text-center mb-4"><img style="width:20%" src="{{ asset($setting->website_logo) }}" alt="Logo" /></h2>
+                        <h2 class="text-center mb-4"><img style="width:20%" src="{{ asset($setting->website_logo) }}"
+                                alt="Logo" /></h2>
                         <h5 class="text-center text-muted mb-4">Invoice</h5>
 
                         <div class="row mt-4">
@@ -75,22 +49,22 @@
 
                             <tbody>
                                 @foreach ($order->orderItems as $key => $orderItem)
-                                 @php
-                                    $total = $orderItem->price * $orderItem->quantity;
-                                    $subtotal += $total;
-                                @endphp
+                                    @php
+                                        $total = $orderItem->price * $orderItem->quantity;
+                                        $subtotal += $total;
+                                    @endphp
 
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ $orderItem->product->product_name }}</td>
-                                    <td>{{ $orderItem->price }}</td>
-                                    <td>{{ $orderItem->quantity }}</td>
-                                    <td>{{ $orderItem->quantity * $orderItem->price }}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $orderItem->product->product_name }}</td>
+                                        <td>{{ $orderItem->price }}</td>
+                                        <td>{{ $orderItem->quantity }}</td>
+                                        <td>{{ $orderItem->quantity * $orderItem->price }}</td>
+                                    </tr>
                                 @endforeach
                                 <tr class="custom-tr-class">
                                     <th colspan="4" style="text-align:right">Sub Total:</th>
-                                    <th>{{ number_format($subtotal, 2)}} TK</th>
+                                    <th>{{ number_format($subtotal, 2) }} TK</th>
                                 </tr>
 
                                 <tr class="custom-tr-class">
@@ -122,19 +96,5 @@
 </div>
 
 
-@endsection
 
-@push('scripts')
 
-<script>
-    function printInvoice() {
-        var printContent = document.getElementById('invoice').innerHTML;
-        var originalContent = document.body.innerHTML;
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
-        location.reload();
-    }
-</script>
-
-@endpush
