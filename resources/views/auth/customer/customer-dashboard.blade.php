@@ -27,13 +27,14 @@
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         <div class="user-profile-card text-center">
                             <div class="user-avatar">
-                            @if (Auth::check() && Auth::user()->system_admin == "Customer")
-                                <img src="{{ asset(Auth::user()->image) }}" alt="User Avatar" class="img-fluid rounded-circle">
-                            @else
-                                <img src="{{ asset('frontend') }}/assets/img/customer/customer-user2.png" alt="User Avatar"
-                                    class="img-fluid rounded-circle">
-                            @endif
-                                
+                                @if (Auth::check() && Auth::user()->system_admin == 'Customer' && Auth::user()->image)
+                                    <img src="{{ asset(Auth::user()->image) }}" alt="User Avatar"
+                                        class="img-fluid rounded-circle">
+                                @else
+                                    <img src="{{ asset('frontend/assets/img/customer/customer-user2.png') }}"
+                                        alt="User Avatar" class="img-fluid rounded-circle">
+                                @endif
+
                             </div>
                             <div class="user-info">
                                 <h4 class="user-name">{{ Auth::user()->name }}</h4>
@@ -66,7 +67,7 @@
                             <div class="tab-pane fade show active" id="dashboard">
                                 <h3>Dashboard </h3>
                                 <p>From your account dashboard. you can easily check &amp; view your <a
-                                        href="#">recent orders</a>, manage your <a href="#">shipping and billing
+                                        href="#orders">recent orders</a>, manage your <a href="#">shipping and billing
                                         addresses</a> and <a href="#" data-toggle="modal"
                                         data-target="#accountEditModal">
                                         Edit your password and account details.

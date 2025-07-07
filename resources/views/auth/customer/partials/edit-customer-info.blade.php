@@ -30,7 +30,7 @@
           <div class="form-group mb-3">
             <label>Profile Image</label><br>
             @if(auth()->user()->image)
-              <img src="{{ asset('uploads/users/' . auth()->user()->image) }}" alt="Profile" width="80">
+              <img src="{{ asset(auth()->user()->image) }}" alt="Profile" width="80">
             @endif
             <input type="file" name="image" class="form-control mt-2">
           </div>
