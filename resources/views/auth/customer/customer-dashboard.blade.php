@@ -267,6 +267,7 @@
                                         </div>
 
                                         <div>
+                                            @if($order)
                                             <h6 class="fw-bold mb-1">{{ $order->first_name }} {{ $order->last_name }}
                                             </h6>
                                             <address class="mb-0 text-muted lh-sm">
@@ -275,6 +276,9 @@
                                                 {{ optional($order->district)->district_name }}<br>
                                                 Bangladesh.
                                             </address>
+                                            @else
+                                                <p class="text-muted">No billing address found.</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

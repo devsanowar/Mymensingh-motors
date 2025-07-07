@@ -6,7 +6,8 @@
             <form action="{{ route('customer.updateAddress') }}" method="POST">
                 @csrf
 
-                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                <input type="hidden" name="order_id" value="{{ optional($order)->id }}">
+
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Billing Address</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -17,13 +18,13 @@
                     <div class="form-group">
                         <label>First Name</label>
                         <input type="text" name="first_name" class="form-control"
-                            value="{{ $order->first_name }}">
+                            value="{{ optional($order)->first_name }}">
                     </div>
 
                     <div class="form-group">
                         <label>Last Name</label>
                         <input type="text" name="last_name" class="form-control"
-                            value="{{ $order->last_name }}">
+                            value="{{ optional($order)->last_name }}">
                     </div>
 
 
@@ -34,7 +35,7 @@
                             <option value="">Select District</option>
                             @foreach ($districts as $district)
                                 <option value="{{ $district->id }}"
-                                    {{ $order->district_id == $district->id ? 'selected' : '' }}>
+                                    {{ optional($order)->district_id == $district->id ? 'selected' : '' }}>
                                     {{ $district->district_name }}
                                 </option>
                             @endforeach
@@ -48,7 +49,7 @@
                             <option value="">Select Upazila</option>
                             @foreach ($upazilas as $upazila)
                                 <option value="{{ $upazila->id }}"
-                                    {{ $order->upazila_id == $upazila->id ? 'selected' : '' }}>
+                                    {{ optional($order)->upazila_id == $upazila->id ? 'selected' : '' }}>
                                     {{ $upazila->upazila_name }}
                                 </option>
                             @endforeach
@@ -58,7 +59,7 @@
                     <!-- Address -->
                     <div class="form-group">
                         <label>Full Address</label>
-                        <textarea name="address" class="form-control" rows="2">{{ $order->address }}</textarea>
+                        <textarea name="address" class="form-control" rows="2">{{ optional($order)->address }}</textarea>
                     </div>
 
                 </div>

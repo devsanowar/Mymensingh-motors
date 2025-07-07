@@ -37,9 +37,15 @@ class CustomerDashboardController extends Controller
         }
 
         $districts = District::all();
-        $upazilas = Upazila::where('district_id', $order->district_id)->get();
+        if (!empty($order)) {
+            $upazilas = Upazila::where('district_id', $order->district_id)->get();
+        } else {
+            $upazilas = collect();
+        }
 
-        return view('auth.customer.customer-dashboard', compact('orders', 'downloads', 'districts', 'upazilas'));
+        $order = Order::where('user_id', auth()->id())->first();
+
+        return view('auth.customer.customer-dashboard', compact('orders', 'downloads', 'districts', 'upazilas', 'order'));
     }
 
     public function getUpazilas($district_id)
@@ -126,12 +132,14 @@ class CustomerDashboardController extends Controller
             'order_id' => 'required|string',
         ]);
 
-        $order = Order::where('order_id', $request->order_id)->first();
+        $userId = auth()->id();
+
+        $order = Order::where('order_id', $request->order_id)->where('user_id', $userId)->first();
 
         if (!$order) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Tracking number not found!',
+                'message' => 'Tracking number not found or you have no permission to track this order!',
             ]);
         }
 
@@ -153,7 +161,7 @@ class CustomerDashboardController extends Controller
             'upazila_id' => 'required|exists:upazilas,id',
         ]);
 
-        $order = Order::findOrFail($request->order_id); // যদি order_id hidden input হিসেবে পাঠাও
+        $order = Order::findOrFail($request->order_id);
 
         $order->first_name = $request->first_name;
         $order->last_name = $request->last_name;
