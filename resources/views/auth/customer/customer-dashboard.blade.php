@@ -52,8 +52,7 @@
                                 <li><a href="#downloads" data-toggle="tab" class="nav-link">Downloads</a></li>
                                 <li><a href="#trackOrder" data-toggle="tab" class="nav-link">Track Order</a></li>
                                 <li><a href="#address" data-toggle="tab" class="nav-link">Addresses</a></li>
-                                <li><a href="#account-details" data-toggle="tab" class="nav-link">Account
-                                        details</a></li>
+                                {{-- <li><a href="#account-details" data-toggle="tab" class="nav-link">Account details</a></li> --}}
 
                                 <form method="POST" action="{{ route('customer.logout') }}">
                                     @csrf
@@ -238,8 +237,7 @@
                                     @csrf
                                     <label for="order_id">Enter Your Tracking Number (Order ID - do not use
                                         #)</label>
-                                    <input type="text" name="order_id" id="order_id" required
-                                        class="form-control mb-2">
+                                    <input type="text" name="order_id" id="order_id" required class="form-control mb-2">
                                     <button type="submit" class="btn btn-danger">Track Order</button>
                                 </form>
 
@@ -254,78 +252,36 @@
                                     The following addresses will be used on the checkout page by default.
                                 </p>
 
-                                <div class="card shadow-sm border-0">
+                                <div class="card border-0 shadow-sm rounded-4">
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5 class="mb-0">Billing Address</h5>
-                                            <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <div>
+                                                <h5 class="mb-1 fw-semibold">Billing Address</h5>
+                                                <span class="text-muted small">Default billing details</span>
+                                            </div>
+
+                                            <a href="#" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                                                data-target="#billingAddressModal">
+                                                <i class="fas fa-edit mr-1"></i> Edit
+                                            </a>
                                         </div>
 
-                                        <h6 class="fw-bold mb-1">Bobby Jackson</h6>
-                                        <address class="mb-0">
-                                            House #15<br>
-                                            Road #1<br>
-                                            Block #C<br>
-                                            Banasree<br>
-                                            Dhaka - 1212<br>
-                                            Bangladesh
-                                        </address>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-
-                            <div class="tab-pane fade" id="account-details">
-                                <h3>Account details </h3>
-                                <div class="login">
-                                    <div class="login_form_container">
-                                        <div class="account_login_form">
-                                            <form action="#">
-                                                <p>Already have an account? <a href="#">Log in instead!</a></p>
-                                                <div class="input-radio">
-                                                    <span class="custom-radio"><input type="radio" value="1"
-                                                            name="id_gender"> Mr.</span>
-                                                    <span class="custom-radio"><input type="radio" value="1"
-                                                            name="id_gender"> Mrs.</span>
-                                                </div> <br>
-                                                <label>First Name</label>
-                                                <input type="text" name="first-name">
-                                                <label>Last Name</label>
-                                                <input type="text" name="last-name">
-                                                <label>Email</label>
-                                                <input type="text" name="email-name">
-                                                <label>Password</label>
-                                                <input type="password" name="user-password">
-                                                <label>Birthdate</label>
-                                                <input type="text" placeholder="MM/DD/YYYY" value=""
-                                                    name="birthday">
-                                                <span class="example">
-                                                    (E.g.: 05/31/1970)
-                                                </span>
-                                                <br>
-                                                <span class="custom_checkbox">
-                                                    <input id="c_check" type="checkbox" value="1" name="optin">
-                                                    <label for="c_check">Receive offers from our partners</label>
-                                                </span>
-                                                <br>
-                                                <span class="custom_checkbox">
-                                                    <input id="c_sign" type="checkbox" value="1"
-                                                        name="newsletter">
-                                                    <label for="c_sign">Sign up for our newsletter<br><em>You may
-                                                            unsubscribe at any moment. For that purpose, please find
-                                                            our contact info in the legal notice.</em></label>
-                                                </span>
-                                                <div class="save_button primary_btn default_button">
-                                                    <a href="#">Save</a>
-                                                </div>
-                                            </form>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">{{ $order->first_name }} {{ $order->last_name }}
+                                            </h6>
+                                            <address class="mb-0 text-muted lh-sm">
+                                                {{ $order->address }}<br>
+                                                {{ optional($order->upazila)->upazila_name }},
+                                                {{ optional($order->district)->district_name }}<br>
+                                                Bangladesh.
+                                            </address>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -368,6 +324,8 @@
     <!-- Customer info edit modal -->
     @include('auth.customer.partials.edit-customer-info')
 
+    @include('auth.customer.partials.edit-address')
+
 
 
 
@@ -376,6 +334,36 @@
 
 
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#districtSelect').on('change', function() {
+                var districtID = $(this).val();
+                if (districtID) {
+                    $.ajax({
+                        url: '/get-upazilas/' + districtID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#upazilaSelect').empty(); // পুরনো অপশনগুলো Clear
+                            $('#upazilaSelect').append(
+                                '<option value="">Select Upazila</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#upazilaSelect').append('<option value="' + value
+                                    .id + '">' + value.upazila_name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#upazilaSelect').empty();
+                    $('#upazilaSelect').append('<option value="">Select Upazila</option>');
+                }
+            });
+        });
+    </script>
+
+
+
     <script>
         $(document).ready(function() {
             $('.view-order-btn').on('click', function(e) {

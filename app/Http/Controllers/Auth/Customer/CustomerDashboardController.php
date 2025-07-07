@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth\Customer;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Upazila;
+use App\Models\District;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +36,17 @@ class CustomerDashboardController extends Controller
             }
         }
 
-        return view('auth.customer.customer-dashboard', compact('orders', 'downloads'));
+        $districts = District::all();
+        $upazilas = Upazila::where('district_id', $order->district_id)->get();
+
+        return view('auth.customer.customer-dashboard', compact('orders', 'downloads', 'districts', 'upazilas'));
+    }
+
+    public function getUpazilas($district_id)
+    {
+        $upazilas = Upazila::where('district_id', $district_id)->get();
+
+        return response()->json($upazilas);
     }
 
     public function show(Order $order)
@@ -129,5 +141,27 @@ class CustomerDashboardController extends Controller
             'status' => 'success',
             'html' => $html,
         ]);
+    }
+
+    public function updateAddress(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'address' => 'required|string',
+            'district_id' => 'required|exists:districts,id',
+            'upazila_id' => 'required|exists:upazilas,id',
+        ]);
+
+        $order = Order::findOrFail($request->order_id); // যদি order_id hidden input হিসেবে পাঠাও
+
+        $order->first_name = $request->first_name;
+        $order->last_name = $request->last_name;
+        $order->address = $request->address;
+        $order->district_id = $request->district_id;
+        $order->upazila_id = $request->upazila_id;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Billing address updated successfully!');
     }
 }

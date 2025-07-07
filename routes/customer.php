@@ -23,5 +23,7 @@ Route::prefix('customer')->group(function(){
         Route::get('/orders/{order}/invoice', [CustomerDashboardController::class, 'invoice'])->name('orders.invoice');
         Route::post('/account/update', [CustomerProfileController::class, 'update'])->name('customer_account.update');
         Route::post('/track-order', [CustomerDashboardController::class, 'trackOrder'])->name('order.track');
+        Route::get('/get-upazilas/{district_id}', [CustomerDashboardController::class, 'getUpazilas']);
+        Route::post('/update-address', [CustomerDashboardController::class, 'updateAddress'])->name('customer.updateAddress');
     });
 });
