@@ -11,7 +11,7 @@ class ContactController extends Controller
 {
     public function contactPage(){
         $pageTitle = 'Contact Us';
-        return view('website.layouts.contact', compact([
+        return view('website.contact-us', compact([
             'pageTitle',
         ]));
     }

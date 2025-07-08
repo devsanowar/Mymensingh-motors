@@ -65,16 +65,16 @@ class AdminPanelController extends Controller
     private function loginBgImage(Request $request)
     {
         if ($request->hasFile('login_page_bg')) {
-    $image = Image::read($request->file('login_page_bg'));
-    
-    $extension = $request->file('login_page_bg')->getClientOriginalExtension();
-    $imageName = time() . '.' . $extension;
+            $image = Image::read($request->file('login_page_bg'));
 
-    $destinationPath = public_path('uploads/website_settings/');
-    $image->save($destinationPath . $imageName);
+            $extension = $request->file('login_page_bg')->getClientOriginalExtension();
+            $imageName = time() . '.' . $extension;
 
-    return 'uploads/website_settings/' . $imageName;
-}
+            $destinationPath = public_path('uploads/website_settings/');
+            $image->save($destinationPath . $imageName);
+
+            return 'uploads/website_settings/' . $imageName;
+        }
         return null;
     }
 }

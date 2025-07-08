@@ -9,7 +9,7 @@
                             <li><a href="about-us.html">About</a></li>
                             <li><a href="{{ route('shop_page') }}">Shop</a></li>
                             <li><a href="{{ route('blog.page') }}">Blog</a></li>
-                            <li><a href="contact-us.html">Contact </a></li>
+                            <li><a href="{{ route('contact.page') }}">Contact </a></li>
                         </ul>
                     </nav>
                 </div>
