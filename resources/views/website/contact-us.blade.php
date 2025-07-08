@@ -9,9 +9,9 @@
                 <div class="col-12">
                     <div class="breadcrumb_inner">
                         <ul>
-                            <li><a href="#">Home</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
                             <li><i class="zmdi zmdi-chevron-right"></i></li>
-                            <li>Contact Us</li>
+                            <li>{{ $pageTitle }}</li>
                         </ul>
                     </div>
                 </div>
@@ -81,9 +81,7 @@
                     <div class="contact-us-desc">
                         <div class="get-in-touch">
                             <h3>get in touch</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sedoo eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim aid minim veniam, quihhs
-                                nostrud exercitation.</p>
+                            <p>{!! $website_setting->footer_content !!}</p>
                         </div>
                         <div class="contact-social">
                             <a href="#"><i class="zmdi zmdi-facebook"></i></a>
@@ -100,23 +98,29 @@
                                         <i class="zmdi zmdi-pin"></i>
                                     </div>
                                     <div class="conatct-desc">
-                                        <p>Your address goes here.</p>
+                                        <p>{!! $website_setting->address !!}</p>
                                     </div>
                                 </div>
                                 <div class="single-contact-list">
                                     <div class="contact-icon">
                                         <i class="zmdi zmdi-phone"></i>
                                     </div>
+                                    @php
+                                        $ArrayNumbers = array_map('trim', explode(",", $website_setting->phone));
+                                    @endphp
                                     <div class="conatct-desc">
-                                        <p>+660 256444 24857 <br> +660 256 24857</p>
+                                        @foreach ($ArrayNumbers as $number)
+                                        <p>{{ $number }} <br></p>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="single-contact-list">
                                     <div class="contact-icon">
                                         <i class="zmdi zmdi-email"></i>
                                     </div>
+                                    
                                     <div class="conatct-desc">
-                                        <p>info@example.com <br> info@example.com</p>
+                                        <p>{{ $website_setting->email }} <br/> </p>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +139,7 @@
                     <div class="map-area">
                         <div id="googleMap">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.975820934318!2d90.41251877535628!3d23.78559828712632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c70b03e3b0bb%3A0x7d1c1b2a0a1a75c5!2sDhaka!5e0!3m2!1sen!2sbd!4v1717641216118!5m2!1sen!2sbd"
+                                src="{{ $website_setting->google_map }}"
                                 width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                         </div>
                     </div>

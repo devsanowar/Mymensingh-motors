@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactStoreRequest;
 use App\Models\Contact;
+use App\Models\WebsiteSetting;
 
 class ContactController extends Controller
 {
     public function contactPage(){
         $pageTitle = 'Contact Us';
+        $website_setting = WebsiteSetting::select(['phone', 'address', 'email', 'footer_content', 'google_map'])->get()->first();
+
         return view('website.contact-us', compact([
             'pageTitle',
+            'website_setting'
         ]));
     }
 

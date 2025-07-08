@@ -2536,7 +2536,6 @@ blockquote {
   color: #151320;
   letter-spacing: 1px;
   margin: 0;
-  text-transform: capitalize;
 }
 .single-contact-list {
   -webkit-box-align: center;
