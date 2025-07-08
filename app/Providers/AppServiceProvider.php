@@ -8,6 +8,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -26,21 +27,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $setting = WebsiteSetting::select('id', 'website_logo', 'website_title', 'phone')->first();
+        $setting = WebsiteSetting::select('id', 'website_logo', 'website_title', 'phone', 'footer_content', 'address')->first();
 
-        if ($setting) {
-            config(['app.name' => $setting->website_title ?? config('app.name')]);
-            config(['app.website_logo' => $setting->website_logo]);
 
-            View::share('website_setting', $setting);
-        } else {
-            config(['app.name' => config('app.name')]);
-            config(['app.website_logo' => null]);
+        config(['app.name' => $setting->website_title ?? config('app.name')]);
+        config(['app.website_logo' => $setting->website_logo ?? null]);
+        config(['app.footer_content' => $setting->footer_content ?? null]);
+        config(['app.address' => $setting->address ?? null]);
+        config(['app.phone' => $setting->phone ?? null]);
 
-            View::share('website_setting', null);
-        }
+        View::share('website_setting', $setting);
 
         Paginator::useBootstrap();
+
         Toastr::useVite();
     }
 }

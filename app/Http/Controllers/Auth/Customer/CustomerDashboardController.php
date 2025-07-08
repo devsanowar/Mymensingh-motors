@@ -57,7 +57,6 @@ class CustomerDashboardController extends Controller
 
     public function show(Order $order)
     {
-        // অথেন্টিকেশন চেক করুন
         if (auth()->id() !== $order->user_id) {
             abort(403);
         }

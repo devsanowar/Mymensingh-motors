@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\WebsiteSetting;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Laravel\Facades\Image;
 
 class WebsiteSettingController extends Controller
@@ -78,6 +79,7 @@ class WebsiteSettingController extends Controller
             'website_footer_bg' => $website_settings->website_footer_bg,
             'website_footer_color' => $request->website_footer_color,
         ]);
+
         Toastr::success('Website settings updated successfully.');
         return redirect()->back();
     }
@@ -92,6 +94,7 @@ class WebsiteSettingController extends Controller
             'footer_content' => $request->footer_content,
             'copyright_text' => $request->copyright_text,
         ]);
+
         Toastr::success('Footer info updated successfully.');
         return redirect()->back();
     }
@@ -99,7 +102,6 @@ class WebsiteSettingController extends Controller
 
     // Bredcrumb Update
     public function bredcrumbUpdate(Request $request){
-
         $website_settings = WebsiteSetting::first();
         $newBredcrumbImage = $this->bredcrumbUpload($request);
         if($newBredcrumbImage){
@@ -138,7 +140,6 @@ class WebsiteSettingController extends Controller
             $image->save($destinationPath . $imageName);
 
             return 'uploads/website_settings/' . $imageName;
-
         }
 
         return null;

@@ -1,4 +1,13 @@
-        <!--Newsletter section start -->
+
+	@php
+        use App\Models\WebsiteSetting;
+        use App\Models\WebsiteSocialIcon;
+        $website_setting = WebsiteSetting::first();
+        $website_social = WebsiteSocialIcon::first();
+    @endphp
+
+
+<!--Newsletter section start -->
         <div class="newsletter_section ptb-80">
             <div class="container">
                 <div class="row align-items-center">
@@ -75,38 +84,46 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
                             <div class="single_footer widget_description">
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have
-                                    suffered.</p>
+                                <p>{!! $website_setting->footer_content ?? 'No footer content found' !!}</p>
                                 <div class="addresses_inner">
                                     <div class="single_address">
                                         <p>
-                                            <span> Address: </span> <span>Your address goes here.</span>
+                                            <span> Address: </span> <span>{{ $website_setting->address }}</span>
                                         </p>
 
+                                        @php
+                                            $ArrayNumbers = array_map('trim', explode(",", $website_setting->phone));
+                                        @endphp
+
+
                                         <p>
-                                            <span> Phone: </span> <span>+12 2223 2223 22 <br> +125 5455 5555 55</span>
+                                            Phone:  
+                                            @foreach ($ArrayNumbers as $number)
+                                                <span style="margin-right: 10px;">{{ $number }}</span>
+                                            @endforeach
                                         </p>
+
                                     </div>
                                 </div>
                                 <div class="social__icon">
                                     <ul>
                                         <li>
-                                            <a class="facebook" href="#" title="Facebook">
+                                            <a class="facebook" href="{!! $website_social->facebook_url ?? '#' !!}" target="_blank" title="Facebook">
                                                 <i class="fa-brands fa-facebook-f"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="google-plus" href="#" title="Google Plus">
+                                            <a class="google-plus" href="{!! $website_social->googleplus_url ?? '#' !!}" target="_blank" title="Google Plus">
                                                 <i class="fa-brands fa-google"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="twitter" href="#" title="Twitter">
+                                            <a class="twitter" href="{!! $website_social->twitter_url ?? '#' !!}" target="_blank" title="Twitter">
                                                 <i class="fa-brands fa-twitter"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="linkedin" href="#" title="LinkedIn">
+                                            <a class="linkedin" href="{!! $website_social->linkedin_url ?? '#' !!}" target="_blank" title="LinkedIn">
                                                 <i class="fa-brands fa-linkedin-in"></i>
                                             </a>
                                         </li>
