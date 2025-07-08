@@ -155,7 +155,7 @@
             $(document).on('click', '.submit_btn', function(e) {
                 e.preventDefault();
 
-                var formData = $('#contact-form').serialize(); // ✅ ফর্মের ডাটা সংগ্রহ করো
+                var formData = $('#contact-form').serialize();
 
                 $.ajax({
                     url: '/contact/submit',

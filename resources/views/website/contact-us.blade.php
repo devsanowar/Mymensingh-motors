@@ -39,24 +39,36 @@
                                 method="POST">
                                 <div class="single-contact-form d-flex">
                                     <div class="contact-box">
-                                        <input type="text" placeholder="Your Name *" name="name">
+                                        <input type="text" placeholder="Your Name *" name="name"
+                                            value="{{ old('name') }}">
+                                        @error('name')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="contact-box">
-                                        <input type="text" placeholder="Phone *" name="phone">
+                                        <input type="text" placeholder="Phone *" name="phone"
+                                            value="{{ old('phone') }}">
+                                        @error('phone')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="single-contact-form">
                                     <div class="contact-box subject">
-                                        <input type="email" placeholder="Email*" name="email">
+                                        <input type="email" placeholder="Email*" name="email"
+                                            value="{{ old('email') }}">
+                                        @error('email')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="single-contact-form">
                                     <div class="contact-box message">
-                                        <textarea name="message" placeholder="Message*"></textarea>
+                                        <textarea name="message" placeholder="Message*">{!! old('message') !!}</textarea>
                                     </div>
                                 </div>
                                 <div class="contact-btn">
-                                    <button type="submit">Send Message</button>
+                                    <button type="submit" class="submit_btn">Send Message</button>
                                 </div>
 
                                 <p class="form-messege"></p>
@@ -78,7 +90,7 @@
                             <a href="#"><i class="zmdi zmdi-instagram"></i></a>
                             <a href="#"><i class="zmdi zmdi-linkedin"></i></a>
                             <a href="#"><i class="zmdi zmdi-twitter"></i></a>
-                            
+
                         </div>
                         <div class="contact-address">
                             <h3>address</h3>
@@ -117,8 +129,8 @@
         </div>
 
 
-            <div class="container-fluid">
-                <div class="row mt-80">
+        <div class="container-fluid">
+            <div class="row mt-80">
                 <div class="col-lg-12 col-md-12 col-12 pl-0 pr-0">
                     <div class="map-area">
                         <div id="googleMap">
@@ -129,9 +141,43 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 
     </div>
-    <!--Contact us end--
+    <!--Contact us end-->
 
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.submit_btn', function(e) {
+                e.preventDefault();
+
+                var formData = $('#contact-form').serialize(); // ✅ ফর্মের ডাটা সংগ্রহ করো
+
+                $.ajax({
+                    url: '/contact/submit',
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        toastr.success('বার্তাটি সফলভাবে পাঠানো হয়েছে');
+                        $('#contact-form')[0].reset();
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value[0]);
+                            });
+                        } else {
+                            toastr.error('ত্রুটি হয়েছে, আবার চেষ্টা করুন');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
