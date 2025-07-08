@@ -928,7 +928,7 @@ Order success message template
 @media (max-width: 767.98px) {
 
  .newsletter_form input[type="text"] {
-    width: 350px;
+    width: 340px;
   }
 
 .header_middle {
@@ -972,5 +972,11 @@ Order success message template
   .mini_cart_box_wrapper {
     margin-left: auto;
   }
+
+  .mean-container a.meanmenu-reveal {
+	top: -47px !important;
+}
+
+
 }
 

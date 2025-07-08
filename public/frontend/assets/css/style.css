@@ -918,6 +918,7 @@ header {
   font-weight: 300;
   height: 55px;
   padding: 0 40px;
+  width: 500px;
 }
 .newsletter_form input[type="email"]::-moz-placeholder {
   color: #151320;
