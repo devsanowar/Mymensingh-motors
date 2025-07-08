@@ -227,6 +227,16 @@
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
+                                <label for="whatsapp_number"><b>WhatsApp number</b></label>
+                                <div class="form-group">
+                                    <div class="" style="border: 1px solid #ccc">
+                                        <input type="text" id="whatsapp_number" name="whatsapp_number" class="form-control"
+                                            placeholder="Enter whatsapp number" value="{{ $website_setting->whatsapp_number }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-8 col-xs-7 mb-3">
                                 <label for="email"><b>Email</b></label>
                                 <div class="form-group">
                                     <div class="" style="border: 1px solid #ccc">

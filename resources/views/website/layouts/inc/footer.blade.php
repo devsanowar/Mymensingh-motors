@@ -103,6 +103,10 @@
                                             @endforeach
                                         </p>
 
+                                        <p>
+                                            WhatsApp :  <a class="text-white" href="https://api.whatsapp.com/send?phone=8801711944705" target="_blank">{{ $website_setting->whatsapp_number }}</a>
+                                        </p>
+
                                     </div>
                                 </div>
                                 <div class="social__icon">

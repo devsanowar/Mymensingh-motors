@@ -89,6 +89,7 @@ class WebsiteSettingController extends Controller
         $website_settings = WebsiteSetting::first();
         $website_settings->update([
             'phone' => $request->phone,
+            'whatsapp_number' => $request->whatsapp_number,
             'email' => $request->email,
             'address' => $request->address,
             'footer_content' => $request->footer_content,
