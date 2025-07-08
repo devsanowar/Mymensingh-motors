@@ -23,18 +23,28 @@
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/color_skins.css">
     <style>
         .theme-orange .authentication .card .header {
-            background: #f2ffde;
+            background: var(--secondary);
         }
+
+        
     </style>
 </head>
 <body class="theme-orange">
     @if ($website_setting->login_page_bg)
-        <div class="authentication" style="background-image: url('{{ asset($website_setting->login_page_bg) }}');">
-        @elseif ($website_setting->login_page_bg_color)
-            <div class="authentication" style="background: {{ $website_setting->login_page_bg_color }};">
-            @else
-                <div class="authentication">
-    @endif
+    <div class="authentication"
+     style="
+        background: url('{{ asset($website_setting->login_page_bg) }}') !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+     ">
+@elseif ($website_setting->login_page_bg_color)
+    <div class="authentication" style="background: {{ $website_setting->login_page_bg_color }} !important;">
+@else
+    <div class="authentication">
+@endif
+
     <div class="card">
         <div class="body">
             <div class="row">
@@ -117,6 +127,7 @@
     <script src="{{ asset('backend') }}/assets/bundles/libscripts.bundle.js"></script>
     <script src="{{ asset('backend') }}/assets/bundles/vendorscripts.bundle.js"></script>
     <script src="{{ asset('backend') }}/assets/bundles/mainscripts.bundle.js"></script>
+    
 </body>
 
 </html>
