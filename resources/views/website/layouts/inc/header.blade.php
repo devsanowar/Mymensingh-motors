@@ -12,7 +12,7 @@
 <header>
 <div class="header_middle">
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center mobile-inline-header">
             <div class="col-lg-3 col-md-3">
                 <div class="logo">
                     <a href="{{ route('home') }}">

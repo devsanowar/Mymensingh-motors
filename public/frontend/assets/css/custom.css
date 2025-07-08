@@ -373,7 +373,7 @@ Css For search result
     padding: 0 15px;
 }
 
-.row {
+.account_area .row {
     display: flex;
     justify-content: center;
 }
@@ -921,3 +921,56 @@ Order success message template
 	padding-bottom: 10px;
 	padding-top: 16px;
 }
+
+
+
+/* Mobile view: logo & cart side by side */
+@media (max-width: 767.98px) {
+
+ .newsletter_form input[type="text"] {
+    width: 350px;
+  }
+
+.header_middle {
+	padding-bottom: 15px;
+	padding-top: 15px;
+}
+
+ .logo img{
+    max-width: 65%;
+ }
+
+ 
+  .logo{
+    text-align: left;
+ }
+
+
+.mobile-inline-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mobile-inline-header > .col-lg-3,
+  .mobile-inline-header > .col-lg-2 {
+    flex: 0 0 auto;
+    width: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-inline-header .logo {
+    margin-right: 15px;
+  }
+
+  .mobile-inline-header .mini_cart_box_wrapper {
+    margin-left: auto;
+  }
+
+  .mini_cart_box_wrapper {
+    margin-left: auto;
+  }
+}
+
