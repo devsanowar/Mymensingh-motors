@@ -35,7 +35,7 @@
                             </thead>
                             <tbody id="sortable-list">
 
-                                {{-- @forelse ($categories as $key => $category)
+                                @forelse ($categories as $key => $category)
                                     <tr id="row-{{ $category->id }}" data-id="{{ $category->id }}">
                                         
                                         <td scope="row">{{ $key + 1 }}</td>
@@ -47,11 +47,11 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <a href="{{ route('category.edit', $category->id) }}"
+                                            <a href="{{ route('cost-category.edit', $category->id) }}"
                                                 class="btn btn-warning"><i class="material-icons text-white">edit</i></a>
 
                                             <form class="d-inline-block"
-                                                action="{{ route('category.destroy', $category->id) }}" method="POST">
+                                                action="{{ route('cost-category.destroy', $category->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -65,7 +65,7 @@
                                     <tr>
                                         <td colspan="6">Category Not Found! :) Please Add Category. Thank you</td>
                                     </tr>
-                                @endforelse --}}
+                                @endforelse
 
                             </tbody>
                         </table>

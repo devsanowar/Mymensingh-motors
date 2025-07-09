@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CostCategoryStoreRequest;
+use App\Models\CostCategory;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Redirect;
 
 class CostCategoryController extends Controller
 {
@@ -12,7 +16,8 @@ class CostCategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.layouts.pages.cost.category.index');
+        $categories = CostCategory::latest()->get();
+        return view('admin.layouts.pages.cost.category.index', compact('categories'));
     }
 
     /**
@@ -26,9 +31,13 @@ class CostCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CostCategoryStoreRequest $request)
     {
-        //
+        CostCategory::create($request->validated());
+
+        Toastr::success('Category Added Successfully');
+        return Redirect()->route('cost-category.index');
+
     }
 
     /**
