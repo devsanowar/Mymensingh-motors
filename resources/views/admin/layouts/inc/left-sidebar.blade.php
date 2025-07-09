@@ -142,6 +142,18 @@
                 </a>
             </li>
 
+            <li class="{{ $isPostActive ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="zmdi zmdi-border-color"></i>
+                    <span>Cost</span>
+                </a>
+                <ul class="ml-menu">
+                    <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
+                        <a href="{{ route('cost-category.index') }}">Cost Category</a>
+                    </li>
+                    
+                </ul>
+            </li>
 
 
             <li class="{{ $isShippingPageActive ? 'active' : '' }}">

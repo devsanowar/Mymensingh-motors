@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\SmsSettingController;
 use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\WhyChoseUsController;
 use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\CostCategoryController;
 use App\Http\Controllers\Admin\MessageSendController;
 use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PromobannerController;
@@ -216,6 +217,10 @@ Route::prefix('admin')
         Route::delete('payment-method/delete/{id}', [PaymentMethodController::class, 'destroy'])->name('payment_method.destroy');
         Route::post('/payment-method/status-change', [PaymentMethodController::class, 'paymentMethodChangeStatus'])->name('payment_method.status');
 
+
+        // Cost module route here
+        Route::resource('cost-category', CostCategoryController::class);
+
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');
         Route::post('/post-category/store', [PostCategoryController::class, 'store'])->name('post_category.store');
@@ -248,35 +253,17 @@ Route::prefix('admin')
         Route::get('Newslatter', [NewslatterController::class, 'index'])->name('newslatter');
         Route::delete('newsletter/destroy/{id}', [NewslatterController::class, 'destroy'])->name('newslatter.destroy');
 
-        // SMS Settings
+        // SMS api / custom message Settings
         Route::get('sms-settings', [SmsSettingController::class, 'edit'])->name('sms-settings.edit');
         Route::put('sms-settings', [SmsSettingController::class, 'update'])->name('sms-settings.update');
 
-        // SMS routes here
-        // Route::group(['prefix' => 'moblieSMS'], function(){
-        //     Route::get('sms', [SmsSettingController::class, 'moblie_sms'])->name('mobile.sms');
-        //     Route::get('custom-sms', [SmsSettingController::class, 'custom_sms'])->name('custom.sms');
-        //     Route::get('sms-report', [SmsSettingController::class, 'sms_report'])->name('sms_report.sms');
-        //     Route::post('/send/custom/message', [SmsSettingController::class, 'sendCustomSms'])->name('send.custom_sms');
-        // });
 
         // block list routes
         Route::get('block-list', [BlocklistController::class, 'index'])->name('block.list');
         Route::post('store-blocklist', [BlocklistController::class, 'store'])->name('block.number');
         Route::delete('/unblock/{id}', [BlocklistController::class, 'unblock'])->name('unblock.number');
 
-        // Privacy policy route
-        Route::get('privacy-policy', [PrivacypolicyController::class, 'privacyPolicy'])->name('privacy_policy');
-        Route::put('/privacy-policy/{id}', [PrivacypolicyController::class, 'update'])->name('privacy_policy.update');
-
-        //Return and refund
-        Route::get('return-refund', [ReturnrefundController::class, 'returnRefund'])->name('return_refund');
-        Route::put('/return-refund/update/{id}', [ReturnrefundController::class, 'update'])->name('return_refund.update');
-
-        // Terms And Condition
-        Route::get('/terms-and-condition', [TermsAdnCondiotnController::class, 'termsAndCondition'])->name('terms_and_condtion');
-        Route::put('/terms-and-condition/update/{id}', [TermsAdnCondiotnController::class, 'update'])->name('terms_and_conditon.update');
-
+        
         // Website Color routes
         Route::get('website-color', [WebsiteColorController::class, 'edit'])->name('website_color.edit');
         Route::put('/website-color/update/{id}', [WebsiteColorController::class, 'update'])->name('website_color.update');
@@ -301,19 +288,28 @@ Route::prefix('admin')
             Route::delete('destroy/{id}', [SmsReportController::class, 'destroy'])->name('sms-report.destroy');
         });
 
+
+        // Privacy policy route
+        Route::get('privacy-policy', [PrivacypolicyController::class, 'privacyPolicy'])->name('privacy_policy');
+        Route::put('/privacy-policy/{id}', [PrivacypolicyController::class, 'update'])->name('privacy_policy.update');
+
+        //Return and refund
+        Route::get('return-refund', [ReturnrefundController::class, 'returnRefund'])->name('return_refund');
+        Route::put('/return-refund/update/{id}', [ReturnrefundController::class, 'update'])->name('return_refund.update');
+
+        // Terms And Condition
+        Route::get('/terms-and-condition', [TermsAdnCondiotnController::class, 'termsAndCondition'])->name('terms_and_condtion');
+        Route::put('/terms-and-condition/update/{id}', [TermsAdnCondiotnController::class, 'update'])->name('terms_and_conditon.update');
+
+
         //Visit log route
         Route::get('visit-log', [VisitLogController::class, 'index'])->name('visit.log.index');
         Route::get('visit-track', [VisitLogController::class, 'trackVisitor'])->name('visit.log.track');
 
-        // প্রিভিলেজ পেইজ
+
+        // Previlege route here
         Route::get('privilege', [PrivilegeController::class, 'index'])->name('privilege.index');
-
-        // রোল অনুযায়ী ইউজার লোড করার জন্য
         Route::get('/get-users-by-role/{roleId}', [PrivilegeController::class, 'getUsersByRole'])->name('privilege.getUsersByRole');
-
-        // ইউজারের পারমিশন লোড করার জন্য (Ajax)
         Route::get('/users/{user}/permissions', [PrivilegeController::class, 'getUserPermissions'])->name('privilege.getUserPermissions');
-
-        // পারমিশন আপডেট করার জন্য POST Ajax route
         Route::post('/user-permissions', [PrivilegeController::class, 'updateUserPermission'])->name('privilege.updateUserPermission');
     });
