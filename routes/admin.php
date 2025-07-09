@@ -220,6 +220,7 @@ Route::prefix('admin')
 
         // Cost module route here
         Route::resource('cost-category', CostCategoryController::class);
+        Route::post('cost-category/status/', [CostCategoryController::class, 'costCategoryStatusChange'])->name('cost-category.status');
 
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');

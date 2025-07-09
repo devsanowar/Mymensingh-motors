@@ -85,11 +85,9 @@
     <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
 
 
-
-
-    {{-- <script>
-        const categoryStatusRoute = "{{ route('category.status') }}";
+    <script>
+        const categoryStatusRoute = "{{ route('cost-category.status') }}";
         const csrfToken = "{{ csrf_token() }}";
-    </script> --}}
+    </script>
     <script src="{{ asset('backend') }}/assets/js/category.js"></script>
 @endpush
