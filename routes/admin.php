@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\WhyChoseUsController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\CostCategoryController;
+use App\Http\Controllers\Admin\FieldofCostController;
 use App\Http\Controllers\Admin\MessageSendController;
 use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PromobannerController;
@@ -221,6 +222,8 @@ Route::prefix('admin')
         // Cost module route here
         Route::resource('cost-category', CostCategoryController::class);
         Route::post('cost-category/status/', [CostCategoryController::class, 'costCategoryStatusChange'])->name('cost-category.status');
+
+        Route::resource('field-of-cost', FieldofCostController::class);
 
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');

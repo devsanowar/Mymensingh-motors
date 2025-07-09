@@ -154,6 +154,9 @@
                     <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
                         <a href="{{ route('cost-category.index') }}">Cost Category</a>
                     </li>
+                    <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
+                        <a href="{{ route('field-of-cost.index') }}">Field Of Cost</a>
+                    </li>
                     
                 </ul>
             </li>

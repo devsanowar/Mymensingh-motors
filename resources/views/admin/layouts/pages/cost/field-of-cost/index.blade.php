@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Field of cost category')
+@section('title', 'Field of cost')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-select/css/bootstrap-select.css" />
 @endpush
@@ -11,9 +11,14 @@
             <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="text-uppercase"> All Categories
+                        <h4 class="text-uppercase">
+                            All Field Of Cost
                             <span>
-                                <a href="{{ route('category.create') }}" class="btn btn-primary right">Add Category</a>
+                                <!-- Trigger button -->
+                                <button type="button" class="btn btn-primary right" data-toggle="modal"
+                                    data-target="#addFieldOfCostModal">
+                                    Add Field Of Cost
+                                </button>
                             </span>
                         </h4>
                     </div>
@@ -24,16 +29,14 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Category Name</th>
+                                    <th>Cost Field Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="sortable-list">
-
+                            <tbody>
                                 {{-- @forelse ($categories as $key => $category)
-                                    <tr id="row-{{ $category->id }}" data-id="{{ $category->id }}">
-                                        
+                                    <tr>
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>{{ $category->category_name }}</td>
                                         <td>
@@ -43,35 +46,42 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <a href="{{ route('category.edit', $category->id) }}"
-                                                class="btn btn-warning"><i class="material-icons text-white">edit</i></a>
+                                            <!-- Edit button -->
+                                            <a href="javascript:void(0)" class="btn btn-warning btn-sm editcategory"
+                                                data-id="{{ $category->id }}" data-name="{{ $category->category_name }}"
+                                                data-status="{{ $category->is_active }}">
+                                                <i class="material-icons text-white">edit</i>
+                                            </a>
 
+                                            <!-- Delete button -->
                                             <form class="d-inline-block"
-                                                action="{{ route('category.destroy', $category->id) }}" method="POST">
+                                                action="{{ route('cost-category.destroy', $category->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
-                                                    class="btn btn-raised bg-pink waves-effect show_confirm">
+                                                    class="btn btn-raised bg-danger btn-sm waves-effect show_confirm text-white">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </form>
                                         </td>
                                     </tr>
+
+
+
                                 @empty
                                     <tr>
                                         <td colspan="6">Category Not Found! :) Please Add Category. Thank you</td>
                                     </tr>
                                 @endforelse --}}
-
-                                <tr>
-                                    <button id="bulk-delete" class="btn btn-danger mb-3">Delete Selected</button>
-                                </tr>
-
                             </tbody>
+
                         </table>
                     </div>
 
+                    @include('admin.layouts.pages.cost.field-of-cost.create')
 
+                    @include('admin.layouts.pages.cost.field-of-cost.edit')
                 </div>
             </div>
         </div>
@@ -81,15 +91,13 @@
 @endsection
 
 @push('scripts')
-
-<script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
-
+    <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
 
 
-
-    {{-- <script>
-        const categoryStatusRoute = "{{ route('category.status') }}";
+    <script>
+        const categoryStatusRoute = "{{ route('cost-category.status') }}";
+        const categoryUpdateRoute = "{{ route('cost-category.update', ':id') }}";
         const csrfToken = "{{ csrf_token() }}";
-    </script> --}}
-    <script src="{{ asset('backend') }}/assets/js/category.js"></script>
+    </script>
+    <script src="{{ asset('backend') }}/assets/js/cost_category.js"></script>
 @endpush

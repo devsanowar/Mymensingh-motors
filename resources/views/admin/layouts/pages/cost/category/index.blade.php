@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Field of cost category')
+@section('title', 'Category')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-select/css/bootstrap-select.css" />
 @endpush
