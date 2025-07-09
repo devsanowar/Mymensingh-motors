@@ -34,9 +34,9 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="sortable-list">
+                            <tbody>
                                 @forelse ($categories as $key => $category)
-                                    <tr id="row-{{ $category->id }}" data-id="{{ $category->id }}">
+                                    <tr>
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>{{ $category->category_name }}</td>
                                         <td>
@@ -47,7 +47,7 @@
                                         </td>
                                         <td>
                                             <!-- Edit button -->
-                                            <a href="javascript:void(0)" class="btn btn-warning editcategory"
+                                            <a href="javascript:void(0)" class="btn btn-warning btn-sm editcategory"
                                                 data-id="{{ $category->id }}" data-name="{{ $category->category_name }}"
                                                 data-status="{{ $category->is_active }}">
                                                 <i class="material-icons text-white">edit</i>
@@ -60,7 +60,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
-                                                    class="btn btn-raised bg-pink waves-effect show_confirm">
+                                                    class="btn btn-raised bg-danger btn-sm waves-effect show_confirm text-white">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </form>
@@ -95,28 +95,9 @@
 
 
     <script>
-        $(document).ready(function() {
-            $(".editcategory").click(function() {
-                const categoryId = $(this).data("id");
-                const categoryName = $(this).data("name");
-                const status = $(this).data("status");
-
-                $("#edit_category_id").val(categoryId);
-                $("#edit_category_name").val(categoryName);
-
-                $("#edit_is_active").val(status == 1 ? "1" : "0");
-
-                $('#edit_is_active').trigger('change');
-
-                $("#editCategoryModal").modal("show");
-            });
-        });
-    </script>
-
-
-    <script>
         const categoryStatusRoute = "{{ route('cost-category.status') }}";
+        const categoryUpdateRoute = "{{ route('cost-category.update', ':id') }}";
         const csrfToken = "{{ csrf_token() }}";
     </script>
-    <script src="{{ asset('backend') }}/assets/js/category.js"></script>
+    <script src="{{ asset('backend') }}/assets/js/cost_category.js"></script>
 @endpush

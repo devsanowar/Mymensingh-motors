@@ -11,9 +11,9 @@
             </div>
 
             <div class="modal-body">
-                <form action="{{ route('cost-category.update', $category->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+            <form id="editCategoryForm" method="POST">
+                @csrf
+                @method('PUT')
 
                     <input type="hidden" id="edit_category_id" name="id">
 

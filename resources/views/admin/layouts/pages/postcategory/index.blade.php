@@ -124,6 +124,7 @@
                                                 <i class="material-icons text-white">edit</i>
                                             </a>
 
+
                                             <form class="d-inline-block delete-category-form"
                                                 data-id="{{ $category->id }}">
                                                 @csrf

@@ -18,6 +18,9 @@
     }
 
     $isPostActive = request()->routeIs('post.*') || request()->routeIs('post_category.*');
+
+    $isCostActive = request()->routeIs('post.*') || request()->routeIs('cost-category.*');
+
     $isProductActive =
         request()->routeIs('product.*') ||
         request()->routeIs('category.*') ||
@@ -142,7 +145,7 @@
                 </a>
             </li>
 
-            <li class="{{ $isPostActive ? 'active open' : '' }}">
+            <li class="{{ $isCostActive ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-border-color"></i>
                     <span>Cost</span>

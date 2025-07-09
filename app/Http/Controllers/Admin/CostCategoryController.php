@@ -9,6 +9,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\CostCategoryStoreRequest;
 use App\Http\Requests\CostCategoryUpdateRequest;
+use Brian2694\Toastr\Toastr as ToastrToastr;
 
 class CostCategoryController extends Controller
 {
@@ -77,7 +78,10 @@ class CostCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = CostCategory::findOrFail($id);
+        $category->delete();
+        Toastr::success("Category deleted successfully.");
+        return Redirect()->route('cost-category.index');
     }
 
     public function costCategoryStatusChange(Request $request){
