@@ -68,23 +68,23 @@ $(document).on('click', '.status-toggle-btn', function(e) {
 
 
 $(document).ready(function() {
-            $(".editcategory").click(function() {
-                const categoryId = $(this).data("id");
-                const categoryName = $(this).data("name");
-                const status = $(this).data("status");
+    $(".editcategory").click(function() {
+        const categoryId = $(this).data("id");
+        const categoryName = $(this).data("name");
+        const status = $(this).data("status");
 
-                $("#edit_category_id").val(categoryId);
-                $("#edit_category_name").val(categoryName);
+        $("#edit_category_id").val(categoryId);
+        $("#edit_category_name").val(categoryName);
 
-                $("#edit_is_active").val(status == 1 ? "1" : "0");
+        $("#edit_is_active").val(status == 1 ? "1" : "0");
 
-                $('#edit_is_active').trigger('change');
+        $('#edit_is_active').trigger('change');
 
-                const updateUrl = categoryUpdateRoute.replace(':id', categoryId);
-            $("#editCategoryForm").attr('action', updateUrl);
+        const updateUrl = categoryUpdateRoute.replace(':id', categoryId);
+        $("#editCategoryForm").attr('action', updateUrl);
 
-                $("#editCategoryModal").modal("show");
-            });
+            $("#editCategoryModal").modal("show");
         });
+});
 
 

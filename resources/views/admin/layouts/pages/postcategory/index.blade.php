@@ -107,7 +107,7 @@
                             <tbody>
                                 @foreach ($categories as $key => $category)
                                     <tr id="categoryRow-{{ $category->id }}">
-                                        <td>{{ $category->id }}</td>
+                                        <td>{{ $key + 1 }}</td>
                                         <td class="category-name">{{ $category->category_name }}</td>
                                         <td class="category-slug">{{ $category->category_slug }}</td>
 
@@ -124,15 +124,14 @@
                                                 <i class="material-icons text-white">edit</i>
                                             </a>
 
-
                                             <form class="d-inline-block delete-category-form"
                                                 data-id="{{ $category->id }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm delete-category-btn"><i
-                                                        class="material-icons">delete</i></button>
+                                                <button type="button" class="btn btn-danger btn-sm delete-category-btn">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
                                             </form>
-
 
                                         </td>
                                     </tr>
@@ -148,7 +147,6 @@
 
                     <!-- Edit category Modal -->
                     @include('admin.layouts.pages.postcategory.edit')
-
 
 
 
@@ -176,6 +174,97 @@
     <script src="{{ asset('backend') }}/assets/js/pages/tables/jquery-datatable.js"></script>
     <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
 
+    <script>
+        const categoryUpdateRoute = "{{ route('post_category.update', ':id') }}";
+
+        $(document).ready(function() {
+            $(".editcategory").click(function() {
+                const categoryId = $(this).data("id");
+                const categoryName = $(this).data("name");
+                const status = $(this).data("status");
+
+                $("#edit_category_id").val(categoryId);
+                $("#edit_category_name").val(categoryName);
+                $("#edit_is_active").val(status == 1 ? "1" : "0").trigger('change');
+
+                const updateUrl = categoryUpdateRoute.replace(':id', categoryId);
+                $("#editCategoryForm").attr('action', updateUrl);
+
+                $("#editCategoryModal").modal("show");
+            });
+        });
+
+
+
+        $(document).ready(function() {
+    $(".delete-category-btn").click(function(e) {
+        e.preventDefault();
+
+        const button = $(this);
+        const form = button.closest(".delete-category-form");
+        const categoryId = form.data("id");
+        const deleteUrl = "/admin/post-category/delete/" + categoryId;
+        const csrfToken = form.find('input[name="_token"]').val();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This will delete the category permanently.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: deleteUrl,
+                    type: "POST",
+                    data: {
+                        _token: csrfToken,
+                        _method: "DELETE"
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire(
+                                "Deleted!",
+                                response.success,
+                                "success"
+                            );
+                            $("#categoryRow-" + categoryId).remove();
+                        } else if (response.error) {
+                            Swal.fire(
+                                "Error!",
+                                response.error,
+                                "error"
+                            );
+                        } else {
+                            Swal.fire(
+                                "Error!",
+                                "Deletion failed.",
+                                "error"
+                            );
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = "Something went wrong.";
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        }
+                        Swal.fire(
+                            "Error!",
+                            errorMsg,
+                            "error"
+                        );
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+});
+
+    </script>
+
 
 
     <!-- Script For status change -->
@@ -185,9 +274,5 @@
     </script>
     <script src="{{ asset('backend') }}/assets/js/postcategory.js"></script>
 
-    <script>
-
-</script>
-
-
+    <script></script>
 @endpush

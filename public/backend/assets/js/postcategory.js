@@ -25,6 +25,15 @@ $(document).on('click', '.status-toggle-btn', function(e) {
             if (response.status) {
                 button.text(response.new_status);
                 button.removeClass('btn-success btn-danger').addClass(response.class);
+
+                $('.editcategory[data-id="' + categoryId + '"]').data(
+                    'status',
+                    response.new_status === 'Active' ? 1 : 0
+                );
+
+                $('.editcategory[data-id="' + categoryId + '"]').data('name', response.new_name);
+
+                
                 toastr.success(response.message, 'Success', {
                     timeOut: 1500,
                     closeButton: true,
@@ -41,40 +50,4 @@ $(document).on('click', '.status-toggle-btn', function(e) {
 });
 
 
-$(document).ready(function () {
-    $(".delete-category-btn").click(function (e) {
-        e.preventDefault();
-
-        const button = $(this);
-        const form = button.closest(".delete-category-form");
-        const categoryId = form.data("id");
-        const deleteUrl = "/admin/post-category/destroy/" + categoryId;
-        const csrfToken = form.find('input[name="_token"]').val();
-
-        if (confirm("Are you sure you want to delete this category?")) {
-            $.ajax({
-                url: deleteUrl,
-                type: "POST",
-                data: {
-                    _token: csrfToken,
-                    _method: "DELETE"
-                },
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.success);
-
-                        // ডিলিট হওয়া Row রিমুভ করো
-                        $("#categoryRow-" + categoryId).remove();
-                    } else {
-                        toastr.error("Deletion failed.");
-                    }
-                },
-                error: function (xhr) {
-                    console.error(xhr.responseText);
-                    toastr.error("Something went wrong.");
-                }
-            });
-        }
-    });
-});
 

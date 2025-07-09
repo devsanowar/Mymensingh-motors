@@ -1,5 +1,4 @@
-<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
@@ -13,8 +12,7 @@
             <div class="modal-body">
             <form id="editCategoryForm" method="POST">
                 @csrf
-                @method('PUT')
-
+                
                     <input type="hidden" id="edit_category_id" name="id">
 
                     <div class="form-group mb-4">

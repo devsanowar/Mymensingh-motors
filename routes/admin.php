@@ -225,7 +225,7 @@ Route::prefix('admin')
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');
         Route::post('/post-category/store', [PostCategoryController::class, 'store'])->name('post_category.store');
-        Route::put('/post-category/update', [PostCategoryController::class, 'update'])->name('post_category.update');
+        Route::put('/post-category/update/{id}', [PostCategoryController::class, 'update'])->name('post_category.update');
         Route::delete('/post-category/delete/{id}', [PostCategoryController::class, 'destroy'])->name('post_category.destroy');
         Route::post('/post-category/status-change', [PostCategoryController::class, 'changeStatus'])->name('post_category.status');
 

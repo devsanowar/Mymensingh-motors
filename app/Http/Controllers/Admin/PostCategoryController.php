@@ -35,18 +35,14 @@ class PostCategoryController extends Controller
         return redirect()->route('post_category.index');
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'category_name' => 'required|string|max:255|unique:postcategories,category_name,' . $request->id,
+            'category_name' => 'required|string|max:255|unique:postcategories,category_name,' . $id,
             'is_active' => 'required|in:0,1',
         ]);
 
-        $postcategory = Postcategory::find($request->id);
-
-        if (!$postcategory) {
-            return response()->json(['error' => 'Category not found'], 404);
-        }
+        $postcategory = Postcategory::findOrFail($id);
 
         $postcategory->update([
             'category_name' => $request->category_name,
@@ -54,12 +50,9 @@ class PostCategoryController extends Controller
             'is_active' => (int) $request->is_active,
         ]);
 
-        return response()->json([
-            'success' => 'Post category updated successfully!',
-            'category_name' => $postcategory->category_name,
-            'category_slug' => $postcategory->category_slug,
-            'is_active' => $postcategory->is_active,
-        ]);
+        Toastr::success('Category Updated Successfully.');
+
+        return redirect()->route('post_category.index');
     }
 
     public function destroy($id)
@@ -67,22 +60,20 @@ class PostCategoryController extends Controller
         $postcategory = Postcategory::findOrFail($id);
 
         if ($postcategory->category_slug == 'default') {
-            Toastr::error('Default category cannot be deleted.');
-            return back();
+            return response()->json(['error' => 'Default category cannot be deleted.'], 400);
         }
 
         $defaultCategory = Postcategory::where('category_slug', 'default')->first();
         if (!$defaultCategory) {
-            Toastr::error('Category deleted successfully.');
-            return back();
+            return response()->json(['error' => 'Default category missing!'], 400);
         }
 
         $postcategory->posts()->update([
-            'category_id' => $defaultCategory->id
+            'category_id' => $defaultCategory->id,
         ]);
 
-
         $postcategory->delete();
+
         return response()->json(['success' => 'Post Category deleted successfully.']);
     }
 
