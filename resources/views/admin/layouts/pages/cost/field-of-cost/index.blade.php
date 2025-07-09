@@ -95,9 +95,9 @@
 
 
     <script>
-        const categoryStatusRoute = "{{ route('cost-category.status') }}";
+        const categoryStatusRoute = "{{ route('field-of-cost.status') }}";
         const categoryUpdateRoute = "{{ route('cost-category.update', ':id') }}";
         const csrfToken = "{{ csrf_token() }}";
     </script>
-    <script src="{{ asset('backend') }}/assets/js/cost_category.js"></script>
+    <script src="{{ asset('backend') }}/assets/js/field_of_cost.js"></script>
 @endpush

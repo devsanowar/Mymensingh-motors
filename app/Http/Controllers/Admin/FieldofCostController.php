@@ -69,4 +69,22 @@ class FieldofCostController extends Controller
     {
         //
     }
+
+    public function FieldOfCostStatusChange(Request $request){
+        $field_of_cost = FieldOfCost::find($request->id);
+
+        if (!$field_of_cost) {
+            return response()->json(['status' => false, 'message' => 'Field of cost not found.']);
+        }
+
+        $field_of_cost->is_active = !$field_of_cost->is_active;
+        $field_of_cost->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status changed successfully.',
+            'new_status' => $field_of_cost->is_active ? 'Active' : 'DeActive',
+            'class' => $field_of_cost->is_active ? 'btn-success' : 'btn-danger',
+        ]);
+    }
 }
