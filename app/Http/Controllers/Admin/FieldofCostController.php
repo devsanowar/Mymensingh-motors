@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\FieldOfCostStoreRequest;
+use App\Models\FieldOfCost;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Redirect;
 
 class FieldofCostController extends Controller
 {
@@ -12,7 +16,8 @@ class FieldofCostController extends Controller
      */
     public function index()
     {
-        return view('admin.layouts.pages.cost.field-of-cost.index');
+        $field_of_costs = FieldOfCost::latest()->get();
+        return view('admin.layouts.pages.cost.field-of-cost.index', compact('field_of_costs'));
     }
 
     /**
@@ -26,9 +31,11 @@ class FieldofCostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FieldOfCostStoreRequest $request)
     {
-        //
+        FieldOfCost::create($request->validated());
+        Toastr::success("Field of cost added.");
+        return Redirect()->route('field-of-cost.index');
     }
 
     /**

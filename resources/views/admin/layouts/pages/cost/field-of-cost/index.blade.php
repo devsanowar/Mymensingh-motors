@@ -35,27 +35,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @forelse ($categories as $key => $category)
+                                @forelse ($field_of_costs as $key => $field_of_cost)
                                     <tr>
                                         <td scope="row">{{ $key + 1 }}</td>
-                                        <td>{{ $category->category_name }}</td>
+                                        <td>{{ $field_of_cost->field_name }}</td>
                                         <td>
-                                            <button data-id="{{ $category->id }}"
-                                                class="btn btn-sm status-toggle-btn {{ $category->is_active ? 'btn-success' : 'btn-danger' }}">
-                                                {{ $category->is_active ? 'Active' : 'DeActive' }}
+                                            <button data-id="{{ $field_of_cost->id }}"
+                                                class="btn btn-sm status-toggle-btn {{ $field_of_cost->is_active ? 'btn-success' : 'btn-danger' }}">
+                                                {{ $field_of_cost->is_active ? 'Active' : 'DeActive' }}
                                             </button>
                                         </td>
                                         <td>
                                             <!-- Edit button -->
                                             <a href="javascript:void(0)" class="btn btn-warning btn-sm editcategory"
-                                                data-id="{{ $category->id }}" data-name="{{ $category->category_name }}"
-                                                data-status="{{ $category->is_active }}">
+                                                data-id="{{ $field_of_cost->id }}" data-name="{{ $field_of_cost->field_name }}"
+                                                data-status="{{ $field_of_cost->is_active }}">
                                                 <i class="material-icons text-white">edit</i>
                                             </a>
 
                                             <!-- Delete button -->
                                             <form class="d-inline-block"
-                                                action="{{ route('cost-category.destroy', $category->id) }}"
+                                                action="{{ route('field-of-cost.destroy', $field_of_cost->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -71,9 +71,9 @@
 
                                 @empty
                                     <tr>
-                                        <td colspan="6">Category Not Found! :) Please Add Category. Thank you</td>
+                                        <td colspan="6">Field of cost not found! :) Please Add field of cost. Thank you</td>
                                     </tr>
-                                @endforelse --}}
+                                @endforelse
                             </tbody>
 
                         </table>
