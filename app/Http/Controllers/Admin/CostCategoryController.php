@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\CostCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CostCategoryStoreRequest;
-use App\Models\CostCategory;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\CostCategoryStoreRequest;
+use App\Http\Requests\CostCategoryUpdateRequest;
 
 class CostCategoryController extends Controller
 {
@@ -59,9 +60,16 @@ class CostCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CostCategoryUpdateRequest $request, string $id)
     {
-        //
+        $category = CostCategory::findOrFail($id);
+        $category->update([
+            'category_name' => $request->category_name,
+            'is_active' => $request->is_active,
+        ]);
+
+        Toastr::success('Category Updated Successfully');
+        return Redirect()->route('cost-category.index');
     }
 
     /**

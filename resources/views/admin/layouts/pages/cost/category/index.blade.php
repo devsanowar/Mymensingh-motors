@@ -15,8 +15,9 @@
                             All Categories
                             <span>
                                 <!-- Trigger button -->
-                                <button type="button" class="btn btn-primary right" data-toggle="modal" data-target="#addCategoryModal">
-                                Add Category
+                                <button type="button" class="btn btn-primary right" data-toggle="modal"
+                                    data-target="#addCategoryModal">
+                                    Add Category
                                 </button>
                             </span>
                         </h4>
@@ -34,10 +35,8 @@
                                 </tr>
                             </thead>
                             <tbody id="sortable-list">
-
                                 @forelse ($categories as $key => $category)
                                     <tr id="row-{{ $category->id }}" data-id="{{ $category->id }}">
-                                        
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>{{ $category->category_name }}</td>
                                         <td>
@@ -47,11 +46,17 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <a href="{{ route('cost-category.edit', $category->id) }}"
-                                                class="btn btn-warning"><i class="material-icons text-white">edit</i></a>
+                                            <!-- Edit button -->
+                                            <a href="javascript:void(0)" class="btn btn-warning editcategory"
+                                                data-id="{{ $category->id }}" data-name="{{ $category->category_name }}"
+                                                data-status="{{ $category->is_active }}">
+                                                <i class="material-icons text-white">edit</i>
+                                            </a>
 
+                                            <!-- Delete button -->
                                             <form class="d-inline-block"
-                                                action="{{ route('cost-category.destroy', $category->id) }}" method="POST">
+                                                action="{{ route('cost-category.destroy', $category->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -61,18 +66,22 @@
                                             </form>
                                         </td>
                                     </tr>
+
+
+
                                 @empty
                                     <tr>
                                         <td colspan="6">Category Not Found! :) Please Add Category. Thank you</td>
                                     </tr>
                                 @endforelse
-
                             </tbody>
+
                         </table>
                     </div>
 
                     @include('admin.layouts.pages.cost.category.create')
 
+                    @include('admin.layouts.pages.cost.category.edit')
                 </div>
             </div>
         </div>
@@ -83,6 +92,26 @@
 
 @push('scripts')
     <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $(".editcategory").click(function() {
+                const categoryId = $(this).data("id");
+                const categoryName = $(this).data("name");
+                const status = $(this).data("status");
+
+                $("#edit_category_id").val(categoryId);
+                $("#edit_category_name").val(categoryName);
+
+                $("#edit_is_active").val(status == 1 ? "1" : "0");
+
+                $('#edit_is_active').trigger('change');
+
+                $("#editCategoryModal").modal("show");
+            });
+        });
+    </script>
 
 
     <script>
