@@ -23,6 +23,27 @@
                         </h4>
                     </div>
 
+                    @if (session('success'))
+                        <script>
+                            toastr.success("{{ session('success') }}", 'Success', {
+                                timeOut: 3000,
+                                closeButton: true,
+                                progressBar: true
+                            });
+                        </script>
+                    @endif
+
+                    @if (session('error'))
+                        <script>
+                            toastr.error("{{ session('error') }}", 'Error', {
+                                timeOut: 5000,
+                                closeButton: true,
+                                progressBar: true
+                            });
+                        </script>
+                    @endif
+
+
 
                     <div class="body table-responsive">
                         <table class="table table-positioned table-bordered">
@@ -36,7 +57,7 @@
                             </thead>
                             <tbody>
                                 @forelse ($field_of_costs as $key => $field_of_cost)
-                                    <tr>
+                                    <tr id="field_of_costRow-{{ $field_of_cost->id }}">
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>{{ $field_of_cost->field_name }}</td>
                                         <td>
@@ -47,14 +68,15 @@
                                         </td>
                                         <td>
                                             <!-- Edit button -->
-                                            <a href="javascript:void(0)" class="btn btn-warning btn-sm editcategory"
-                                                data-id="{{ $field_of_cost->id }}" data-name="{{ $field_of_cost->field_name }}"
+                                            <a href="javascript:void(0)" class="btn btn-warning btn-sm editFieldOfCost"
+                                                data-id="{{ $field_of_cost->id }}"
+                                                data-name="{{ $field_of_cost->field_name }}"
                                                 data-status="{{ $field_of_cost->is_active }}">
                                                 <i class="material-icons text-white">edit</i>
                                             </a>
 
                                             <!-- Delete button -->
-                                            <form class="d-inline-block"
+                                            {{-- <form class="d-inline-block"
                                                 action="{{ route('field-of-cost.destroy', $field_of_cost->id) }}"
                                                 method="POST">
                                                 @csrf
@@ -63,7 +85,19 @@
                                                     class="btn btn-raised bg-danger btn-sm waves-effect show_confirm text-white">
                                                     <i class="material-icons">delete</i>
                                                 </button>
+                                            </form> --}}
+
+                                            <form class="d-inline-block delete-field-of-cost-form"
+                                                data-id="{{ $field_of_cost->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm delete-field-of-cost-btn">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
                                             </form>
+
+
                                         </td>
                                     </tr>
 
@@ -71,7 +105,8 @@
 
                                 @empty
                                     <tr>
-                                        <td colspan="6">Field of cost not found! :) Please Add field of cost. Thank you</td>
+                                        <td colspan="6">Field of cost not found! :) Please Add field of cost. Thank you
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -95,8 +130,62 @@
 
 
     <script>
-        const categoryStatusRoute = "{{ route('field-of-cost.status') }}";
-        const categoryUpdateRoute = "{{ route('cost-category.update', ':id') }}";
+        $(document).ready(function() {
+            $(".delete-field-of-cost-btn").click(function(e) {
+                e.preventDefault();
+
+                const button = $(this);
+                const form = button.closest(".delete-field-of-cost-form");
+                const fieldOfCostId = form.data("id");
+                const deleteUrl = "{{ route('field-of-cost.destroy', ':id') }}".replace(':id',
+                    fieldOfCostId);
+                const csrfToken = form.find('input[name="_token"]').val();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete the field of cost permanently.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                                _method: "DELETE"
+                            },
+                            success: function(response) {
+                                console.log(response);
+
+                                if (response.success) {
+                                    Swal.fire("Deleted!", response.success, "success");
+                                    $("#field_of_costRow-" + fieldOfCostId).remove();
+                                } else if (response.error) {
+                                    Swal.fire("Error!", response.error, "error");
+                                } else {
+                                    Swal.fire("Error!", "Deletion failed.", "error");
+                                }
+                            },
+                            error: function(xhr) {
+                                let errorMsg = "Something went wrong.";
+                                if (xhr.responseJSON && xhr.responseJSON.error) {
+                                    errorMsg = xhr.responseJSON.error;
+                                }
+                                Swal.fire("Error!", errorMsg, "error");
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        const fieldOfCostStatusChangeRoute = "{{ route('field-of-cost.status') }}";
+        const fieldOfCostUpdateRoute = "{{ route('field-of-cost.update', ':id') }}";
         const csrfToken = "{{ csrf_token() }}";
     </script>
     <script src="{{ asset('backend') }}/assets/js/field_of_cost.js"></script>

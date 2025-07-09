@@ -224,7 +224,7 @@ Route::prefix('admin')
         Route::post('cost-category/status/', [CostCategoryController::class, 'costCategoryStatusChange'])->name('cost-category.status');
 
         Route::resource('field-of-cost', FieldofCostController::class);
-        Route::post('cost-category/status/', [FieldofCostController::class, 'FieldOfCostStatusChange'])->name('field-of-cost.status');
+        Route::post('field-of-cost/status/', [FieldofCostController::class, 'FieldOfCostStatusChange'])->name('field-of-cost.status');
 
 
         // Post Category

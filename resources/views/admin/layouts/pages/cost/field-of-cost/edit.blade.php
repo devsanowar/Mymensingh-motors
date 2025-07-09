@@ -1,44 +1,46 @@
-<!-- Modal -->
-<div class="modal fade" id="editFieldOfCostModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel"
+<div class="modal fade" id="editFieldOfCostModal" tabindex="-1" aria-labelledby="editFieldOfCostModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ route('cost-category.store') }}" method="POST">
-                @csrf
 
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFieldOfCostModalLabel">Edit Cost Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-                <div class="modal-body">
+            <div class="modal-body">
+                <form id="editFieldOfCostForm" method="POST">
+                    @csrf
+                    @method('PUT')
 
-                    <div class="form-group">
-                        <label for="category_name">Category Name *</label>
-                        <div class="input-line" style="border: 1px solid #ddd">
-                            <input type="text" name="category_name" id="category_name" class="form-control"
-                            placeholder="Enter category name" required>
+                    <input type="hidden" id="edit_field_of_cost_id" name="id">
+
+                    <div class="form-group mb-4">
+                        <label><b>Field of cost name</b></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="material-icons">pin_drop</i></span>
+                            <div class="form-line case-input">
+                                <input type="text" id="edit_field_name" class="form-control" name="field_name">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="category_name">Status</label>
-                        <div class="input-line">
-                            <select name="is_active" id="is_active" class="form-control show-tick">
-                                <option value="1">Active</option>
-                                <option value="0">DeActive</option>
-                            </select>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-control show-tick" id="edit_is_active" name="is_active">
+                            <option value="1">Active</option>
+                            <option value="0">DeActive</option>
+                        </select>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Category</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Category</button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>

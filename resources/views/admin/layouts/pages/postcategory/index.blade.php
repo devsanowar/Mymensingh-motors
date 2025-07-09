@@ -197,72 +197,71 @@
 
 
         $(document).ready(function() {
-    $(".delete-category-btn").click(function(e) {
-        e.preventDefault();
+            $(".delete-category-btn").click(function(e) {
+                e.preventDefault();
 
-        const button = $(this);
-        const form = button.closest(".delete-category-form");
-        const categoryId = form.data("id");
-        const deleteUrl = "/admin/post-category/delete/" + categoryId;
-        const csrfToken = form.find('input[name="_token"]').val();
+                const button = $(this);
+                const form = button.closest(".delete-category-form");
+                const categoryId = form.data("id");
+                const deleteUrl = "/admin/post-category/delete/" + categoryId;
+                const csrfToken = form.find('input[name="_token"]').val();
 
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This will delete the category permanently.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: deleteUrl,
-                    type: "POST",
-                    data: {
-                        _token: csrfToken,
-                        _method: "DELETE"
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            Swal.fire(
-                                "Deleted!",
-                                response.success,
-                                "success"
-                            );
-                            $("#categoryRow-" + categoryId).remove();
-                        } else if (response.error) {
-                            Swal.fire(
-                                "Error!",
-                                response.error,
-                                "error"
-                            );
-                        } else {
-                            Swal.fire(
-                                "Error!",
-                                "Deletion failed.",
-                                "error"
-                            );
-                        }
-                    },
-                    error: function(xhr) {
-                        let errorMsg = "Something went wrong.";
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        Swal.fire(
-                            "Error!",
-                            errorMsg,
-                            "error"
-                        );
-                        console.error(xhr.responseText);
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete the category permanently.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                                _method: "DELETE"
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        "Deleted!",
+                                        response.success,
+                                        "success"
+                                    );
+                                    $("#categoryRow-" + categoryId).remove();
+                                } else if (response.error) {
+                                    Swal.fire(
+                                        "Error!",
+                                        response.error,
+                                        "error"
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        "Error!",
+                                        "Deletion failed.",
+                                        "error"
+                                    );
+                                }
+                            },
+                            error: function(xhr) {
+                                let errorMsg = "Something went wrong.";
+                                if (xhr.responseJSON && xhr.responseJSON.error) {
+                                    errorMsg = xhr.responseJSON.error;
+                                }
+                                Swal.fire(
+                                    "Error!",
+                                    errorMsg,
+                                    "error"
+                                );
+                                console.error(xhr.responseText);
+                            }
+                        });
                     }
                 });
-            }
+            });
         });
-    });
-});
-
     </script>
 
 

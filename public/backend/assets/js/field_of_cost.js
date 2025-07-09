@@ -30,26 +30,26 @@ $(document).on('click', '.status-toggle-btn', function(e) {
     e.preventDefault();
 
     let button = $(this);
-    let categoryId = button.data('id');
+    let fieldOfCostId = button.data('id');
 
     $.ajax({
-        url: categoryStatusRoute,
+        url: fieldOfCostStatusChangeRoute,
         type: 'POST',
         data: {
             _token: csrfToken,
-            id: categoryId
+            id: fieldOfCostId
         },
         success: function(response) {
             if (response.status) {
                 button.text(response.new_status);
                 button.removeClass('btn-success btn-danger').addClass(response.class);
 
-                $('.editcategory[data-id="' + categoryId + '"]').data(
+                $('.editFieldOfCost[data-id="' + fieldOfCostId + '"]').data(
                     'status',
                     response.new_status === 'Active' ? 1 : 0
                 );
 
-                $('.editcategory[data-id="' + categoryId + '"]').data('name', response.new_name);
+                $('.editFieldOfCost[data-id="' + fieldOfCostId + '"]').data('name', response.new_name);
 
                 toastr.success(response.message, 'Success', {
                     timeOut: 1500,
@@ -68,22 +68,22 @@ $(document).on('click', '.status-toggle-btn', function(e) {
 
 
 $(document).ready(function() {
-    $(".editcategory").click(function() {
-        const categoryId = $(this).data("id");
-        const categoryName = $(this).data("name");
+    $(".editFieldOfCost").click(function() {
+        const fieldOfCostId = $(this).data("id");
+        const fieldName = $(this).data("name");
         const status = $(this).data("status");
 
-        $("#edit_category_id").val(categoryId);
-        $("#edit_category_name").val(categoryName);
+        $("#edit_field_of_cost_id").val(fieldOfCostId);
+        $("#edit_field_name").val(fieldName);
 
         $("#edit_is_active").val(status == 1 ? "1" : "0");
 
         $('#edit_is_active').trigger('change');
 
-        const updateUrl = categoryUpdateRoute.replace(':id', categoryId);
-        $("#editCategoryForm").attr('action', updateUrl);
+        const updateUrl = fieldOfCostUpdateRoute.replace(':id', fieldOfCostId);
+        $("#editFieldOfCostForm").attr('action', updateUrl);
 
-            $("#editCategoryModal").modal("show");
+            $("#editFieldOfCostModal").modal("show");
         });
 });
 

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\FieldOfCost;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FieldOfCostStoreRequest;
-use App\Models\FieldOfCost;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\FieldOfCostStoreRequest;
+use App\Http\Requests\FieldOfCostUpdateRequest;
 
 class FieldofCostController extends Controller
 {
@@ -57,9 +58,17 @@ class FieldofCostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FieldOfCostUpdateRequest $request, string $id)
     {
-        //
+        $field_of_cost = FieldOfCost::findOrFail($id);
+
+        $field_of_cost->update([
+            'field_name' => $request->field_name,
+            'is_active' => $request->is_active,
+        ]);
+
+        Toastr::success('Field of cost Updated Successfully');
+        return Redirect()->route('field-of-cost.index');
     }
 
     /**
@@ -67,7 +76,10 @@ class FieldofCostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $field_of_cost = FieldOfCost::findOrFail($id);
+        $field_of_cost->delete();
+        Toastr::success("Field of cost deleted successfully.");
+            return response()->json(['success' => 'Field of Cost deleted successfully!']);
     }
 
     public function FieldOfCostStatusChange(Request $request){
