@@ -9,17 +9,14 @@
 
 @section('admin_content')
 
-    @php
-        $countDeletedData = App\Models\Product::onlyTrashed()->get();
-    @endphp
 
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4> All cost <span><a href="{{ route('product.trash') }}"
-                                    class="btn btn-primary text-uppercase">Recycle Bin ( {{ $countDeletedData->count() }}
+                        <h4> All cost <span><a href="{{ route('cost.trash') }}"
+                                    class="btn btn-primary text-uppercase">Recycle Bin ( {{ $costs->count() }}
                                     )</a></span> <span><a href="{{ route('cost.create') }}"
                                     class="btn btn-primary text-white text-uppercase text-bold right">
                                     + Add Cost

@@ -234,7 +234,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        // Handle thumbnail
         if ($request->hasFile('thumbnail')) {
             if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
                 unlink(public_path($product->thumbnail));
@@ -244,16 +243,11 @@ class ProductController extends Controller
             $productThumbnail = $product->thumbnail;
         }
 
-        // 1. Get existing image paths from form
         $existingImages = $request->input('existing_images', []);
-
-        // 2. Get old images from database
         $oldImages = json_decode($product->images, true) ?? [];
 
-        // 3. Find deleted images by comparing old with existing
         $deletedImages = array_diff($oldImages, $existingImages);
 
-        // 4. Delete removed images from public folder
         foreach ($deletedImages as $image) {
             $imagePath = public_path($image);
             if (file_exists($imagePath)) {
@@ -261,13 +255,9 @@ class ProductController extends Controller
             }
         }
 
-        // 5. Handle new uploaded images
         $newImages = $this->productMultipleImages($request);
-
-        // 6. Merge existing + new images
         $finalImages = array_merge($existingImages, $newImages);
 
-        // 7. Update product
         $product->update([
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
@@ -286,8 +276,6 @@ class ProductController extends Controller
             'is_active' => $request->is_active,
         ]);
 
-        // return response()->json(['success' => true]);
-
         Toastr::success('Product Updated Successfully!');
         return redirect()->route('product.index');
     }
@@ -295,6 +283,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);

@@ -104,4 +104,31 @@ class CostController extends Controller
         Toastr::success('Cost successfully deleted.');
         return Redirect()->route('cost.index');
     }
+
+
+    public function trashedData(){
+        $costs = Cost::onlyTrashed()->get();
+        return view('admin.layouts.pages.cost.recycle-bin.all-trashdata', compact('costs'));
+    }
+
+
+    public function restoreData($id)
+    {
+        Cost::withTrashed()->where('id', $id)->restore();
+        $toast = Toastr();
+        $toast->success('Cost restored successfully.');
+        return redirect()->route('cost.index');
+    }
+
+    public function forceDeleteData($id)
+    {
+        $cost = Cost::withTrashed()->where('id', $id)->first();
+        $cost->forceDelete();
+
+        Toastr::success('Cost permanently deleted.');
+        return redirect()->back();
+    }
+
+
+
 }

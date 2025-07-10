@@ -196,8 +196,6 @@ Route::prefix('admin')
 
         // Order routes Here
         Route::get('order', [OrderController::class, 'index'])->name('order.index');
-        // Route::post('order-status/{id}', [OrderController::class, 'orderChangeStatus'])->name('orderChangeStatus');
-        // Route::get('orders-show/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
         Route::delete('orders-destroy/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
         Route::get('/admin/filter-order', [OrderController::class, 'orderFilter'])->name('filter.orders');
@@ -228,6 +226,9 @@ Route::prefix('admin')
         Route::post('field-of-cost/status/', [FieldofCostController::class, 'FieldOfCostStatusChange'])->name('field-of-cost.status');
 
         route::resource('cost', CostController::class);
+        Route::get('/All-trashed/cost', [CostController::class, 'trashedData'])->name('cost.trash');
+        Route::get('/restore/{id}/costData', [CostController::class, 'restoreData'])->name('cost.restore');
+        Route::delete('/permanant/{id}/costData', [CostController::class, 'forceDeleteData'])->name('cost.forceDelete');
 
 
         // Post Category

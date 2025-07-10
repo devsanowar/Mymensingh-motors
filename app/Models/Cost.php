@@ -6,9 +6,11 @@ use App\Models\CostCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\FieldOfCost;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cost extends Model
 {
+    use SoftDeletes;
     protected $guarded = ['id'];
 
     public function category()
