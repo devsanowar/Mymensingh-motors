@@ -53,7 +53,19 @@ class CostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $cost = Cost::with(['category', 'field'])->findOrFail($id);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'date' => $cost->date,
+                'category' => $cost->category,
+                'field' => $cost->field,
+                'description' => $cost->description,
+                'amount' => $cost->amount,
+                'spend_by' => $cost->spend_by,
+            ]);
+        }
+        return view('admin.layouts.pages.cost.show', compact('cost'));
     }
 
     /**
@@ -89,7 +101,7 @@ class CostController extends Controller
         $cost = Cost::findOrFail($id);
         $cost->delete();
 
-        Toastr::success("Cost successfully deleted.");
+        Toastr::success('Cost successfully deleted.');
         return Redirect()->route('cost.index');
     }
 }
