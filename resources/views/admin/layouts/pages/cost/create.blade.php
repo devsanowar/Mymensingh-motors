@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4> Create Cost <span><a href="{{ route('cost.index') }}"
-                                    class="btn btn-primary text-white text-uppercase text-bold right"> + All Cost </a></span>
+                                    class="btn btn-primary text-white text-uppercase text-bold right"> All Cost </a></span>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -48,7 +48,7 @@
                                 <label for="field_id"><b>Field Name <strong style="color: red">*</strong></b></label>
                                 <div class="form-group">
                                     <select name="field_id" class="form-control show-tick @error('field_id')invalid @enderror">
-                                        <option disabled selected>Select Category ....</option>
+                                        <option disabled selected>Select Field ....</option>
                                         @foreach ($field_of_costs as $field_of_cost)
                                             <option value="{{ $field_of_cost->id }}">{{ $field_of_cost->field_name }}</option>
                                         @endforeach
@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <label for="description">Description <strong style="color: red">*</strong></label>
                                 <div class="input-line">
-                                    <textarea name="description" id="description" rows="10" style="border: 1px solid #ddd" class="form-control @error('description')invalid @enderror" placeholder="Expense notes ..."></textarea>
+                                    <textarea name="description" id="description" rows="10" style="border: 1px solid #ddd" class="form-control @error('description')invalid @enderror" placeholder="Expense notes ...">{!! old('description') !!}</textarea>
                                 </div>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
@@ -73,7 +73,7 @@
                                 <label for="amount">Amount <strong style="color: red">*</strong></label>
                                 <div class="input-line" style="border: 1px solid #ddd">
                                     <input type="text" name="amount" id="amount" class="form-control @error('amount')invalid @enderror"
-                                        placeholder="Enter amount">
+                                        placeholder="Enter amount" value="{{ old('amount') }}">
                                 </div>
                                 @error('amount')
                                     <div class="text-danger">{{ $message }}</div>
@@ -84,7 +84,7 @@
                                 <label for="spend_by">Spend By <strong style="color: red">*</strong></label>
                                 <div class="input-line" style="border: 1px solid #ddd">
                                     <input type="text" name="spend_by" id="spend_by" class="form-control @error('spend_by')invalid @enderror"
-                                        placeholder="Enter name">
+                                        placeholder="Enter name" value="{{ old('spend_by') }}">
                                 </div>
                                 @error('spend_by')
                                     <div class="text-danger">{{ $message }}</div>
@@ -95,7 +95,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <button type="submit" class="btn btn-primary right" id="submitBtn">
-                                        <span id="submitBtnText">SAVE</span>
+                                        <span id="submitBtnText">SAVE COST</span>
                                         <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                                     </button>
                                 </div>

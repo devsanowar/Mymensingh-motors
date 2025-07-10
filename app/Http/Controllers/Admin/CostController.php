@@ -7,8 +7,10 @@ use App\Models\FieldOfCost;
 use App\Models\CostCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CostStoreRequest;
 use Brian2694\Toastr\Facades\Toastr;
+use App\Http\Requests\CostStoreRequest;
+use App\Http\Requests\CostUpdateRequest;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Redirect;
 
 class CostController extends Controller
@@ -18,7 +20,9 @@ class CostController extends Controller
      */
     public function index()
     {
-        $costs = Cost::with(['category:id,category_name', 'field:id,field_name'])->latest()->get();
+        $costs = Cost::with(['category:id,category_name', 'field:id,field_name'])
+            ->latest()
+            ->get();
         return view('admin.layouts.pages.cost.index', compact('costs'));
     }
 
@@ -44,7 +48,6 @@ class CostController extends Controller
         return Redirect()->route('cost.index');
     }
 
-
     /**
      * Display the specified resource.
      */
@@ -58,15 +61,24 @@ class CostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cost = Cost::findOrFail($id);
+        $categories = CostCategory::select('id', 'category_name')->where('is_active', 1)->get();
+        $field_of_costs = FieldOfCost::select('id', 'field_name')->where('is_active', 1)->get();
+        return view('admin.layouts.pages.cost.edit', compact('cost', 'categories', 'field_of_costs'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CostUpdateRequest $request, string $id)
     {
-        //
+        $cost = Cost::findOrFail($id);
+        
+        $validated = $request->validated();
+        $cost->update($validated);
+
+        toastr()->success('Cost updated successfully.');
+        return redirect()->route('cost.index');
     }
 
     /**

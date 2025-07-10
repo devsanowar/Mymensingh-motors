@@ -9,7 +9,7 @@ class FieldOfCost extends Model
 {
     protected $guarded = ['id'];
 
-    // public function Cost(){
-    //     return $this->hasMany(Cost::class);
-    // }
+    public function cost(){
+        return $this->hasMany(Cost::class);
+    }
 }

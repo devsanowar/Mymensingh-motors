@@ -33,6 +33,7 @@
 								<th>Spend By</th>
 								<th>Category</th>
 								<th>Field of cost</th>
+								<th style="width: 500px">Description</th>
 								<th>Amount</th>
                                 <th>Action</th>
                             </tr>
@@ -46,11 +47,11 @@
 								<td>{{ $cost->spend_by ?? 'N/A' }}</td>
 								<td>{{ $cost->category->category_name ?? 'N/A' }}</td>
 								<td>{{ $cost->field->field_name ?? 'N/A' }}</td>
+								<td>{!! $cost->description ?? 'N/A' !!}</td>
 								<td>{{ $cost->amount }}</td>
                                 <td>
 
                                     <a href="{{ route('cost.edit', $cost->id) }}" class="btn btn-warning btn-sm"> <i class="material-icons text-white">edit</i></a>
-
 
                                     <form class="d-inline-block" action="{{ route('cost.destroy', $cost->id) }}" method="POST">
                                         @csrf
