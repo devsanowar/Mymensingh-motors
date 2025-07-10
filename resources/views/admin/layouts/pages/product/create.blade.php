@@ -47,8 +47,6 @@
                                     class="btn btn-primary right">All Product</a></span></h4>
                     </div>
                     <div class="body">
-                        {{-- <form class="form-horizontal" action="{{ route('subcategory.store') }}"
-                        method="POST" enctype="multipart/form-data"> --}}
                         <form id="productForm" enctype="multipart/form-data" class="form-horizontal">
                             @csrf
 
@@ -237,14 +235,12 @@
     let dt = new DataTransfer();
 
     imageInput.addEventListener('change', function() {
-        // Clear old previews
         previewContainer.innerHTML = '';
 
-        // Reset DataTransfer and rebuild with new selection
         dt = new DataTransfer();
 
         Array.from(this.files).forEach((file, index) => {
-            dt.items.add(file); // Add file to DataTransfer
+            dt.items.add(file); 
             const reader = new FileReader();
             reader.onload = function(e) {
                 const wrapper = document.createElement('div');
@@ -259,9 +255,9 @@
                 removeBtn.classList.add('remove-btn');
                 removeBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    dt.items.remove(index); // Remove from DataTransfer
-                    imageInput.files = dt.files; // Reset input with new files
-                    renderPreviews(); // Re-render
+                    dt.items.remove(index);
+                    imageInput.files = dt.files; 
+                    renderPreviews();
                 });
 
                 wrapper.appendChild(removeBtn);
@@ -271,7 +267,7 @@
             reader.readAsDataURL(file);
         });
 
-        imageInput.files = dt.files; // Set files to input
+        imageInput.files = dt.files;
     });
 
     function renderPreviews() {

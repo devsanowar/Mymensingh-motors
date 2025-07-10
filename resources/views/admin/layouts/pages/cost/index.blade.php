@@ -34,40 +34,32 @@
 								<th>Category</th>
 								<th>Field of cost</th>
 								<th>Amount</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            {{-- @foreach ($products as $key=>$product)
+                            @foreach ($costs as $key=>$cost)
                             <tr>
                                 <td>{{$key+1 }}</td>
-                                <td><img src="{{ asset($product->thumbnail) }}" alt="" width="30"></td>
-								<td>{{ Str::words($product->product_name, 6, '...') }}</td>
-								<td>{{ $product->category->category_name ?? 'N/A' }}</td>
-								<td>{{ $product->stock->quantity }} {{ $product->unit->short_name }}</td>
-								<td>{{ $product->regular_price }}</td>
-
-                                <td>
-                                    <button data-id="{{ $product->id }}" class="btn btn-sm status-toggle-btn {{ $product->is_active ? 'btn-success' : 'btn-danger' }}">
-                                        {{ $product->is_active ? 'Active' : 'DeActive' }}
-                                    </button>
-                                </td>
-
+                                <td>{{ $cost->date }}</td>
+								<td>{{ $cost->spend_by ?? 'N/A' }}</td>
+								<td>{{ $cost->category->category_name ?? 'N/A' }}</td>
+								<td>{{ $cost->field->field_name ?? 'N/A' }}</td>
+								<td>{{ $cost->amount }}</td>
                                 <td>
 
-                                    <a href="{{ route('product.edit', $product->id) }}" class="btn btn-warning btn-sm"> <i class="material-icons text-white">edit</i></a>
+                                    <a href="{{ route('cost.edit', $cost->id) }}" class="btn btn-warning btn-sm"> <i class="material-icons text-white">edit</i></a>
 
 
-                                    <form class="d-inline-block" action="{{ route('product.destroy', $product->id) }}" method="POST">
+                                    <form class="d-inline-block" action="{{ route('cost.destroy', $cost->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm show_confirm"><i class="material-icons">delete</i></button>
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
 
                         </tbody>
                     </table>

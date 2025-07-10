@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Cost;
+use App\Models\FieldOfCost;
+use App\Models\CostCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CostStoreRequest;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Redirect;
 
 class CostController extends Controller
 {
@@ -12,7 +18,8 @@ class CostController extends Controller
      */
     public function index()
     {
-        return view('admin.layouts.pages.cost.index');
+        $costs = Cost::with(['category:id,category_name', 'field:id,field_name'])->latest()->get();
+        return view('admin.layouts.pages.cost.index', compact('costs'));
     }
 
     /**
@@ -20,16 +27,23 @@ class CostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = CostCategory::select('id', 'category_name')->where('is_active', 1)->get();
+        $field_of_costs = FieldOfCost::select('id', 'field_name')->where('is_active', 1)->get();
+        return view('admin.layouts.pages.cost.create', compact('categories', 'field_of_costs'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CostStoreRequest $request)
     {
-        //
+        $validated = $request->validated();
+        Cost::create($validated);
+
+        Toastr::success('Cost successfully added.');
+        return Redirect()->route('cost.index');
     }
+
 
     /**
      * Display the specified resource.
