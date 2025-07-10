@@ -73,7 +73,7 @@ class CostController extends Controller
     public function update(CostUpdateRequest $request, string $id)
     {
         $cost = Cost::findOrFail($id);
-        
+
         $validated = $request->validated();
         $cost->update($validated);
 
@@ -86,6 +86,10 @@ class CostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cost = Cost::findOrFail($id);
+        $cost->delete();
+
+        Toastr::success("Cost successfully deleted.");
+        return Redirect()->route('cost.index');
     }
 }
