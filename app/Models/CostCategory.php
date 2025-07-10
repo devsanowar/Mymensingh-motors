@@ -13,7 +13,7 @@ class CostCategory extends Model
         'is_active' => 'boolean',
     ];
 
-    public function cost(){
-        return $this->hasMany(Cost::class);
+    public function costs(){
+        return $this->hasMany(Cost::class, 'category_id');
     }
 }

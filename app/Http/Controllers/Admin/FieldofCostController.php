@@ -35,7 +35,7 @@ class FieldofCostController extends Controller
     public function store(FieldOfCostStoreRequest $request)
     {
         FieldOfCost::create($request->validated());
-        Toastr::success("Field of cost added.");
+        Toastr::success('Field of cost added.');
         return Redirect()->route('field-of-cost.index');
     }
 
@@ -77,12 +77,25 @@ class FieldofCostController extends Controller
     public function destroy(string $id)
     {
         $field_of_cost = FieldOfCost::findOrFail($id);
+
+        if ($field_of_cost->costs()->count() > 0) {
+            return response()->json(
+                [
+                    'error' => 'You can\'t delete this field of cost because it has related costs.',
+                ],
+                400,
+            );
+        }
+
         $field_of_cost->delete();
-        Toastr::success("Field of cost deleted successfully.");
-            return response()->json(['success' => 'Field of Cost deleted successfully!']);
+
+        return response()->json([
+            'success' => 'Field of cost deleted successfully.',
+        ]);
     }
 
-    public function FieldOfCostStatusChange(Request $request){
+    public function FieldOfCostStatusChange(Request $request)
+    {
         $field_of_cost = FieldOfCost::find($request->id);
 
         if (!$field_of_cost) {

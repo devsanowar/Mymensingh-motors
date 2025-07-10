@@ -23,6 +23,16 @@
                         </h4>
                     </div>
 
+                    @if (session('error'))
+                        <div style="width: 60%; margin:20px auto" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+
+
 
                     <div class="body table-responsive">
                         <table class="table table-positioned table-bordered">
@@ -92,6 +102,15 @@
 
 @push('scripts')
     <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                    $(this).remove();
+                });
+            }, 5000);
+        });
+    </script>
 
 
     <script>

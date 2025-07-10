@@ -79,6 +79,11 @@ class CostCategoryController extends Controller
     public function destroy(string $id)
     {
         $category = CostCategory::findOrFail($id);
+        if ($category->costs()->count() > 0) {
+            return redirect()->route('cost-category.index')->with('error', 'You can\'t delete this category because it has related costs.');
+        }
+
+
         $category->delete();
         Toastr::success("Category deleted successfully.");
         return Redirect()->route('cost-category.index');

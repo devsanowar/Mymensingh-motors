@@ -178,6 +178,7 @@
                                 Swal.fire("Error!", errorMsg, "error");
                                 console.error(xhr.responseText);
                             }
+
                         });
                     }
                 });
