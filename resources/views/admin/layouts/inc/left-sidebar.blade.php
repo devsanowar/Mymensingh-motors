@@ -157,6 +157,14 @@
                     <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
                         <a href="{{ route('field-of-cost.index') }}">Field Of Cost</a>
                     </li>
+
+                    <li class="{{ request()->routeIs('cost.create') ? 'active' : '' }}">
+                        <a href="{{ route('cost.create') }}">Add Cost</a>
+                    </li>
+
+                    <li class="{{ request()->routeIs('cost.index') ? 'active' : '' }}">
+                        <a href="{{ route('cost.index') }}">All Cost</a>
+                    </li>
                     
                 </ul>
             </li>

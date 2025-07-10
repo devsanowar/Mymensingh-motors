@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\WhyChoseUsController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\CostCategoryController;
+use App\Http\Controllers\Admin\CostController;
 use App\Http\Controllers\Admin\FieldofCostController;
 use App\Http\Controllers\Admin\MessageSendController;
 use App\Http\Controllers\Admin\ProductUnitController;
@@ -225,6 +226,8 @@ Route::prefix('admin')
 
         Route::resource('field-of-cost', FieldofCostController::class);
         Route::post('field-of-cost/status/', [FieldofCostController::class, 'FieldOfCostStatusChange'])->name('field-of-cost.status');
+
+        route::resource('cost', CostController::class);
 
 
         // Post Category

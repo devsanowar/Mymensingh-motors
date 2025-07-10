@@ -12,7 +12,7 @@ class CostController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.layouts.pages.cost.index');
     }
 
     /**
