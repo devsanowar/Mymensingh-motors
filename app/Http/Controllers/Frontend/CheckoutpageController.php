@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+
+use App\Services\SteadfastCourierService;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutpageController extends Controller
@@ -51,7 +53,7 @@ class CheckoutpageController extends Controller
         return response()->json($upazilas);
     }
 
-    public function placeOrder(Request $request, SmsService $smsService)
+    public function placeOrder(Request $request, SmsService $smsService, SteadfastCourierService $steadfast)
     {
         $request->validate([
             'first_name' => 'required|string|max:50',
@@ -68,6 +70,7 @@ class CheckoutpageController extends Controller
         }
 
         $cart = session()->get('cart', []);
+
         if (empty($cart)) {
             return back()->with('error', 'কার্ট খালি!');
         }
@@ -76,12 +79,20 @@ class CheckoutpageController extends Controller
             return back()->with('error', 'দুঃখিত, মোবাইল নম্বরটি ব্লক করা হয়েছে। অনুগ্রহ করে একটি বৈধ নম্বর প্রদান করুন।');
         }
 
+
+        $itemDescription = collect($cart)->map(function ($item) {
+            return $item['name'] . ' (x' . $item['quantity'] . ')';
+        })->implode(', ');
+
+
         DB::beginTransaction();
         try {
             $total = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
             $shipping_charge = $request->has('shipping_charge') && floatval($request->shipping_charge) > 0 ? floatval($request->shipping_charge) : 0;
 
             $total += $shipping_charge;
+
+            $uniqueInvoice = 'MM-' . strtoupper(uniqid());
 
             // Order create
             $order = Order::create([
@@ -125,9 +136,26 @@ class CheckoutpageController extends Controller
                 ]);
             }
 
+            $courierResponse = $steadfast->createOrder([
+                'invoice' => $uniqueInvoice,
+                'recipient_name' => $request->first_name . ' ' . $request->last_name,
+                'recipient_phone' => $request->phone,
+                'recipient_address' => $request->address,
+                'cod_amount' => $total,
+                'note' => $request->order_note ?? 'Handle with care',
+                'item_description' => $itemDescription,
+                'delivery_type' => 0,
+            ]);
+
+            if (isset($courierResponse['consignment']['tracking_code'])) {
+                $order->update([
+                    'tracking_code' => $courierResponse['consignment']['tracking_code'],
+                    'courier_status' => $courierResponse['consignment']['status'] ?? 'in_review',
+                ]);
+            }
+
             session()->forget('cart');
 
-            // Send SMS confirmation
             $smsService->sendOrderConfirmationSMS($request->phone, $order);
 
             DB::commit();
@@ -179,4 +207,8 @@ class CheckoutpageController extends Controller
     //         Log::error('SMS sending failed: ' . json_encode($response));
     //     }
     // }
+
+
+     // Bulk Create Example
+   
 }

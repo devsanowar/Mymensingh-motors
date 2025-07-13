@@ -235,9 +235,8 @@
 
                                 <form id="trackOrderForm">
                                     @csrf
-                                    <label for="order_id">Enter Your Tracking Number (Order ID - do not use
-                                        #)</label>
-                                    <input type="text" name="order_id" id="order_id" required class="form-control mb-2">
+                                    <label for="tracking_code">Enter Your Tracking Number (Tracking Code - {{ $order->tracking_code }})</label>
+                                    <input type="text" name="tracking_code" id="tracking_code" required class="form-control mb-2">
                                     <button type="submit" class="btn btn-danger">Track Order</button>
                                 </form>
 
@@ -456,7 +455,7 @@
         document.getElementById('trackOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            let trackingNumber = document.getElementById('order_id').value.trim();
+            let trackingNumber = document.getElementById('tracking_code').value.trim();
             let resultDiv = document.getElementById('trackOrderResult');
 
             resultDiv.innerHTML = 'Loading...';
@@ -468,7 +467,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        order_id: trackingNumber
+                        tracking_code: trackingNumber
                     })
                 })
                 .then(response => response.json())

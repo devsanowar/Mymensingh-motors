@@ -128,12 +128,12 @@ class CustomerDashboardController extends Controller
     public function trackOrder(Request $request)
     {
         $request->validate([
-            'order_id' => 'required|string',
+            'tracking_code' => 'required|string',
         ]);
 
         $userId = auth()->id();
 
-        $order = Order::where('order_id', $request->order_id)->where('user_id', $userId)->first();
+        $order = Order::where('tracking_code', $request->tracking_code)->where('user_id', $userId)->first();
 
         if (!$order) {
             return response()->json([

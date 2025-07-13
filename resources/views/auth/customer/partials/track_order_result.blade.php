@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-body">
         <h5>Order Information</h5>
-        <p><strong>Tracking Number:</strong> {{ $order->order_id }}</p>
-        <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
+        <p><strong>Tracking Number:</strong> {{ $order->tracking_code }}</p>
+        <p><strong>Status:</strong> {{ ucfirst($order->courier_status) }}</p>
         <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
         <p><strong>Payment Status:</strong> {{ ucfirst($order->payment_method) }}</p>
         <hr>
