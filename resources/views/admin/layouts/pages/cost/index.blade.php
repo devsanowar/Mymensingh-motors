@@ -88,8 +88,8 @@
                             <div class="col-md-2">
                                 <label for="spend_by"><b>Spend By</b></label>
                                 <div class="form-group">
-                                    <input type="text" name="spend_by" id="spend_by" class="form-control"
-                                        value="{{ request('spend_by') }}">
+                                    <input type="text" style="border:1px solid #ccc;" name="spend_by" id="spend_by" class="form-control"
+                                        value="{{ request('spend_by') }}" placeholder="Spend By">
                                 </div>
                             </div>
 

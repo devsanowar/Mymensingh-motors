@@ -229,7 +229,6 @@ Route::prefix('admin')
         Route::get('/All-trashed/cost', [CostController::class, 'trashedData'])->name('cost.trash');
         Route::get('/restore/{id}/costData', [CostController::class, 'restoreData'])->name('cost.restore');
         Route::delete('/permanant/{id}/costData', [CostController::class, 'forceDeleteData'])->name('cost.forceDelete');
-        Route::get('/cost/filter', [CostController::class, 'filter'])->name('cost.filter');
 
 
         // Post Category
