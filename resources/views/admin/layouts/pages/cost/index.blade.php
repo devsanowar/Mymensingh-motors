@@ -4,11 +4,42 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-select/css/bootstrap-select.css" />
+
+    <style>
+        .filter-form {
+            margin-bottom: 10px;
+            margin-top: 0px;
+            padding-top: 6px !important;
+        }
+
+        .filter-form .form-control {
+            border: 1px solid #ced4da !important;
+        }
+
+        .filter-form input[type="date"]::-webkit-calendar-picker-indicator {
+            padding: 5px;
+            margin-right: -5px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+
+        @media (max-width: 991.98px) {
+            .filter-form {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
 @endpush
 
 
 @section('admin_content')
 
+    @php
+        $countDeletedData = App\Models\Cost::onlyTrashed()->get();
+    @endphp
 
     <div class="container-fluid">
         <div class="row clearfix">
@@ -16,13 +47,64 @@
                 <div class="card">
                     <div class="card-header">
                         <h4> All cost <span><a href="{{ route('cost.trash') }}"
-                                    class="btn btn-primary text-uppercase">Recycle Bin ( {{ $costs->count() }}
+                                    class="btn btn-primary text-uppercase">Recycle Bin ( {{ $countDeletedData->count() }}
                                     )</a></span> <span><a href="{{ route('cost.create') }}"
                                     class="btn btn-primary text-white text-uppercase text-bold right">
                                     + Add Cost
                                 </a></span></h4>
                     </div>
+
                     <div class="body">
+                        <form action="" method="GET"
+                            class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="from_date" class="mr-2">From</label>
+                                    <input type="date" name="from_date" id="from_date" class="form-control"
+                                        value="{{ request('from_date') }}">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3">
+                                <!-- To Date -->
+                                <div class="form-group">
+                                    <label for="to_date" class="mr-2">To</label>
+                                    <input type="date" name="to_date" id="to_date" class="form-control"
+                                        value="{{ request('to_date') }}">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <label for="is_featured"><b>Spend By</b></label>
+                                <div class="form-group">
+                                    <select name="is_featured" class="form-control show-tick">
+                                        <option value="1">Sanowar</option>
+                                        <option value="0">Mobin</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="is_featured"><b>Category</b></label>
+                                <div class="form-group">
+                                    <select name="is_featured" class="form-control show-tick">
+                                        <option value="1">Office expense</option>
+                                        <option value="0">Personal Expense</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary mr-2">Search</button>
+                                    <a href="" class="btn btn-secondary">Reset</a>
+                                </div>
+                            </div>
+
+                        </form>
                         <table id="productDataTable"
                             class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>

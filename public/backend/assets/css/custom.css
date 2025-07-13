@@ -371,3 +371,8 @@ border: 1px solid #ccc !important;
 	font-size: 18px;
     padding-left: 6px !important;
 }
+
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dt-buttons, .dataTables_wrapper .dataTables_filter {
+	margin-bottom: 0;
+}
