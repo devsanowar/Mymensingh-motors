@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/bootstrap-select/css/bootstrap-select.css" />
 
+
     <style>
         .filter-form {
             margin-bottom: 10px;
@@ -13,18 +14,28 @@
             padding-top: 6px !important;
         }
 
-        .filter-form .form-control {
-            border: 1px solid #ced4da !important;
-        }
-
         .filter-form input[type="date"]::-webkit-calendar-picker-indicator {
-            padding: 5px;
-            margin-right: -5px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
+            padding: 10px 12px;
+            border-left: 1px solid #ced4da;
             background-color: #f8f9fa;
+            margin-right: -12px;
             cursor: pointer;
         }
+
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            padding: 10px 12px;
+            border-left: 1px solid #ced4da;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+
+
+        input[type="date"]::-webkit-calendar-picker-indicator:focus {
+            outline: none;
+        }
+
 
         @media (max-width: 991.98px) {
             .filter-form {
@@ -55,44 +66,44 @@
                     </div>
 
                     <div class="body">
-                        <form action="" method="GET"
-                            class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
+                        <form action="" method="GET" <form id="filterForm" action="{{ route('cost.filter') }}"
+                            method="GET" class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="from_date" class="mr-2">From</label>
-                                    <input type="date" name="from_date" id="from_date" class="form-control"
-                                        value="{{ request('from_date') }}">
+                                    <input style="border:1px solid #ccc;" type="date" name="from_date" id="from_date"
+                                        class="form-control" value="{{ request('from_date') }}">
                                 </div>
-
                             </div>
 
                             <div class="col-md-3">
-                                <!-- To Date -->
                                 <div class="form-group">
                                     <label for="to_date" class="mr-2">To</label>
-                                    <input type="date" name="to_date" id="to_date" class="form-control"
-                                        value="{{ request('to_date') }}">
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-2">
-                                <label for="is_featured"><b>Spend By</b></label>
-                                <div class="form-group">
-                                    <select name="is_featured" class="form-control show-tick">
-                                        <option value="1">Sanowar</option>
-                                        <option value="0">Mobin</option>
-                                    </select>
+                                    <input style="border:1px solid #ccc;" type="date" name="to_date" id="to_date"
+                                        class="form-control" value="{{ request('to_date') }}">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
-                                <label for="is_featured"><b>Category</b></label>
+                                <label for="spend_by"><b>Spend By</b></label>
                                 <div class="form-group">
-                                    <select name="is_featured" class="form-control show-tick">
-                                        <option value="1">Office expense</option>
-                                        <option value="0">Personal Expense</option>
+                                    <input type="text" name="spend_by" id="spend_by" class="form-control"
+                                        value="{{ request('spend_by') }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="category_id"><b>Category</b></label>
+                                <div class="form-group">
+                                    <select name="category_id" class="form-control show-tick">
+                                        <option value="">-- Select Category --</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->category_name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -100,11 +111,13 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary mr-2">Search</button>
-                                    <a href="" class="btn btn-secondary">Reset</a>
+                                    <a href="{{ route('cost.filter') }}" class="btn btn-secondary" id="resetBtn">Reset</a>
                                 </div>
                             </div>
-
                         </form>
+
+
+
                         <table id="productDataTable"
                             class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
@@ -120,7 +133,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="costTableBody">
                                 @foreach ($costs as $key => $cost)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
@@ -131,7 +144,6 @@
                                         <td>{!! $cost->description ?? 'N/A' !!}</td>
                                         <td>{{ $cost->amount }}</td>
                                         <td>
-
                                             <a href="#" class="btn btn-info btn-sm view-cost-btn"
                                                 data-id="{{ $cost->id }}"><i
                                                     class="material-icons text-white">visibility</i> </a>
@@ -149,7 +161,6 @@
                                         </td>
                                     </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                         @include('admin.layouts.pages.cost.show')
@@ -178,8 +189,6 @@
     <script src="{{ asset('backend') }}/assets/js/pages/tables/jquery-datatable.js"></script>
     <script src="{{ asset('backend') }}/assets/js/sweetalert2.all.min.js"></script>
 
-
-    <!-- Script For status change -->
 
     <script>
         $(document).ready(function() {

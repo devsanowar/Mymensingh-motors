@@ -23,7 +23,10 @@ class CostController extends Controller
         $costs = Cost::with(['category:id,category_name', 'field:id,field_name'])
             ->latest()
             ->get();
-        return view('admin.layouts.pages.cost.index', compact('costs'));
+
+        $categories = CostCategory::select('id', 'category_name')->get();
+
+        return view('admin.layouts.pages.cost.index', compact('costs', 'categories'));
     }
 
     /**
@@ -128,6 +131,43 @@ class CostController extends Controller
         Toastr::success('Cost permanently deleted.');
         return redirect()->back();
     }
+
+
+    // app/Http/Controllers/CostController.php
+
+public function filter(Request $request)
+{
+    $query = Cost::query();
+
+    if ($request->filled('from_date')) {
+        $query->whereDate('date', '>=', $request->from_date);
+    }
+
+    if ($request->filled('to_date')) {
+        $query->whereDate('date', '<=', $request->to_date);
+    }
+
+    if ($request->filled('spend_by')) {
+        $query->where('spend_by', $request->spend_by);
+    }
+
+    if ($request->filled('category_id')) {
+        $query->where('category_id', $request->category_id);
+    }
+
+    $costs = $query->latest()->get();
+
+    // যদি Ajax রিকোয়েস্ট হয়
+    if ($request->ajax()) {
+        return response()->json([
+            'tbody' => view('admin.layouts.pages.cost.partials.cost_info_filter', compact('costs'))->render()
+        ]);
+    }
+
+    
+}
+
+
 
 
 
