@@ -60,9 +60,11 @@
     <!-- Menu -->
     <div class="menu">
         <ul class="list">
+            @if(in_array('dashboard', $userPermissions))
             <li class="active">
                 <a href="{{ route('admin.dashboard') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a>
             </li>
+            @endif
 
             {{-- Home Page Menu (Shared) --}}
             <li class="{{ $isHomePageActive ? 'active open' : '' }}">
@@ -74,10 +76,11 @@
                     <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
                         <a href="{{ route('slider.index') }}"><span>Slider</span></a>
                     </li>
-
+                    @if(in_array('promobanner.index', $userPermissions))
                     <li class="{{ request()->routeIs('promobanner.*') ? 'active' : '' }}">
                         <a href="{{ route('promobanner.index') }}"><span>Promo Banner</span></a>
                     </li>
+                    @endif
 
                     <li class="{{ request()->routeIs('about.*') ? 'active' : '' }}">
                         <a href="{{ route('about.index') }}"><span>About</span></a>

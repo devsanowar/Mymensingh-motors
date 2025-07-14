@@ -104,7 +104,7 @@
                             </div>
                         </div>
 
-                        {{-- <div class="form-group mb-4">
+                        <div class="form-group mb-4">
                             <label for="brand_id"><b>Role*</b></label>
                             <div class="form-group">
                                 <div class="" style="border: 1px solid #ccc">
@@ -112,10 +112,11 @@
                                         <option disabled selected value="0">Select Role</option>
                                         <option value="Admin">Admin</option>
                                         <option value="User">User</option>
+                                        <option value="Editor">User</option>
                                     </select>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
 
 
                         <button type="submit" class="btn btn-raised btn-warning text-white m-t-15 waves-effect right mb-3" style="font-weight: 500"> SAVE </button>

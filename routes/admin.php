@@ -318,7 +318,15 @@ Route::prefix('admin')
 
         // Previlege route here
         Route::get('privilege', [PrivilegeController::class, 'index'])->name('privilege.index');
-        Route::get('/get-users-by-role/{roleId}', [PrivilegeController::class, 'getUsersByRole'])->name('privilege.getUsersByRole');
-        Route::get('/users/{user}/permissions', [PrivilegeController::class, 'getUserPermissions'])->name('privilege.getUserPermissions');
-        Route::post('/user-permissions', [PrivilegeController::class, 'updateUserPermission'])->name('privilege.updateUserPermission');
+        // Route::get('/get-users-by-role/{roleId}', [PrivilegeController::class, 'getUsersByRole'])->name('privilege.getUsersByRole');
+        // Route::get('/users/{user}/permissions', [PrivilegeController::class, 'getUserPermissions'])->name('privilege.getUserPermissions');
+        // Route::post('/user-permissions', [PrivilegeController::class, 'updateUserPermission'])->name('privilege.updateUserPermission');
+
+        Route::get('/get-users-by-role/{role}', [PrivilegeController::class, 'getUsersByRole']);
+        Route::post('/save-user-permissions', [PrivilegeController::class, 'savePermissions'])->name('admin.save.permissions');
+        Route::get('/get-user-permissions/{user_id}', [PrivilegeController::class, 'getUserPermissions']);
+
+
+
+
     });

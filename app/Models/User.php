@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
 use App\Models\Order;
+use App\Models\Permission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,18 +29,9 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function role()
+    public function permissions()
     {
-        return $this->belongsTo(Role::class);
-    }
-
-
-    public function hasPermission($permissionName)
-    {
-        if (!$this->role) {
-            return false;
-        }
-        return $this->role->permissions->contains('name', $permissionName);
+        return $this->hasMany(Permission::class);
     }
 
 

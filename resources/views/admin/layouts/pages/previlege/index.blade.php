@@ -41,22 +41,24 @@
                         <form id="privilege-form">
                             <div class="row mb-3">
                                 <div class="col-md-5">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select id="role" name="role_id" class="form-select show-tick">
+                                    <label for="system_admin" class="form-label">Role</label>
+                                    <select id="system_admin" name="system_admin"
+                                        class="form-select show-tick custom-input-field">
                                         <option value="">Select Role</option>
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                        @endforeach
+                                        <option value="Super_admin">Super Admin</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Editor">Editor</option>
+                                        <option value="User">User</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-5">
-                                    <label for="user" class="form-label">User</label>
-                                    <select id="user" name="user_id" class="form-select show-tick">
+                                    <label for="user_id" class="form-label">User</label>
+                                    <select id="user_id" name="user_id" class="form-select show-tick custom-input-field">
                                         <option value="">Select User</option>
                                     </select>
-
                                 </div>
+
                             </div>
 
 
@@ -299,6 +301,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <button type="submit">SAVE</button>
                         </form>
 
                     </div>
@@ -312,7 +315,7 @@
 
 
 @push('scripts')
-{{-- <script>
+    {{-- <script>
 $(document).ready(function() {
     function clearPermissions() {
         $('.permission-checkbox').prop('checked', false);
@@ -391,5 +394,108 @@ $(document).ready(function() {
     });
 });
 </script> --}}
-@endpush
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Re-bind menu-toggle manually to fix sidebar dropdowns
+            $('.menu-toggle').off('click').on('click', function(e) {
+                e.preventDefault();
+
+                var $parent = $(this).parent('li');
+                var $submenu = $(this).next('.ml-menu');
+
+                if ($parent.hasClass('open')) {
+                    $submenu.slideUp(300);
+                    $parent.removeClass('open');
+                } else {
+                    // Close other open menus
+                    $('.ml-menu').slideUp(300);
+                    $('.menu-toggle').parent('li').removeClass('open');
+
+                    // Open current
+                    $submenu.slideDown(300);
+                    $parent.addClass('open');
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        // System Admin select করলে User list আসবে
+        $('#system_admin').change(function() {
+            let role = $(this).val();
+            if (role) {
+                $.ajax({
+                    url: '/admin/get-users-by-role/' + encodeURIComponent(role),
+                    type: 'GET',
+                    success: function(data) {
+                        $('#user_id').empty();
+                        $('#user_id').append('<option value="">Select User</option>');
+                        if (Array.isArray(data) && data.length > 0) {
+                            $.each(data, function(index, user) {
+                                $('#user_id').append('<option value="' + user.id + '">' + user
+                                    .name + '</option>');
+                            });
+                        } else {
+                            $('#user_id').append('<option value="">No Users Found</option>');
+                        }
+                    }
+                });
+            } else {
+                $('#user_id').empty().append('<option value="">Select User</option>');
+            }
+        });
+
+        // User select করলে তার permissions লোড হবে
+        $('#user_id').change(function() {
+            let user_id = $(this).val();
+            if (user_id) {
+                $.ajax({
+                    url: '/admin/get-user-permissions/' + user_id,
+                    type: 'GET',
+                    success: function(data) {
+                        console.log('Existing permissions:', data);
+                        $('.permission-checkbox').prop('checked', false);
+                        $.each(data, function(index, key) {
+                            $('.permission-checkbox[data-id="' + key + '"]').prop('checked',
+                                true);
+                        });
+                    }
+                });
+            } else {
+                $('.permission-checkbox').prop('checked', false);
+            }
+        });
+
+        // Permission save
+        $('#privilege-form').submit(function(e) {
+            e.preventDefault();
+            let user_id = $('#user_id').val();
+            let permissions = [];
+            $('.permission-checkbox:checked').each(function() {
+                permissions.push($(this).data('id'));
+            });
+
+            $.ajax({
+                url: '/admin/save-user-permissions',
+                type: 'POST',
+                data: {
+                    user_id: user_id,
+                    permissions: permissions,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right"
+                    };
+                    toastr.success('Permissions updated!');
+                }
+            });
+        });
+    </script>
+@endpush

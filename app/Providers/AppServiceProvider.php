@@ -38,6 +38,16 @@ class AppServiceProvider extends ServiceProvider
 
         View::share('website_setting', $setting);
 
+
+
+        view()->composer('*', function ($view) {
+            if (Auth::check()) {
+                $permissions = Auth::user()->permissions->pluck('permission_key')->toArray();
+                $view->with('userPermissions', $permissions);
+            }
+        });
+
+
         Paginator::useBootstrap();
 
         Toastr::useVite();
