@@ -71,234 +71,509 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><strong>Dashboard</strong></td>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input permission-checkbox" type="checkbox"
-                                                    data-id="dashboard" id="perm-dashboard">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="dashboard" id="perm-dashboard-parent" data-id="dashboard">
+                                                <label class="form-check-label"
+                                                    for="perm-dashboard-parent">Dashboard</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="dashboard" data-id="dashboard"
+                                                    id="perm-dashboard">
                                                 <label class="form-check-label" for="perm-dashboard">Access
                                                     Dashboard</label>
                                             </div>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td><strong>Home Page</strong></td>
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.banner" id="perm-home-banner"><label
-                                                    class="form-check-label" for="perm-home-banner">Banner</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.promobanner"
-                                                    id="perm-home-promobanner"><label class="form-check-label"
-                                                    for="perm-home-promobanner">Promo Banner</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.about" id="perm-home-about"><label
-                                                    class="form-check-label" for="perm-home-about">About</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.why_choose_us" id="perm-home-why"><label
-                                                    class="form-check-label" for="perm-home-why">Why Choose Us</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.cta" id="perm-home-cta"><label
-                                                    class="form-check-label" for="perm-home-cta">CTA</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.achievement"
-                                                    id="perm-home-achievement"><label class="form-check-label"
-                                                    for="perm-home-achievement">Achievement</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.review" id="perm-home-review"><label
-                                                    class="form-check-label" for="perm-home-review">Review</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="home.faq" id="perm-home-faq"><label
-                                                    class="form-check-label" for="perm-home-faq">FAQ</label></div>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="home" id="perm-home-parent" data-id="home">
+                                                <label class="form-check-label" for="perm-home-parent">Home Page
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                    data-group="home" id="perm-home-banner" data-id="home.slider">
+                                                <label class="form-check-label" for="perm-home-banner">Slider</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-promobanner"
+                                                    data-id="home.promobanner">
+                                                <label class="form-check-label" for="perm-home-promobanner">Promo
+                                                    Banner</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-about"
+                                                    data-id="home.about">
+                                                <label class="form-check-label" for="perm-home-about">About</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-why"
+                                                    data-id="home.whychoseus">
+                                                <label class="form-check-label" for="perm-home-why">Why Choose Us</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-cta" data-id="home.cta">
+                                                <label class="form-check-label" for="perm-home-cta">CTA</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-achievement"
+                                                    data-id="home.achievement">
+                                                <label class="form-check-label"
+                                                    for="perm-home-achievement">Achievement</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-review"
+                                                    data-id="home.review">
+                                                <label class="form-check-label" for="perm-home-review">Review</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="home" id="perm-home-faq"
+                                                    data-id="home.faq">
+                                                <label class="form-check-label" for="perm-home-faq">FAQ</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <!-- Parent checkbox: About -->
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input parent-checkbox"
+                                                    data-group="about_page" id="perm-about-parent">
+                                                <label class="form-check-label" for="perm-about-parent">
+                                                    About
+                                                </label>
+                                            </div>
                                         </td>
 
-                                    </tr>
-                                    <tr>
-                                        <td><strong>About Page</strong></td>
+                                        <!-- Child checkboxes under About -->
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="about.page" id="perm-about-page"><label
-                                                    class="form-check-label" for="perm-about-page">Access About
-                                                    Page</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Product</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="product.create"
-                                                    id="perm-product-create"><label class="form-check-label"
-                                                    for="perm-product-create">Add Product</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="product.index"
-                                                    id="perm-product-index"><label class="form-check-label"
-                                                    for="perm-product-index">All Product</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="category.index"
-                                                    id="perm-category-index"><label class="form-check-label"
-                                                    for="perm-category-index">Category</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="brand.index" id="perm-brand-index"><label
-                                                    class="form-check-label" for="perm-brand-index">Brand</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="product_unit.index"
-                                                    id="perm-product-unit"><label class="form-check-label"
-                                                    for="perm-product-unit">Product Unit</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Stock</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="stock.index" id="perm-stock-index"><label
-                                                    class="form-check-label" for="perm-stock-index">Stock
-                                                    Management</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Shipping</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="shipping.index"
-                                                    id="perm-shipping-index"><label class="form-check-label"
-                                                    for="perm-shipping-index">Shipping</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>District & Upazila</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="district.index"
-                                                    id="perm-district-index"><label class="form-check-label"
-                                                    for="perm-district-index">District</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="upazila.index"
-                                                    id="perm-upazila-index"><label class="form-check-label"
-                                                    for="perm-upazila-index">Upazila</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Orders</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="order.index" id="perm-order-index"><label
-                                                    class="form-check-label" for="perm-order-index">Orders</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Payment Method</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="payment_method.index"
-                                                    id="perm-payment-method"><label class="form-check-label"
-                                                    for="perm-payment-method">Payment Method</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Post</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="post_category.index"
-                                                    id="perm-post-cat"><label class="form-check-label"
-                                                    for="perm-post-cat">Post Category</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="post.create" id="perm-post-create"><label
-                                                    class="form-check-label" for="perm-post-create">Add Post</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="post.index" id="perm-post-index"><label
-                                                    class="form-check-label" for="perm-post-index">All Post</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Users</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="user.create" id="perm-user-create"><label
-                                                    class="form-check-label" for="perm-user-create">Users</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>SMS</strong></td>
-                                        <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="sms.send" id="perm-sms-send"><label
-                                                    class="form-check-label" for="perm-sms-send">Send SMS</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="sms.custom" id="perm-sms-custom"><label
-                                                    class="form-check-label" for="perm-sms-custom">Custom SMS</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox" type="checkbox"
+                                                    data-group="about_page" id="perm-about-page" data-id="aboutPage">
+                                                <label class="form-check-label" for="perm-about-page">
+                                                    About Page
+                                                </label>
                                             </div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="sms.report" id="perm-sms-report"><label
-                                                    class="form-check-label" for="perm-sms-report">SMS Report</label>
+                                            {{-- <div class="form-check">
+                                                <input class="form-check-input child-checkbox" type="checkbox"
+                                                    data-group="about_page" id="perm-about-mission" data-id="about_page">
+                                                <label class="form-check-label" for="perm-about-mission">
+                                                    About Mission
+                                                </label>
+                                            </div> --}}
+
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input parent-checkbox"
+                                                    data-group="product" id="perm-product-parent" data-id="product">
+                                                <label class="form-check-label" for="perm-product-parent">Product</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input child-checkbox"
+                                                    data-group="product" id="perm-product-create"
+                                                    data-id="product.create">
+                                                <label class="form-check-label" for="perm-product-create">Add
+                                                    Product</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input child-checkbox"
+                                                    data-group="product" id="perm-product-index" data-id="product.index">
+                                                <label class="form-check-label" for="perm-product-index">All
+                                                    Product</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input child-checkbox"
+                                                    data-group="product" id="perm-category-index"
+                                                    data-id="product.category">
+                                                <label class="form-check-label" for="perm-category-index">Category</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input child-checkbox"
+                                                    data-group="product" id="perm-brand-index" data-id="product.brand">
+                                                <label class="form-check-label" for="perm-brand-index">Brand</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input child-checkbox"
+                                                    data-group="product" id="perm-product-unit" data-id="product.unit">
+                                                <label class="form-check-label" for="perm-product-unit">Product
+                                                    Unit</label>
                                             </div>
                                         </td>
                                     </tr>
+
+
                                     <tr>
-                                        <td><strong>Subscribers</strong></td>
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="newslatter" id="perm-newslatter"><label
-                                                    class="form-check-label" for="perm-newslatter">Subscriber</label>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="stock" id="perm-stock-parent" data-id="stock">
+                                                <label class="form-check-label" for="perm-stock-parent"> Stock </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input child-checkbox"
+                                                    data-group="stock" id="perm-stock-management"
+                                                    data-id="stock.management">
+                                                <label class="form-check-label" for="perm-stock-management">
+                                                    Stock Management</label>
                                             </div>
                                         </td>
                                     </tr>
+
+
                                     <tr>
-                                        <td><strong>Messages</strong></td>
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="contact_form.message"
-                                                    id="perm-messages"><label class="form-check-label"
-                                                    for="perm-messages">Messages</label></div>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="shipping" id="perm-shipping-parent" data-id="shipping">
+                                                <label class="form-check-label" for="perm-shipping-parent"> Shipping
+                                                </label>
+                                            </div>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Account Block Lists</strong></td>
+
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="block.list" id="perm-block-list"><label
-                                                    class="form-check-label" for="perm-block-list">Block List</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="shipping" data-id="shipping.index"
+                                                    id="perm-shipping-index">
+                                                <label class="form-check-label" for="perm-shipping-index">Shipping</label>
                                             </div>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td><strong>Pages</strong></td>
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="privacy_policy" id="perm-privacy"><label
-                                                    class="form-check-label" for="perm-privacy">Privacy Policy</label>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="district_upazila" id="perm-district-upazila-parent"
+                                                    data-id="district_upazila">
+                                                <label class="form-check-label" for="perm-district-upazila-parent">
+                                                    District & Upazila
+                                                </label>
                                             </div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="terms_and_condtion" id="perm-terms"><label
-                                                    class="form-check-label" for="perm-terms">Terms & Conditions</label>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="district_upazila"
+                                                    data-id="district.index" id="perm-district-index">
+                                                <label class="form-check-label" for="perm-district-index">District</label>
                                             </div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="return_refund" id="perm-refund"><label
-                                                    class="form-check-label" for="perm-refund">Return & Refund</label>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="district_upazila" data-id="upazila.index"
+                                                    id="perm-upazila-index">
+                                                <label class="form-check-label" for="perm-upazila-index">Upazila</label>
                                             </div>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td><strong>Settings</strong></td>
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="sms-settings.edit"
-                                                    id="perm-sms-setting"><label class="form-check-label"
-                                                    for="perm-sms-setting">SMS API Settings</label></div>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="website_setting"
-                                                    id="perm-website-setting"><label class="form-check-label"
-                                                    for="perm-website-setting">Website Setting</label></div>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="orders" id="perm-orders-parent" data-id="orders">
+                                                <label class="form-check-label" for="perm-orders-parent">Orders</label>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="orders" data-id="order.index"
+                                                    id="perm-order-index">
+                                                <label class="form-check-label" for="perm-order-index">Orders</label>
+                                            </div>
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td><strong>Access Info</strong></td>
                                         <td>
-                                            <div class="form-check"><input class="form-check-input permission-checkbox"
-                                                    type="checkbox" data-id="visit.log.index"
-                                                    id="perm-access-info"><label class="form-check-label"
-                                                    for="perm-access-info">Access Info</label></div>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="payment_method" id="perm-payment-method-parent"
+                                                    data-id="payment_method">
+                                                <label class="form-check-label" for="perm-payment-method-parent">Payment
+                                                    Method</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="payment_method"
+                                                    data-id="payment_method.index" id="perm-payment-method">
+                                                <label class="form-check-label" for="perm-payment-method">Payment
+                                                    Method</label>
+                                            </div>
                                         </td>
                                     </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="post" id="perm-post-parent" data-id="post">
+                                                <label class="form-check-label" for="perm-post-parent">Post</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="post" data-id="post_category.index"
+                                                    id="perm-post-cat">
+                                                <label class="form-check-label" for="perm-post-cat">Post Category</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="post" data-id="post.create"
+                                                    id="perm-post-create">
+                                                <label class="form-check-label" for="perm-post-create">Add Post</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="post" data-id="post.index"
+                                                    id="perm-post-index">
+                                                <label class="form-check-label" for="perm-post-index">All Post</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="users" id="perm-users-parent" data-id="users">
+                                                <label class="form-check-label" for="perm-users-parent">Users</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="users" data-id="user.create"
+                                                    id="perm-user-create">
+                                                <label class="form-check-label" for="perm-user-create">Users</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="sms" id="perm-sms-parent" data-id="sms">
+                                                <label class="form-check-label" for="perm-sms-parent">SMS</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="sms" data-id="sms.send"
+                                                    id="perm-sms-send">
+                                                <label class="form-check-label" for="perm-sms-send">Send SMS</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="sms" data-id="sms.custom"
+                                                    id="perm-sms-custom">
+                                                <label class="form-check-label" for="perm-sms-custom">Custom SMS</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="sms" data-id="sms.report"
+                                                    id="perm-sms-report">
+                                                <label class="form-check-label" for="perm-sms-report">SMS Report</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="subscribers" id="perm-subscribers-parent"
+                                                    data-id="subscribers">
+                                                <label class="form-check-label"
+                                                    for="perm-subscribers-parent">Subscribers</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="subscribers" data-id="newslatter"
+                                                    id="perm-newslatter">
+                                                <label class="form-check-label" for="perm-newslatter">Subscriber</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="messages" id="perm-messages-parent" data-id="messages">
+                                                <label class="form-check-label"
+                                                    for="perm-messages-parent">Messages</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="messages" data-id="contact_form.message"
+                                                    id="perm-messages">
+                                                <label class="form-check-label" for="perm-messages">Messages</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="blocklist" id="perm-blocklist-parent"
+                                                    data-id="blocklist">
+                                                <label class="form-check-label" for="perm-blocklist-parent">Account Block
+                                                    Lists</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="blocklist" data-id="block.list"
+                                                    id="perm-block-list">
+                                                <label class="form-check-label" for="perm-block-list">Block List</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="pages" id="perm-pages-parent" data-id="pages">
+                                                <label class="form-check-label" for="perm-pages-parent">Pages</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="pages" data-id="privacy_policy"
+                                                    id="perm-privacy">
+                                                <label class="form-check-label" for="perm-privacy">Privacy Policy</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="pages" data-id="terms_and_condtion"
+                                                    id="perm-terms">
+                                                <label class="form-check-label" for="perm-terms">Terms &
+                                                    Conditions</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="pages" data-id="return_refund"
+                                                    id="perm-refund">
+                                                <label class="form-check-label" for="perm-refund">Return & Refund</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="settings" id="perm-settings-parent" data-id="settings">
+                                                <label class="form-check-label"
+                                                    for="perm-settings-parent">Settings</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="settings" data-id="sms-settings.edit"
+                                                    id="perm-sms-setting">
+                                                <label class="form-check-label" for="perm-sms-setting">SMS API
+                                                    Settings</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="settings" data-id="website_setting"
+                                                    id="perm-website-setting">
+                                                <label class="form-check-label" for="perm-website-setting">Website
+                                                    Setting</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input parent-checkbox permission-checkbox"
+                                                    data-group="accessinfo" id="perm-accessinfo-parent"
+                                                    data-id="accessinfo">
+                                                <label class="form-check-label" for="perm-accessinfo-parent">Access
+                                                    Info</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="accessinfo" data-id="visit.log.index"
+                                                    id="perm-access-info">
+                                                <label class="form-check-label" for="perm-access-info">Access Info</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                             <button type="submit">SAVE</button>
@@ -315,86 +590,6 @@
 
 
 @push('scripts')
-    {{-- <script>
-$(document).ready(function() {
-    function clearPermissions() {
-        $('.permission-checkbox').prop('checked', false);
-    }
-
-    $('#role').on('change', function() {
-        var roleId = $(this).val();
-        $('#user').empty().append('<option value="">Select User</option>');
-        clearPermissions();
-
-        if (roleId) {
-            $.ajax({
-                url: '/admin/get-users-by-role/' + roleId,
-                type: 'GET',
-                success: function(data) {
-                    $.each(data, function(index, user) {
-                        $('#user').append('<option value="' + user.id + '">' + user.name + '</option>');
-                    });
-                },
-                error: function() {
-                    alert('Failed to load users');
-                }
-            });
-        }
-    });
-
-    $('#user').on('change', function() {
-        var userId = $(this).val();
-        clearPermissions();
-
-        if (!userId) {
-            return;
-        }
-
-        $.ajax({
-            url: '/admin/users/' + userId + '/permissions',
-            type: 'GET',
-            success: function(permissions) {
-                permissions.forEach(function(permissionName) {
-                    $('.permission-checkbox[data-id="' + permissionName + '"]').prop('checked', true);
-                });
-            },
-            error: function() {
-                alert('Failed to load permissions');
-            }
-        });
-    });
-
-    $('.permission-checkbox').on('change', function() {
-        var userId = $('#user').val();
-        var permission = $(this).data('id');
-        var action = $(this).is(':checked') ? 'attach' : 'detach';
-
-        if (!userId) {
-            alert('Please select a user first');
-            $(this).prop('checked', !$(this).is(':checked'));
-            return;
-        }
-
-        $.ajax({
-            url: '/admin/user-permissions',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                user_id: userId,
-                permission: permission,
-                action: action
-            },
-            success: function() {
-                console.log('Permission updated successfully');
-            },
-            error: function() {
-                alert('Something went wrong while updating permission');
-            }
-        });
-    });
-});
-</script> --}}
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
@@ -495,6 +690,44 @@ $(document).ready(function() {
                     };
                     toastr.success('Permissions updated!');
                 }
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parent -> Children
+            document.querySelectorAll('.parent-checkbox').forEach(function(parentCheckbox) {
+                parentCheckbox.addEventListener('change', function() {
+                    const group = this.getAttribute('data-group');
+                    const children = document.querySelectorAll('.child-checkbox[data-group="' +
+                        group + '"]');
+                    children.forEach(function(child) {
+                        child.checked = parentCheckbox.checked;
+                    });
+                });
+            });
+
+            // Children -> Parent (auto-check ON, auto-uncheck ON)
+            document.querySelectorAll('.child-checkbox').forEach(function(childCheckbox) {
+                childCheckbox.addEventListener('change', function() {
+                    const group = this.getAttribute('data-group');
+                    const parent = document.querySelector('.parent-checkbox[data-group="' + group +
+                        '"]');
+                    const children = document.querySelectorAll('.child-checkbox[data-group="' +
+                        group + '"]');
+
+                    const allChecked = Array.from(children).every(cb => cb.checked);
+                    const allUnchecked = Array.from(children).every(cb => !cb.checked);
+
+                    if (allChecked) {
+                        parent.checked = true;
+                    } else if (allUnchecked) {
+                        parent.checked = false;
+                    }
+                    // না হলে parent এর স্টেট আগের মতোই থাকবে
+                });
             });
         });
     </script>
