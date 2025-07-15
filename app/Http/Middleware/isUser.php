@@ -16,7 +16,7 @@ class isUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->system_admin === 'User') {
+        if (Auth::check()) {
             return $next($request);
         }
 

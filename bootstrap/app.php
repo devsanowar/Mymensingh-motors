@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\CheckPermission;
 use App\Http\Middleware\isUser;
 use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\isCustomer;
@@ -28,11 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'user' => isUser::class,
             'customer' => isCustomer::class,
             'logVisitorInfo' => LogVisitorInfo::class,
-            'permission' => CheckPermission::class,
         ]);
-
-        // 👇 Correct way to make it global in Laravel 11
-        // $middleware->prependToGroup('web', LogVisitorInfo::class);
     })
 
     ->withExceptions(function (Exceptions $exceptions) {

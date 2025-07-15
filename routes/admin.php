@@ -47,7 +47,7 @@ use App\Http\Controllers\Admin\TermsAdnCondiotnController;
 use App\Http\Controllers\Admin\VisitLogController;
 
 Route::prefix('admin')
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth','admin'])
     ->group(function () {
         // Dashboard
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

@@ -60,87 +60,107 @@
     <!-- Menu -->
     <div class="menu">
         <ul class="list">
-            @if(in_array('dashboard', $userPermissions))
-            <li class="active">
-                <a href="{{ route('admin.dashboard') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a>
-            </li>
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('dashboard', $userPermissions))
+                <li class="active">
+                    <a href="{{ route('admin.dashboard') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a>
+                </li>
             @endif
 
-            {{-- Home Page Menu (Shared) --}}
-            <li class="{{ $isHomePageActive ? 'active open' : '' }}">
-                <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="zmdi zmdi-view-headline"></i>
-                    <span>Home Page</span>
-                </a>
-                <ul class="ml-menu">
-                    <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
-                        <a href="{{ route('slider.index') }}"><span>Slider</span></a>
-                    </li>
-                    @if(in_array('promobanner.index', $userPermissions))
-                    <li class="{{ request()->routeIs('promobanner.*') ? 'active' : '' }}">
-                        <a href="{{ route('promobanner.index') }}"><span>Promo Banner</span></a>
-                    </li>
-                    @endif
+            <!-- Home Page Menu -->
+            @if (in_array(Auth::user()->system_admin, ['Super_admin', 'Admin', 'User', 'Editor']))
+                <li class="{{ $isHomePageActive ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="zmdi zmdi-view-headline"></i>
+                        <span>Home Page</span>
+                    </a>
+                    <ul class="ml-menu">
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.banner', $userPermissions))
+                            <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
+                                <a href="{{ route('slider.index') }}"><span>Slider</span></a>
+                            </li>
+                        @endif
 
-                    <li class="{{ request()->routeIs('about.*') ? 'active' : '' }}">
-                        <a href="{{ route('about.index') }}"><span>About</span></a>
-                    </li>
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.promobanner', $userPermissions))
+                            <li class="{{ request()->routeIs('promobanner.*') ? 'active' : '' }}">
+                                <a href="{{ route('promobanner.index') }}"><span>Promo Banner</span></a>
+                            </li>
+                        @endif
 
-                    <li class="{{ request()->routeIs('why-choose-us.*') ? 'active' : '' }}">
-                        <a href="{{ route('why-choose-us.index') }}"><span>Why choose us</span></a>
-                    </li>
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.about', $userPermissions))
+                            <li class="{{ request()->routeIs('about.*') ? 'active' : '' }}">
+                                <a href="{{ route('about.index') }}"><span>About</span></a>
+                            </li>
+                        @endif
 
-                    <li class="{{ request()->routeIs('cta.*') ? 'active' : '' }}">
-                        <a href="{{ route('cta.index') }}"><span>CTA</span></a>
-                    </li>
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.why_choose_us', $userPermissions))
+                            <li class="{{ request()->routeIs('why-choose-us.*') ? 'active' : '' }}">
+                                <a href="{{ route('why-choose-us.index') }}"><span>Why choose us</span></a>
+                            </li>
+                        @endif
 
-                    <li class="{{ request()->routeIs('achievement.*') ? 'active' : '' }}">
-                        <a href="{{ route('achievement.index') }}"><span>Achievement</span></a>
-                    </li>
-                    <li class="{{ request()->routeIs('review.*') ? 'active' : '' }}">
-                        <a href="{{ route('review.index') }}"><span>Review</span></a>
-                    </li>
-                    <li class="{{ request()->routeIs('faq.*') ? 'active' : '' }}">
-                        <a href="{{ route('faq.index') }}"><span>FAQ</span></a>
-                    </li>
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.cta', $userPermissions))
+                            <li class="{{ request()->routeIs('cta.*') ? 'active' : '' }}">
+                                <a href="{{ route('cta.index') }}"><span>CTA</span></a>
+                            </li>
+                        @endif
 
-                </ul>
-            </li>
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.achievement', $userPermissions))
+                            <li class="{{ request()->routeIs('achievement.*') ? 'active' : '' }}">
+                                <a href="{{ route('achievement.index') }}"><span>Achievement</span></a>
+                            </li>
+                        @endif
 
-            <li class="{{ $isAboutPageActive ? 'active' : '' }}">
-                <a href="{{ route('about_page.page') }}">
-                    <i class="zmdi zmdi-assignment"></i><span>About Page</span>
-                </a>
-            </li>
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.review', $userPermissions))
+                            <li class="{{ request()->routeIs('review.*') ? 'active' : '' }}">
+                                <a href="{{ route('review.index') }}"><span>Review</span></a>
+                            </li>
+                        @endif
 
-            <li class="{{ $isProductActive ? 'active open' : '' }}">
-                <a href="javascript:void(0);" class="menu-toggle"> <i class="zmdi zmdi-shopping-cart"></i>
-                    <span>Product</span>
-                </a>
-                <ul class="ml-menu">
-                    <li class="{{ request()->routeIs('product.create') ? 'active' : '' }}">
-                        <a href="{{ route('product.create') }}">Add Product</a>
-                    </li>
-                    <li class="{{ request()->routeIs('product.index') ? 'active' : '' }}">
-                        <a href="{{ route('product.index') }}">All Product</a>
-                    </li>
-                    <li class="{{ request()->routeIs('category.*') ? 'active' : '' }}">
-                        <a href="{{ route('category.index') }}">Category</a>
-                    </li>
-                    {{-- <li class="{{ request()->routeIs('subcategory.*') ? 'active' : '' }}">
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.faq', $userPermissions))
+                            <li class="{{ request()->routeIs('faq.*') ? 'active' : '' }}">
+                                <a href="{{ route('faq.index') }}"><span>FAQ</span></a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
+
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('about_page.page', $userPermissions))
+                <li class="{{ $isAboutPageActive ? 'active' : '' }}">
+                    <a href="{{ route('about_page.page') }}">
+                        <i class="zmdi zmdi-assignment"></i><span>About Page</span>
+                    </a>
+                </li>
+            @endif
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('product', $userPermissions))
+                <li class="{{ $isProductActive ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-toggle"> <i class="zmdi zmdi-shopping-cart"></i>
+                        <span>Product</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li class="{{ request()->routeIs('product.create') ? 'active' : '' }}">
+                            <a href="{{ route('product.create') }}">Add Product</a>
+                        </li>
+                        <li class="{{ request()->routeIs('product.index') ? 'active' : '' }}">
+                            <a href="{{ route('product.index') }}">All Product</a>
+                        </li>
+                        <li class="{{ request()->routeIs('category.*') ? 'active' : '' }}">
+                            <a href="{{ route('category.index') }}">Category</a>
+                        </li>
+                        {{-- <li class="{{ request()->routeIs('subcategory.*') ? 'active' : '' }}">
                         <a href="{{ route('subcategory.index') }}">Sub Category</a>
                     </li> --}}
-                    <li class="{{ request()->routeIs('brand.*') ? 'active' : '' }}">
-                        <a href="{{ route('brand.index') }}">Brand</a>
-                    </li>
+                        <li class="{{ request()->routeIs('brand.*') ? 'active' : '' }}">
+                            <a href="{{ route('brand.index') }}">Brand</a>
+                        </li>
 
-                    <li class="{{ request()->routeIs('brand.*') ? 'active' : '' }}">
-                        <a href="{{ route('product_unit.index') }}">Product unit</a>
-                    </li>
+                        <li class="{{ request()->routeIs('brand.*') ? 'active' : '' }}">
+                            <a href="{{ route('product_unit.index') }}">Product unit</a>
+                        </li>
 
-                </ul>
-            </li>
-
+                    </ul>
+                </li>
+            @endif
             <li class="{{ $isPostActive ? 'active open' : '' }}">
                 <a href="{{ route('admin.stock.index') }}">
                     <i class="fa-solid fa-chart-column"></i>
@@ -168,7 +188,7 @@
                     <li class="{{ request()->routeIs('cost.index') ? 'active' : '' }}">
                         <a href="{{ route('cost.index') }}">All Cost</a>
                     </li>
-                    
+
                 </ul>
             </li>
 

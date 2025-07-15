@@ -124,7 +124,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'system_admin' => 'nullable|in:Admin,User',
+            'system_admin' => 'nullable',
             'password' => 'nullable|min:6|confirmed',
         ]);
 

@@ -16,29 +16,12 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if (Auth::check() && Auth::user()->system_admin === 'Admin') {
-        //     return $next($request);
-        // }
-
-        // Auth::logout();
-        // return redirect()->route('login')->with('error', 'You are not authorized to access this page.');
-
-        $user = Auth::user();
-
-        if (!$user) {
-            Auth::logout();
-            return redirect()->route('login')->with('error', 'Unauthorized.');
-        }
-
-        if (in_array(strtolower($user->system_admin), ['Super_admin', 'admin'])) {
-            return $next($request);
-        }
-
-        if ($user->permissions()->where('permission_key', 'dashboard')->exists()) {
+        if (Auth::check()) {
             return $next($request);
         }
 
         Auth::logout();
         return redirect()->route('login')->with('error', 'You are not authorized to access this page.');
+        
     }
 }

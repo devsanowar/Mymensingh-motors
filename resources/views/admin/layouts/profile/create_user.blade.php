@@ -110,9 +110,9 @@
                                 <div class="" style="border: 1px solid #ccc">
                                     <select name="system_admin" class="form-control show-tick">
                                         <option disabled selected value="0">Select Role</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="User">User</option>
-                                        <option value="Editor">User</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
+                                        <option value="editor">Editor</option>
                                     </select>
                                 </div>
                             </div>
