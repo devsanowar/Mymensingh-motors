@@ -67,20 +67,20 @@
             @endif
 
             <!-- Home Page Menu -->
-            @if (in_array(Auth::user()->system_admin, ['Super_admin', 'Admin', 'User', 'Editor']))
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('home', $userPermissions))
                 <li class="{{ $isHomePageActive ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-toggle">
                         <i class="zmdi zmdi-view-headline"></i>
                         <span>Home Page</span>
                     </a>
                     <ul class="ml-menu">
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.banner', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.slider', $userPermissions))
                             <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
                                 <a href="{{ route('slider.index') }}"><span>Slider</span></a>
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.promobanner', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('promobanner.index', $userPermissions))
                             <li class="{{ request()->routeIs('promobanner.*') ? 'active' : '' }}">
                                 <a href="{{ route('promobanner.index') }}"><span>Promo Banner</span></a>
                             </li>
@@ -125,7 +125,7 @@
                 </li>
             @endif
 
-            @if (Auth::user()->system_admin == 'Super_admin' || in_array('about_page.page', $userPermissions))
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('about', $userPermissions))
                 <li class="{{ $isAboutPageActive ? 'active' : '' }}">
                     <a href="{{ route('about_page.page') }}">
                         <i class="zmdi zmdi-assignment"></i><span>About Page</span>
@@ -161,13 +161,17 @@
                     </ul>
                 </li>
             @endif
+
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('stock', $userPermissions))
             <li class="{{ $isPostActive ? 'active open' : '' }}">
                 <a href="{{ route('admin.stock.index') }}">
                     <i class="fa-solid fa-chart-column"></i>
                     <span>Stock Management</span>
                 </a>
             </li>
+            @endif
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('stock', $userPermissions))
             <li class="{{ $isCostActive ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-border-color"></i>
@@ -191,62 +195,77 @@
 
                 </ul>
             </li>
+            @endif
 
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('shipping', $userPermissions))
             <li class="{{ $isShippingPageActive ? 'active' : '' }}">
                 <a href="{{ route('shipping.index') }}"><i class="zmdi zmdi-money-box"></i>
                     <span>Shipping</span>
                 </a>
             </li>
+            @endif
 
 
 
 
             {{-- District Menu --}}
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('district.index', $userPermissions))
             <li class="{{ $isDistrictPageActive ? 'active' : '' }}">
                 <a href="{{ route('district.index') }}"><i class="zmdi zmdi-map"></i><span>District</span></a>
             </li>
+            @endif
 
-            {{-- District Menu --}}
+            {{-- upazila Menu --}}
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('upazila.index', $userPermissions))
             <li class="{{ $isUpazilaPageActive ? 'active' : '' }}">
                 <a href="{{ route('upazila.index') }}"><i class="zmdi zmdi-map"></i><span>Upazila</span></a>
             </li>
+            @endif
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('orders', $userPermissions))
             <li class="{{ $isOrderPageActive ? 'active' : '' }}">
                 <a href="{{ route('order.index') }}"><i class="zmdi zmdi-shopping-cart"></i><span>Orders <span
                             class="order-count">{{ $pendingOrder }}</span></span></a>
             </li>
+            @endif
 
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('payment_method', $userPermissions))
             <li class="{{ $isPaymentMethodPageActive ? 'active' : '' }}">
                 <a href="{{ route('payment_method.index') }}"><i class="zmdi zmdi-money"></i><span>Payment
                         Method</span></a>
             </li>
-
+            @endif
 
             {{-- Post Menu --}}
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('post', $userPermissions))
             <li class="{{ $isPostActive ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-border-color"></i>
                     <span>Post</span>
                 </a>
                 <ul class="ml-menu">
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('post_category.index', $userPermissions))
                     <li class="{{ request()->routeIs('post_category.index') ? 'active' : '' }}">
                         <a href="{{ route('post_category.index') }}">Category</a>
                     </li>
+                    @endif
+
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('post.create', $userPermissions))
                     <li class="{{ request()->routeIs('post.create') ? 'active' : '' }}">
                         <a href="{{ route('post.create') }}">Add Post</a>
                     </li>
+                    @endif
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('post.index', $userPermissions))
                     <li class="{{ request()->routeIs('post.index') ? 'active' : '' }}">
                         <a href="{{ route('post.index') }}">All Post</a>
                     </li>
+                    @endif
                 </ul>
             </li>
-
+            @endif
 
             {{-- Only Admin can see Users Menu --}}
-            @if (Auth::user()->system_admin === 'Admin')
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('users', $userPermissions))
                 <li class="{{ $isUserPageActive ? 'active' : '' }}">
                     <a href="{{ route('user.create') }}"><i class="zmdi zmdi-accounts"></i><span>Users</span></a>
                 </li>
@@ -260,67 +279,85 @@
                 </ul>
             </li> --}}
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('sms', $userPermissions))
             <li class="{{ Request::is('moblieSMS*') ? 'active' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-email"></i><span>SMS</span>
                 </a>
                 <ul class="ml-menu">
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('sms.send', $userPermissions))
                     <li class="{{ Request::is('moblieSMS/sms') ? 'active' : '' }}">
                         <a href="{{ route('message.index') }}">Send SMS</a>
                     </li>
+                    @endif
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('sms.custom', $userPermissions))
                     <li class="{{ Request::is('moblieSMS/custom-sms') ? 'active' : '' }}">
                         <a href="{{ route('custom.sms') }}">Custom SMS</a>
                     </li>
+                    @endif
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('sms.report', $userPermissions))
                     <li class="{{ Request::is('moblieSMS/sms-report') ? 'active' : '' }}">
                         <a href="{{ route('sms-report.index') }}">SMS Report</a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
 
             {{-- Shared: Inbox, Settings, Logout --}}
 
 
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('newslatter', $userPermissions))
             <li class="{{ request()->routeIs('newslatter') ? 'active' : '' }}">
                 <a href="{{ route('newslatter') }}"><i class="zmdi zmdi-accounts"></i>
                     <span>Subscriber</span>
                 </a>
             </li>
+            @endif
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('messages', $userPermissions))
             <li class="{{ $isMessagePageActive ? 'active' : '' }}">
                 <a href="{{ route('contact_form.message') }}"><i class="zmdi zmdi-email-open"></i>
                     <span>Messages</span>
                 </a>
             </li>
+            @endif
 
-
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('blocklist', $userPermissions))
             <li class="{{ request()->routeIs('block-list.*') ? 'active' : '' }}">
                 <a href="{{ route('block.list') }}"><i class="zmdi zmdi-accounts"></i>
                     <span>Account Block Lists</span>
                 </a>
             </li>
+            @endif
 
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('pages', $userPermissions))
             <li class="{{ $isPagesMenuActive ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-folder"></i>
                     <span>Pages</span>
                 </a>
                 <ul class="ml-menu">
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('privacy_policy', $userPermissions))
                     <li class="{{ request()->routeIs('privacy_policy') ? 'active' : '' }}">
                         <a href="{{ route('privacy_policy') }}">Privacy Policy</a>
                     </li>
+                    @endif
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('terms_and_condtion', $userPermissions))
                     <li class="{{ request()->routeIs('terms_and_condtion') ? 'active' : '' }}">
                         <a href="{{ route('terms_and_condtion') }}">Terms And Condition</a>
                     </li>
+                    @endif
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('return_refund', $userPermissions))
                     <li class="{{ request()->routeIs('return_refund') ? 'active' : '' }}">
                         <a href="{{ route('return_refund') }}">Return & Refund</a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
 
-
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('settings', $userPermissions))
             <li
                 class="{{ request()->routeIs('sms-settings.*') || request()->routeIs('website_setting') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
@@ -328,28 +365,38 @@
                     <span>Settings</span>
                 </a>
                 <ul class="ml-menu">
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('sms-settings.edit', $userPermissions))
                     <li class="{{ request()->routeIs('sms-settings.*') ? 'active' : '' }}">
                         <a href="{{ route('sms-settings.edit') }}">
                             <span>SMS API Settings</span>
                         </a>
                     </li>
+                    @endif
+                    @if (Auth::user()->system_admin == 'Super_admin' || in_array('website_setting', $userPermissions))
                     <li class="{{ request()->routeIs('website_setting') ? 'active' : '' }}">
                         <a href="{{ route('website_setting') }}">Website Setting</a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('accessinfo', $userPermissions))
             <li class="{{ request()->routeIs('visit.log.index.*') ? 'active' : '' }}">
                 <a href="{{ route('visit.log.index') }}"><i class="zmdi zmdi-accounts"></i>
                     <span>Access Info</span>
                 </a>
             </li>
+            @endif
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('privilege', $userPermissions))
             <li class="{{ request()->routeIs('visit.log.index.*') ? 'active' : '' }}">
                 <a href="{{ route('privilege.index') }}"><i class="zmdi zmdi-settings"></i>
                     <span>Privilege</span>
                 </a>
             </li>
+            @endif
+          
 
             <li>
                 <form method="POST" action="{{ route('logout') }}">

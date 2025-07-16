@@ -18,7 +18,10 @@ class PrivilegeController extends Controller
 
     public function getUsersByRole($role)
     {
-        $users = User::whereRaw('LOWER(system_admin) = ?', [strtolower($role)])->get();
+        $users = User::whereRaw('LOWER(system_admin) = ?', [strtolower($role)])
+            ->where('system_admin', '!=', 'Super_admin')
+            ->get();
+
         return response()->json($users);
     }
 
@@ -48,6 +51,4 @@ class PrivilegeController extends Controller
         $permissionKeys = $user->permissions->pluck('permission_key');
         return response()->json($permissionKeys);
     }
-
-    
 }

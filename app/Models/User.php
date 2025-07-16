@@ -12,7 +12,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -23,7 +22,6 @@ class User extends Authenticatable
      */
     protected $fillable = ['name', 'email', 'password', 'system_admin', 'phone', 'image'];
 
-
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -31,11 +29,8 @@ class User extends Authenticatable
 
     public function permissions()
     {
-        return $this->hasMany(Permission::class);
+        return $this->hasMany(Permission::class, 'user_id');
     }
-
-
-
 
     /**
      * The attributes that should be hidden for serialization.

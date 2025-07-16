@@ -366,8 +366,7 @@ padding-left: 10px !important;
 
 #privilege-form label {
 	margin-right: 10px;
-	font-weight: 300;
-	font-size: 18px;
+	font-size: 16px;
 	padding-left: 6px !important;
 }
 
@@ -380,3 +379,5 @@ padding-left: 10px !important;
 [type="checkbox"] + label::before, [type="checkbox"]:not(.filled-in) + label::after {
 	display: none !important;
 }
+
+

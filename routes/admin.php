@@ -106,7 +106,7 @@ Route::prefix('admin')
             Route::post('/brand/status-change', [BrandController::class, 'brandChangeStatus'])->name('brand.status');
 
             // About
-            Route::get('about', [AboutController::class, 'index'])->name('about.index');
+            Route::get('about', [AboutController::class, 'index'])->name('about.index')->middleware('permission:home.about.page');
             Route::post('about/update', [AboutController::class, 'update'])->name('about.update');
 
             // Why chose us
@@ -135,6 +135,17 @@ Route::prefix('admin')
             // Cta routes here
             Route::resource('cta', CtaController::class);
             Route::post('/cta/status-change', [CtaController::class, 'ctaChangeStatus'])->name('cta.status');
+        });
+
+        // About Page
+        Route::prefix('about-page')->group(function () {
+            Route::get('/', [AboutPageController::class, 'index'])->name('about_page.page')->middleware('permission:about.page');
+            Route::post('/chairman/update/{id}', [AboutPageController::class, 'update'])->name('chairman.update');
+
+            Route::get('/mission/vision', [AboutPageController::class, 'missionVision'])->name('mission_vision.page');
+
+            Route::post('/chairman/mission/update', [AboutPageController::class, 'missionUpdate'])->name('mission.update');
+            Route::post('/chairman/vision/update', [AboutPageController::class, 'visionUpdate'])->name('vision.update');
         });
 
         // Categories
@@ -242,16 +253,7 @@ Route::prefix('admin')
         Route::resource('post', PostController::class);
         Route::post('/post/status-change', [PostController::class, 'postChangeStatus'])->name('post.status');
 
-        // About Page
-        Route::prefix('about-page')->group(function () {
-            Route::get('/', [AboutPageController::class, 'index'])->name('about_page.page');
-            Route::post('/chairman/update/{id}', [AboutPageController::class, 'update'])->name('chairman.update');
-
-            Route::get('/mission/vision', [AboutPageController::class, 'missionVision'])->name('mission_vision.page');
-
-            Route::post('/chairman/mission/update', [AboutPageController::class, 'missionUpdate'])->name('mission.update');
-            Route::post('/chairman/vision/update', [AboutPageController::class, 'visionUpdate'])->name('vision.update');
-        });
+        
 
         // Contact form message route
         Route::get('contact-form', [InboxController::class, 'index'])->name('contact_form.message');
