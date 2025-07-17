@@ -154,448 +154,441 @@
                                             <!-- End slider home page menu -->
 
                                             <!-- Slider Section -->
-                                            <div class="mr-3 mb-2">
-                                                <div class="dropdown">
-                                                    <button
-                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false" id="sliderDropdownBtn">
-                                                        <span>Slider</span>
-                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu p-3 shadow"
-                                                        aria-labelledby="sliderDropdownBtn">
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input child-checkbox permission-checkbox"
-                                                                type="checkbox" data-group="home"
-                                                                id="perm-home-slider-index" data-id="home.slider.index"
-                                                                name="permissions[]" value="home.slider.index">
-                                                            <label class="form-check-label"
-                                                                for="perm-home-slider-index">Slider View</label>
+                                            <div class="d-flex flex-wrap">
+                                                <div class="mr-3 mb-2">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="sliderDropdownBtn">
+                                                            <span>Slider</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="sliderDropdownBtn">
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-slider-index" data-id="home.slider.index"
+                                                                    name="permissions[]" value="home.slider.index">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-slider-index">Slider View</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-slider-store" data-id="home.slider.store"
+                                                                    name="permissions[]" value="home.slider.store">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-slider-store">Slider Create</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-slider-update"
+                                                                    data-id="home.slider.update" name="permissions[]"
+                                                                    value="home.slider.update">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-slider-update">Slider Update</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-slider-delete"
+                                                                    data-id="home.slider.delete" name="permissions[]"
+                                                                    value="home.slider.delete">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-slider-delete">Slider Delete</label>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input child-checkbox permission-checkbox"
-                                                                type="checkbox" data-group="home"
-                                                                id="perm-home-slider-store" data-id="home.slider.store"
-                                                                name="permissions[]" value="home.slider.store">
-                                                            <label class="form-check-label"
-                                                                for="perm-home-slider-store">Slider Create</label>
+                                                    </div>
+                                                </div>
+
+                                                <!--Start Promo banner home menu-->
+                                                <div class="mr-3 mb-2">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="promobannerDropdownBtn">
+                                                            <span>Promo Banner</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="promobannerDropdownBtn">
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-promobanner-index"
+                                                                    data-id="home.promobanner.index" name="permissions[]"
+                                                                    value="home.promobanner.index">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-promobanner-index">
+                                                                    Promo Banner
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-promobanner-store"
+                                                                    data-id="home.promobanner.store" name="permissions[]"
+                                                                    value="home.promobanner.store">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-promobanner-store">
+                                                                    Promo Banner Store
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-promobanner-update"
+                                                                    data-id="home.promobanner.update" name="permissions[]"
+                                                                    value="home.promobanner.update">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-promobanner-update">
+                                                                    Promo Banner Update
+                                                                </label>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input child-checkbox permission-checkbox"
-                                                                type="checkbox" data-group="home"
-                                                                id="perm-home-slider-update" data-id="home.slider.update"
-                                                                name="permissions[]" value="home.slider.update">
-                                                            <label class="form-check-label"
-                                                                for="perm-home-slider-update">Slider Update</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- End promo banner menu-->
+
+                                                <!-- About Dropdown -->
+                                                <div class="mr-3 mb-2 d-inline-block">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="aboutDropdownBtn">
+                                                            <span>About</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="aboutDropdownBtn">
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-about-index" data-id="home.about.index"
+                                                                    name="permissions[]" value="home.about.index">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-about-index">About</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-about-update"
+                                                                    data-id="home.about.update" name="permissions[]"
+                                                                    value="home.about.update">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-about-update">About Update</label>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input child-checkbox permission-checkbox"
-                                                                type="checkbox" data-group="home"
-                                                                id="perm-home-slider-delete" data-id="home.slider.delete"
-                                                                name="permissions[]" value="home.slider.delete">
-                                                            <label class="form-check-label"
-                                                                for="perm-home-slider-delete">Slider Delete</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Why Choose Us Dropdown -->
+                                                <div class="mr-3 mb-2 d-inline-block">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="whyDropdownBtn">
+                                                            <span>Why Choose Us</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="whyDropdownBtn">
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-why-index"
+                                                                    data-id="home.why_chose_us.index" name="permissions[]"
+                                                                    value="home.why_chose_us.index">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-why-index">Why Choose Us View</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-why-store"
+                                                                    data-id="home.why_chose_us.store" name="permissions[]"
+                                                                    value="home.why_chose_us.store">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-why-store">Why Choose Us Create</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-why-update"
+                                                                    data-id="home.why_chose_us.update"
+                                                                    name="permissions[]" value="home.why_chose_us.update">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-why-update">Why Choose Us Update</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-why-delete"
+                                                                    data-id="home.why_chose_us.delete"
+                                                                    name="permissions[]" value="home.why_chose_us.delete">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-why-delete">Why Choose Us Delete</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <!--Start Promo banner home menu -->
-
-                                            <div class="form-check" class="prev-main-menu">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#promobanner-permissions"
-                                                    aria-expanded="false" aria-controls="promobanner-permissions">
-                                                    Promo Banner
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                    <!-- Optional dropdown icon -->
-                                                </label>
-                                            </div>
-
-                                            <!-- Child -->
-                                            <div class="collapse ml-4" id="promobanner-permissions">
-                                                <div class="card card-body">
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-promobanner-index"
-                                                            data-id="home.promobanner.index" name="permissions[]"
-                                                            value="home.promobanner.index">
-                                                        <label class="form-check-label" for="perm-home-promobanner-index">
-                                                            Promo Banner
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-promobanner-store"
-                                                            data-id="home.promobanner.store" name="permissions[]"
-                                                            value="home.promobanner.store">
-                                                        <label class="form-check-label" for="perm-home-promobanner-store">
-                                                            Promo Banner Store
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-promobanner-update"
-                                                            data-id="home.promobanner.update" name="permissions[]"
-                                                            value="home.promobanner.update">
-                                                        <label class="form-check-label"
-                                                            for="perm-home-promobanner-update">
-                                                            Promo Banner Update
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!--End Promo banner home menu -->
-
-                                            <!-- Start About section -->
-
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#about-permissions"
-                                                    aria-expanded="false" aria-controls="about-permissions">
-                                                    About
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-
-                                            <!-- About child permissions -->
-                                            <div class="collapse ml-4" id="about-permissions">
-                                                <div class="card card-body">
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-about-index"
-                                                            data-id="home.about.index" name="permissions[]"
-                                                            value="home.about.index">
-                                                        <label class="form-check-label" for="perm-home-about-index">
-                                                            About
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-about-update"
-                                                            data-id="home.about.update" name="permissions[]"
-                                                            value="home.about.update">
-                                                        <label class="form-check-label" for="perm-home-about-update">
-                                                            About Update
-                                                        </label>
-                                                    </div>
-
-                                                </div>
-                                            </div>
 
 
-                                            <!-- End about menu -->
+                                                <!-- CTA Dropdown -->
+<div class="mr-3 mb-2 d-inline-block">
+    <div class="dropdown">
+        <button
+            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+            type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" id="ctaDropdownBtn">
+            <span>CTA</span>
+            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+        </button>
+        <div class="dropdown-menu p-3 shadow"
+            aria-labelledby="ctaDropdownBtn">
+            
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-cta-index" data-id="home.cta.index"
+                    name="permissions[]" value="home.cta.index">
+                <label class="form-check-label" for="perm-home-cta-index">
+                    CTA View
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-cta-store" data-id="home.cta.store"
+                    name="permissions[]" value="home.cta.store">
+                <label class="form-check-label" for="perm-home-cta-store">
+                    CTA Create
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-cta-update" data-id="home.cta.update"
+                    name="permissions[]" value="home.cta.update">
+                <label class="form-check-label" for="perm-home-cta-update">
+                    CTA Update
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-cta-delete" data-id="home.cta.delete"
+                    name="permissions[]" value="home.cta.delete">
+                <label class="form-check-label" for="perm-home-cta-delete">
+                    CTA Delete
+                </label>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
-                                            <!-- Start Why chose us home page menu -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#why-permissions"
-                                                    aria-expanded="false" aria-controls="why-permissions">
-                                                    Why Choose Us
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
+                                                <!-- Achievement Dropdown -->
+<!-- Achievement Dropdown -->
+<div class="mr-3 mb-2 d-inline-block">
+    <div class="dropdown">
+        <button
+            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+            type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" id="achievementDropdownBtn">
+            <span>Achievement</span>
+            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+        </button>
+        <div class="dropdown-menu p-3 shadow"
+            aria-labelledby="achievementDropdownBtn">
+            
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-achievement-index" data-id="home.achievement.index"
+                    name="permissions[]" value="home.achievement.index">
+                <label class="form-check-label" for="perm-home-achievement-index">
+                    Achievement View
+                </label>
+            </div>
 
-                                            <!-- Child Permissions -->
-                                            <div class="collapse ml-4" id="why-permissions">
-                                                <div class="card card-body">
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-achievement-store" data-id="home.achievement.store"
+                    name="permissions[]" value="home.achievement.store">
+                <label class="form-check-label" for="perm-home-achievement-store">
+                    Achievement Create
+                </label>
+            </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-why-index"
-                                                            data-id="home.why_chose_us.index" name="permissions[]"
-                                                            value="home.why_chose_us.index">
-                                                        <label class="form-check-label" for="perm-home-why-index">
-                                                            Why Choose Us View
-                                                        </label>
-                                                    </div>
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-achievement-update" data-id="home.achievement.update"
+                    name="permissions[]" value="home.achievement.update">
+                <label class="form-check-label" for="perm-home-achievement-update">
+                    Achievement Update
+                </label>
+            </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-why-store"
-                                                            data-id="home.why_chose_us.store" name="permissions[]"
-                                                            value="home.why_chose_us.store">
-                                                        <label class="form-check-label" for="perm-home-why-store">
-                                                            Why Choose Us Create
-                                                        </label>
-                                                    </div>
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-achievement-delete" data-id="home.achievement.delete"
+                    name="permissions[]" value="home.achievement.delete">
+                <label class="form-check-label" for="perm-home-achievement-delete">
+                    Achievement Delete
+                </label>
+            </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-why-update"
-                                                            data-id="home.why_chose_us.update" name="permissions[]"
-                                                            value="home.why_chose_us.update">
-                                                        <label class="form-check-label" for="perm-home-why-update">
-                                                            Why Choose Us Update
-                                                        </label>
-                                                    </div>
+        </div>
+    </div>
+</div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-why-delete"
-                                                            data-id="home.why_chose_us.delete" name="permissions[]"
-                                                            value="home.why_chose_us.delete">
-                                                        <label class="form-check-label" for="perm-home-why-delete">
-                                                            Why Choose Us Delete
-                                                        </label>
-                                                    </div>
 
-                                                </div>
-                                            </div>
+                                                <!-- End Achievement home page menu -->
 
-                                            <!-- End Why chose us home page menu -->
+                                                <!-- Review Dropdown -->
+<div class="mr-3 mb-2 d-inline-block">
+    <div class="dropdown">
+        <button
+            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+            type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" id="reviewDropdownBtn">
+            <span>Review</span>
+            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+        </button>
+        <div class="dropdown-menu p-3 shadow"
+            aria-labelledby="reviewDropdownBtn">
+            
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-review-index" data-id="home.review.index"
+                    name="permissions[]" value="home.review.index">
+                <label class="form-check-label" for="perm-home-review-index">
+                    Review View
+                </label>
+            </div>
 
-                                            <!-- Start CTA home page menu -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#cta-permissions"
-                                                    aria-expanded="false" aria-controls="cta-permissions">
-                                                    CTA
-                                                    <i class="fas fa-chevron-down ml-1"></i> <!-- Dropdown icon -->
-                                                </label>
-                                            </div>
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-review-store" data-id="home.review.store"
+                    name="permissions[]" value="home.review.store">
+                <label class="form-check-label" for="perm-home-review-store">
+                    Review Create
+                </label>
+            </div>
 
-                                            <!-- Child Permissions -->
-                                            <div class="collapse ml-4" id="cta-permissions">
-                                                <div class="card card-body">
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-review-update" data-id="home.review.update"
+                    name="permissions[]" value="home.review.update">
+                <label class="form-check-label" for="perm-home-review-update">
+                    Review Update
+                </label>
+            </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-cta-index"
-                                                            data-id="home.cta.index" name="permissions[]"
-                                                            value="home.cta.index">
-                                                        <label class="form-check-label" for="perm-home-cta-index">
-                                                            CTA View
-                                                        </label>
-                                                    </div>
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-review-delete" data-id="home.review.delete"
+                    name="permissions[]" value="home.review.delete">
+                <label class="form-check-label" for="perm-home-review-delete">
+                    Review Delete
+                </label>
+            </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-cta-store"
-                                                            data-id="home.cta.store" name="permissions[]"
-                                                            value="home.cta.store">
-                                                        <label class="form-check-label" for="perm-home-cta-store">
-                                                            CTA Create
-                                                        </label>
-                                                    </div>
+        </div>
+    </div>
+</div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-cta-update"
-                                                            data-id="home.cta.update" name="permissions[]"
-                                                            value="home.cta.update">
-                                                        <label class="form-check-label" for="perm-home-cta-update">
-                                                            CTA Update
-                                                        </label>
-                                                    </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-cta-delete"
-                                                            data-id="home.cta.delete" name="permissions[]"
-                                                            value="home.cta.delete">
-                                                        <label class="form-check-label" for="perm-home-cta-delete">
-                                                            CTA Delete
-                                                        </label>
-                                                    </div>
+                                                <!-- FAQ Dropdown -->
+<div class="mr-3 mb-2 d-inline-block">
+    <div class="dropdown">
+        <button
+            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+            type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" id="faqDropdownBtn">
+            <span>FAQ</span>
+            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+        </button>
+        <div class="dropdown-menu p-3 shadow"
+            aria-labelledby="faqDropdownBtn">
+            
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-faq-index" data-id="home.faq.index"
+                    name="permissions[]" value="home.faq.index">
+                <label class="form-check-label" for="perm-home-faq-index">
+                    FAQ View
+                </label>
+            </div>
 
-                                                </div>
-                                            </div>
-                                            <!-- End CTA home page menu -->
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-faq-store" data-id="home.faq.store"
+                    name="permissions[]" value="home.faq.store">
+                <label class="form-check-label" for="perm-home-faq-store">
+                    FAQ Create
+                </label>
+            </div>
 
-                                            <!-- Start Achievement home page menu -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#achievement-permissions"
-                                                    aria-expanded="false" aria-controls="achievement-permissions">
-                                                    Achievement
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-faq-update" data-id="home.faq.update"
+                    name="permissions[]" value="home.faq.update">
+                <label class="form-check-label" for="perm-home-faq-update">
+                    FAQ Update
+                </label>
+            </div>
 
-                                            <!-- Child Permissions -->
-                                            <div class="collapse ml-4" id="achievement-permissions">
-                                                <div class="card card-body">
+            <div class="form-check">
+                <input class="form-check-input child-checkbox permission-checkbox"
+                    type="checkbox" data-group="home"
+                    id="perm-home-faq-delete" data-id="home.faq.delete"
+                    name="permissions[]" value="home.faq.delete">
+                <label class="form-check-label" for="perm-home-faq-delete">
+                    FAQ Delete
+                </label>
+            </div>
 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-achievement-index"
-                                                            data-id="home.achievement.index" name="permissions[]"
-                                                            value="home.achievement.index">
-                                                        <label class="form-check-label" for="perm-home-achievement-index">
-                                                            Achievement View
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-achievement-store"
-                                                            data-id="home.achievement.store" name="permissions[]"
-                                                            value="home.achievement.store">
-                                                        <label class="form-check-label" for="perm-home-achievement-store">
-                                                            Achievement Create
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-achievement-update"
-                                                            data-id="home.achievement.update" name="permissions[]"
-                                                            value="home.achievement.update">
-                                                        <label class="form-check-label"
-                                                            for="perm-home-achievement-update">
-                                                            Achievement Update
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-achievement-delete"
-                                                            data-id="home.achievement.delete" name="permissions[]"
-                                                            value="home.achievement.delete">
-                                                        <label class="form-check-label"
-                                                            for="perm-home-achievement-delete">
-                                                            Achievement Delete
-                                                        </label>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <!-- End Achievement home page menu -->
-
-                                            <!-- Start Review home page menu -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#review-permissions"
-                                                    aria-expanded="false" aria-controls="review-permissions">
-                                                    Review
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-
-                                            <!-- Child Permissions -->
-                                            <div class="collapse ml-4" id="review-permissions">
-                                                <div class="card card-body">
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-review-index"
-                                                            data-id="home.review.index" name="permissions[]"
-                                                            value="home.review.index">
-                                                        <label class="form-check-label" for="perm-home-review-index">
-                                                            Review View
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-review-store"
-                                                            data-id="home.review.store" name="permissions[]"
-                                                            value="home.review.store">
-                                                        <label class="form-check-label" for="perm-home-review-store">
-                                                            Review Create
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-review-update" data-id="home.review.update"
-                                                            name="permissions[]" value="home.review.update">
-                                                        <label class="form-check-label" for="perm-home-review-update">
-                                                            Review Update
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home"
-                                                            id="perm-home-review-delete" data-id="home.review.delete"
-                                                            name="permissions[]" value="home.review.delete">
-                                                        <label class="form-check-label" for="perm-home-review-delete">
-                                                            Review Delete
-                                                        </label>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                            <!-- End Review home page menu -->
-
-                                            <!-- Start FAQ home page menu -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#faq-permissions"
-                                                    aria-expanded="false" aria-controls="faq-permissions">
-                                                    FAQ
-                                                    <i class="fas fa-chevron-down ml-1"></i> <!-- Dropdown icon -->
-                                                </label>
-                                            </div>
-
-                                            <!-- Child Permissions -->
-                                            <div class="collapse ml-4" id="faq-permissions">
-                                                <div class="card card-body">
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-faq-index"
-                                                            data-id="home.faq.index" name="permissions[]"
-                                                            value="home.faq.index">
-                                                        <label class="form-check-label" for="perm-home-faq-index">
-                                                            FAQ View
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-faq-store"
-                                                            data-id="home.faq.store" name="permissions[]"
-                                                            value="home.faq.store">
-                                                        <label class="form-check-label" for="perm-home-faq-store">
-                                                            FAQ Create
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-faq-update"
-                                                            data-id="home.faq.update" name="permissions[]"
-                                                            value="home.faq.update">
-                                                        <label class="form-check-label" for="perm-home-faq-update">
-                                                            FAQ Update
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-faq-delete"
-                                                            data-id="home.faq.delete" name="permissions[]"
-                                                            value="home.faq.delete">
-                                                        <label class="form-check-label" for="perm-home-faq-delete">
-                                                            FAQ Delete
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+        </div>
+    </div>
+</div>
 
                                             <!-- End FAQ home page menu -->
                                         </td>
