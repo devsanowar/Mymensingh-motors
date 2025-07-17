@@ -74,7 +74,7 @@
                         <span>Home Page</span>
                     </a>
                     <ul class="ml-menu">
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.slider', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.slider.index', $userPermissions))
                             <li class="{{ request()->routeIs('slider.*') ? 'active' : '' }}">
                                 <a href="{{ route('slider.index') }}"><span>Slider</span></a>
                             </li>
@@ -92,31 +92,31 @@
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.why_choose_us', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.why_chose_us.index', $userPermissions))
                             <li class="{{ request()->routeIs('why-choose-us.*') ? 'active' : '' }}">
                                 <a href="{{ route('why-choose-us.index') }}"><span>Why choose us</span></a>
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.cta', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.cta.index', $userPermissions))
                             <li class="{{ request()->routeIs('cta.*') ? 'active' : '' }}">
                                 <a href="{{ route('cta.index') }}"><span>CTA</span></a>
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.achievement', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.achievement.index', $userPermissions))
                             <li class="{{ request()->routeIs('achievement.*') ? 'active' : '' }}">
                                 <a href="{{ route('achievement.index') }}"><span>Achievement</span></a>
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.review', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.review.index', $userPermissions))
                             <li class="{{ request()->routeIs('review.*') ? 'active' : '' }}">
                                 <a href="{{ route('review.index') }}"><span>Review</span></a>
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.faq', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.faq.index', $userPermissions))
                             <li class="{{ request()->routeIs('faq.*') ? 'active' : '' }}">
                                 <a href="{{ route('faq.index') }}"><span>FAQ</span></a>
                             </li>
