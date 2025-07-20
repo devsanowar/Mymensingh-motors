@@ -93,17 +93,14 @@ Route::prefix('admin')
         Route::prefix('home-page')->group(function () {
             // Sliders
             Route::prefix('slider')->group(function () {
-                Route::get('/', [SliderController::class, 'index'])->name('slider.index');
-                Route::get('create', [SliderController::class, 'create'])->name('slider.create');
+                Route::get('/', [SliderController::class, 'index'])->name('slider.index')->middleware('permission:home.slider.index');
+                Route::get('create', [SliderController::class, 'create'])->name('slider.create')->middleware('permission:home.slider.create');
                 Route::post('store', [SliderController::class, 'store'])->name('slider.store');
-                Route::get('edit/{id}', [SliderController::class, 'edit'])->name('slider.edit');
+                Route::get('edit/{id}', [SliderController::class, 'edit'])->name('slider.edit')->middleware('permission:home.slider.edit');
                 Route::put('update/{id}', [SliderController::class, 'update'])->name('slider.update');
-                Route::delete('destroy/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
+                Route::delete('destroy/{id}', [SliderController::class, 'destroy'])->name('slider.destroy')->middleware('permission:home.slider.delete');
             });
 
-            // Brand
-            Route::resource('brand', BrandController::class);
-            Route::post('/brand/status-change', [BrandController::class, 'brandChangeStatus'])->name('brand.status');
 
             // About
             Route::get('about', [AboutController::class, 'index'])->name('about.index')->middleware('permission:home.about.page');
@@ -150,12 +147,12 @@ Route::prefix('admin')
 
         // Categories
         Route::prefix('category')->group(function () {
-            Route::get('/', [CategoryController::class, 'index'])->name('category.index');
-            Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
-            Route::post('store', [CategoryController::class, 'store'])->name('category.store');
-            Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-            Route::put('{id}', [CategoryController::class, 'update'])->name('category.update');
-            Route::delete('{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+            Route::get('/', [CategoryController::class, 'index'])->name('category.index')->middleware('permission:product.category.index');
+            Route::get('/create', [CategoryController::class, 'create'])->name('category.create')->middleware('permission:product.category.create');
+            Route::post('store', [CategoryController::class, 'store'])->name('category.store')->middleware('permission:product.category.create');
+            Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit')->middleware('permission:product.category.edit');
+            Route::put('{id}', [CategoryController::class, 'update'])->name('category.update')->middleware('permission:product.category.edit');
+            Route::delete('{id}', [CategoryController::class, 'destroy'])->name('category.destroy')->middleware('permission:product.category.delete');
             Route::post('/category/status-change', [CategoryController::class, 'categoryChangeStatus'])->name('category.status');
             Route::post('bulk-delete', [CategoryController::class, 'bulkDelete'])->name('category.bulkDelete');
             Route::post('update-order', [CategoryController::class, 'updateOrder'])->name('category.updateOrder');
@@ -164,17 +161,37 @@ Route::prefix('admin')
         // Sub Category
         Route::resource('subcategory', SubcategoryController::class);
 
+        // Brand route here
+        Route::resource('brand', BrandController::class)->middleware([
+            'index'   => 'permission:product.brand.index',
+            'create'  => 'permission:product.brand.create',
+            'store'   => 'permission:product.brand.create',
+            'edit'    => 'permission:product.brand.edit',
+            'update'  => 'permission:product.brand.edit',
+            'destroy' => 'permission:product.brand.delete',
+        ]);
+
+        Route::post('/brand/status-change', [BrandController::class, 'brandChangeStatus'])->name('brand.status');
+
         // Product unit
         Route::prefix('unit')->group(function () {
-            Route::get('/', [ProductUnitController::class, 'index'])->name('product_unit.index');
-            Route::post('/store', [ProductUnitController::class, 'store'])->name('product_unit.store');
-            Route::put('/update', [ProductUnitController::class, 'update'])->name('product_unit.update');
-            Route::delete('/delete/{id}', [ProductUnitController::class, 'destroy'])->name('product_unit.destroy');
+            Route::get('/', [ProductUnitController::class, 'index'])->name('product_unit.index')->middleware('permission:product.unit.index');
+            Route::post('/store', [ProductUnitController::class, 'store'])->name('product_unit.store')->middleware('permission:product.unit.create');
+            Route::put('/update', [ProductUnitController::class, 'update'])->name('product_unit.update')->middleware('permission:product.unit.edit');
+            Route::delete('/delete/{id}', [ProductUnitController::class, 'destroy'])->name('product_unit.destroy')->middleware('permission:product.unit.delete');
             Route::post('/status-change', [ProductUnitController::class, 'unitStatusChange'])->name('product_unit.status');
         });
 
         // Product
-        Route::resource('product', ProductController::class);
+        Route::resource('product', ProductController::class)->middleware([
+            'index'   => 'permission:product.index',
+            'create'  => 'permission:product.create',
+            'store'   => 'permission:product.create',
+            'edit'    => 'permission:product.edit',
+            'update'  => 'permission:product.edit',
+            'destroy' => 'permission:product.delete',
+        ]);
+
         Route::post('/product/status-change', [ProductController::class, 'productChangeStatus'])->name('product.status');
         Route::get('/All-trashed/product', [ProductController::class, 'trashedData'])->name('product.trash');
         Route::get('/restore/{id}/productData', [ProductController::class, 'restoreData'])->name('product.restore');
@@ -182,13 +199,12 @@ Route::prefix('admin')
         Route::get('changeStatus/{id}', [ProductController::class, 'changeStatus'])->name('changeStatus');
 
         // Stock route here
-        Route::get('/stocks', [StockController::class, 'index'])->name('admin.stock.index');
-        Route::get('/stocks/{id}/edit', [StockController::class, 'edit'])->name('admin.stock.edit');
-        Route::post('/stocks/{id}/update', [StockController::class, 'update'])->name('admin.stock.update');
-
+        Route::get('/stocks', [StockController::class, 'index'])->name('admin.stock.index')->middleware('permission:stock.management');
+        Route::get('/stocks/{id}/edit', [StockController::class, 'edit'])->name('admin.stock.edit')->middleware('permission:stock.edit');
+        Route::post('/stocks/{id}/update', [StockController::class, 'update'])->name('admin.stock.update')->middleware('permission:stock.edit');
+        
         // Stock log route here
-        Route::get('stocklog', [StockLogController::class, 'index'])->name('stocklog');
-        // Route::get('/admin/stock-logs', [StockLogController::class, 'StockLogFilter'])->name('stocklog.filter');
+        Route::get('stocklog', [StockLogController::class, 'index'])->name('stocklog')->middleware('permission:stock.logs');
 
         // District route
         Route::get('district', [DistrictController::class, 'index'])->name('district.index');

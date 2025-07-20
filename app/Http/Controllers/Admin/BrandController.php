@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Brand;
@@ -10,6 +9,7 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class BrandController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */

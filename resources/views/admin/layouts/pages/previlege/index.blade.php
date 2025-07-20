@@ -9,6 +9,7 @@
         table.permission-table th {
             vertical-align: top;
             padding: 0.75rem;
+            text-align: left;
         }
 
         .form-check {
@@ -20,6 +21,18 @@
 
         .form-line.case-input {
             border: 1px solid #b8b8b8;
+        }
+
+        .btn:not(.btn-link):not(.btn-circle) {
+            box-shadow: unset;
+        }
+
+        .btn:not(.btn-link):not(.btn-circle) {
+            font-size: 16px;
+        }
+
+        .btn:not(.btn-link):not(.btn-circle) i {
+            font-size: 14px;
         }
     </style>
 @endpush
@@ -67,7 +80,7 @@
                                         <th style="font-size:20px">Permissions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="previlege-table">
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -90,6 +103,7 @@
                                     </tr>
 
                                     <tr class="previlege-menu-item">
+                                        
                                         <td>
                                             <div class="form-check">
                                                 <input type="checkbox"
@@ -101,58 +115,6 @@
                                             </div>
                                         </td>
                                         <td>
-
-                                            <!-- Start Slider home page menu -->
-                                            {{-- <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#slider-permissions"
-                                                    aria-expanded="false" aria-controls="slider-permissions">
-                                                    Slider
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="slider-permissions">
-                                                <div class="card card-body">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-slider-index"
-                                                            data-id="home.slider.index" name="permissions[]"
-                                                            value="home.slider.index">
-                                                        <label class="form-check-label" for="perm-home-slider-index">
-                                                            Slider View
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-slider-store"
-                                                            data-id="home.slider.store" name="permissions[]"
-                                                            value="home.slider.store">
-                                                        <label class="form-check-label" for="perm-home-slider-store">
-                                                            Slider Create
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-slider-update"
-                                                            data-id="home.slider.update" name="permissions[]"
-                                                            value="home.slider.update">
-                                                        <label class="form-check-label" for="perm-home-slider-update">
-                                                            Slider Update
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="home" id="perm-home-slider-delete"
-                                                            data-id="home.slider.delete" name="permissions[]"
-                                                            value="home.slider.delete">
-                                                        <label class="form-check-label" for="perm-home-slider-delete">
-                                                            Slider Delete
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
-                                            <!-- End slider home page menu -->
-
                                             <!-- Slider Section -->
                                             <div class="d-flex flex-wrap">
                                                 <div class="mr-3 mb-2">
@@ -173,26 +135,26 @@
                                                                     id="perm-home-slider-index" data-id="home.slider.index"
                                                                     name="permissions[]" value="home.slider.index">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-slider-index">Slider View</label>
+                                                                    for="perm-home-slider-index">View</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-slider-store" data-id="home.slider.store"
-                                                                    name="permissions[]" value="home.slider.store">
+                                                                    id="perm-home-slider-create"
+                                                                    data-id="home.slider.create" name="permissions[]"
+                                                                    value="home.slider.create">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-slider-store">Slider Create</label>
+                                                                    for="perm-home-slider-create">Create</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-slider-update"
-                                                                    data-id="home.slider.update" name="permissions[]"
-                                                                    value="home.slider.update">
+                                                                    id="perm-home-slider-edit" data-id="home.slider.edit"
+                                                                    name="permissions[]" value="home.slider.edit">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-slider-update">Slider Update</label>
+                                                                    for="perm-home-slider-edit">edit</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -202,7 +164,7 @@
                                                                     data-id="home.slider.delete" name="permissions[]"
                                                                     value="home.slider.delete">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-slider-delete">Slider Delete</label>
+                                                                    for="perm-home-slider-delete">Delete</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -229,7 +191,7 @@
                                                                     value="home.promobanner.index">
                                                                 <label class="form-check-label"
                                                                     for="perm-home-promobanner-index">
-                                                                    Promo Banner
+                                                                    View
                                                                 </label>
                                                             </div>
 
@@ -237,12 +199,12 @@
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-promobanner-store"
-                                                                    data-id="home.promobanner.store" name="permissions[]"
-                                                                    value="home.promobanner.store">
+                                                                    id="perm-home-promobanner-create"
+                                                                    data-id="home.promobanner.create" name="permissions[]"
+                                                                    value="home.promobanner.create">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-promobanner-store">
-                                                                    Promo Banner Store
+                                                                    for="perm-home-promobanner-create">
+                                                                    Create
                                                                 </label>
                                                             </div>
 
@@ -250,12 +212,12 @@
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-promobanner-update"
-                                                                    data-id="home.promobanner.update" name="permissions[]"
-                                                                    value="home.promobanner.update">
+                                                                    id="perm-home-promobanner-edit"
+                                                                    data-id="home.promobanner.edit" name="permissions[]"
+                                                                    value="home.promobanner.edit">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-promobanner-update">
-                                                                    Promo Banner Update
+                                                                    for="perm-home-promobanner-edit">
+                                                                    Edit
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -283,17 +245,16 @@
                                                                     id="perm-home-about-index" data-id="home.about.index"
                                                                     name="permissions[]" value="home.about.index">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-about-index">About</label>
+                                                                    for="perm-home-about-index">View</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-about-update"
-                                                                    data-id="home.about.update" name="permissions[]"
-                                                                    value="home.about.update">
+                                                                    id="perm-home-about-edit" data-id="home.about.edit"
+                                                                    name="permissions[]" value="home.about.edit">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-about-update">About Update</label>
+                                                                    for="perm-home-about-edit">edit</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -319,27 +280,27 @@
                                                                     data-id="home.why_chose_us.index" name="permissions[]"
                                                                     value="home.why_chose_us.index">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-why-index">Why Choose Us View</label>
+                                                                    for="perm-home-why-index">View</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-why-store"
-                                                                    data-id="home.why_chose_us.store" name="permissions[]"
-                                                                    value="home.why_chose_us.store">
+                                                                    id="perm-home-why-create"
+                                                                    data-id="home.why_chose_us.create"
+                                                                    name="permissions[]" value="home.why_chose_us.create">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-why-store">Why Choose Us Create</label>
+                                                                    for="perm-home-why-create">Create</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
                                                                     class="form-check-input child-checkbox permission-checkbox"
                                                                     type="checkbox" data-group="home"
-                                                                    id="perm-home-why-update"
-                                                                    data-id="home.why_chose_us.update"
-                                                                    name="permissions[]" value="home.why_chose_us.update">
+                                                                    id="perm-home-why-edit"
+                                                                    data-id="home.why_chose_us.edit" name="permissions[]"
+                                                                    value="home.why_chose_us.edit">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-why-update">Why Choose Us Update</label>
+                                                                    for="perm-home-why-edit">Edit</label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input
@@ -349,7 +310,7 @@
                                                                     data-id="home.why_chose_us.delete"
                                                                     name="permissions[]" value="home.why_chose_us.delete">
                                                                 <label class="form-check-label"
-                                                                    for="perm-home-why-delete">Why Choose Us Delete</label>
+                                                                    for="perm-home-why-delete">Delete</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -357,243 +318,276 @@
 
 
                                                 <!-- CTA Dropdown -->
-<div class="mr-3 mb-2 d-inline-block">
-    <div class="dropdown">
-        <button
-            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-            type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false" id="ctaDropdownBtn">
-            <span>CTA</span>
-            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-        </button>
-        <div class="dropdown-menu p-3 shadow"
-            aria-labelledby="ctaDropdownBtn">
-            
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-cta-index" data-id="home.cta.index"
-                    name="permissions[]" value="home.cta.index">
-                <label class="form-check-label" for="perm-home-cta-index">
-                    CTA View
-                </label>
-            </div>
+                                                <div class="mr-3 mb-2 d-inline-block">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="ctaDropdownBtn">
+                                                            <span>CTA</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="ctaDropdownBtn">
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-cta-store" data-id="home.cta.store"
-                    name="permissions[]" value="home.cta.store">
-                <label class="form-check-label" for="perm-home-cta-store">
-                    CTA Create
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-cta-index" data-id="home.cta.index"
+                                                                    name="permissions[]" value="home.cta.index">
+                                                                <label class="form-check-label" for="perm-home-cta-index">
+                                                                    View
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-cta-update" data-id="home.cta.update"
-                    name="permissions[]" value="home.cta.update">
-                <label class="form-check-label" for="perm-home-cta-update">
-                    CTA Update
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-cta-create" data-id="home.cta.create"
+                                                                    name="permissions[]" value="home.cta.create">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-cta-create">
+                                                                    Create
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-cta-delete" data-id="home.cta.delete"
-                    name="permissions[]" value="home.cta.delete">
-                <label class="form-check-label" for="perm-home-cta-delete">
-                    CTA Delete
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-cta-edit" data-id="home.cta.edit"
+                                                                    name="permissions[]" value="home.cta.edit">
+                                                                <label class="form-check-label" for="perm-home-cta-edit">
+                                                                    Edit
+                                                                </label>
+                                                            </div>
 
-        </div>
-    </div>
-</div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-cta-delete" data-id="home.cta.delete"
+                                                                    name="permissions[]" value="home.cta.delete">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-cta-delete">
+                                                                    Delete
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
 
 
                                                 <!-- Achievement Dropdown -->
-<!-- Achievement Dropdown -->
-<div class="mr-3 mb-2 d-inline-block">
-    <div class="dropdown">
-        <button
-            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-            type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false" id="achievementDropdownBtn">
-            <span>Achievement</span>
-            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-        </button>
-        <div class="dropdown-menu p-3 shadow"
-            aria-labelledby="achievementDropdownBtn">
-            
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-achievement-index" data-id="home.achievement.index"
-                    name="permissions[]" value="home.achievement.index">
-                <label class="form-check-label" for="perm-home-achievement-index">
-                    Achievement View
-                </label>
-            </div>
+                                                <div class="mr-3 mb-2 d-inline-block">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="achievementDropdownBtn">
+                                                            <span>Achievement</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="achievementDropdownBtn">
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-achievement-store" data-id="home.achievement.store"
-                    name="permissions[]" value="home.achievement.store">
-                <label class="form-check-label" for="perm-home-achievement-store">
-                    Achievement Create
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-achievement-index"
+                                                                    data-id="home.achievement.index" name="permissions[]"
+                                                                    value="home.achievement.index">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-achievement-index">
+                                                                    View
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-achievement-update" data-id="home.achievement.update"
-                    name="permissions[]" value="home.achievement.update">
-                <label class="form-check-label" for="perm-home-achievement-update">
-                    Achievement Update
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-achievement-create"
+                                                                    data-id="home.achievement.create" name="permissions[]"
+                                                                    value="home.achievement.create">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-achievement-create">
+                                                                    Create
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-achievement-delete" data-id="home.achievement.delete"
-                    name="permissions[]" value="home.achievement.delete">
-                <label class="form-check-label" for="perm-home-achievement-delete">
-                    Achievement Delete
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-achievement-edit"
+                                                                    data-id="home.achievement.edit" name="permissions[]"
+                                                                    value="home.achievement.edit">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-achievement-edit">
+                                                                    Edit
+                                                                </label>
+                                                            </div>
 
-        </div>
-    </div>
-</div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-achievement-delete"
+                                                                    data-id="home.achievement.delete" name="permissions[]"
+                                                                    value="home.achievement.delete">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-achievement-delete">
+                                                                    Delete
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
 
 
                                                 <!-- End Achievement home page menu -->
 
                                                 <!-- Review Dropdown -->
-<div class="mr-3 mb-2 d-inline-block">
-    <div class="dropdown">
-        <button
-            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-            type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false" id="reviewDropdownBtn">
-            <span>Review</span>
-            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-        </button>
-        <div class="dropdown-menu p-3 shadow"
-            aria-labelledby="reviewDropdownBtn">
-            
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-review-index" data-id="home.review.index"
-                    name="permissions[]" value="home.review.index">
-                <label class="form-check-label" for="perm-home-review-index">
-                    Review View
-                </label>
-            </div>
+                                                <div class="mr-3 mb-2 d-inline-block">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="reviewDropdownBtn">
+                                                            <span>Review</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="reviewDropdownBtn">
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-review-store" data-id="home.review.store"
-                    name="permissions[]" value="home.review.store">
-                <label class="form-check-label" for="perm-home-review-store">
-                    Review Create
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-review-index"
+                                                                    data-id="home.review.index" name="permissions[]"
+                                                                    value="home.review.index">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-review-index">
+                                                                    View
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-review-update" data-id="home.review.update"
-                    name="permissions[]" value="home.review.update">
-                <label class="form-check-label" for="perm-home-review-update">
-                    Review Update
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-review-create"
+                                                                    data-id="home.review.create" name="permissions[]"
+                                                                    value="home.review.create">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-review-create">
+                                                                    Create
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-review-delete" data-id="home.review.delete"
-                    name="permissions[]" value="home.review.delete">
-                <label class="form-check-label" for="perm-home-review-delete">
-                    Review Delete
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-review-edit" data-id="home.review.edit"
+                                                                    name="permissions[]" value="home.review.edit">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-review-edit">
+                                                                    Edit
+                                                                </label>
+                                                            </div>
 
-        </div>
-    </div>
-</div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-review-delete"
+                                                                    data-id="home.review.delete" name="permissions[]"
+                                                                    value="home.review.delete">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-review-delete">
+                                                                    Delete
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
 
 
                                                 <!-- FAQ Dropdown -->
-<div class="mr-3 mb-2 d-inline-block">
-    <div class="dropdown">
-        <button
-            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-            type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false" id="faqDropdownBtn">
-            <span>FAQ</span>
-            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-        </button>
-        <div class="dropdown-menu p-3 shadow"
-            aria-labelledby="faqDropdownBtn">
-            
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-faq-index" data-id="home.faq.index"
-                    name="permissions[]" value="home.faq.index">
-                <label class="form-check-label" for="perm-home-faq-index">
-                    FAQ View
-                </label>
-            </div>
+                                                <div class="mr-3 mb-2 d-inline-block">
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false" id="faqDropdownBtn">
+                                                            <span>FAQ</span>
+                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu p-3 shadow"
+                                                            aria-labelledby="faqDropdownBtn">
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-faq-store" data-id="home.faq.store"
-                    name="permissions[]" value="home.faq.store">
-                <label class="form-check-label" for="perm-home-faq-store">
-                    FAQ Create
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-faq-index" data-id="home.faq.index"
+                                                                    name="permissions[]" value="home.faq.index">
+                                                                <label class="form-check-label" for="perm-home-faq-index">
+                                                                    View
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-faq-update" data-id="home.faq.update"
-                    name="permissions[]" value="home.faq.update">
-                <label class="form-check-label" for="perm-home-faq-update">
-                    FAQ Update
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-faq-create" data-id="home.faq.create"
+                                                                    name="permissions[]" value="home.faq.create">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-faq-create">
+                                                                    Create
+                                                                </label>
+                                                            </div>
 
-            <div class="form-check">
-                <input class="form-check-input child-checkbox permission-checkbox"
-                    type="checkbox" data-group="home"
-                    id="perm-home-faq-delete" data-id="home.faq.delete"
-                    name="permissions[]" value="home.faq.delete">
-                <label class="form-check-label" for="perm-home-faq-delete">
-                    FAQ Delete
-                </label>
-            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-faq-edit" data-id="home.faq.edit"
+                                                                    name="permissions[]" value="home.faq.edit">
+                                                                <label class="form-check-label" for="perm-home-faq-edit">
+                                                                    edit
+                                                                </label>
+                                                            </div>
 
-        </div>
-    </div>
-</div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                                    type="checkbox" data-group="home"
+                                                                    id="perm-home-faq-delete" data-id="home.faq.delete"
+                                                                    name="permissions[]" value="home.faq.delete">
+                                                                <label class="form-check-label"
+                                                                    for="perm-home-faq-delete">
+                                                                    Delete
+                                                                </label>
+                                                            </div>
 
-                                            <!-- End FAQ home page menu -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- End FAQ home page menu -->
                                         </td>
                                     </tr>
-
                                     <tr>
                                         <!-- Parent checkbox: About -->
                                         <td>
@@ -607,18 +601,84 @@
                                                 </label>
                                             </div>
                                         </td>
-
-                                        <!-- Child checkboxes under About -->
                                         <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="about_page" id="perm-about-page"
-                                                    data-id="about.page" name="permissions[]" value="about.page">
-                                                <label class="form-check-label" for="perm-about-page">
-                                                    About Page
-                                                </label>
+
+                                            <!-- Chairman Info Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="chairmanInfoDropdownBtn">
+                                                        <span>Chairman Info Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="chairmanInfoDropdownBtn">
+
+                                                        <!-- Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="about_page"
+                                                                data-id="about.chairman.info.edit"
+                                                                value="about.chairman.info.edit"
+                                                                id="perm-about-chairman-info-edit" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-about-chairman-info-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
+
+
+                                            <!-- Mission & Vision Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="missionVisionDropdownBtn">
+                                                        <span>Mission & Vision Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="missionVisionDropdownBtn">
+
+                                                        <!-- Mission Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="about_page"
+                                                                data-id="mission.page.edit" value="mission.page.edit"
+                                                                id="perm-mission-page-edit" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-mission-page-edit">
+                                                                Mission Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Vision Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="about_page"
+                                                                data-id="vission.page.edit" value="vission.page.edit"
+                                                                id="perm-vission-page-edit" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-vission-page-edit">
+                                                                Vision Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </td>
+
+
                                     </tr>
 
 
@@ -636,232 +696,258 @@
                                         </td>
                                         <td>
 
-                                            <!-- Start Product menu accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#product-permissions"
-                                                    aria-expanded="false" aria-controls="product-permissions">
-                                                    Product
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="product-permissions">
-                                                <div class="card card-body">
+                                            <!-- Product Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="productDropdownBtn">
+                                                        <span>Product</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="productDropdownBtn">
 
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-index"
-                                                            data-id="product.index" name="permissions[]"
-                                                            value="product.index">
-                                                        <label class="form-check-label" for="perm-product-index">All
-                                                            Products</label>
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-index"
+                                                                data-id="product.index" name="permissions[]"
+                                                                value="product.index">
+                                                            <label class="form-check-label" for="perm-product-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-create"
+                                                                data-id="product.create" name="permissions[]"
+                                                                value="product.create">
+                                                            <label class="form-check-label" for="perm-product-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-edit"
+                                                                data-id="product.edit" name="permissions[]"
+                                                                value="product.edit">
+                                                            <label class="form-check-label" for="perm-product-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-delete"
+                                                                data-id="product.delete" name="permissions[]"
+                                                                value="product.delete">
+                                                            <label class="form-check-label" for="perm-product-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-create"
-                                                            data-id="product.create" name="permissions[]"
-                                                            value="product.create">
-                                                        <label class="form-check-label" for="perm-product-create">Add
-                                                            Product</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-edit"
-                                                            data-id="product.edit" name="permissions[]"
-                                                            value="product.edit">
-                                                        <label class="form-check-label" for="perm-product-edit">Edit
-                                                            Product</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-delete"
-                                                            data-id="product.delete" name="permissions[]"
-                                                            value="product.delete">
-                                                        <label class="form-check-label" for="perm-product-delete">Delete
-                                                            Product</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Product menu accordion -->
 
 
-                                            <!-- Start Product Category accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#product-category-permissions"
-                                                    aria-expanded="false" aria-controls="product-category-permissions">
-                                                    Product Category
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="product-category-permissions">
-                                                <div class="card card-body">
 
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-category-index"
-                                                            data-id="product.category" name="permissions[]"
-                                                            value="product.category">
-                                                        <label class="form-check-label"
-                                                            for="perm-category-index">Category</label>
+                                            <!-- Product Category Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="productCategoryDropdownBtn">
+                                                        <span>Product Category</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="productCategoryDropdownBtn">
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-category-index"
+                                                                data-id="product.category.index" name="permissions[]"
+                                                                value="product.category.index">
+                                                            <label class="form-check-label" for="perm-category-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-category-create"
+                                                                data-id="product.category.create" name="permissions[]"
+                                                                value="product.category.create">
+                                                            <label class="form-check-label" for="perm-category-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-category-edit"
+                                                                data-id="product.category.edit" name="permissions[]"
+                                                                value="product.category.edit">
+                                                            <label class="form-check-label" for="perm-category-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-category-delete"
+                                                                data-id="product.category.delete" name="permissions[]"
+                                                                value="product.category.delete">
+                                                            <label class="form-check-label" for="perm-category-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-category-create"
-                                                            data-id="product.category.create" name="permissions[]"
-                                                            value="product.category.create">
-                                                        <label class="form-check-label" for="perm-category-create">Add
-                                                            Category</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-category-edit"
-                                                            data-id="product.category.edit" name="permissions[]"
-                                                            value="product.category.edit">
-                                                        <label class="form-check-label" for="perm-category-edit">Edit
-                                                            Category</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-category-delete"
-                                                            data-id="product.category.delete" name="permissions[]"
-                                                            value="product.category.delete">
-                                                        <label class="form-check-label" for="perm-category-delete">Delete
-                                                            Category</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Product Category accordion -->
 
 
-                                            <!-- Start Product Brand accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#product-brand-permissions"
-                                                    aria-expanded="false" aria-controls="product-brand-permissions">
-                                                    Brand
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="product-brand-permissions">
-                                                <div class="card card-body">
 
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-brand-index"
-                                                            data-id="product.brand" name="permissions[]"
-                                                            value="product.brand">
-                                                        <label class="form-check-label"
-                                                            for="perm-brand-index">Brand</label>
+                                            <!-- Brand Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="brandDropdownBtn">
+                                                        <span>Brand</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="brandDropdownBtn">
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-brand-index"
+                                                                data-id="product.brand.index" name="permissions[]"
+                                                                value="product.brand.index">
+                                                            <label class="form-check-label" for="perm-brand-index">
+                                                                Brand
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-brand-create"
+                                                                data-id="product.brand.create" name="permissions[]"
+                                                                value="product.brand.create">
+                                                            <label class="form-check-label" for="perm-brand-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-brand-edit"
+                                                                data-id="product.brand.edit" name="permissions[]"
+                                                                value="product.brand.edit">
+                                                            <label class="form-check-label" for="perm-brand-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-brand-delete"
+                                                                data-id="product.brand.delete" name="permissions[]"
+                                                                value="product.brand.delete">
+                                                            <label class="form-check-label" for="perm-brand-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-brand-create"
-                                                            data-id="product.brand.create" name="permissions[]"
-                                                            value="product.brand.create">
-                                                        <label class="form-check-label" for="perm-brand-create">Add
-                                                            Brand</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-brand-edit"
-                                                            data-id="product.brand.edit" name="permissions[]"
-                                                            value="product.brand.edit">
-                                                        <label class="form-check-label" for="perm-brand-edit">Edit
-                                                            Brand</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-brand-delete"
-                                                            data-id="product.brand.delete" name="permissions[]"
-                                                            value="product.brand.delete">
-                                                        <label class="form-check-label" for="perm-brand-delete">Delete
-                                                            Brand</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Product Brand accordion -->
 
 
-                                            <!-- Start Product Unit accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#product-unit-permissions"
-                                                    aria-expanded="false" aria-controls="product-unit-permissions">
-                                                    Product Unit
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="product-unit-permissions">
-                                                <div class="card card-body">
 
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-unit"
-                                                            data-id="product.unit" name="permissions[]"
-                                                            value="product.unit">
-                                                        <label class="form-check-label" for="perm-product-unit">Product
-                                                            Unit</label>
+                                            <!-- Product Unit Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="productUnitDropdownBtn">
+                                                        <span>Product Unit</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="productUnitDropdownBtn">
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-unit-index"
+                                                                data-id="product.unit.index" name="permissions[]"
+                                                                value="product.unit.index">
+                                                            <label class="form-check-label" for="perm-product-unit-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-unit-create"
+                                                                data-id="product.unit.create" name="permissions[]"
+                                                                value="product.unit.create">
+                                                            <label class="form-check-label"
+                                                                for="perm-product-unit-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-unit-edit"
+                                                                data-id="product.unit.edit" name="permissions[]"
+                                                                value="product.unit.edit">
+                                                            <label class="form-check-label" for="perm-product-unit-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="product" id="perm-product-unit-delete"
+                                                                data-id="product.unit.delete" name="permissions[]"
+                                                                value="product.unit.delete">
+                                                            <label class="form-check-label"
+                                                                for="perm-product-unit-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-unit-create"
-                                                            data-id="product.unit.create" name="permissions[]"
-                                                            value="product.unit.create">
-                                                        <label class="form-check-label" for="perm-product-unit-create">Add
-                                                            Product Unit</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-unit-edit"
-                                                            data-id="product.unit.edit" name="permissions[]"
-                                                            value="product.unit.edit">
-                                                        <label class="form-check-label" for="perm-product-unit-edit">Edit
-                                                            Product Unit</label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="product" id="perm-product-unit-delete"
-                                                            data-id="product.unit.delete" name="permissions[]"
-                                                            value="product.unit.delete">
-                                                        <label class="form-check-label"
-                                                            for="perm-product-unit-delete">Delete Product Unit</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Product Unit accordion -->
+
 
                                         </td>
                                     </tr>
@@ -880,6 +966,7 @@
                                             </div>
                                         </td>
                                         <td>
+                                            
                                             <div class="form-check">
                                                 <input type="checkbox"
                                                     class="form-check-input child-checkbox permission-checkbox"
@@ -887,9 +974,31 @@
                                                     data-id="stock.management" name="permissions[]"
                                                     value="stock.management">
                                                 <label class="form-check-label" for="perm-stock-management">
-                                                    Stock Manage
+                                                    Manage
                                                 </label>
                                             </div>
+
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                    data-group="stock" id="perm-stock-edit" data-id="stock.edit"
+                                                    name="permissions[]" value="stock.edit">
+                                                <label class="form-check-label" for="perm-stock-edit">
+                                                    edit
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input child-checkbox permission-checkbox"
+                                                    data-group="stock" id="perm-stock-logs" data-id="stock.logs"
+                                                    name="permissions[]" value="stock.logs">
+                                                <label class="form-check-label" for="perm-stock-logs">
+                                                    logs
+                                                </label>
+                                            </div>
+
+                                            
                                         </td>
                                     </tr>
 
@@ -909,192 +1018,205 @@
 
                                         <!-- Child: Cost Category -->
                                         <td>
-                                            <!-- Start Cost Category accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#cost-category-permissions"
-                                                    aria-expanded="false" aria-controls="cost-category-permissions">
-                                                    Cost Category
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="cost-category-permissions">
-                                                <div class="card card-body">
 
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-category"
-                                                            data-id="cost.cost_category" name="permissions[]"
-                                                            value="cost.cost_category">
-                                                        <label class="form-check-label" for="perm-cost-category">
-                                                            Cost Category
-                                                        </label>
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="costCategoryDropdownBtn">
+                                                        <span>Cost Category</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="costCategoryDropdownBtn">
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-category-index"
+                                                                data-id="cost.cost_category.index" name="permissions[]"
+                                                                value="cost.cost_category.index">
+                                                            <label class="form-check-label" for="perm-cost-category-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-category-create"
+                                                                data-id="cost.cost_category.create" name="permissions[]"
+                                                                value="cost.cost_category.create">
+                                                            <label class="form-check-label"
+                                                                for="perm-cost-category-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-category-edit"
+                                                                data-id="cost.cost_category.edit" name="permissions[]"
+                                                                value="cost.cost_category.edit">
+                                                            <label class="form-check-label" for="perm-cost-category-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-category-delete"
+                                                                data-id="cost.cost_category.delete" name="permissions[]"
+                                                                value="cost.cost_category.delete">
+                                                            <label class="form-check-label"
+                                                                for="perm-cost-category-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-category-create"
-                                                            data-id="cost.cost_category.create" name="permissions[]"
-                                                            value="cost.cost_category.create">
-                                                        <label class="form-check-label" for="perm-cost-category-create">
-                                                            Add Cost Category
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-category-edit"
-                                                            data-id="cost.cost_category.edit" name="permissions[]"
-                                                            value="cost.cost_category.edit">
-                                                        <label class="form-check-label" for="perm-cost-category-edit">
-                                                            Edit Cost Category
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-category-delete"
-                                                            data-id="cost.cost_category.delete" name="permissions[]"
-                                                            value="cost.cost_category.delete">
-                                                        <label class="form-check-label" for="perm-cost-category-delete">
-                                                            Delete Cost Category
-                                                        </label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Cost Category accordion -->
 
 
 
 
-                                            <!-- Start Field Of Cost accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#field-of-cost-permissions"
-                                                    aria-expanded="false" aria-controls="field-of-cost-permissions">
-                                                    Field Of Cost
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="field-of-cost-permissions">
-                                                <div class="card card-body">
 
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-field-of-cost"
-                                                            data-id="cost.field_of_cost" name="permissions[]"
-                                                            value="cost.field_of_cost">
-                                                        <label class="form-check-label" for="perm-field-of-cost">
-                                                            Field Of Cost
-                                                        </label>
+                                            <!-- Field Of Cost Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="fieldOfCostDropdownBtn">
+                                                        <span>Field Of Cost</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="fieldOfCostDropdownBtn">
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-field-of-cost"
+                                                                data-id="cost.field_of_cost.index" name="permissions[]"
+                                                                value="cost.field_of_cost.index">
+                                                            <label class="form-check-label" for="perm-field-of-cost">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-field-of-cost-create"
+                                                                data-id="cost.field_of_cost.create" name="permissions[]"
+                                                                value="cost.field_of_cost.create">
+                                                            <label class="form-check-label"
+                                                                for="perm-field-of-cost-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-field-of-cost-edit"
+                                                                data-id="cost.field_of_cost.edit" name="permissions[]"
+                                                                value="cost.field_of_cost.edit">
+                                                            <label class="form-check-label" for="perm-field-of-cost-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-field-of-cost-delete"
+                                                                data-id="cost.field_of_cost.delete" name="permissions[]"
+                                                                value="cost.field_of_cost.delete">
+                                                            <label class="form-check-label"
+                                                                for="perm-field-of-cost-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-field-of-cost-create"
-                                                            data-id="cost.field_of_cost.create" name="permissions[]"
-                                                            value="cost.field_of_cost.create">
-                                                        <label class="form-check-label" for="perm-field-of-cost-create">
-                                                            Add Field Of Cost
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-field-of-cost-edit"
-                                                            data-id="cost.field_of_cost.edit" name="permissions[]"
-                                                            value="cost.field_of_cost.edit">
-                                                        <label class="form-check-label" for="perm-field-of-cost-edit">
-                                                            Edit Field Of Cost
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-field-of-cost-delete"
-                                                            data-id="cost.field_of_cost.delete" name="permissions[]"
-                                                            value="cost.field_of_cost.delete">
-                                                        <label class="form-check-label" for="perm-field-of-cost-delete">
-                                                            Delete Field Of Cost
-                                                        </label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Field Of Cost accordion -->
+
 
 
 
                                             <!-- Child: Add Cost -->
 
-                                            <!-- Start Cost accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#cost-permissions"
-                                                    aria-expanded="false" aria-controls="cost-permissions">
-                                                    Cost
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="cost-permissions">
-                                                <div class="card card-body">
+                                            <!-- Cost Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="costDropdownBtn">
+                                                        <span>Cost</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="costDropdownBtn">
 
-                                                    <!-- Original Add Cost (unchanged) -->
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-add-cost" data-id="cost.all_cost"
-                                                            name="permissions[]" value="cost.all_cost">
-                                                        <label class="form-check-label" for="perm-add-cost">
-                                                            All Cost
-                                                        </label>
+                                                        <!-- All Cost -->
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-add-cost-index"
+                                                                data-id="cost.all_cost.index" name="permissions[]"
+                                                                value="cost.all_cost.index">
+                                                            <label class="form-check-label" for="perm-add-cost-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Cost Create -->
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-index"
+                                                                data-id="cost.create" name="permissions[]"
+                                                                value="cost.create">
+                                                            <label class="form-check-label" for="perm-cost-index">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit Cost -->
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-edit" data-id="cost.edit"
+                                                                name="permissions[]" value="cost.edit">
+                                                            <label class="form-check-label" for="perm-cost-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Delete Cost -->
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                data-group="cost" id="perm-cost-delete"
+                                                                data-id="cost.delete" name="permissions[]"
+                                                                value="cost.delete">
+                                                            <label class="form-check-label" for="perm-cost-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <!-- Cost Index -->
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-index" data-id="cost.create"
-                                                            name="permissions[]" value="cost.create">
-                                                        <label class="form-check-label" for="perm-cost-index">
-                                                            Cost Create
-                                                        </label>
-                                                    </div>
-
-                                                    <!-- Cost Edit -->
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-edit" data-id="cost.edit"
-                                                            name="permissions[]" value="cost.edit">
-                                                        <label class="form-check-label" for="perm-cost-edit">
-                                                            Edit Cost
-                                                        </label>
-                                                    </div>
-
-                                                    <!-- Cost Delete -->
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input child-checkbox permission-checkbox"
-                                                            data-group="cost" id="perm-cost-delete" data-id="cost.delete"
-                                                            name="permissions[]" value="cost.delete">
-                                                        <label class="form-check-label" for="perm-cost-delete">
-                                                            Delete Cost
-                                                        </label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Cost accordion -->
+
 
                                         </td>
                                     </tr>
@@ -1121,7 +1243,7 @@
                                                         type="checkbox" data-group="shipping" data-id="shipping.index"
                                                         id="perm-shipping-index" name="permissions[]"
                                                         value="shipping.index">
-                                                    <label class="form-check-label" for="perm-shipping-index">Shipping
+                                                    <label class="form-check-label" for="perm-shipping-index">
                                                         View</label>
                                                 </div>
 
@@ -1130,7 +1252,7 @@
                                                         type="checkbox" data-group="shipping" data-id="shipping.create"
                                                         id="perm-shipping-create" name="permissions[]"
                                                         value="shipping.create">
-                                                    <label class="form-check-label" for="perm-shipping-create">Shipping
+                                                    <label class="form-check-label" for="perm-shipping-create">
                                                         Create</label>
                                                 </div>
 
@@ -1139,7 +1261,7 @@
                                                         type="checkbox" data-group="shipping" data-id="shipping.edit"
                                                         id="perm-shipping-edit" name="permissions[]"
                                                         value="shipping.edit">
-                                                    <label class="form-check-label" for="perm-shipping-edit">Shipping
+                                                    <label class="form-check-label" for="perm-shipping-edit">
                                                         Edit</label>
                                                 </div>
 
@@ -1148,7 +1270,7 @@
                                                         type="checkbox" data-group="shipping" data-id="shipping.delete"
                                                         id="perm-shipping-delete" name="permissions[]"
                                                         value="shipping.delete">
-                                                    <label class="form-check-label" for="perm-shipping-delete">Shipping
+                                                    <label class="form-check-label" for="perm-shipping-delete">
                                                         Delete</label>
                                                 </div>
                                             </div>
@@ -1170,118 +1292,138 @@
                                         </td>
 
                                         <td>
-                                            <!-- Start District accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#district-permissions"
-                                                    aria-expanded="false" aria-controls="district-permissions">
-                                                    District
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="district-permissions">
-                                                <div class="card card-body">
+                                            <!-- District Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="districtDropdownBtn">
+                                                        <span>District</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="districtDropdownBtn">
 
-                                                    <!-- Original District Index -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="district.index" id="perm-district-index"
-                                                            name="permissions[]">
-                                                        <label class="form-check-label"
-                                                            for="perm-district-index">District</label>
+                                                        <!-- District Index -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="district.index" id="perm-district-index"
+                                                                name="permissions[]">
+                                                            <label class="form-check-label" for="perm-district-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Create District -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="district.create" id="perm-district-create"
+                                                                name="permissions[]" value="district.create">
+                                                            <label class="form-check-label" for="perm-district-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit District -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="district.edit" id="perm-district-edit"
+                                                                name="permissions[]" value="district.edit">
+                                                            <label class="form-check-label" for="perm-district-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Delete District -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="district.delete" id="perm-district-delete"
+                                                                name="permissions[]" value="district.delete">
+                                                            <label class="form-check-label" for="perm-district-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <!-- Create District -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="district.create" id="perm-district-create"
-                                                            name="permissions[]" value="district.create">
-                                                        <label class="form-check-label" for="perm-district-create">Create
-                                                            District</label>
-                                                    </div>
-
-                                                    <!-- Edit District -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="district.edit" id="perm-district-edit"
-                                                            name="permissions[]" value="district.edit">
-                                                        <label class="form-check-label" for="perm-district-edit">Edit
-                                                            District</label>
-                                                    </div>
-
-                                                    <!-- Delete District -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="district.delete" id="perm-district-delete"
-                                                            name="permissions[]" value="district.delete">
-                                                        <label class="form-check-label" for="perm-district-delete">Delete
-                                                            District</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End District accordion -->
 
 
-                                            <!-- Start Upazila accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#upazila-permissions"
-                                                    aria-expanded="false" aria-controls="upazila-permissions">
-                                                    Upazila
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="upazila-permissions">
-                                                <div class="card card-body">
 
-                                                    <!-- Original Upazila Index -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="upazila.index" id="perm-upazila-index"
-                                                            name="permissions[]">
-                                                        <label class="form-check-label"
-                                                            for="perm-upazila-index">Upazila</label>
+                                            <!-- Upazila Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="upazilaDropdownBtn">
+                                                        <span>Upazila</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="upazilaDropdownBtn">
+
+                                                        <!-- Upazila Index -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="upazila.index" id="perm-upazila-index"
+                                                                name="permissions[]">
+                                                            <label class="form-check-label" for="perm-upazila-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Create Upazila -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="upazila.create" id="perm-upazila-create"
+                                                                name="permissions[]" value="upazila.create">
+                                                            <label class="form-check-label" for="perm-upazila-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit Upazila -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="upazila.edit" id="perm-upazila-edit"
+                                                                name="permissions[]" value="upazila.edit">
+                                                            <label class="form-check-label" for="perm-upazila-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Delete Upazila -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="district_upazila"
+                                                                data-id="upazila.delete" id="perm-upazila-delete"
+                                                                name="permissions[]" value="upazila.delete">
+                                                            <label class="form-check-label" for="perm-upazila-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <!-- Create Upazila -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="upazila.create" id="perm-upazila-create"
-                                                            name="permissions[]" value="upazila.create">
-                                                        <label class="form-check-label" for="perm-upazila-create">Create
-                                                            Upazila</label>
-                                                    </div>
-
-                                                    <!-- Edit Upazila -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="upazila.edit" id="perm-upazila-edit"
-                                                            name="permissions[]" value="upazila.edit">
-                                                        <label class="form-check-label" for="perm-upazila-edit">Edit
-                                                            Upazila</label>
-                                                    </div>
-
-                                                    <!-- Delete Upazila -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="district_upazila"
-                                                            data-id="upazila.delete" id="perm-upazila-delete"
-                                                            name="permissions[]" value="upazila.delete">
-                                                        <label class="form-check-label" for="perm-upazila-delete">Delete
-                                                            Upazila</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Upazila accordion -->
+
 
                                         </td>
                                     </tr>
@@ -1304,8 +1446,36 @@
                                                     id="perm-order-index"
                                                     name="permissions[]>
                                                 <label class="form-check-label"
-                                                    for="perm-order-index">Orders</label>
+                                                    for="perm-order-index">View</label>
                                             </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="orders" data-id="order.show"
+                                                    id="perm-order-show"
+                                                    name="permissions[]>
+                                                <label class="form-check-label"
+                                                    for="perm-order-show">Show</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="orders" data-id="order.status"
+                                                    id="perm-order-status"
+                                                    name="permissions[]>
+                                                <label class="form-check-label"
+                                                    for="perm-order-status">Status</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="orders" data-id="order.delete"
+                                                    id="perm-order-delete"
+                                                    name="permissions[]>
+                                                <label class="form-check-label"
+                                                    for="perm-order-delete">Delete</label>
+                                            </div>
+
                                         </td>
                                     </tr>
 
@@ -1325,11 +1495,41 @@
                                             <div class="form-check">
                                                 <input class="form-check-input child-checkbox permission-checkbox"
                                                     type="checkbox" data-group="payment_method"
-                                                    data-id="payment_method.index" id="perm-payment-method"
+                                                    data-id="payment_method.index" value="payment_method.index"
+                                                    id="perm-payment-method"
                                                     name="permissions[]>
                                                 <label class="form-check-label"
-                                                    for="perm-payment-method">Payment
-                                                Method</label>
+                                                    for="perm-payment-method"> View </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="payment_method"
+                                                    data-id="payment_method.create" value="payment_method.create"
+                                                    id="perm-payment-method-create"
+                                                    name="permissions[]>
+                                                <label class="form-check-label"
+                                                    for="perm-payment-method-create">Create</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="payment_method"
+                                                    data-id="payment_method.edit" value="payment_method.edit"
+                                                    id="perm-payment-method-edit"
+                                                    name="permissions[]>
+                                                <label class="form-check-label"
+                                                    for="perm-payment-method-edit">Edit</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input child-checkbox permission-checkbox"
+                                                    type="checkbox" data-group="payment_method"
+                                                    data-id="payment_method.delete" value="payment_method.delete"
+                                                    id="perm-payment-method-delete"
+                                                    name="permissions[]>
+                                                <label class="form-check-label"
+                                                    for="perm-payment-method-delete">Delete</label>
                                             </div>
                                         </td>
                                     </tr>
@@ -1346,98 +1546,134 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <!-- Start Post Category accordion -->
-                                            <div class="form-check">
-                                                <label class="form-check-label" data-toggle="collapse"
-                                                    style="cursor: pointer;" data-target="#post-category-permissions"
-                                                    aria-expanded="false" aria-controls="post-category-permissions">
-                                                    Post Category
-                                                    <i class="fas fa-chevron-down ml-1"></i>
-                                                </label>
-                                            </div>
-                                            <div class="collapse ml-4" id="post-category-permissions">
-                                                <div class="card card-body">
+                                            <!-- Post Category Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="postCategoryDropdownBtn">
+                                                        <span>Category</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="postCategoryDropdownBtn">
 
-                                                    <!-- Index -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="post"
-                                                            data-id="post_category.index" id="perm-post-cat-index"
-                                                            name="permissions[]" value="post_category.index">
-                                                        <label class="form-check-label" for="perm-post-cat-index">Post
-                                                            Category</label>
+                                                        <!-- Index -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post"
+                                                                data-id="post_category.index" id="perm-post-cat-index"
+                                                                name="permissions[]" value="post_category.index">
+                                                            <label class="form-check-label" for="perm-post-cat-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Create -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post"
+                                                                data-id="post_category.create" id="perm-post-cat-create"
+                                                                name="permissions[]" value="post_category.create">
+                                                            <label class="form-check-label" for="perm-post-cat-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post"
+                                                                data-id="post_category.edit" id="perm-post-cat-edit"
+                                                                name="permissions[]" value="post_category.edit">
+                                                            <label class="form-check-label" for="perm-post-cat-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Delete -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post"
+                                                                data-id="post_category.delete" id="perm-post-cat-delete"
+                                                                name="permissions[]" value="post_category.delete">
+                                                            <label class="form-check-label" for="perm-post-cat-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
                                                     </div>
-
-                                                    <!-- Create -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="post"
-                                                            data-id="post_category.create" id="perm-post-cat-create"
-                                                            name="permissions[]" value="post_category.create">
-                                                        <label class="form-check-label"
-                                                            for="perm-post-cat-create">Create Post Category</label>
-                                                    </div>
-
-                                                    <!-- Edit -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="post"
-                                                            data-id="post_category.edit" id="perm-post-cat-edit"
-                                                            name="permissions[]" value="post_category.edit">
-                                                        <label class="form-check-label" for="perm-post-cat-edit">Edit
-                                                            Post Category</label>
-                                                    </div>
-
-                                                    <!-- Delete -->
-                                                    <div class="form-check">
-                                                        <input class="form-check-input child-checkbox permission-checkbox"
-                                                            type="checkbox" data-group="post"
-                                                            data-id="post_category.delete" id="perm-post-cat-delete"
-                                                            name="permissions[]" value="post_category.delete">
-                                                        <label class="form-check-label"
-                                                            for="perm-post-cat-delete">Delete Post Category</label>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <!-- End Post Category accordion -->
 
 
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="post" data-id="post.create"
-                                                    value="post.create" id="perm-post-create"
-                                                    name="permissions[]>
-                                                <label class="form-check-label"
-                                                    for="perm-post-create">Add Post</label>
+
+                                            <!-- Post Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="postDropdownBtn">
+                                                        <span>Post</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="postDropdownBtn">
+
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post"
+                                                                data-id="post.create" value="post.create"
+                                                                id="perm-post-create" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-post-create">
+                                                                Create
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post" data-id="post.edit"
+                                                                value="post.edit" id="perm-post-edit"
+                                                                name="permissions[]">
+                                                            <label class="form-check-label" for="perm-post-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post"
+                                                                data-id="post.delete" value="post.delete"
+                                                                id="perm-post-delete" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-post-delete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="post" data-id="post.index"
+                                                                value="post.index" id="perm-post-index"
+                                                                name="permissions[]">
+                                                            <label class="form-check-label" for="perm-post-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="post" data-id="post.edit"
-                                                    value="post.edit" id="perm-post-edit"
-                                                    name="permissions[]>
-                                                <label class="form-check-label"
-                                                    for="perm-post-edit">Edit Post</label>
-                                            </div>
-
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="post" data-id="post.delete"
-                                                    value="post.delete" id="perm-post-delete"
-                                                    name="permissions[]>
-                                                <label class="form-check-label"
-                                                    for="perm-post-delete">Delete Post</label>
-                                            </div>
-
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="post" data-id="post.index"
-                                                    value="post.index" id="perm-post-index"
-                                                    name="permissions[]>
-                                                <label class="form-check-label"
-                                                    for="perm-post-index">All Post</label>
-                                            </div>
                                         </td>
                                     </tr>
 
@@ -1461,7 +1697,7 @@
                                                         type="checkbox" data-group="users" data-id="user.create"
                                                         id="perm-user-create" name="permissions[]"
                                                         value="user.create">
-                                                    <label class="form-check-label" for="perm-user-create">Users
+                                                    <label class="form-check-label" for="perm-user-create">
                                                         Create</label>
                                                 </div>
 
@@ -1550,9 +1786,9 @@
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="subscribers" data-id="newslatter"
-                                                    id="perm-newslatter" name="permissions[]" value="newslatter">
-                                                <label class="form-check-label" for="perm-newslatter">Subscriber</label>
+                                                    type="checkbox" data-group="subscribers" data-id="newslatter.index"
+                                                    id="perm-newslatter" name="permissions[]" value="newslatter.index">
+                                                <label class="form-check-label" for="perm-newslatter">View</label>
                                             </div>
 
 
@@ -1561,7 +1797,7 @@
                                                     type="checkbox" data-group="subscribers"
                                                     data-id="newslatter.delete" id="perm-newslatter-delete"
                                                     name="permissions[]" value="newslatter.delete">
-                                                <label class="form-check-label" for="perm-newslatter-delete">Subscriber
+                                                <label class="form-check-label" for="perm-newslatter-delete">
                                                     Delete</label>
                                             </div>
 
@@ -1584,10 +1820,9 @@
                                                 <div class="form-check">
                                                     <input class="form-check-input child-checkbox permission-checkbox"
                                                         type="checkbox" data-group="messages"
-                                                        data-id="contact_form.message.view" id="perm-messages-view"
-                                                        name="permissions[]" value="contact_form.message.view">
-                                                    <label class="form-check-label" for="perm-messages-view">View
-                                                        message</label>
+                                                        data-id="contact_form.message.index" id="perm-messages-index"
+                                                        name="permissions[]" value="contact_form.message.index">
+                                                    <label class="form-check-label" for="perm-messages-index"> View </label>
                                                 </div>
 
                                                 <div class="form-check">
@@ -1595,8 +1830,7 @@
                                                         type="checkbox" data-group="messages"
                                                         data-id="contact_form.message.delete" id="perm-messages-delete"
                                                         name="permissions[]" value="contact_form.message.delete">
-                                                    <label class="form-check-label" for="perm-messages-delete">Delete
-                                                        message</label>
+                                                    <label class="form-check-label" for="perm-messages-delete"> Delete </label>
                                                 </div>
                                             </div>
 
@@ -1694,24 +1928,230 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="settings" data-id="sms-settings.edit"
-                                                    id="perm-sms-setting"
-                                                    name="permissions[]>
-                                                <label class="form-check-label"
-                                                    for="perm-sms-setting">SMS API
-                                                Settings</label>
+                                            <!-- SMS API Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="smsSettingsDropdownBtn">
+                                                        <span>SMS API Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="smsSettingsDropdownBtn">
+
+                                                        <!-- Index -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="sms-settings.index" value="sms-settings.index"
+                                                                id="perm-sms-setting-index" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-sms-setting-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="sms-settings.edit" value="sms-settings.edit"
+                                                                id="perm-sms-setting-edit" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-sms-setting-edit">
+                                                               Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="settings" data-id="website_setting"
-                                                    id="perm-website-setting"
-                                                    name="permissions[]>
-                                                <label class="form-check-label"
-                                                    for="perm-website-setting">Website
-                                                Setting</label>
+
+
+                                            <!-- Website Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="websiteSettingsDropdownBtn">
+                                                        <span>Website Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="websiteSettingsDropdownBtn">
+
+                                                        <!-- View (Index) -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="website_setting.index"
+                                                                value="website_setting.index"
+                                                                id="perm-website-setting-index" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-website-setting-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- edit (Edit) -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="website_setting.edit"
+                                                                value="website_setting.edit"
+                                                                id="perm-website-setting-edit" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-website-setting-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
+
+
+                                            <!-- Admin Panel Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="adminSettingsDropdownBtn">
+                                                        <span>Admin Panel Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="adminSettingsDropdownBtn">
+
+                                                        <!-- View (Index) -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="admin_panel_settings.index"
+                                                                value="admin_panel_settings.index"
+                                                                id="perm-admin-settings-index" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-admin-settings-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="admin_panel_settings.edit"
+                                                                value="admin_panel_settings.edit"
+                                                                id="perm-admin-settings-edit" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-admin-settings-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Color Theme Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="colorThemeDropdownBtn">
+                                                        <span>Color Theme Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="colorThemeDropdownBtn">
+
+                                                        <!-- View (Index) -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="color_theme_settings.index"
+                                                                value="color_theme_settings.index"
+                                                                id="perm-color-theme-index" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-color-theme-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="color_theme_settings.edit"
+                                                                value="color_theme_settings.edit"
+                                                                id="perm-color-theme-edit" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-color-theme-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Social Icon Settings Dropdown -->
+                                            <div class="mr-3 mb-2 d-inline-block">
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                        type="button" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" id="socialIconDropdownBtn">
+                                                        <span>Social Icon Settings</span>
+                                                        <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu p-3 shadow"
+                                                        aria-labelledby="socialIconDropdownBtn">
+
+                                                        <!-- View (Index) -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="social_icon_settings.index"
+                                                                value="social_icon_settings.index"
+                                                                id="perm-social-icon-index" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-social-icon-index">
+                                                                View
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="settings"
+                                                                data-id="social_icon_settings.edit"
+                                                                value="social_icon_settings.edit"
+                                                                id="perm-social-icon-edit" name="permissions[]">
+                                                            <label class="form-check-label" for="perm-social-icon-edit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
 
@@ -1883,7 +2323,7 @@
                         "progressBar": true,
                         "positionClass": "toast-bottom-right"
                     };
-                    toastr.success('Permissions updated!');
+                    toastr.success('Permissions editd!');
                 }
             });
         });

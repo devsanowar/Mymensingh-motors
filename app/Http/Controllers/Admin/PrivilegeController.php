@@ -7,12 +7,15 @@ use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PrivilegeController extends Controller
 {
     public function index()
     {
-        $permissions = Permission::all();
+        // $superAdminIds = User::where('system_admin', 'Super_admin')->pluck('id');
+        // $permissions = Permission::orderBy('permission_key')->get();
+        $permissions = Permission::orderBy('permission_key')->get();
         return view('admin.layouts.pages.previlege.index', compact('permissions'));
     }
 
@@ -25,6 +28,27 @@ class PrivilegeController extends Controller
         return response()->json($users);
     }
 
+    // public function savePermissions(Request $request)
+    // {
+    //     $request->validate([
+    //         'user_id' => 'required',
+    //         'permissions' => 'array',
+    //     ]);
+
+    //     $user = User::findOrFail($request->user_id);
+
+    //     $user->permissions()->delete();
+
+    //     foreach ($request->permissions as $perm) {
+    //         $user->permissions()->create([
+    //             'permission_key' => $perm,
+    //             'assigned_by' => Auth::id(),
+    //         ]);
+    //     }
+
+    //     return back()->with('success', 'Permissions updated successfully!');
+    // }
+
     public function savePermissions(Request $request)
     {
         $request->validate([
@@ -33,13 +57,23 @@ class PrivilegeController extends Controller
         ]);
 
         $user = User::findOrFail($request->user_id);
+        $newPermissions = $request->permissions ?? [];
 
-        $user->permissions()->delete();
+        $existingPermissions = $user->permissions()->pluck('permission_key')->toArray();
 
-        foreach ($request->permissions as $perm) {
+        $toAdd = array_diff($newPermissions, $existingPermissions);
+
+        $toRemove = array_diff($existingPermissions, $newPermissions);
+
+        foreach ($toAdd as $perm) {
             $user->permissions()->create([
                 'permission_key' => $perm,
+                'assigned_by' => Auth::id(),
             ]);
+        }
+
+        if (!empty($toRemove)) {
+            $user->permissions()->whereIn('permission_key', $toRemove)->delete();
         }
 
         return back()->with('success', 'Permissions updated successfully!');
