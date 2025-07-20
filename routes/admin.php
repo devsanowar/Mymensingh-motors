@@ -207,18 +207,18 @@ Route::prefix('admin')
         Route::get('stocklog', [StockLogController::class, 'index'])->name('stocklog')->middleware('permission:stock.logs');
 
         // District route
-        Route::get('district', [DistrictController::class, 'index'])->name('district.index');
-        Route::post('/district/store/', [DistrictController::class, 'store'])->name('district.store');
-        Route::get('district/edit/{id}', [DistrictController::class, 'edit'])->name('district.edit');
-        Route::post('district/update', [DistrictController::class, 'update'])->name('district.update');
-        Route::delete('district/destroy/{id}', [DistrictController::class, 'destroy'])->name('district.destroy');
+        Route::get('district', [DistrictController::class, 'index'])->name('district.index')->middleware('permission:district.index');
+        Route::post('/district/store/', [DistrictController::class, 'store'])->name('district.store')->middleware('permission:district.create');
+        Route::get('district/edit/{id}', [DistrictController::class, 'edit'])->name('district.edit')->middleware('permission:district.edit');
+        Route::post('district/update', [DistrictController::class, 'update'])->name('district.update')->middleware('permission:district.edit');
+        Route::delete('district/destroy/{id}', [DistrictController::class, 'destroy'])->name('district.destroy')->middleware('permission:district.delete');
         Route::post('/district/status-change', [DistrictController::class, 'districtChangeStatus'])->name('district.status');
 
         // Upazila Route Here
-        Route::get('upazila', [UpazilaController::class, 'index'])->name('upazila.index');
-        Route::post('/upazila/store/', [UpazilaController::class, 'storeUpazila'])->name('upazila.store');
-        Route::put('/upazilas/{id}', [UpazilaController::class, 'update'])->name('upazilas.update');
-        Route::delete('upazila/destroy/{id}', [UpazilaController::class, 'destroyUpazila'])->name('upazila.destroy');
+        Route::get('upazila', [UpazilaController::class, 'index'])->name('upazila.index')->middleware('permission:upazila.index');
+        Route::post('/upazila/store/', [UpazilaController::class, 'storeUpazila'])->name('upazila.store')->middleware('permission:upazila.create');
+        Route::put('/upazilas/{id}', [UpazilaController::class, 'update'])->name('upazilas.update')->middleware('permission:upazila.edit');
+        Route::delete('upazila/destroy/{id}', [UpazilaController::class, 'destroyUpazila'])->name('upazila.destroy')->middleware('permission:upazila.delete');
         Route::post('/upazila/status-change', [UpazilaController::class, 'upazilaChangeStatus'])->name('upazila.status');
 
         // Order routes Here
