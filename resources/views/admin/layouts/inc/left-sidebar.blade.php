@@ -86,7 +86,7 @@
                             </li>
                         @endif
 
-                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.about', $userPermissions))
+                        @if (Auth::user()->system_admin == 'Super_admin' || in_array('home.about.index', $userPermissions))
                             <li class="{{ request()->routeIs('about.*') ? 'active' : '' }}">
                                 <a href="{{ route('about.index') }}"><span>About</span></a>
                             </li>
@@ -307,7 +307,7 @@
             {{-- Shared: Inbox, Settings, Logout --}}
 
 
-            @if (Auth::user()->system_admin == 'Super_admin' || in_array('newslatter', $userPermissions))
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('subscribers', $userPermissions))
             <li class="{{ request()->routeIs('newslatter') ? 'active' : '' }}">
                 <a href="{{ route('newslatter') }}"><i class="zmdi zmdi-accounts"></i>
                     <span>Subscriber</span>

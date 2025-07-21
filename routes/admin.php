@@ -139,10 +139,10 @@ Route::prefix('admin')
             Route::get('/', [AboutPageController::class, 'index'])->name('about_page.page')->middleware('permission:about.page');
             Route::post('/chairman/update/{id}', [AboutPageController::class, 'update'])->name('chairman.update');
 
-            Route::get('/mission/vision', [AboutPageController::class, 'missionVision'])->name('mission_vision.page');
+            Route::get('/mission/vision', [AboutPageController::class, 'missionVision'])->name('mission_vision.page')->middleware('permission:mission.mission.vision');
 
-            Route::post('/chairman/mission/update', [AboutPageController::class, 'missionUpdate'])->name('mission.update');
-            Route::post('/chairman/vision/update', [AboutPageController::class, 'visionUpdate'])->name('vision.update');
+            Route::post('/chairman/mission/update', [AboutPageController::class, 'missionUpdate'])->name('mission.update')->middleware('permission:mission.page.edit');
+            Route::post('/chairman/vision/update', [AboutPageController::class, 'visionUpdate'])->name('vision.update')->middleware('permission:vission.page.edit');
         });
 
         // Categories
@@ -222,51 +222,83 @@ Route::prefix('admin')
         Route::post('/upazila/status-change', [UpazilaController::class, 'upazilaChangeStatus'])->name('upazila.status');
 
         // Order routes Here
-        Route::get('order', [OrderController::class, 'index'])->name('order.index');
-        Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
-        Route::delete('orders-destroy/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+        Route::get('order', [OrderController::class, 'index'])->name('order.index')->middleware('permission:order.index');
+        Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show')->middleware('permission:order.show');
+        Route::delete('orders-destroy/{id}', [OrderController::class, 'destroy'])->name('orders.destroy')->middleware('permission:order.delete');
+        Route::post('/order/change-status/{id}', [OrderController::class, 'orderChangeStatus'])->name('orderChangeStatus')->middleware('permission:order.status');
         Route::get('/admin/filter-order', [OrderController::class, 'orderFilter'])->name('filter.orders');
-        Route::post('/order/change-status/{id}', [OrderController::class, 'orderChangeStatus'])->name('orderChangeStatus');
 
         // shipping routes
-        Route::get('shipping', [ShippingController::class, 'index'])->name('shipping.index');
-        Route::post('shipping/store', [ShippingController::class, 'store'])->name('shipping.store');
-        Route::delete('shipping/{id}/destroy', [ShippingController::class, 'destroy'])->name('shipping.destroy');
-        Route::put('/shipping/{id}', [ShippingController::class, 'update'])->name('shipping.update');
+        Route::get('shipping', [ShippingController::class, 'index'])->name('shipping.index')->middleware('permission:shipping.index');
+        Route::post('shipping/store', [ShippingController::class, 'store'])->name('shipping.store')->middleware('permission:shipping.create');
+        Route::put('/shipping/{id}', [ShippingController::class, 'update'])->name('shipping.update')->middleware('permission:shipping.edit');
+        Route::delete('shipping/{id}/destroy', [ShippingController::class, 'destroy'])->name('shipping.destroy')->middleware('permission:shipping.delete');
         Route::get('shipping-status/{id}', [ShippingController::class, 'shippingChangeStatus'])->name('shipping.status');
 
         // payment method routes here
-        Route::get('payment_method', [PaymentMethodController::class, 'index'])->name('payment_method.index');
-        Route::get('payment-method/create', [PaymentMethodController::class, 'create'])->name('payment_method.create');
-        Route::post('payment-method/create', [PaymentMethodController::class, 'store'])->name('payment_method.store');
-        Route::get('payment-method/edit/{id}', [PaymentMethodController::class, 'edit'])->name('payment_method.edit');
-        Route::put('payment-method/update/{id}', [PaymentMethodController::class, 'update'])->name('payment_method.update');
-        Route::delete('payment-method/delete/{id}', [PaymentMethodController::class, 'destroy'])->name('payment_method.destroy');
+        Route::get('payment_method', [PaymentMethodController::class, 'index'])->name('payment_method.index')->middleware('permission:payment_method.index');
+        Route::get('payment-method/create', [PaymentMethodController::class, 'create'])->name('payment_method.create')->middleware('permission:payment_method.create');
+        Route::post('payment-method/store', [PaymentMethodController::class, 'store'])->name('payment_method.store')->middleware('permission:payment_method.create');
+        Route::get('payment-method/edit/{id}', [PaymentMethodController::class, 'edit'])->name('payment_method.edit')->middleware('permission:payment_method.edit');
+        Route::put('payment-method/update/{id}', [PaymentMethodController::class, 'update'])->name('payment_method.update')->middleware('permission:payment_method.edit');
+        Route::delete('payment-method/delete/{id}', [PaymentMethodController::class, 'destroy'])->name('payment_method.destroy')->middleware('permission:payment_method.delete');
         Route::post('/payment-method/status-change', [PaymentMethodController::class, 'paymentMethodChangeStatus'])->name('payment_method.status');
 
 
         // Cost module route here
-        Route::resource('cost-category', CostCategoryController::class);
+        Route::resource('cost-category', CostCategoryController::class)->middleware([
+            'index'   => 'permission:cost.cost_category.index',
+            'create'  => 'permission:cost.cost_category.create',
+            'store'   => 'permission:cost.cost_category.create',
+            'edit'    => 'permission:cost.cost_category.edit',
+            'update'  => 'permission:cost.cost_category.edit',
+            'destroy' => 'permission:cost.cost_category.delete',
+        ]);
         Route::post('cost-category/status/', [CostCategoryController::class, 'costCategoryStatusChange'])->name('cost-category.status');
 
-        Route::resource('field-of-cost', FieldofCostController::class);
+        
+        // Field of cost route here
+        Route::resource('field-of-cost', FieldofCostController::class)->middleware([
+            'index'   => 'permission:cost.field_of_cost.index',
+            'create'  => 'permission:cost.field_of_cost.create',
+            'store'   => 'permission:cost.field_of_cost.create',
+            'edit'    => 'permission:cost.field_of_cost.edit',
+            'update'  => 'permission:cost.field_of_cost.edit',
+            'destroy' => 'permission:cost.field_of_cost.delete',
+        ]);
         Route::post('field-of-cost/status/', [FieldofCostController::class, 'FieldOfCostStatusChange'])->name('field-of-cost.status');
 
-        route::resource('cost', CostController::class);
+
+        // Cost route here
+        route::resource('cost', CostController::class)->middleware([
+            'index'   => 'permission:cost.index',
+            'create'  => 'permission:cost.create',
+            'store'   => 'permission:cost.create',
+            'edit'    => 'permission:cost.edit',
+            'update'  => 'permission:cost.edit',
+            'destroy' => 'permission:cost.delete',
+        ]);
         Route::get('/All-trashed/cost', [CostController::class, 'trashedData'])->name('cost.trash');
         Route::get('/restore/{id}/costData', [CostController::class, 'restoreData'])->name('cost.restore');
         Route::delete('/permanant/{id}/costData', [CostController::class, 'forceDeleteData'])->name('cost.forceDelete');
 
 
         // Post Category
-        Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index');
-        Route::post('/post-category/store', [PostCategoryController::class, 'store'])->name('post_category.store');
-        Route::put('/post-category/update/{id}', [PostCategoryController::class, 'update'])->name('post_category.update');
-        Route::delete('/post-category/delete/{id}', [PostCategoryController::class, 'destroy'])->name('post_category.destroy');
+        Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index')->middleware('permission:post_category.index');
+        Route::post('/post-category/store', [PostCategoryController::class, 'store'])->name('post_category.store')->middleware('permission:post_category.create');
+        Route::put('/post-category/update/{id}', [PostCategoryController::class, 'update'])->name('post_category.update')->middleware('permission:post_category.edit');
+        Route::delete('/post-category/delete/{id}', [PostCategoryController::class, 'destroy'])->name('post_category.destroy')->middleware('permission:post_category.delete');
         Route::post('/post-category/status-change', [PostCategoryController::class, 'changeStatus'])->name('post_category.status');
 
         // Posts
-        Route::resource('post', PostController::class);
+        Route::resource('post', PostController::class)->middleware([
+            'index'   => 'permission:post.index',
+            'create'  => 'permission:post.create',
+            'store'   => 'permission:post.create',
+            'edit'    => 'permission:post.edit',
+            'update'  => 'permission:post.edit',
+            'destroy' => 'permission:post.delete',
+        ]);
         Route::post('/post/status-change', [PostController::class, 'postChangeStatus'])->name('post.status');
 
         
@@ -277,74 +309,62 @@ Route::prefix('admin')
         Route::delete('contact-form-msg/delete/{id}', [InboxController::class, 'destroy'])->name('contact_form_message.destroy');
 
         // Newsletter
-        Route::get('Newslatter', [NewslatterController::class, 'index'])->name('newslatter');
-        Route::delete('newsletter/destroy/{id}', [NewslatterController::class, 'destroy'])->name('newslatter.destroy');
+        Route::get('Newslatter', [NewslatterController::class, 'index'])->name('newslatter')->middleware('permission:newslatter.index');
+        Route::delete('newsletter/destroy/{id}', [NewslatterController::class, 'destroy'])->name('newslatter.destroy')->middleware('permission:newslatter.delete');
 
+        
+        
         // SMS api / custom message Settings
-        Route::get('sms-settings', [SmsSettingController::class, 'edit'])->name('sms-settings.edit');
-        Route::put('sms-settings', [SmsSettingController::class, 'update'])->name('sms-settings.update');
+        Route::get('sms-settings', [SmsSettingController::class, 'edit'])->name('sms-settings.edit')->middleware('permission:sms-settings.edit');
+        Route::put('sms-settings', [SmsSettingController::class, 'update'])->name('sms-settings.update')->middleware('permission:sms-settings.edit');
 
 
         // block list routes
-        Route::get('block-list', [BlocklistController::class, 'index'])->name('block.list');
-        Route::post('store-blocklist', [BlocklistController::class, 'store'])->name('block.number');
-        Route::delete('/unblock/{id}', [BlocklistController::class, 'unblock'])->name('unblock.number');
+        Route::get('block-list', [BlocklistController::class, 'index'])->name('block.list')->middleware('permission:block.list');
+        Route::post('store-blocklist', [BlocklistController::class, 'store'])->name('block.number')->middleware('permission:blocked_number');
+        Route::delete('/unblock/{id}', [BlocklistController::class, 'unblock'])->name('unblock.number')->middleware('permission:block.unblock');
 
         
         // Website Color routes
-        Route::get('website-color', [WebsiteColorController::class, 'edit'])->name('website_color.edit');
-        Route::put('/website-color/update/{id}', [WebsiteColorController::class, 'update'])->name('website_color.update');
+        Route::get('website-color', [WebsiteColorController::class, 'edit'])->name('website_color.edit')->middleware('permission:color_theme_settings.index');
+        Route::put('/website-color/update/{id}', [WebsiteColorController::class, 'update'])->name('website_color.update')->middleware('permission:color_theme_settings.edit');
 
         // Message
-        Route::prefix('message')->group(function () {
-            Route::get('/', [MessageSendController::class, 'index'])->name('message.index');
-            Route::get('create', [MessageSendController::class, 'create'])->name('message.create');
-            Route::post('store', [MessageSendController::class, 'store'])->name('message.store');
-            Route::get('edit/{id}', [MessageSendController::class, 'edit'])->name('message.edit');
-            Route::get('detail/{id}', [MessageSendController::class, 'detail'])->name('message.detail');
-            Route::put('update/{id}', [MessageSendController::class, 'update'])->name('message.update');
-            Route::delete('destroy/{id}', [MessageSendController::class, 'destroy'])->name('message.destroy');
-        });
 
-        Route::post('/send-message', [MessageSendController::class, 'send'])->name('send.message');
-        Route::get('/custom-sms', [MessageSendController::class, 'customSms'])->name('custom.sms');
+        Route::get('/message', [MessageSendController::class, 'index'])->name('message.index')->middleware('permission:sms');
+        Route::post('/send-message', [MessageSendController::class, 'send'])->name('send.message')->middleware('permission:sms.send');
+        Route::get('/custom-sms', [MessageSendController::class, 'customSms'])->name('custom.sms')->middleware('permission:sms.custom');
 
         // Sms Report
         Route::prefix('sms-report')->group(function () {
-            Route::get('sms-report', [SmsReportController::class, 'index'])->name('sms-report.index');
-            Route::delete('destroy/{id}', [SmsReportController::class, 'destroy'])->name('sms-report.destroy');
+            Route::get('sms-report', [SmsReportController::class, 'index'])->name('sms-report.index')->middleware('permission:sms.report');
+            Route::delete('destroy/{id}', [SmsReportController::class, 'destroy'])->name('sms-report.destroy')->middleware('permission:sms.report.delete');
         });
 
 
         // Privacy policy route
-        Route::get('privacy-policy', [PrivacypolicyController::class, 'privacyPolicy'])->name('privacy_policy');
-        Route::put('/privacy-policy/{id}', [PrivacypolicyController::class, 'update'])->name('privacy_policy.update');
+        Route::get('privacy-policy', [PrivacypolicyController::class, 'privacyPolicy'])->name('privacy_policy')->middleware('permission:privacy_policy');
+        Route::put('/privacy-policy/{id}', [PrivacypolicyController::class, 'update'])->name('privacy_policy.update')->middleware('permission:privacy_policy');
 
         //Return and refund
-        Route::get('return-refund', [ReturnrefundController::class, 'returnRefund'])->name('return_refund');
-        Route::put('/return-refund/update/{id}', [ReturnrefundController::class, 'update'])->name('return_refund.update');
+        Route::get('return-refund', [ReturnrefundController::class, 'returnRefund'])->name('return_refund')->middleware('permission:return_refund');
+        Route::put('/return-refund/update/{id}', [ReturnrefundController::class, 'update'])->name('return_refund.update')->middleware('permission:return_refund');
 
         // Terms And Condition
-        Route::get('/terms-and-condition', [TermsAdnCondiotnController::class, 'termsAndCondition'])->name('terms_and_condtion');
-        Route::put('/terms-and-condition/update/{id}', [TermsAdnCondiotnController::class, 'update'])->name('terms_and_conditon.update');
+        Route::get('/terms-and-condition', [TermsAdnCondiotnController::class, 'termsAndCondition'])->name('terms_and_condtion')->middleware('permission:terms_and_condtion');
+        Route::put('/terms-and-condition/update/{id}', [TermsAdnCondiotnController::class, 'update'])->name('terms_and_conditon.update')->middleware('permission:terms_and_condtion');
 
 
         //Visit log route
-        Route::get('visit-log', [VisitLogController::class, 'index'])->name('visit.log.index');
+        Route::get('visit-log', [VisitLogController::class, 'index'])->name('visit.log.index')->middleware('permission:visit.log.index');
         Route::get('visit-track', [VisitLogController::class, 'trackVisitor'])->name('visit.log.track');
 
 
-        // Previlege route here
-        Route::get('privilege', [PrivilegeController::class, 'index'])->name('privilege.index');
-        // Route::get('/get-users-by-role/{roleId}', [PrivilegeController::class, 'getUsersByRole'])->name('privilege.getUsersByRole');
-        // Route::get('/users/{user}/permissions', [PrivilegeController::class, 'getUserPermissions'])->name('privilege.getUserPermissions');
-        // Route::post('/user-permissions', [PrivilegeController::class, 'updateUserPermission'])->name('privilege.updateUserPermission');
-
+        // Previlege route here 
+        Route::get('privilege', [PrivilegeController::class, 'index'])->name('privilege.index')->middleware('permission:privilege.index');
         Route::get('/get-users-by-role/{role}', [PrivilegeController::class, 'getUsersByRole']);
         Route::post('/save-user-permissions', [PrivilegeController::class, 'savePermissions'])->name('admin.save.permissions');
         Route::get('/get-user-permissions/{user_id}', [PrivilegeController::class, 'getUserPermissions']);
-
-
 
 
     });

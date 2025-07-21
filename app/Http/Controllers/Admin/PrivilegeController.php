@@ -13,11 +13,24 @@ class PrivilegeController extends Controller
 {
     public function index()
     {
-        // $superAdminIds = User::where('system_admin', 'Super_admin')->pluck('id');
-        // $permissions = Permission::orderBy('permission_key')->get();
         $permissions = Permission::orderBy('permission_key')->get();
         return view('admin.layouts.pages.previlege.index', compact('permissions'));
     }
+
+    // public function index(Request $request)
+    // {
+    //     $userId = $request->input('user_id');
+
+    //     $user = $userId ? User::findOrFail($userId) : Auth::user();
+
+    //     $userPermissions = $user->permissions()->pluck('permission_key')->toArray();
+
+    //     $superAdminPermissions = $user->permissions()->where('assigned_by_type', 'Super_admin')->pluck('permission_key')->toArray();
+
+    //     $permissions = Permission::orderBy('permission_key')->get();
+
+    //     return view('admin.layouts.pages.previlege.index', compact('permissions', 'user', 'userPermissions', 'superAdminPermissions'));
+    // }
 
     public function getUsersByRole($role)
     {
@@ -36,13 +49,15 @@ class PrivilegeController extends Controller
     //     ]);
 
     //     $user = User::findOrFail($request->user_id);
+    //     $loggedInUser = Auth::user();
 
     //     $user->permissions()->delete();
 
     //     foreach ($request->permissions as $perm) {
     //         $user->permissions()->create([
     //             'permission_key' => $perm,
-    //             'assigned_by' => Auth::id(),
+    //             'assigned_by' => $loggedInUser->id,
+    //             'assigned_by_type' => $loggedInUser->system_admin,
     //         ]);
     //     }
 
@@ -56,27 +71,33 @@ class PrivilegeController extends Controller
             'permissions' => 'array',
         ]);
 
-        $user = User::findOrFail($request->user_id);
+        $targetUser = User::findOrFail($request->user_id);
         $newPermissions = $request->permissions ?? [];
+        $loggedInUser = Auth::user();
 
-        $existingPermissions = $user->permissions()->pluck('permission_key')->toArray();
+        $existingPermissions = $targetUser->permissions()->where('assigned_by', $loggedInUser->id)->pluck('permission_key')->toArray();
 
         $toAdd = array_diff($newPermissions, $existingPermissions);
-
         $toRemove = array_diff($existingPermissions, $newPermissions);
 
         foreach ($toAdd as $perm) {
-            $user->permissions()->create([
-                'permission_key' => $perm,
-                'assigned_by' => Auth::id(),
-            ]);
+            $targetUser->permissions()->updateOrCreate(
+                [
+                    'permission_key' => $perm,
+                    'assigned_by' => $loggedInUser->id,
+                    'assigned_by_type' => $loggedInUser->system_admin,
+                ],
+                [
+                    'updated_at' => now(),
+                ],
+            );
         }
 
         if (!empty($toRemove)) {
-            $user->permissions()->whereIn('permission_key', $toRemove)->delete();
+            $targetUser->permissions()->where('assigned_by', $loggedInUser->id)->whereIn('permission_key', $toRemove)->delete();
         }
 
-        return back()->with('success', 'Permissions updated successfully!');
+        return back()->with('success', 'Permissions saved/updated successfully.');
     }
 
     public function getUserPermissions($user_id)

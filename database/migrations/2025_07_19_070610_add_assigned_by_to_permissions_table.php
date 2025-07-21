@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->unsignedBigInteger('assigned_by')->nullable()->after('permission_key');
+            $table->unsignedInteger('assigned_by')->nullable()->after('permission_key');
+            $table->string('assigned_by_type')->nullable()->after('assigned_by');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('permissions', function (Blueprint $table) {
             $table->dropColumn('assigned_by');
+            $table->dropColumn('assigned_by_type');
         });
     }
 };

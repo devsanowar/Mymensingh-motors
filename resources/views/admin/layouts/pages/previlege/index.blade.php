@@ -81,516 +81,774 @@
                                     </tr>
                                 </thead>
                                 <tbody class="previlege-table">
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input type="checkbox"
-                                                    class="form-check-input parent-checkbox permission-checkbox"
-                                                    data-group="dashboard" id="perm-dashboard-parent" data-id="dashboard">
-                                                <label class="form-check-label"
-                                                    for="perm-dashboard-parent"><strong>Dashboard</strong></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="dashboard" data-id="dashboard"
-                                                    id="perm-dashboard">
-                                                <label class="form-check-label" for="perm-dashboard">Access
-                                                    Dashboard</label>
-                                            </div>
-                                        </td>
-                                    </tr>
 
-                                    <tr class="previlege-menu-item">
-                                        
-                                        <td>
-                                            <div class="form-check">
-                                                <input type="checkbox"
-                                                    class="form-check-input parent-checkbox permission-checkbox"
-                                                    data-group="home" id="perm-home-parent" data-id="home">
-                                                <label class="form-check-label" for="perm-home-parent"><strong>Home
-                                                        Page</strong>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <!-- Slider Section -->
-                                            <div class="d-flex flex-wrap">
-                                                <div class="mr-3 mb-2">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="sliderDropdownBtn">
-                                                            <span>Slider</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="sliderDropdownBtn">
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-slider-index" data-id="home.slider.index"
-                                                                    name="permissions[]" value="home.slider.index">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-slider-index">View</label>
+
+                                    @php
+                                        $isSuperAdmin = Auth::user()->system_admin === 'Super_admin';
+                                        $isAdmin = Auth::user()->system_admin === 'Admin';
+
+                                        $permissionKeys = ['dashboard'];
+
+                                        $hasPermissionFromSuperAdmin = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $permissionKeys,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasPermissionFromSuperAdmin))
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                        class="form-check-input parent-checkbox permission-checkbox"
+                                                        data-group="dashboard" id="perm-dashboard-parent"
+                                                        data-id="dashboard">
+                                                    <label class="form-check-label" for="perm-dashboard-parent">
+                                                        <strong>Dashboard</strong>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input child-checkbox permission-checkbox"
+                                                        type="checkbox" data-group="dashboard" data-id="dashboard"
+                                                        id="perm-dashboard" value="dashboard.access"
+                                                        {{ in_array('dashboard.access', $userPermissions ?? []) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="perm-dashboard">Access
+                                                        Dashboard</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+
+
+                                    @php
+                                        $isSuperAdmin = Auth::user()->system_admin === 'Super_admin';
+                                        $isAdmin = Auth::user()->system_admin === 'Admin';
+
+                                        $homePermission = ['home'];
+
+                                        $hasHomePermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $homePermission,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasHomePermission))
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox"
+                                                        class="form-check-input parent-checkbox permission-checkbox"
+                                                        data-group="home" id="perm-home-parent" data-id="home"
+                                                        value="home">
+                                                    <label class="form-check-label" for="perm-home-parent"><strong>Home
+                                                            Page</strong>
+                                                    </label>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex flex-wrap">
+                                                    <!-- Slider Section -->
+                                                    @php
+                                                        $sliderPermissions = [
+                                                            'home.slider.index',
+                                                            'home.slider.create',
+                                                            'home.slider.edit',
+                                                            'home.slider.delete',
+                                                        ];
+
+                                                        $hasSliderPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $sliderPermissions,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasSliderPermission))
+                                                        <div class="mr-3 mb-2">
+                                                            <div class="dropdown">
+                                                                <button
+                                                                    class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                    type="button" data-toggle="dropdown"
+                                                                    aria-haspopup="true" aria-expanded="false"
+                                                                    id="sliderDropdownBtn">
+                                                                    <span>Slider</span>
+                                                                    <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu p-3 shadow"
+                                                                    aria-labelledby="sliderDropdownBtn">
+                                                                    <div class="form-check">
+
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-slider-index"
+                                                                            data-id="home.slider.index" name="permissions[]"
+                                                                            value="home.slider.index">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-slider-index">View</label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-slider-create"
+                                                                            data-id="home.slider.create"
+                                                                            name="permissions[]" value="home.slider.create">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-slider-create">Create</label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-slider-edit"
+                                                                            data-id="home.slider.edit" name="permissions[]"
+                                                                            value="home.slider.edit">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-slider-edit">edit</label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-slider-delete"
+                                                                            data-id="home.slider.delete"
+                                                                            name="permissions[]"
+                                                                            value="home.slider.delete">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-slider-delete">Delete</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-slider-create"
-                                                                    data-id="home.slider.create" name="permissions[]"
-                                                                    value="home.slider.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-slider-create">Create</label>
+                                                        </div>
+                                                    @endif
+
+
+                                                    <!--Start Promo banner home menu-->
+
+                                                    @php
+                                                        $promobannerPermission = [
+                                                            'home.promobanner.index',
+                                                            'home.promobanner.create',
+                                                            'home.promobanner.edit',
+                                                        ];
+
+                                                        $hasPromobannerPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $promobannerPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasPromobannerPermission))
+                                                        <div class="mr-3 mb-2">
+                                                            <div class="dropdown">
+                                                                <button
+                                                                    class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                    type="button" data-toggle="dropdown"
+                                                                    aria-haspopup="true" aria-expanded="false"
+                                                                    id="promobannerDropdownBtn">
+                                                                    <span>Promo Banner</span>
+                                                                    <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu p-3 shadow"
+                                                                    aria-labelledby="promobannerDropdownBtn">
+                                                                    <div class="form-check">
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-promobanner-index"
+                                                                            data-id="home.promobanner.index"
+                                                                            name="permissions[]"
+                                                                            value="home.promobanner.index">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-promobanner-index">
+                                                                            View
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <div class="form-check">
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-promobanner-create"
+                                                                            data-id="home.promobanner.create"
+                                                                            name="permissions[]"
+                                                                            value="home.promobanner.create">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-promobanner-create">
+                                                                            Create
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <div class="form-check">
+                                                                        <input
+                                                                            class="form-check-input child-checkbox permission-checkbox"
+                                                                            type="checkbox" data-group="home"
+                                                                            id="perm-home-promobanner-edit"
+                                                                            data-id="home.promobanner.edit"
+                                                                            name="permissions[]"
+                                                                            value="home.promobanner.edit">
+                                                                        <label class="form-check-label"
+                                                                            for="perm-home-promobanner-edit">
+                                                                            Edit
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-slider-edit" data-id="home.slider.edit"
-                                                                    name="permissions[]" value="home.slider.edit">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-slider-edit">edit</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-slider-delete"
-                                                                    data-id="home.slider.delete" name="permissions[]"
-                                                                    value="home.slider.delete">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-slider-delete">Delete</label>
+                                                        </div>
+                                                    @endif
+                                                    <!-- End promo banner menu-->
+
+                                                    <!-- About Dropdown -->
+
+                                                    @php
+                                                        $aboutPermission = [
+                                                            'home.about.index',
+                                                            'home.about.edit',
+                                                        ];
+
+                                                        $hasAboutPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $aboutPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasAboutPermission))
+
+                                                    <div class="mr-3 mb-2 d-inline-block">
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                id="aboutDropdownBtn">
+                                                                <span>About</span>
+                                                                <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu p-3 shadow"
+                                                                aria-labelledby="aboutDropdownBtn">
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-about-index"
+                                                                        data-id="home.about.index" name="permissions[]"
+                                                                        value="home.about.index">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-about-index">View</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-about-edit"
+                                                                        data-id="home.about.edit" name="permissions[]"
+                                                                        value="home.about.edit">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-about-edit">edit</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <!--Start Promo banner home menu-->
-                                                <div class="mr-3 mb-2">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="promobannerDropdownBtn">
-                                                            <span>Promo Banner</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="promobannerDropdownBtn">
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-promobanner-index"
-                                                                    data-id="home.promobanner.index" name="permissions[]"
-                                                                    value="home.promobanner.index">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-promobanner-index">
-                                                                    View
-                                                                </label>
-                                                            </div>
+                                                    @endif
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-promobanner-create"
-                                                                    data-id="home.promobanner.create" name="permissions[]"
-                                                                    value="home.promobanner.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-promobanner-create">
-                                                                    Create
-                                                                </label>
-                                                            </div>
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-promobanner-edit"
-                                                                    data-id="home.promobanner.edit" name="permissions[]"
-                                                                    value="home.promobanner.edit">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-promobanner-edit">
-                                                                    Edit
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    <!-- Why Choose Us Dropdown -->
 
-                                                <!-- End promo banner menu-->
+                                                    @php
+                                                        $whychoseusPermission = [
+                                                            'home.why_chose_us.index',
+                                                            'home.why_chose_us.create',
+                                                            'home.why_chose_us.edit',
+                                                            'home.why_chose_us.delete',
+                                                        ];
 
-                                                <!-- About Dropdown -->
-                                                <div class="mr-3 mb-2 d-inline-block">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="aboutDropdownBtn">
-                                                            <span>About</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="aboutDropdownBtn">
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-about-index" data-id="home.about.index"
-                                                                    name="permissions[]" value="home.about.index">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-about-index">View</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-about-edit" data-id="home.about.edit"
-                                                                    name="permissions[]" value="home.about.edit">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-about-edit">edit</label>
+                                                        $hasWhychoseusPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $whychoseusPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasWhychoseusPermission))
+
+                                                    <div class="mr-3 mb-2 d-inline-block">
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                id="whyDropdownBtn">
+                                                                <span>Why Choose Us</span>
+                                                                <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu p-3 shadow"
+                                                                aria-labelledby="whyDropdownBtn">
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-why-index"
+                                                                        data-id="home.why_chose_us.index"
+                                                                        name="permissions[]"
+                                                                        value="home.why_chose_us.index">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-why-index">View</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-why-create"
+                                                                        data-id="home.why_chose_us.create"
+                                                                        name="permissions[]"
+                                                                        value="home.why_chose_us.create">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-why-create">Create</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-why-edit"
+                                                                        data-id="home.why_chose_us.edit"
+                                                                        name="permissions[]"
+                                                                        value="home.why_chose_us.edit">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-why-edit">Edit</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-why-delete"
+                                                                        data-id="home.why_chose_us.delete"
+                                                                        name="permissions[]"
+                                                                        value="home.why_chose_us.delete">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-why-delete">Delete</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    @endif
 
-                                                <!-- Why Choose Us Dropdown -->
-                                                <div class="mr-3 mb-2 d-inline-block">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="whyDropdownBtn">
-                                                            <span>Why Choose Us</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="whyDropdownBtn">
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-why-index"
-                                                                    data-id="home.why_chose_us.index" name="permissions[]"
-                                                                    value="home.why_chose_us.index">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-why-index">View</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-why-create"
-                                                                    data-id="home.why_chose_us.create"
-                                                                    name="permissions[]" value="home.why_chose_us.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-why-create">Create</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-why-edit"
-                                                                    data-id="home.why_chose_us.edit" name="permissions[]"
-                                                                    value="home.why_chose_us.edit">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-why-edit">Edit</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-why-delete"
-                                                                    data-id="home.why_chose_us.delete"
-                                                                    name="permissions[]" value="home.why_chose_us.delete">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-why-delete">Delete</label>
+                                                    <!-- CTA Dropdown -->
+
+                                                    @php
+                                                        $ctaPermission = [
+                                                            'home.cta.index',
+                                                            'home.cta.create',
+                                                            'home.cta.edit',
+                                                            'home.cta.delete',
+                                                        ];
+
+                                                        $hasCtaPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $ctaPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasCtaPermission))
+                                                    <div class="mr-3 mb-2 d-inline-block">
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                id="ctaDropdownBtn">
+                                                                <span>CTA</span>
+                                                                <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu p-3 shadow"
+                                                                aria-labelledby="ctaDropdownBtn">
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-cta-index" data-id="home.cta.index"
+                                                                        name="permissions[]" value="home.cta.index">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-cta-index">
+                                                                        View
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-cta-create"
+                                                                        data-id="home.cta.create" name="permissions[]"
+                                                                        value="home.cta.create">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-cta-create">
+                                                                        Create
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-cta-edit" data-id="home.cta.edit"
+                                                                        name="permissions[]" value="home.cta.edit">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-cta-edit">
+                                                                        Edit
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-cta-delete"
+                                                                        data-id="home.cta.delete" name="permissions[]"
+                                                                        value="home.cta.delete">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-cta-delete">
+                                                                        Delete
+                                                                    </label>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    @endif
+
+                                                    <!-- Achievement Dropdown -->
+                                                    @php
+                                                        $achievementPermission = [
+                                                            'home.achievement.index',
+                                                            'home.achievement.create',
+                                                            'home.achievement.edit',
+                                                            'home.achievement.delete',
+                                                        ];
+
+                                                        $hasAchievementPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $achievementPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
 
 
-                                                <!-- CTA Dropdown -->
-                                                <div class="mr-3 mb-2 d-inline-block">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="ctaDropdownBtn">
-                                                            <span>CTA</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="ctaDropdownBtn">
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasAchievementPermission))
+                                                    <div class="mr-3 mb-2 d-inline-block">
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                id="achievementDropdownBtn">
+                                                                <span>Achievement</span>
+                                                                <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu p-3 shadow"
+                                                                aria-labelledby="achievementDropdownBtn">
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-cta-index" data-id="home.cta.index"
-                                                                    name="permissions[]" value="home.cta.index">
-                                                                <label class="form-check-label" for="perm-home-cta-index">
-                                                                    View
-                                                                </label>
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-achievement-index"
+                                                                        data-id="home.achievement.index"
+                                                                        name="permissions[]"
+                                                                        value="home.achievement.index">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-achievement-index">
+                                                                        View
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-achievement-create"
+                                                                        data-id="home.achievement.create"
+                                                                        name="permissions[]"
+                                                                        value="home.achievement.create">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-achievement-create">
+                                                                        Create
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-achievement-edit"
+                                                                        data-id="home.achievement.edit"
+                                                                        name="permissions[]"
+                                                                        value="home.achievement.edit">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-achievement-edit">
+                                                                        Edit
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-achievement-delete"
+                                                                        data-id="home.achievement.delete"
+                                                                        name="permissions[]"
+                                                                        value="home.achievement.delete">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-achievement-delete">
+                                                                        Delete
+                                                                    </label>
+                                                                </div>
+
                                                             </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-cta-create" data-id="home.cta.create"
-                                                                    name="permissions[]" value="home.cta.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-cta-create">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-cta-edit" data-id="home.cta.edit"
-                                                                    name="permissions[]" value="home.cta.edit">
-                                                                <label class="form-check-label" for="perm-home-cta-edit">
-                                                                    Edit
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-cta-delete" data-id="home.cta.delete"
-                                                                    name="permissions[]" value="home.cta.delete">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-cta-delete">
-                                                                    Delete
-                                                                </label>
-                                                            </div>
-
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    @endif
 
+                                                    <!-- End Achievement home page menu -->
 
-                                                <!-- Achievement Dropdown -->
-                                                <div class="mr-3 mb-2 d-inline-block">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="achievementDropdownBtn">
-                                                            <span>Achievement</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="achievementDropdownBtn">
+                                                    <!-- Review Dropdown -->
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-achievement-index"
-                                                                    data-id="home.achievement.index" name="permissions[]"
-                                                                    value="home.achievement.index">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-achievement-index">
-                                                                    View
-                                                                </label>
+                                                    @php
+                                                        $reviewPermission = [
+                                                            'home.review.index',
+                                                            'home.review.create',
+                                                            'home.review.edit',
+                                                            'home.review.delete',
+                                                        ];
+
+                                                        $hasReviewPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $reviewPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasReviewPermission))
+
+                                                    <div class="mr-3 mb-2 d-inline-block">
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                id="reviewDropdownBtn">
+                                                                <span>Review</span>
+                                                                <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu p-3 shadow"
+                                                                aria-labelledby="reviewDropdownBtn">
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-review-index"
+                                                                        data-id="home.review.index" name="permissions[]"
+                                                                        value="home.review.index">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-review-index">
+                                                                        View
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-review-create"
+                                                                        data-id="home.review.create" name="permissions[]"
+                                                                        value="home.review.create">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-review-create">
+                                                                        Create
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-review-edit"
+                                                                        data-id="home.review.edit" name="permissions[]"
+                                                                        value="home.review.edit">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-review-edit">
+                                                                        Edit
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-review-delete"
+                                                                        data-id="home.review.delete" name="permissions[]"
+                                                                        value="home.review.delete">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-review-delete">
+                                                                        Delete
+                                                                    </label>
+                                                                </div>
+
                                                             </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-achievement-create"
-                                                                    data-id="home.achievement.create" name="permissions[]"
-                                                                    value="home.achievement.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-achievement-create">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-achievement-edit"
-                                                                    data-id="home.achievement.edit" name="permissions[]"
-                                                                    value="home.achievement.edit">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-achievement-edit">
-                                                                    Edit
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-achievement-delete"
-                                                                    data-id="home.achievement.delete" name="permissions[]"
-                                                                    value="home.achievement.delete">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-achievement-delete">
-                                                                    Delete
-                                                                </label>
-                                                            </div>
-
                                                         </div>
                                                     </div>
-                                                </div>
+
+                                                    @endif
 
 
-                                                <!-- End Achievement home page menu -->
+                                                    <!-- FAQ Dropdown -->
 
-                                                <!-- Review Dropdown -->
-                                                <div class="mr-3 mb-2 d-inline-block">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="reviewDropdownBtn">
-                                                            <span>Review</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="reviewDropdownBtn">
+                                                    @php
+                                                        $faqPermission = [
+                                                            'home.faq.index',
+                                                            'home.faq.create',
+                                                            'home.faq.edit',
+                                                            'home.faq.delete',
+                                                        ];
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-review-index"
-                                                                    data-id="home.review.index" name="permissions[]"
-                                                                    value="home.review.index">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-review-index">
-                                                                    View
-                                                                </label>
+                                                        $hasFaqPermission = \App\Models\Permission::whereIn(
+                                                            'permission_key',
+                                                            $faqPermission,
+                                                        )
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+                                                    @endphp
+
+                                                    @if ($isSuperAdmin || ($isAdmin && $hasFaqPermission))
+
+                                                    <div class="mr-3 mb-2 d-inline-block">
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                id="faqDropdownBtn">
+                                                                <span>FAQ</span>
+                                                                <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu p-3 shadow"
+                                                                aria-labelledby="faqDropdownBtn">
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-faq-index" data-id="home.faq.index"
+                                                                        name="permissions[]" value="home.faq.index">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-faq-index">
+                                                                        View
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-faq-create"
+                                                                        data-id="home.faq.create" name="permissions[]"
+                                                                        value="home.faq.create">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-faq-create">
+                                                                        Create
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-faq-edit" data-id="home.faq.edit"
+                                                                        name="permissions[]" value="home.faq.edit">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-faq-edit">
+                                                                        edit
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input
+                                                                        class="form-check-input child-checkbox permission-checkbox"
+                                                                        type="checkbox" data-group="home"
+                                                                        id="perm-home-faq-delete"
+                                                                        data-id="home.faq.delete" name="permissions[]"
+                                                                        value="home.faq.delete">
+                                                                    <label class="form-check-label"
+                                                                        for="perm-home-faq-delete">
+                                                                        Delete
+                                                                    </label>
+                                                                </div>
+
                                                             </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-review-create"
-                                                                    data-id="home.review.create" name="permissions[]"
-                                                                    value="home.review.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-review-create">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-review-edit" data-id="home.review.edit"
-                                                                    name="permissions[]" value="home.review.edit">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-review-edit">
-                                                                    Edit
-                                                                </label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-review-delete"
-                                                                    data-id="home.review.delete" name="permissions[]"
-                                                                    value="home.review.delete">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-review-delete">
-                                                                    Delete
-                                                                </label>
-                                                            </div>
-
                                                         </div>
                                                     </div>
-                                                </div>
+
+                                                    @endif
+                                                    <!-- End FAQ home page menu -->
+                                            </td>
+
+                                        </tr>
+
+                                    @endif
 
 
-                                                <!-- FAQ Dropdown -->
-                                                <div class="mr-3 mb-2 d-inline-block">
-                                                    <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-light dropdown-toggle d-flex align-items-center justify-content-between"
-                                                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false" id="faqDropdownBtn">
-                                                            <span>FAQ</span>
-                                                            <i class="fas fa-chevron-down ml-2 dropdown-icon"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu p-3 shadow"
-                                                            aria-labelledby="faqDropdownBtn">
+                                    @php
+                                        $isSuperAdmin = Auth::user()->system_admin === 'Super_admin';
+                                        $isAdmin = Auth::user()->system_admin === 'Admin';
+                                        $aboutPagePermission = [
+                                            'about',
+                                        ];
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-faq-index" data-id="home.faq.index"
-                                                                    name="permissions[]" value="home.faq.index">
-                                                                <label class="form-check-label" for="perm-home-faq-index">
-                                                                    View
-                                                                </label>
-                                                            </div>
+                                        $hasAboutPagePermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $aboutPagePermission,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-faq-create" data-id="home.faq.create"
-                                                                    name="permissions[]" value="home.faq.create">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-faq-create">
-                                                                    Create
-                                                                </label>
-                                                            </div>
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-faq-edit" data-id="home.faq.edit"
-                                                                    name="permissions[]" value="home.faq.edit">
-                                                                <label class="form-check-label" for="perm-home-faq-edit">
-                                                                    edit
-                                                                </label>
-                                                            </div>
+                                    @if ($isSuperAdmin || ($isAdmin && $hasAboutPagePermission))
 
-                                                            <div class="form-check">
-                                                                <input
-                                                                    class="form-check-input child-checkbox permission-checkbox"
-                                                                    type="checkbox" data-group="home"
-                                                                    id="perm-home-faq-delete" data-id="home.faq.delete"
-                                                                    name="permissions[]" value="home.faq.delete">
-                                                                <label class="form-check-label"
-                                                                    for="perm-home-faq-delete">
-                                                                    Delete
-                                                                </label>
-                                                            </div>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <!-- End FAQ home page menu -->
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <!-- Parent checkbox: About -->
                                         <td>
+
                                             <div class="form-check">
                                                 <input type="checkbox"
                                                     class="form-check-input parent-checkbox permission-checkbox"
@@ -600,10 +858,27 @@
                                                     <strong>About Page</strong>
                                                 </label>
                                             </div>
+
                                         </td>
                                         <td>
 
                                             <!-- Chairman Info Settings Dropdown -->
+                                            @php
+                                            
+                                            $chairmanPermision = [
+                                                'about.chairman.info.edit',
+                                            ];
+
+                                            $hasChairmanPermission = \App\Models\Permission::whereIn(
+                                                'permission_key',
+                                                $chairmanPermision,
+                                            )
+                                                ->where('user_id', Auth::id())
+                                                ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasChairmanPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -634,8 +909,30 @@
                                                 </div>
                                             </div>
 
+                                            @endif
+
+
 
                                             <!-- Mission & Vision Settings Dropdown -->
+                                            @php
+                                            
+                                            $missionVisionPermission = [
+                                                'mission.mission.vision',
+                                                'mission.page.edit',
+                                                'vission.page.edit'
+                                            ];
+
+                                            $hasMissionVissionPermission = \App\Models\Permission::whereIn(
+                                                'permission_key',
+                                                $missionVisionPermission,
+                                            )
+                                                ->where('user_id', Auth::id())
+                                                ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasMissionVissionPermission))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -649,6 +946,19 @@
                                                         aria-labelledby="missionVisionDropdownBtn">
 
                                                         <!-- Mission Edit -->
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input child-checkbox permission-checkbox"
+                                                                type="checkbox" data-group="about_page"
+                                                                data-id="mission.mission.vision" value="mission.vision"
+                                                                id="perm-mission-vision-page" name="permissions[]">
+                                                            <label class="form-check-label"
+                                                                for="perm-mission-page-vision-page">
+                                                                Mission & Vision
+                                                            </label>
+                                                        </div>
+
+
                                                         <div class="form-check">
                                                             <input
                                                                 class="form-check-input child-checkbox permission-checkbox"
@@ -676,11 +986,35 @@
                                                 </div>
                                             </div>
 
+                                            @endif
+
+
                                         </td>
 
 
                                     </tr>
 
+                                    @endif
+
+
+                                    <!--Product Start-->
+
+                                    @php
+                                            
+                                    $productSectionPermissionkey = [
+                                        'product',
+                                    ];
+
+                                    $hasProductSectionPermission = \App\Models\Permission::whereIn(
+                                        'permission_key',
+                                        $productSectionPermissionkey,
+                                    )
+                                        ->where('user_id', Auth::id())
+                                        ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasProductSectionPermission))
 
 
                                     <tr>
@@ -695,8 +1029,26 @@
                                             </div>
                                         </td>
                                         <td>
-
                                             <!-- Product Dropdown -->
+                                        @php
+                                                
+                                        $productPermission = [
+                                            'product.index',
+                                            'product.create',
+                                            'product.edit',
+                                            'product.delete',
+                                        ];
+
+                                        $hasProductPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $productPermission,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                        @endphp
+
+
+                                        @if ($isSuperAdmin || ($isAdmin && $hasProductPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -756,10 +1108,32 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @endif
 
 
                                             <!-- Product Category Dropdown -->
+
+
+                                            @php
+                                                
+                                                $productCategoryPermissionkey = [
+                                                    'product.category.index',
+                                                    'product.category.create',
+                                                    'product.category.edit',
+                                                    'product.category.delete',
+                                                ];
+
+                                                $hasProductCategory = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $productCategoryPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasProductCategory))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -819,10 +1193,30 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @endif
 
 
                                             <!-- Brand Dropdown -->
+
+                                            @php
+                                                
+                                                $productBrandPermissionKey = [
+                                                    'product.brand.index',
+                                                    'product.brand.create',
+                                                    'product.brand.edit',
+                                                    'product.brand.delete',
+                                                ];
+
+                                                $hasBrandPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $productBrandPermissionKey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasBrandPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -882,10 +1276,29 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @endif
 
 
                                             <!-- Product Unit Dropdown -->
+                                            @php
+                                                
+                                                $productUnitPermission = [
+                                                    'product.unit.index',
+                                                    'product.unit.create',
+                                                    'product.unit.edit',
+                                                    'product.unit.delete',
+                                                ];
+
+                                                $hasProductUnitPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $productUnitPermission,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasProductUnitPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -947,13 +1360,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
 
                                         </td>
                                     </tr>
 
+                                    @endif
 
 
+
+                                    <!--Stock Start-->
+
+                                    @php
+                                                
+                                        $stockPermissionKey = [
+                                            'stock',
+                                            'stock.management',
+                                            'stock.edit',
+                                            'stock.logs',
+                                        ];
+
+                                        $hasStockPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $stockPermissionKey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasStockPermission)) 
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -966,7 +1403,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            
+
                                             <div class="form-check">
                                                 <input type="checkbox"
                                                     class="form-check-input child-checkbox permission-checkbox"
@@ -998,10 +1435,30 @@
                                                 </label>
                                             </div>
 
-                                            
+
                                         </td>
                                     </tr>
 
+                                    @endif
+
+                                    <!--Cost Start-->
+
+                                    @php
+                                                
+                                        $costRowPermissionkey = [
+                                            'cost'
+                                        ];
+
+                                        $hasCostRowPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $costRowPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasCostRowPermission))
 
                                     <tr>
                                         <!-- Parent: Cost -->
@@ -1018,6 +1475,26 @@
 
                                         <!-- Child: Cost Category -->
                                         <td>
+
+                                            @php
+                                                
+                                                $costCategoryPermissionkey = [
+                                                    'cost.cost_category.index',
+                                                    'cost.cost_category.create',
+                                                    'cost.cost_category.edit',
+                                                    'cost.cost_category.delete',
+                                                ];
+
+                                                $hasCostCategoryPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $costCategoryPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasCostCategoryPermission))
 
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
@@ -1037,7 +1514,8 @@
                                                                 data-group="cost" id="perm-cost-category-index"
                                                                 data-id="cost.cost_category.index" name="permissions[]"
                                                                 value="cost.cost_category.index">
-                                                            <label class="form-check-label" for="perm-cost-category-index">
+                                                            <label class="form-check-label"
+                                                                for="perm-cost-category-index">
                                                                 View
                                                             </label>
                                                         </div>
@@ -1080,12 +1558,33 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @endif
 
 
 
 
                                             <!-- Field Of Cost Dropdown -->
+
+                                            @php
+                                                
+                                                $fieldOfCostPermissionKey = [
+                                                    'cost.field_of_cost.index',
+                                                    'cost.field_of_cost.create',
+                                                    'cost.field_of_cost.edit',
+                                                    'cost.field_of_cost.delete',
+                                                ];
+
+                                                $hasFieldOfCostPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $fieldOfCostPermissionKey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasFieldOfCostPermission))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1148,12 +1647,34 @@
                                                 </div>
                                             </div>
 
-
+                                            @endif
 
 
                                             <!-- Child: Add Cost -->
 
                                             <!-- Cost Dropdown -->
+
+                                            @php
+                                                
+                                                $costPermissionKey = [
+                                                    'cost.index',
+                                                    'cost.create',
+                                                    'cost.edit',
+                                                    'cost.delete',
+                                                ];
+
+                                                $hasCostPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $costPermissionKey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasCostPermission))
+
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1171,8 +1692,8 @@
                                                             <input type="checkbox"
                                                                 class="form-check-input child-checkbox permission-checkbox"
                                                                 data-group="cost" id="perm-add-cost-index"
-                                                                data-id="cost.all_cost.index" name="permissions[]"
-                                                                value="cost.all_cost.index">
+                                                                data-id="cost.index" name="permissions[]"
+                                                                value="cost.index">
                                                             <label class="form-check-label" for="perm-add-cost-index">
                                                                 View
                                                             </label>
@@ -1216,12 +1737,34 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @endif
 
                                         </td>
                                     </tr>
+                                    @endif
 
 
+                                    <!--Shipping Start-->
+                                    @php
+                                                
+                                        $shippingPermissionkey = [
+                                            'shipping',
+                                            'shipping.index',
+                                            'shipping.create',
+                                            'shipping.edit',
+                                            'shipping.delete'
+                                        ];
+
+                                        $hasShippingPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $shippingPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasShippingPermission))
 
                                     <tr>
                                         <td>
@@ -1278,13 +1821,34 @@
                                         </td>
                                     </tr>
 
+                                    @endif
+
+
+
+                                    @php
+                                                
+                                        $districtUpazilaPermissionkey = [
+                                            'district_upazila'
+                                        ];
+
+                                        $hasDistrictUpazilaPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $districtUpazilaPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasDistrictUpazilaPermission))
+
                                     <tr>
                                         <td>
                                             <div class="form-check">
                                                 <input type="checkbox"
                                                     class="form-check-input parent-checkbox permission-checkbox"
                                                     data-group="district_upazila" id="perm-district-upazila-parent"
-                                                    data-id="district_upazila">
+                                                    data-id="district_upazila" value="district_upazila">
                                                 <label class="form-check-label" for="perm-district-upazila-parent">
                                                     <strong>District & Upazila</strong>
                                                 </label>
@@ -1293,6 +1857,27 @@
 
                                         <td>
                                             <!-- District Dropdown -->
+
+                                            @php
+                                                
+                                                $districtPermissionkey = [
+                                                    'district.index',
+                                                    'district.create',
+                                                    'district.edit',
+                                                    'district.delete'
+                                                ];
+
+                                                $hasDistrictPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $districtPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasDistrictPermission))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1356,10 +1941,30 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
 
 
                                             <!-- Upazila Dropdown -->
+                                            @php
+                                                
+                                                $upazilaPermissionkey = [
+                                                    'upazila.index',
+                                                    'upazila.create',
+                                                    'upazila.edit',
+                                                    'upazila.delete'
+                                                ];
+
+                                                $hasUpazilaPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $upazilaPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasUpazilaPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1423,10 +2028,36 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
 
                                         </td>
                                     </tr>
+
+                                    @endif
+
+
+
+                                    @php
+                                                
+                                        $orderPermissionKey = [
+                                            'orders',
+                                            'order.index',
+                                            'order.show',
+                                            'order.status',
+                                            'order.delete'
+                                        ];
+
+                                        $hasOrderPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $orderPermissionKey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasOrderPermission))
 
                                     <tr>
                                         <td>
@@ -1478,6 +2109,31 @@
 
                                         </td>
                                     </tr>
+
+                                    @endif
+
+                                    <!--Payment method-->
+
+                                    @php
+                                                
+                                        $paymentMethodKey = [
+                                            'payment_method',
+                                            'payment_method.index',
+                                            'payment_method.create',
+                                            'payment_method.edit',
+                                            'payment_method.delete'
+                                        ];
+
+                                        $hasPaymentMethod = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $paymentMethodKey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasPaymentMethod))
 
                                     <tr>
                                         <td>
@@ -1533,7 +2189,25 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
 
+                                    <!--Post Start-->
+                                    @php
+                                                
+                                        $postRowPermissionkey = [
+                                            'post'
+                                        ];
+
+                                        $hasPostRowPermissionkey = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $postRowPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasPostRowPermissionkey))
 
                                     <tr>
                                         <td>
@@ -1547,6 +2221,27 @@
                                         </td>
                                         <td>
                                             <!-- Post Category Dropdown -->
+
+                                            @php
+                                                
+                                                $postCategoryPermissionkey = [
+                                                    'post_category.index',
+                                                    'post_category.create',
+                                                    'post_category.edit',
+                                                    'post_category.delete'
+                                                ];
+
+                                                $hasPostCategoryPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $postCategoryPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasPostCategoryPermission))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1610,10 +2305,30 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @endif
 
 
                                             <!-- Post Dropdown -->
+
+                                            @php
+                                                
+                                                $postPermissionkey = [
+                                                    'post.index',
+                                                    'post.create',
+                                                    'post.edit',
+                                                    'post.delete',
+                                                ];
+
+                                                $hasPostPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $postPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasPostPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1673,11 +2388,33 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
                                         </td>
                                     </tr>
+                                    @endif
 
                                     <!--Start user menu-->
+
+                                    @php
+                                                
+                                        $userPermissionkey = [
+                                            'users',
+                                            'user.create',
+                                            'user.edit',
+                                            'user.delete',
+                                        ];
+
+                                        $hasUserPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $userPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasUserPermission))
 
                                     <tr>
                                         <td>
@@ -1722,14 +2459,38 @@
                                         </td>
                                     </tr>
 
+                                    @endif
+
                                     <!--End User Menu-->
+
+
+                                    @php
+                                                
+                                        $smsPermissionkey = [
+                                            'sms',
+                                            'sms.send',
+                                            'sms.custom',
+                                            'sms.report',
+                                            'sms.report.delete'
+                                        ];
+
+                                        $hasSmsPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $smsPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasSmsPermission))
 
                                     <tr>
                                         <td>
                                             <div class="form-check">
                                                 <input type="checkbox"
                                                     class="form-check-input parent-checkbox permission-checkbox"
-                                                    data-group="sms" id="perm-sms-parent" data-id="sms">
+                                                    data-group="sms" id="perm-sms-parent" data-id="sms" value="sms">
                                                 <label class="form-check-label"
                                                     for="perm-sms-parent"><strong>SMS</strong></label>
                                             </div>
@@ -1771,7 +2532,28 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
 
+
+
+                                    @php
+                                                
+                                        $subscriberPermissionkey = [
+                                            'subscribers',
+                                            'newslatter.index',
+                                            'newslatter.delete'
+                                        ];
+
+                                        $hasSubscriberPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $subscriberPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasSubscriberPermission))
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -1786,8 +2568,9 @@
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="subscribers" data-id="newslatter.index"
-                                                    id="perm-newslatter" name="permissions[]" value="newslatter.index">
+                                                    type="checkbox" data-group="subscribers"
+                                                    data-id="newslatter.index" id="perm-newslatter"
+                                                    name="permissions[]" value="newslatter.index">
                                                 <label class="form-check-label" for="perm-newslatter">View</label>
                                             </div>
 
@@ -1803,7 +2586,27 @@
 
                                         </td>
                                     </tr>
+                                    @endif
 
+
+                                    @php
+                                                
+                                        $messagePermissionkey = [
+                                            'messages',
+                                            'contact_form.message.index',
+                                            'contact_form.message.delete'
+                                        ];
+
+                                        $hasMessagePermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $messagePermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasMessagePermission))
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -1822,7 +2625,8 @@
                                                         type="checkbox" data-group="messages"
                                                         data-id="contact_form.message.index" id="perm-messages-index"
                                                         name="permissions[]" value="contact_form.message.index">
-                                                    <label class="form-check-label" for="perm-messages-index"> View </label>
+                                                    <label class="form-check-label" for="perm-messages-index"> View
+                                                    </label>
                                                 </div>
 
                                                 <div class="form-check">
@@ -1830,14 +2634,36 @@
                                                         type="checkbox" data-group="messages"
                                                         data-id="contact_form.message.delete" id="perm-messages-delete"
                                                         name="permissions[]" value="contact_form.message.delete">
-                                                    <label class="form-check-label" for="perm-messages-delete"> Delete </label>
+                                                    <label class="form-check-label" for="perm-messages-delete"> Delete
+                                                    </label>
                                                 </div>
                                             </div>
 
                                         </td>
                                     </tr>
+                                    @endif
 
                                     <!--Start Block List menu-->
+
+                                    @php
+                                                
+                                        $blocklistPermissionkey = [
+                                            'blocklist',
+                                            'block.list',
+                                            'blocked_number',
+                                            'block.unblock'
+                                        ];
+
+                                        $hasBlocklistPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $blocklistPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasBlocklistPermission))
 
                                     <tr>
                                         <td>
@@ -1864,6 +2690,15 @@
 
                                                 <div class="form-check">
                                                     <input class="form-check-input child-checkbox permission-checkbox"
+                                                        type="checkbox" data-group="blocklist"
+                                                        data-id="blocked_number" id="perm-block-list-blocked_number"
+                                                        name="permissions[]" value="blocked_number">
+                                                    <label class="form-check-label"
+                                                        for="perm-block-list-blocked_number">Blocked Number</label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input child-checkbox permission-checkbox"
                                                         type="checkbox" data-group="blocklist" data-id="block.unblock"
                                                         id="perm-block-unblock" name="permissions[]"
                                                         value="block.unblock">
@@ -1874,8 +2709,30 @@
 
                                         </td>
                                     </tr>
+                                    @endif
 
                                     <!--End Block List menu-->
+
+
+                                    @php
+                                                
+                                        $pagePermissionkey = [
+                                            'pages',
+                                            'privacy_policy',
+                                            'terms_and_condtion',
+                                            'return_refund'
+                                        ];
+
+                                        $hasPagepermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $pagePermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasPagepermission))
 
                                     <tr>
                                         <td>
@@ -1890,7 +2747,7 @@
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="pages" data-id="privacy_policy"
+                                                    type="checkbox" data-group="pages" data-id="privacy_policy" value="privacy_policy" 
                                                     id="perm-privacy"
                                                     name="permissions[]>
                                                 <label class="form-check-label"
@@ -1898,7 +2755,7 @@
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input child-checkbox permission-checkbox"
-                                                    type="checkbox" data-group="pages" data-id="terms_and_condtion"
+                                                    type="checkbox" data-group="pages" data-id="terms_and_condtion" value="terms_and_condtion"
                                                     id="perm-terms"
                                                     name="permissions[]>
                                                 <label class="form-check-label"
@@ -1908,14 +2765,31 @@
                                             <div class="form-check">
                                                 <input class="form-check-input child-checkbox permission-checkbox"
                                                     type="checkbox" data-group="pages" data-id="return_refund"
-                                                    id="perm-refund"
+                                                    id="perm-refund" value="return_refund" 
                                                     name="permissions[]>
                                                 <label class="form-check-label"
                                                     for="perm-refund">Return & Refund</label>
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
 
+                                    @php
+                                                
+                                        $settingPermissionkey = [
+                                            'settings'
+                                        ];
+
+                                        $hasSettingPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $settingPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasSettingPermission))
                                     <tr>
                                         <td>
                                             <div class="form-check">
@@ -1929,6 +2803,25 @@
                                         </td>
                                         <td>
                                             <!-- SMS API Settings Dropdown -->
+
+                                            @php
+                                                
+                                                $settingApiPermission = [
+                                                    'sms-settings.index',
+                                                    'sms-settings.edit'
+                                                ];
+
+                                                $hasSettingApiPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $settingApiPermission,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasSettingApiPermission))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -1962,16 +2855,37 @@
                                                                 data-id="sms-settings.edit" value="sms-settings.edit"
                                                                 id="perm-sms-setting-edit" name="permissions[]">
                                                             <label class="form-check-label" for="perm-sms-setting-edit">
-                                                               Edit
+                                                                Edit
                                                             </label>
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
 
                                             <!-- Website Settings Dropdown -->
+
+                                            @php
+                                                
+                                                $websiteSettingPermissionkey = [
+                                                    'website_setting.index',
+                                                    'website_setting.edit'
+                                                ];
+
+                                                $hasWebsiteSettingpermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $websiteSettingPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasWebsiteSettingpermission))
+
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -2016,8 +2930,27 @@
                                                 </div>
                                             </div>
 
+                                            @endif
+
 
                                             <!-- Admin Panel Settings Dropdown -->
+                                            @php
+                                                
+                                                $adminPanelPermissionKey = [
+                                                    'admin_panel_settings.index',
+                                                    'admin_panel_settings.edit'
+                                                ];
+
+                                                $hasAdminPanelSettingPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $adminPanelPermissionKey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasAdminPanelSettingPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -2061,9 +2994,29 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
 
                                             <!-- Color Theme Settings Dropdown -->
+
+                                            @php
+                                                
+                                                $colorThemePermissionKey = [
+                                                    'color_theme_settings.index',
+                                                    'color_theme_settings.edit'
+                                                ];
+
+                                                $hasColorTheme = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $colorThemePermissionKey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasColorTheme))
+
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -2107,8 +3060,27 @@
                                                 </div>
                                             </div>
 
+                                            @endif
+
 
                                             <!-- Social Icon Settings Dropdown -->
+                                            @php
+                                                
+                                                $socialIconPermissionkey = [
+                                                    'social_icon_settings.index',
+                                                    'social_icon_settings.edit'
+                                                ];
+
+                                                $hasSocialIconPermission = \App\Models\Permission::whereIn(
+                                                    'permission_key',
+                                                    $socialIconPermissionkey,
+                                                )
+                                                    ->where('user_id', Auth::id())
+                                                    ->exists();
+                                            @endphp
+
+
+                                            @if ($isSuperAdmin || ($isAdmin && $hasSocialIconPermission))
                                             <div class="mr-3 mb-2 d-inline-block">
                                                 <div class="dropdown">
                                                     <button
@@ -2151,9 +3123,32 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
                                         </td>
                                     </tr>
+
+                                    @endif
+
+
+
+                                    @php
+                                                
+                                        $accessWebsiteInforPermissionkey = [
+                                            'accessinfo',
+                                            'visit.log.index'
+                                        ];
+
+                                        $hasWebsiteAccessInfoPermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $accessWebsiteInforPermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasWebsiteAccessInfoPermission))
 
                                     <tr>
                                         <td>
@@ -2178,7 +3173,25 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
 
+                                    @php
+                                                
+                                        $privilegePermissionkey = [
+                                            'privilege',
+                                            'privilege.index'
+                                        ];
+
+                                        $hasPrivilegePermission = \App\Models\Permission::whereIn(
+                                            'permission_key',
+                                            $privilegePermissionkey,
+                                        )
+                                            ->where('user_id', Auth::id())
+                                            ->exists();
+                                    @endphp
+
+
+                                    @if ($isSuperAdmin || ($isAdmin && $hasPrivilegePermission))
                                     <tr>
                                         <!-- Parent: Privilege -->
                                         <td>
@@ -2207,6 +3220,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endif
 
 
                                 </tbody>
