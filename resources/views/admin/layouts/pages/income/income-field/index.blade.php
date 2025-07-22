@@ -75,12 +75,12 @@
                                                 <i class="material-icons text-white">edit</i>
                                             </a>
 
-                                            <form class="d-inline-block delete-field-of-cost-form"
+                                            <form class="d-inline-block delete-field-of-income-form"
                                                 data-id="{{ $field_of_income->id }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button"
-                                                    class="btn btn-danger btn-sm delete-field-of-cost-btn">
+                                                    class="btn btn-danger btn-sm delete-field-of-income-btn">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </form>
@@ -117,19 +117,19 @@
 
     <script>
         $(document).ready(function() {
-            $(".delete-field-of-cost-btn").click(function(e) {
+            $(".delete-field-of-income-btn").click(function(e) {
                 e.preventDefault();
 
                 const button = $(this);
-                const form = button.closest(".delete-field-of-cost-form");
+                const form = button.closest(".delete-field-of-income-form");
                 const fieldOfCostId = form.data("id");
-                const deleteUrl = "{{ route('field-of-cost.destroy', ':id') }}".replace(':id',
+                const deleteUrl = "{{ route('field_of_income.destroy', ':id') }}".replace(':id',
                     fieldOfCostId);
                 const csrfToken = form.find('input[name="_token"]').val();
 
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "This will delete the field of cost permanently.",
+                    text: "This will delete the field of income permanently.",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",

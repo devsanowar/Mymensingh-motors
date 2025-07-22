@@ -298,6 +298,7 @@ Route::prefix('admin')
         Route::get('field-of-income', [FieldOfIncomeController::class, 'index'])->name('field_of_income.index');
         Route::post('field-of-income/store', [FieldOfIncomeController::class, 'store'])->name('field_of_income.store');
         Route::put('field-of-income/update/{id}', [FieldOfIncomeController::class, 'update'])->name('field_of_income.update');
+        Route::delete('field-of-income/delete/{id}', [FieldOfIncomeController::class, 'destroy'])->name('field_of_income.destroy');
 
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index')->middleware('permission:post_category.index');

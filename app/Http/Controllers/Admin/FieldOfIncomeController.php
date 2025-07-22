@@ -33,4 +33,27 @@ class FieldOfIncomeController extends Controller
         Toastr::success('Field of income Updated Successfully');
         return Redirect()->route('field_of_income.index');
     }
+
+
+    public function destroy(string $id)
+    {
+        $field_of_income = FieldOfIncome::findOrFail($id);
+
+        // if ($field_of_income->costs()->count() > 0) {
+        //     return response()->json(
+        //         [
+        //             'error' => 'You can\'t delete this field of income because it has related costs.',
+        //         ],
+        //         400,
+        //     );
+        // }
+
+        $field_of_income->delete();
+
+        return response()->json([
+            'success' => 'Field of income deleted successfully.',
+        ]);
+    }
+
+
 }
