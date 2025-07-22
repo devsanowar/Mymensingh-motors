@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="body">
-                        <form action="" method="GET" <form id="filterForm" action="{{ route('cost.filter') }}"
+                        <form action="" method="GET" <form id="filterForm" action=""
                             method="GET" class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
 
                             <div class="col-md-3">
@@ -111,7 +111,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary mr-2">Search</button>
-                                    <a href="{{ route('cost.filter') }}" class="btn btn-secondary" id="resetBtn">Reset</a>
+                                    <a href="" class="btn btn-secondary" id="resetBtn">Reset</a>
                                 </div>
                             </div>
                         </form>

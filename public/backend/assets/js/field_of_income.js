@@ -1,0 +1,90 @@
+$('.show_confirm').click(function(event){
+    let form = $(this).closest('form');
+    event.preventDefault();
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+            Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+            });
+        }
+        });
+
+});
+
+
+
+
+$(document).on('click', '.status-toggle-btn', function(e) {
+    e.preventDefault();
+
+    let button = $(this);
+    let fieldOfCostId = button.data('id');
+
+    $.ajax({
+        url: fieldOfCostStatusChangeRoute,
+        type: 'POST',
+        data: {
+            _token: csrfToken,
+            id: fieldOfCostId
+        },
+        success: function(response) {
+            if (response.status) {
+                button.text(response.new_status);
+                button.removeClass('btn-success btn-danger').addClass(response.class);
+
+                $('.editFieldOfCost[data-id="' + fieldOfCostId + '"]').data(
+                    'status',
+                    response.new_status === 'Active' ? 1 : 0
+                );
+
+                $('.editFieldOfCost[data-id="' + fieldOfCostId + '"]').data('name', response.new_name);
+
+                toastr.success(response.message, 'Success', {
+                    timeOut: 1500,
+                    closeButton: true,
+                    progressBar: true
+                });
+            } else {
+                toastr.error(response.message, 'Error');
+            }
+        },
+        error: function(xhr) {
+            alert('Something went wrong!');
+        }
+    });
+});
+
+
+$(document).ready(function() {
+    $(".editFieldOfIncome").click(function() {
+        const fieldOfIncomeId = $(this).data("id");
+        const fieldName = $(this).data("name");
+        const status = $(this).data("status");
+
+        $("#edit_field_of_income_id").val(fieldOfIncomeId);
+        $("#edit_field_name").val(fieldName);
+
+        $("#edit_is_active").val(status == 1 ? "1" : "0");
+
+        $('#edit_is_active').trigger('change');
+
+        const updateUrl = fieldOfCostUpdateRoute.replace(':id', fieldOfIncomeId);
+        $("#editFieldOfIncomeForm").attr('action', updateUrl);
+
+            $("#editFielOfIncomeModal").modal("show");
+        });
+});
+
+

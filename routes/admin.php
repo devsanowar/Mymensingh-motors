@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\CostCategoryController;
 use App\Http\Controllers\Admin\CostController;
 use App\Http\Controllers\Admin\FieldofCostController;
+use App\Http\Controllers\Admin\FieldOfIncomeController;
 use App\Http\Controllers\Admin\IncomeCategoryController;
 use App\Http\Controllers\Admin\MessageSendController;
 use App\Http\Controllers\Admin\ProductUnitController;
@@ -285,13 +286,18 @@ Route::prefix('admin')
         Route::delete('/permanant/{id}/costData', [CostController::class, 'forceDeleteData'])->name('cost.forceDelete');
 
 
-        // Income route here
+        // Income Category route here
         Route::get('income-category', [IncomeCategoryController::class, 'index'])->name('income_category.index');
         Route::post('income-category/store', [IncomeCategoryController::class, 'store'])->name('income_category.store');
         Route::put('income-category/update/{id}', [IncomeCategoryController::class, 'update'])->name('income_category.update');
         Route::delete('income-category/delete/{id}', [IncomeCategoryController::class, 'destroy'])->name('income_category.destroy');
         Route::post('income-category/status-update', [IncomeCategoryController::class, 'changeIncomeCategoryStatus'])->name('income_category_status.update');
 
+
+        // Field Of income
+        Route::get('field-of-income', [FieldOfIncomeController::class, 'index'])->name('field_of_income.index');
+        Route::post('field-of-income/store', [FieldOfIncomeController::class, 'store'])->name('field_of_income.store');
+        Route::put('field-of-income/update/{id}', [FieldOfIncomeController::class, 'update'])->name('field_of_income.update');
 
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index')->middleware('permission:post_category.index');

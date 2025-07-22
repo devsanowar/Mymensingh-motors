@@ -19,7 +19,13 @@
 
     $isPostActive = request()->routeIs('post.*') || request()->routeIs('post_category.*');
 
-    $isCostActive = request()->routeIs('post.*') || request()->routeIs('cost-category.*');
+
+    $isCostActive =
+    request()->routeIs('cost.*') ||
+    request()->routeIs('cost-category.*') ||
+    request()->routeIs('field-of-cost.*');
+
+
 
     $isProductActive =
         request()->routeIs('product.*') ||
@@ -181,7 +187,7 @@
                     <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
                         <a href="{{ route('cost-category.index') }}">Cost Category</a>
                     </li>
-                    <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
+                    <li class="{{ request()->routeIs('field-of-cost.index') ? 'active' : '' }}">
                         <a href="{{ route('field-of-cost.index') }}">Field Of Cost</a>
                     </li>
 
@@ -199,7 +205,7 @@
 
 
             @if (Auth::user()->system_admin == 'Super_admin' || in_array('income', $userPermissions))
-            <li class="{{ $isCostActive ? 'active open' : '' }}">
+            <li>
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-border-color"></i>
                     <span>Income</span>
@@ -208,11 +214,11 @@
                     <li class="{{ request()->routeIs('income_category.index') ? 'active' : '' }}">
                         <a href="{{ route('income_category.index') }}">Income Category</a>
                     </li>
-                    {{-- <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
-                        <a href="{{ route('field-of-cost.index') }}">Field Of Cost</a>
+                    <li class="{{ request()->routeIs('field_of_income.index') ? 'active' : '' }}">
+                        <a href="{{ route('field_of_income.index') }}">Field Of Income</a>
                     </li>
 
-                    <li class="{{ request()->routeIs('cost.create') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('cost.create') ? 'active' : '' }}">
                         <a href="{{ route('cost.create') }}">Add Cost</a>
                     </li>
 
@@ -300,13 +306,6 @@
                 </li>
             @endif
 
-            {{-- <li class="{{ Request::is('moblieSMS*') ? 'active' : '' }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-email"></i><span>SMS</span> </a>
-                <ul class="ml-menu">
-                    <li class="{{ Request::is('moblieSMS/sms') ? 'active' : '' }}"><a href="{{ route('mobile.sms') }}">Send SMS</a></li>
-                    <li class="{{ Request::is('moblieSMS/custom-sms') ? 'active' : '' }}"><a href="{{ route('custom.sms') }}">Custome SMS</a></li>
-                    <li class="{{ Request::is('moblieSMS/sms-report') ? 'active' : '' }}"><a href="{{ route('sms_report.sms') }}">SMS Report</a></li>
-                </ul>
-            </li> --}}
 
             @if (Auth::user()->system_admin == 'Super_admin' || in_array('sms', $userPermissions))
             <li class="{{ Request::is('moblieSMS*') ? 'active' : '' }}">
