@@ -307,10 +307,15 @@ Route::prefix('admin')
         Route::get('income', [IncomeController::class, 'index'])->name('income.index');
         Route::get('income/create', [IncomeController::class, 'create'])->name('income.create');
         Route::post('income/store', [IncomeController::class, 'store'])->name('income.store');
+        Route::get('income/show/{id}', [IncomeController::class, 'show'])->name('income.show');
         Route::get('income/edit/{id}', [IncomeController::class, 'edit'])->name('income.edit');
         Route::put('income/edit/{id}', [IncomeController::class, 'update'])->name('income.update');
         Route::delete('income/delete/{id}', [IncomeController::class, 'destroy'])->name('income.destroy');
+        Route::get('/All-trashed/cost', [IncomeController::class, 'trashedData'])->name('income.trash');
+        Route::get('/restore/{id}/costData', [IncomeController::class, 'restoreData'])->name('income.restore');
+        Route::delete('/permanant/{id}/costData', [IncomeController::class, 'forceDeleteData'])->name('income.forceDelete');
 
+        
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index')->middleware('permission:post_category.index');
         Route::post('/post-category/store', [PostCategoryController::class, 'store'])->name('post_category.store')->middleware('permission:post_category.create');

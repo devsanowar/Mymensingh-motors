@@ -42,3 +42,207 @@ $('#incomeForm').on('submit', function(e) {
             }
         });
     });
+
+
+    // Show data
+
+    $(document).ready(function() {
+            $('.view-income-btn').click(function(e) {
+                e.preventDefault();
+
+                var incomeId = $(this).data('id');
+
+                $.ajax({
+                    url: showIncomeData + incomeId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#income-date').text(data.date);
+                        $('#income-category').text(data.category ? data.category.category_name :
+                            'N/A');
+                        $('#income-field').text(data.field ? data.field.field_name : 'N/A');
+                        $('#income-description').text(data.description);
+                        $('#income-amount').text(data.amount);
+                        $('#income-income-by').text(data.income_by);
+
+                        $('#incomeDetailsModal').modal('show');
+                    },
+                    error: function() {
+                        alert('Could not load cost details.');
+                    }
+                });
+            });
+        });
+
+
+        // Delete income Data
+
+        $(document).ready(function() {
+            $(".delete-income-btn").click(function(e) {
+                e.preventDefault();
+
+                const button = $(this);
+                const form = button.closest(".delete-income-form");
+                const fieldOfIncomeId = form.data("id");
+                const deleteUrl = deleteIncomeData.replace(':id', fieldOfIncomeId);
+                const csrfToken = form.find('input[name="_token"]').val();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete the field of income permanently.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                                _method: "DELETE"
+                            },
+                            success: function(response) {
+                                console.log(response);
+
+                                if (response.success) {
+                                    Swal.fire("Deleted!", response.success, "success");
+                                    $("#incomeRow-" + fieldOfIncomeId).remove();
+
+
+                                    const deletedCountEl = $("#deletedCountNumber");
+                                    let deletedCount = parseInt(deletedCountEl.text());
+
+                                    if (!isNaN(deletedCount)) {
+                                        deletedCountEl.text(deletedCount + 1);
+                                    }
+
+                                } else if (response.error) {
+                                    Swal.fire("Error!", response.error, "error");
+                                } else {
+                                    Swal.fire("Error!", "Deletion failed.", "error");
+                                }
+                            },
+                            error: function(xhr) {
+                                let errorMsg = "Something went wrong.";
+                                if (xhr.responseJSON && xhr.responseJSON.error) {
+                                    errorMsg = xhr.responseJSON.error;
+                                }
+                                Swal.fire("Error!", errorMsg, "error");
+                                console.error(xhr.responseText);
+                            }
+
+                        });
+                    }
+                });
+            });
+        });
+
+
+        // Restore Deleted data
+
+        $(document).ready(function () {
+        $(".restore-income-btn").click(function (e) {
+            e.preventDefault();
+
+            const button = $(this);
+            const form = button.closest(".restore-income-form");
+            const incomeId = form.data("id");
+            const csrfToken = form.find('input[name="_token"]').val();
+            const restoreUrl = restoreIncomeData.replace(':id', incomeId);
+
+            $.ajax({
+                url: restoreUrl,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.success);
+                        $("#incomeRow-" + incomeId).remove();
+
+                        const countElement = $("#deletedIncomeCount");
+                        let currentCount = parseInt(countElement.text());
+
+                        if (!isNaN(currentCount) && currentCount > 0) {
+                            countElement.text(currentCount - 1);
+                        }
+                    } else {
+                        toastr.error("Something went wrong.");
+                    }
+                },
+                error: function () {
+                    toastr.error("Failed to restore the income.");
+                }
+            });
+        });
+    });
+
+
+    // Permanantly delete data
+
+    $(document).ready(function() {
+        $(".delete-income-btn").click(function(e) {
+            e.preventDefault();
+
+            const button = $(this);
+            const form = button.closest(".delete-income-form");
+            const fieldOfCostId = form.data("id");
+            const deleteUrl = deleteTrashedData.replace(':id',
+                fieldOfCostId);
+            const csrfToken = form.find('input[name="_token"]').val();
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This will delete the field of income permanently.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: "POST",
+                        data: {
+                            _token: csrfToken,
+                            _method: "DELETE"
+                        },
+                        success: function(response) {
+                            console.log(response);
+
+                            if (response.success) {
+                                Swal.fire("Deleted!", response.success, "success");
+                                $("#incomeRow-" + fieldOfCostId).remove();
+
+
+                                const countElement = $("#deletedIncomeCount");
+                                let currentCount = parseInt(countElement.text());
+
+                                if (!isNaN(currentCount) && currentCount > 0) {
+                                    countElement.text(currentCount - 1);
+                                }
+
+                            } else if (response.error) {
+                                Swal.fire("Error!", response.error, "error");
+                            } else {
+                                Swal.fire("Error!", "Deletion failed.", "error");
+                            }
+                        },
+                        error: function(xhr) {
+                            let errorMsg = "Something went wrong.";
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMsg = xhr.responseJSON.error;
+                            }
+                            Swal.fire("Error!", errorMsg, "error");
+                            console.error(xhr.responseText);
+                        }
+
+                    });
+                }
+            });
+        });
+    });

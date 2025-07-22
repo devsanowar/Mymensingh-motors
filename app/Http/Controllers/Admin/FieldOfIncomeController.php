@@ -39,14 +39,14 @@ class FieldOfIncomeController extends Controller
     {
         $field_of_income = FieldOfIncome::findOrFail($id);
 
-        // if ($field_of_income->costs()->count() > 0) {
-        //     return response()->json(
-        //         [
-        //             'error' => 'You can\'t delete this field of income because it has related costs.',
-        //         ],
-        //         400,
-        //     );
-        // }
+        if ($field_of_income->incomes()->count() > 0) {
+            return response()->json(
+                [
+                    'error' => 'You can\'t delete this field of income because it has related costs.',
+                ],
+                400,
+            );
+        }
 
         $field_of_income->delete();
 

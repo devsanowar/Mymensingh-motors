@@ -1,11 +1,11 @@
 <!-- Cost Details Modal -->
-<div class="modal fade" id="costDetailsModal" tabindex="-1" role="dialog" aria-labelledby="costDetailsModalLabel"
+<div class="modal fade" id="incomeDetailsModal" tabindex="-1" role="dialog" aria-labelledby="costDetailsModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header custom-modal-header">
-                <h5 class="modal-title" id="costDetailsModalLabel">Cost Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="costDetailsModalLabel">Income Details</h5>
+                <button type="button" class="close custom-close-btn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -15,27 +15,27 @@
                         <tbody>
                             <tr>
                                 <th style="width: 30%">Date</th>
-                                <td id="cost-date"></td>
+                                <td id="income-date"></td>
                             </tr>
                             <tr>
                                 <th>Category</th>
-                                <td id="cost-category"></td>
+                                <td id="income-category"></td>
                             </tr>
                             <tr>
                                 <th>Field</th>
-                                <td id="cost-field"></td>
+                                <td id="income-field"></td>
                             </tr>
                             <tr>
                                 <th>Description</th>
-                                <td id="cost-description"></td>
+                                <td id="income-description"></td>
                             </tr>
                             <tr>
                                 <th>Amount</th>
-                                <td id="cost-amount"></td>
+                                <td id="income-amount"></td>
                             </tr>
                             <tr>
-                                <th>Spend By</th>
-                                <td id="cost-spend-by"></td>
+                                <th>Income By</th>
+                                <td id="income-income-by"></td>
                             </tr>
                         </tbody>
                     </table>

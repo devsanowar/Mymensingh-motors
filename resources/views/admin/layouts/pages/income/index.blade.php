@@ -49,7 +49,7 @@
 @section('admin_content')
 
     @php
-        $countDeletedData = App\Models\Cost::onlyTrashed()->get();
+        $countDeletedData = App\Models\Income::onlyTrashed()->get();
     @endphp
 
     <div class="container-fluid">
@@ -57,16 +57,18 @@
             <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4> All Income <span><a href="{{ route('cost.trash') }}"
-                                    class="btn btn-primary text-uppercase">Recycle Bin ( {{ $countDeletedData->count() }}
-                                    )</a></span> <span><a href="{{ route('income.create') }}"
+                        <h4> All Income <span><a href="{{ route('income.trash') }}" class="btn btn-primary text-uppercase">
+                                    Recycle Bin (<span id="deletedCountNumber">{{ $countDeletedData->count() }}</span>)
+                                </a></span>
+                            <span><a href="{{ route('income.create') }}"
                                     class="btn btn-primary text-white text-uppercase text-bold right">
                                     + Add Income
-                                </a></span></h4>
+                                </a></span>
+                        </h4>
                     </div>
 
                     <div class="body">
-                        
+
                         <table id="productDataTable"
                             class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
@@ -93,27 +95,19 @@
                                         <td>{!! $income->description ?? 'N/A' !!}</td>
                                         <td>{{ $income->amount }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-info btn-sm view-cost-btn"
+                                            <a href="#" class="btn btn-info btn-sm view-income-btn"
                                                 data-id="{{ $income->id }}"><i
                                                     class="material-icons text-white">visibility</i> </a>
 
-                                            <a href="{{ route('income.edit', $income->id) }}" class="btn btn-warning btn-sm">
+                                            <a href="{{ route('income.edit', $income->id) }}"
+                                                class="btn btn-warning btn-sm">
                                                 <i class="material-icons text-white">edit</i></a>
 
-                                            {{-- <form class="d-inline-block" action=""
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm show_confirm"><i
-                                                        class="material-icons">delete</i></button>
-                                            </form> --}}
 
-                                            <form class="d-inline-block delete-income-form"
-                                                data-id="{{ $income->id }}">
+                                            <form class="d-inline-block delete-income-form" data-id="{{ $income->id }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button"
-                                                    class="btn btn-danger btn-sm delete-income-btn">
+                                                <button type="button" class="btn btn-danger btn-sm delete-income-btn">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </form>
@@ -123,7 +117,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        @include('admin.layouts.pages.cost.show')
+                        @include('admin.layouts.pages.income.show')
                     </div>
                 </div>
             </div>
@@ -151,94 +145,10 @@
 
 
     <script>
-
-
-        $(document).ready(function() {
-            $(".delete-income-btn").click(function(e) {
-                e.preventDefault();
-
-                const button = $(this);
-                const form = button.closest(".delete-income-form");
-                const fieldOfCostId = form.data("id");
-                const deleteUrl = "{{ route('income.destroy', ':id') }}".replace(':id',
-                    fieldOfCostId);
-                const csrfToken = form.find('input[name="_token"]').val();
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "This will delete the field of income permanently.",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: deleteUrl,
-                            type: "POST",
-                            data: {
-                                _token: csrfToken,
-                                _method: "DELETE"
-                            },
-                            success: function(response) {
-                                console.log(response);
-
-                                if (response.success) {
-                                    Swal.fire("Deleted!", response.success, "success");
-                                    $("#incomeRow-" + fieldOfCostId).remove();
-                                } else if (response.error) {
-                                    Swal.fire("Error!", response.error, "error");
-                                } else {
-                                    Swal.fire("Error!", "Deletion failed.", "error");
-                                }
-                            },
-                            error: function(xhr) {
-                                let errorMsg = "Something went wrong.";
-                                if (xhr.responseJSON && xhr.responseJSON.error) {
-                                    errorMsg = xhr.responseJSON.error;
-                                }
-                                Swal.fire("Error!", errorMsg, "error");
-                                console.error(xhr.responseText);
-                            }
-
-                        });
-                    }
-                });
-            });
-        });
-
-
-
-        $(document).ready(function() {
-            $('.view-cost-btn').click(function(e) {
-                e.preventDefault();
-
-                var costId = $(this).data('id');
-
-                $.ajax({
-                    url: '/admin/cost/' + costId, // Resource route show()
-                    type: 'GET',
-                    success: function(data) {
-                        $('#cost-date').text(data.date);
-                        $('#cost-category').text(data.category ? data.category.category_name :
-                            'N/A');
-                        $('#cost-field').text(data.field ? data.field.field_name : 'N/A');
-                        $('#cost-description').text(data.description);
-                        $('#cost-amount').text(data.amount);
-                        $('#cost-spend-by').text(data.spend_by);
-
-                        $('#costDetailsModal').modal('show');
-                    },
-                    error: function() {
-                        alert('Could not load cost details.');
-                    }
-                });
-            });
-        });
-
-
+        
+        const deleteIncomeData = "{{ route('income.destroy', ':id') }}";
+        const showIncomeData = '/admin/income/show/';
     </script>
 
-    {{-- <script src="{{ asset('backend') }}/assets/js/cost.js"></script> --}}
+    <script src="{{ asset('backend') }}/assets/js/income.js"></script>
 @endpush

@@ -1,5 +1,5 @@
 :root {
---priamary: #4FB748;
+--priamary: #DB1E3D;
 --secondary: #f8f8f8;
 --base: #333333;
 --black: rgb(51, 51, 51);
@@ -384,3 +384,7 @@ padding-left: 10px !important;
 	text-align: left;
 	display: inline-block;
 } */
+
+.custom-modal-header{
+	background:var(--secondary) !important;
+}
