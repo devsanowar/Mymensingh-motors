@@ -184,11 +184,11 @@ $('#incomeForm').on('submit', function(e) {
     // Permanantly delete data
 
     $(document).ready(function() {
-        $(".delete-income-btn").click(function(e) {
+        $(".permanent-delete-income-btn").click(function(e) {
             e.preventDefault();
 
             const button = $(this);
-            const form = button.closest(".delete-income-form");
+            const form = button.closest(".permanent-delete-income-form");
             const fieldOfCostId = form.data("id");
             const deleteUrl = deleteTrashedData.replace(':id',
                 fieldOfCostId);

@@ -61,10 +61,10 @@
                                                 <button type="submit"
                                                     class="btn btn-danger btn-sm show_confirm">Permanently delete</button>
                                             </form> --}}
-                                            <form class="d-inline-block delete-income-form" data-id="{{ $income->id }}">
+                                            <form class="d-inline-block permanent-delete-income-form" data-id="{{ $income->id }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm delete-income-btn">
+                                                <button type="button" class="btn btn-danger btn-sm permanent-delete-income-btn">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </form>
