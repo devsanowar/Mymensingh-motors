@@ -52,4 +52,11 @@ class IncomeController extends Controller
         return redirect()->route('income.index');
     }
 
+    public function destroy($id){
+        $income = Income::findOrFail($id);
+        $income->delete();
+
+        return response()->json(['success' => 'Income successfully deleted.']);
+    }
+
 }

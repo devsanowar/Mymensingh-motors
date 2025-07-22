@@ -309,6 +309,7 @@ Route::prefix('admin')
         Route::post('income/store', [IncomeController::class, 'store'])->name('income.store');
         Route::get('income/edit/{id}', [IncomeController::class, 'edit'])->name('income.edit');
         Route::put('income/edit/{id}', [IncomeController::class, 'update'])->name('income.update');
+        Route::delete('income/delete/{id}', [IncomeController::class, 'destroy'])->name('income.destroy');
 
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index')->middleware('permission:post_category.index');

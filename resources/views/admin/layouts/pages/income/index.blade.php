@@ -84,7 +84,7 @@
 
                             <tbody id="costTableBody">
                                 @foreach ($incomes as $key => $income)
-                                    <tr>
+                                    <tr id="incomeRow-{{ $income->id }}">
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $income->date }}</td>
                                         <td>{{ $income->income_by ?? 'N/A' }}</td>
@@ -100,13 +100,24 @@
                                             <a href="{{ route('income.edit', $income->id) }}" class="btn btn-warning btn-sm">
                                                 <i class="material-icons text-white">edit</i></a>
 
-                                            <form class="d-inline-block" action=""
+                                            {{-- <form class="d-inline-block" action=""
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm show_confirm"><i
                                                         class="material-icons">delete</i></button>
+                                            </form> --}}
+
+                                            <form class="d-inline-block delete-income-form"
+                                                data-id="{{ $income->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm delete-income-btn">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -140,6 +151,65 @@
 
 
     <script>
+
+
+        $(document).ready(function() {
+            $(".delete-income-btn").click(function(e) {
+                e.preventDefault();
+
+                const button = $(this);
+                const form = button.closest(".delete-income-form");
+                const fieldOfCostId = form.data("id");
+                const deleteUrl = "{{ route('income.destroy', ':id') }}".replace(':id',
+                    fieldOfCostId);
+                const csrfToken = form.find('input[name="_token"]').val();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete the field of income permanently.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                                _method: "DELETE"
+                            },
+                            success: function(response) {
+                                console.log(response);
+
+                                if (response.success) {
+                                    Swal.fire("Deleted!", response.success, "success");
+                                    $("#incomeRow-" + fieldOfCostId).remove();
+                                } else if (response.error) {
+                                    Swal.fire("Error!", response.error, "error");
+                                } else {
+                                    Swal.fire("Error!", "Deletion failed.", "error");
+                                }
+                            },
+                            error: function(xhr) {
+                                let errorMsg = "Something went wrong.";
+                                if (xhr.responseJSON && xhr.responseJSON.error) {
+                                    errorMsg = xhr.responseJSON.error;
+                                }
+                                Swal.fire("Error!", errorMsg, "error");
+                                console.error(xhr.responseText);
+                            }
+
+                        });
+                    }
+                });
+            });
+        });
+
+
+
         $(document).ready(function() {
             $('.view-cost-btn').click(function(e) {
                 e.preventDefault();
@@ -166,7 +236,9 @@
                 });
             });
         });
+
+
     </script>
 
-    <script src="{{ asset('backend') }}/assets/js/cost.js"></script>
+    {{-- <script src="{{ asset('backend') }}/assets/js/cost.js"></script> --}}
 @endpush
