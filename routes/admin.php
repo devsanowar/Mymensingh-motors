@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\CostController;
 use App\Http\Controllers\Admin\FieldofCostController;
 use App\Http\Controllers\Admin\FieldOfIncomeController;
 use App\Http\Controllers\Admin\IncomeCategoryController;
+use App\Http\Controllers\Admin\IncomeController;
 use App\Http\Controllers\Admin\MessageSendController;
 use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PromobannerController;
@@ -300,6 +301,14 @@ Route::prefix('admin')
         Route::put('field-of-income/update/{id}', [FieldOfIncomeController::class, 'update'])->name('field_of_income.update');
         Route::delete('field-of-income/delete/{id}', [FieldOfIncomeController::class, 'destroy'])->name('field_of_income.destroy');
         Route::post('field-of-income/status-update', [FieldOfIncomeController::class, 'changeFieldOfIncomeStatus'])->name('field_of_income_status.update');
+
+
+        // Income route here
+        Route::get('income', [IncomeController::class, 'index'])->name('income.index');
+        Route::get('income/create', [IncomeController::class, 'create'])->name('income.create');
+        Route::post('income/store', [IncomeController::class, 'store'])->name('income.store');
+        Route::get('income/edit/{id}', [IncomeController::class, 'edit'])->name('income.edit');
+        Route::put('income/edit/{id}', [IncomeController::class, 'update'])->name('income.update');
 
         // Post Category
         Route::get('post-category/', [PostCategoryController::class, 'index'])->name('post_category.index')->middleware('permission:post_category.index');

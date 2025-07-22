@@ -218,13 +218,13 @@
                         <a href="{{ route('field_of_income.index') }}">Field Of Income</a>
                     </li>
 
-                    {{-- <li class="{{ request()->routeIs('cost.create') ? 'active' : '' }}">
-                        <a href="{{ route('cost.create') }}">Add Cost</a>
+                    <li class="{{ request()->routeIs('income.create') ? 'active' : '' }}">
+                        <a href="{{ route('income.create') }}">Add Income</a>
                     </li>
 
-                    <li class="{{ request()->routeIs('cost.index') ? 'active' : '' }}">
-                        <a href="{{ route('cost.index') }}">All Cost</a>
-                    </li> --}}
+                    <li class="{{ request()->routeIs('income.index') ? 'active' : '' }}">
+                        <a href="{{ route('income.index') }}">All Income</a>
+                    </li>
 
                 </ul>
             </li>
