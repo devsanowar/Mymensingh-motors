@@ -16,7 +16,7 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="field_name">Cost Of Field Name *</label>
+                        <label for="field_name">Income Field Name *</label>
                         <div class="input-line" style="border: 1px solid #ddd">
                             <input type="text" name="field_name" id="field_name" class="form-control"
                             placeholder="Enter Field name" required>
@@ -36,7 +36,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Field Of Cost</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

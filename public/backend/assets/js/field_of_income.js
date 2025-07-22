@@ -1,27 +1,57 @@
-$('.show_confirm').click(function(event){
-    let form = $(this).closest('form');
-    event.preventDefault();
+$(document).ready(function() {
+            $(".delete-field-of-income-btn").click(function(e) {
+                e.preventDefault();
 
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-            Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success"
+                const button = $(this);
+                const form = button.closest(".delete-field-of-income-form");
+                const fieldOfCostId = form.data("id");
+                const deleteUrl = fieldOfIncometDestroy.replace(':id',
+                    fieldOfCostId);
+                const csrfToken = form.find('input[name="_token"]').val();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete the field of income permanently.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                                _method: "DELETE"
+                            },
+                            success: function(response) {
+                                console.log(response);
+
+                                if (response.success) {
+                                    Swal.fire("Deleted!", response.success, "success");
+                                    $("#field_of_incomeRow-" + fieldOfCostId).remove();
+                                } else if (response.error) {
+                                    Swal.fire("Error!", response.error, "error");
+                                } else {
+                                    Swal.fire("Error!", "Deletion failed.", "error");
+                                }
+                            },
+                            error: function(xhr) {
+                                let errorMsg = "Something went wrong.";
+                                if (xhr.responseJSON && xhr.responseJSON.error) {
+                                    errorMsg = xhr.responseJSON.error;
+                                }
+                                Swal.fire("Error!", errorMsg, "error");
+                                console.error(xhr.responseText);
+                            }
+
+                        });
+                    }
+                });
             });
-        }
         });
-
-});
 
 
 
@@ -33,7 +63,7 @@ $(document).on('click', '.status-toggle-btn', function(e) {
     let fieldOfCostId = button.data('id');
 
     $.ajax({
-        url: fieldOfCostStatusChangeRoute,
+        url: fieldOfIncomeStatusChangeRoute,
         type: 'POST',
         data: {
             _token: csrfToken,
@@ -80,7 +110,7 @@ $(document).ready(function() {
 
         $('#edit_is_active').trigger('change');
 
-        const updateUrl = fieldOfCostUpdateRoute.replace(':id', fieldOfIncomeId);
+        const updateUrl = fieldOfIncomeUpdateRoute.replace(':id', fieldOfIncomeId);
         $("#editFieldOfIncomeForm").attr('action', updateUrl);
 
             $("#editFielOfIncomeModal").modal("show");

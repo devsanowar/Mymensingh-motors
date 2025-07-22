@@ -14,11 +14,10 @@
                 <form id="editFieldOfIncomeForm" method="POST">
                     @csrf
                     @method('PUT')
-
                     <input type="hidden" id="edit_field_of_income_id" name="id">
 
                     <div class="form-group mb-4">
-                        <label><b>Field of cost name</b></label>
+                        <label><b>Income Field name</b></label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">pin_drop</i></span>
                             <div class="form-line case-input">

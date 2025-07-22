@@ -56,4 +56,24 @@ class FieldOfIncomeController extends Controller
     }
 
 
+    public function changeFieldOfIncomeStatus(Request $request)
+    {
+        $field_of_income = FieldOfIncome::find($request->id);
+
+        if (!$field_of_income) {
+            return response()->json(['status' => false, 'message' => 'Field of cost not found.']);
+        }
+
+        $field_of_income->is_active = !$field_of_income->is_active;
+        $field_of_income->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status changed successfully.',
+            'new_status' => $field_of_income->is_active ? 'Active' : 'DeActive',
+            'class' => $field_of_income->is_active ? 'btn-success' : 'btn-danger',
+        ]);
+    }
+
+
 }
