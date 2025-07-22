@@ -41,4 +41,23 @@ class IncomeCategoryController extends Controller
         Toastr::success('Category Deleted Successfully');
         return Redirect()->route('income_category.index');
     }
+
+
+    public function changeIncomeCategoryStatus(Request $request){
+        $category = IncomeCategory::find($request->id);
+
+        if (!$category) {
+            return response()->json(['status' => false, 'message' => 'Category not found.']);
+        }
+
+        $category->is_active = !$category->is_active;
+        $category->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status changed successfully.',
+            'new_status' => $category->is_active ? 'Active' : 'DeActive',
+            'class' => $category->is_active ? 'btn-success' : 'btn-danger',
+        ]);
+    }
 }

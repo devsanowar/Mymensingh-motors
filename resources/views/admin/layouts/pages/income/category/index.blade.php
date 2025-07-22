@@ -114,7 +114,7 @@
 
 
     <script>
-        const categoryStatusRoute = "{{ route('cost-category.status') }}";
+        const categoryStatusRoute = "{{ route('income_category_status.update') }}";
         const categoryUpdateRoute = "{{ route('income_category.update', ':id') }}";
         const csrfToken = "{{ csrf_token() }}";
     </script>

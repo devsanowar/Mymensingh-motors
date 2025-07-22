@@ -290,7 +290,7 @@ Route::prefix('admin')
         Route::post('income-category/store', [IncomeCategoryController::class, 'store'])->name('income_category.store');
         Route::put('income-category/update/{id}', [IncomeCategoryController::class, 'update'])->name('income_category.update');
         Route::delete('income-category/delete/{id}', [IncomeCategoryController::class, 'destroy'])->name('income_category.destroy');
-
+        Route::post('income-category/status-update', [IncomeCategoryController::class, 'changeIncomeCategoryStatus'])->name('income_category_status.update');
 
 
         // Post Category
