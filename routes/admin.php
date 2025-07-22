@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\CostCategoryController;
 use App\Http\Controllers\Admin\CostController;
 use App\Http\Controllers\Admin\FieldofCostController;
+use App\Http\Controllers\Admin\IncomeCategoryController;
 use App\Http\Controllers\Admin\MessageSendController;
 use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PromobannerController;
@@ -278,9 +279,18 @@ Route::prefix('admin')
             'update'  => 'permission:cost.edit',
             'destroy' => 'permission:cost.delete',
         ]);
+
         Route::get('/All-trashed/cost', [CostController::class, 'trashedData'])->name('cost.trash');
         Route::get('/restore/{id}/costData', [CostController::class, 'restoreData'])->name('cost.restore');
         Route::delete('/permanant/{id}/costData', [CostController::class, 'forceDeleteData'])->name('cost.forceDelete');
+
+
+        // Income route here
+        Route::get('income-category', [IncomeCategoryController::class, 'index'])->name('income_category.index');
+        Route::post('income-category/store', [IncomeCategoryController::class, 'store'])->name('income_category.store');
+        Route::put('income-category/update/{id}', [IncomeCategoryController::class, 'update'])->name('income_category.update');
+        Route::delete('income-category/delete/{id}', [IncomeCategoryController::class, 'destroy'])->name('income_category.destroy');
+
 
 
         // Post Category

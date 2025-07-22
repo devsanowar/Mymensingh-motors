@@ -171,7 +171,7 @@
             </li>
             @endif
 
-            @if (Auth::user()->system_admin == 'Super_admin' || in_array('stock', $userPermissions))
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('cost', $userPermissions))
             <li class="{{ $isCostActive ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="zmdi zmdi-border-color"></i>
@@ -196,6 +196,35 @@
                 </ul>
             </li>
             @endif
+
+
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('income', $userPermissions))
+            <li class="{{ $isCostActive ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="zmdi zmdi-border-color"></i>
+                    <span>Income</span>
+                </a>
+                <ul class="ml-menu">
+                    <li class="{{ request()->routeIs('income_category.index') ? 'active' : '' }}">
+                        <a href="{{ route('income_category.index') }}">Income Category</a>
+                    </li>
+                    {{-- <li class="{{ request()->routeIs('cost-category.index') ? 'active' : '' }}">
+                        <a href="{{ route('field-of-cost.index') }}">Field Of Cost</a>
+                    </li>
+
+                    <li class="{{ request()->routeIs('cost.create') ? 'active' : '' }}">
+                        <a href="{{ route('cost.create') }}">Add Cost</a>
+                    </li>
+
+                    <li class="{{ request()->routeIs('cost.index') ? 'active' : '' }}">
+                        <a href="{{ route('cost.index') }}">All Cost</a>
+                    </li> --}}
+
+                </ul>
+            </li>
+            @endif
+
+
 
             @if (Auth::user()->system_admin == 'Super_admin' || in_array('shipping', $userPermissions))
             <li class="{{ $isShippingPageActive ? 'active' : '' }}">
