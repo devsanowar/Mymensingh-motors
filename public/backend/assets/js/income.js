@@ -44,10 +44,10 @@ $('#incomeForm').on('submit', function(e) {
     });
 
 
-    // Show data
+        // Show data
 
-    $(document).ready(function() {
-            $('.view-income-btn').click(function(e) {
+        $(document).ready(function() {
+            $(document).on('click', '.view-income-btn', function(e) {
                 e.preventDefault();
 
                 var incomeId = $(this).data('id');
@@ -57,8 +57,7 @@ $('#incomeForm').on('submit', function(e) {
                     type: 'GET',
                     success: function(data) {
                         $('#income-date').text(data.date);
-                        $('#income-category').text(data.category ? data.category.category_name :
-                            'N/A');
+                        $('#income-category').text(data.category ? data.category.category_name : 'N/A');
                         $('#income-field').text(data.field ? data.field.field_name : 'N/A');
                         $('#income-description').text(data.description);
                         $('#income-amount').text(data.amount);
@@ -67,17 +66,16 @@ $('#incomeForm').on('submit', function(e) {
                         $('#incomeDetailsModal').modal('show');
                     },
                     error: function() {
-                        alert('Could not load cost details.');
+                        alert('Could not load income details.');
                     }
                 });
             });
         });
 
 
-        // Delete income Data
-
-        $(document).ready(function() {
-            $(".delete-income-btn").click(function(e) {
+        // Delete income data
+        $(document).ready(function () {
+            $(document).on("click", ".delete-income-btn", function (e) {
                 e.preventDefault();
 
                 const button = $(this);
@@ -103,17 +101,13 @@ $('#incomeForm').on('submit', function(e) {
                                 _token: csrfToken,
                                 _method: "DELETE"
                             },
-                            success: function(response) {
-                                console.log(response);
-
+                            success: function (response) {
                                 if (response.success) {
                                     Swal.fire("Deleted!", response.success, "success");
                                     $("#incomeRow-" + fieldOfIncomeId).remove();
 
-
                                     const deletedCountEl = $("#deletedCountNumber");
                                     let deletedCount = parseInt(deletedCountEl.text());
-
                                     if (!isNaN(deletedCount)) {
                                         deletedCountEl.text(deletedCount + 1);
                                     }
@@ -124,7 +118,7 @@ $('#incomeForm').on('submit', function(e) {
                                     Swal.fire("Error!", "Deletion failed.", "error");
                                 }
                             },
-                            error: function(xhr) {
+                            error: function (xhr) {
                                 let errorMsg = "Something went wrong.";
                                 if (xhr.responseJSON && xhr.responseJSON.error) {
                                     errorMsg = xhr.responseJSON.error;
@@ -138,6 +132,7 @@ $('#incomeForm').on('submit', function(e) {
                 });
             });
         });
+
 
 
         // Restore Deleted data
@@ -189,9 +184,9 @@ $('#incomeForm').on('submit', function(e) {
 
             const button = $(this);
             const form = button.closest(".permanent-delete-income-form");
-            const fieldOfCostId = form.data("id");
+            const fieldOfIncomeId = form.data("id");
             const deleteUrl = deleteTrashedData.replace(':id',
-                fieldOfCostId);
+                fieldOfIncomeId);
             const csrfToken = form.find('input[name="_token"]').val();
 
             Swal.fire({
@@ -216,7 +211,7 @@ $('#incomeForm').on('submit', function(e) {
 
                             if (response.success) {
                                 Swal.fire("Deleted!", response.success, "success");
-                                $("#incomeRow-" + fieldOfCostId).remove();
+                                $("#incomeRow-" + fieldOfIncomeId).remove();
 
 
                                 const countElement = $("#deletedIncomeCount");
@@ -245,4 +240,49 @@ $('#incomeForm').on('submit', function(e) {
                 }
             });
         });
+    });
+
+
+
+    // Income data filter script
+
+    $(document).ready(function () {
+    // Filter Form Submission
+    $('#filterForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: typeof incomeFilterUrl !== 'undefined' ? incomeFilterUrl : '/admin/incomes/filter',
+            type: 'GET',
+            data: formData,
+            beforeSend: function () {
+                $('#incomeTableBody').html('<tr><td colspan="8" class="text-center">Loading...</td></tr>');
+            },
+            success: function (response) {
+                $('#incomeTableBody').html(response.html);
+            },
+            error: function () {
+                alert('Something went wrong!');
+            }
+        });
+    });
+
+    // Reset Button
+    $('#resetBtn').on('click', function () {
+        $('#filterForm')[0].reset();
+        $('#filterForm select').val('').trigger('change');
+        $('#filterForm').submit();
+    });
+});
+
+
+    // Pagelength override scripts
+    $.extend(true, $.fn.dataTable.defaults, {
+    "pageLength": 20,
+    "lengthMenu": [ [10, 20, 50, -1], [10, 20, 50, "All"] ]
+    });
+    $(document).ready(function() {
+        $('#incomeDataTable').DataTable();
     });

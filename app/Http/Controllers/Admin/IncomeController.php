@@ -18,7 +18,10 @@ class IncomeController extends Controller
         $incomes = Income::with(['category:id,category_name', 'field:id,field_name'])
             ->latest()
             ->get();
-        return view('admin.layouts.pages.income.index', compact('incomes'));
+        $categories = IncomeCategory::all();
+        $fields = FieldOfIncome::all();
+
+        return view('admin.layouts.pages.income.index', compact('incomes', 'categories', 'fields'));
     }
 
     public function create()
@@ -80,6 +83,40 @@ class IncomeController extends Controller
 
         return response()->json(['success' => 'Income successfully deleted.']);
     }
+
+
+    public function filter(Request $request)
+    {
+        $query = Income::with('category', 'field');
+
+        if ($request->from_date) {
+            $query->whereDate('date', '>=', $request->from_date);
+        }
+
+        if ($request->to_date) {
+            $query->whereDate('date', '<=', $request->to_date);
+        }
+
+        if ($request->income_by) {
+            $query->where('income_by', 'like', '%' . $request->income_by . '%');
+        }
+
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->field_id) {
+            $query->where('field_id', $request->field_id);
+        }
+
+        $incomes = $query->latest()->get();
+
+        $html = view('admin.layouts.pages.income.partials.income_info_filter', compact('incomes'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
+
 
     public function trashedData()
     {

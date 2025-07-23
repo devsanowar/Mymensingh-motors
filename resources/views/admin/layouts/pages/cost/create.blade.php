@@ -6,7 +6,7 @@
 @section('admin_content')
     <div class="container-fluid">
         <div class="row clearfix">
-            <div class="col-lg-6 col-md-12 col-sm-12 mt-4">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
                 <div class="card">
                     <div class="card-header">
                         <h4> Create Cost <span><a href="{{ route('cost.index') }}"
@@ -111,49 +111,7 @@
 @push('scripts')
 
     <script>
-    $('#costForm').on('submit', function(e) {
-        e.preventDefault();
-
-        // Show spinner and disable submit button
-        $('#submitBtn').attr('disabled', true);
-        $('#spinner').removeClass('d-none');
-        $('#submitBtnText').text('Saving...');
-
-        let formData = new FormData(this);
-
-        $.ajax({
-            url: "{{ route('cost.store') }}",
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // Reset UI
-                $('#submitBtn').attr('disabled', false);
-                $('#spinner').addClass('d-none');
-                $('#submitBtnText').text('SAVE COST');
-                $('#costForm')[0].reset();
-
-                // Toastr Success
-                toastr.success('Cost successfully added!');
-            },
-            error: function(xhr) {
-                // Reset UI
-                $('#submitBtn').attr('disabled', false);
-                $('#spinner').addClass('d-none');
-                $('#submitBtnText').text('SAVE COST');
-
-                // Validation errors
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value[0]);
-                    });
-                } else {
-                    toastr.error('Something went wrong!');
-                }
-            }
-        });
-    });
-</script>
+    const storeCostData = "{{ route('cost.store') }}";
+    </script>
+    <script src="{{ asset('backend') }}/assets/js/cost.js"></script>
 @endpush

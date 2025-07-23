@@ -20,13 +20,16 @@ class CostController extends Controller
      */
     public function index()
     {
-        $costs = Cost::with(['category:id,category_name', 'field:id,field_name'])
-            ->latest()
-            ->get();
+        // $costs = Cost::with(['category:id,category_name', 'field:id,field_name'])
+        //     ->latest()
+        //     ->get();
 
-        $categories = CostCategory::select('id', 'category_name')->get();
+        $costs = Cost::with('category', 'field')->latest()->get();
 
-        return view('admin.layouts.pages.cost.index', compact('costs', 'categories'));
+        $categories = CostCategory::all();
+        $fields = FieldOfCost::all();
+
+        return view('admin.layouts.pages.cost.index', compact('costs', 'categories','fields'));
     }
 
     /**
@@ -108,19 +111,49 @@ class CostController extends Controller
         return Redirect()->route('cost.index');
     }
 
+    public function filter(Request $request)
+    {
+        $query = Cost::with('category', 'field');
 
-    public function trashedData(){
+        if ($request->from_date) {
+            $query->whereDate('date', '>=', $request->from_date);
+        }
+
+        if ($request->to_date) {
+            $query->whereDate('date', '<=', $request->to_date);
+        }
+
+        if ($request->spend_by) {
+            $query->where('spend_by', 'like', '%' . $request->spend_by . '%');
+        }
+
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->field_id) {
+            $query->where('field_id', $request->field_id);
+        }
+
+        $costs = $query->latest()->get();
+
+        $html = view('admin.layouts.pages.cost.partials.cost_info_filter', compact('costs'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
+    public function trashedData()
+    {
         $costs = Cost::onlyTrashed()->get();
         return view('admin.layouts.pages.cost.recycle-bin.all-trashdata', compact('costs'));
     }
-
 
     public function restoreData($id)
     {
         Cost::withTrashed()->where('id', $id)->restore();
         $toast = Toastr();
         $toast->success('Cost restored successfully.');
-        return redirect()->route('cost.index');
+        return redirect()->back();
     }
 
     public function forceDeleteData($id)
@@ -131,7 +164,4 @@ class CostController extends Controller
         Toastr::success('Cost permanently deleted.');
         return redirect()->back();
     }
-
-
-
 }

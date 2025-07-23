@@ -65,7 +65,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="btn btn-danger btn-sm permanent-delete-income-btn">
-                                                    <i class="material-icons">delete</i>
+                                                    Permanently Delete
                                                 </button>
                                             </form>
                                         </td>

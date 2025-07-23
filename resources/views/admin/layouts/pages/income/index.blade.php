@@ -11,7 +11,8 @@
         .filter-form {
             margin-bottom: 10px;
             margin-top: 0px;
-            padding-top: 6px !important;
+            padding-top: 12px !important;
+            padding-bottom: 6px !important;
         }
 
         .filter-form input[type="date"]::-webkit-calendar-picker-indicator {
@@ -42,6 +43,24 @@
                 flex-wrap: wrap;
             }
         }
+
+        #filterForm .form-group,
+        #filterForm>div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        #filterForm label {
+            white-space: nowrap;
+            margin-bottom: 0;
+            min-width: 70px;
+        }
+
+        #filterForm .form-control {
+            flex: 1;
+        }
     </style>
 @endpush
 
@@ -69,7 +88,60 @@
 
                     <div class="body">
 
-                        <table id="productDataTable"
+                        <form id="filterForm" method="GET"
+                            class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
+
+                            <!-- From Date -->
+                            <div class="col-md-3">
+                                <label for="from_date" class="mr-2">From</label>
+                                <input type="date" name="from_date" id="from_date" class="form-control"
+                                    value="{{ request('from_date') }}">
+                            </div>
+
+                            <!-- To Date -->
+                            <div class="col-md-3">
+                                <label for="to_date" class="mr-2">To</label>
+                                <input type="date" name="to_date" id="to_date" class="form-control"
+                                    value="{{ request('to_date') }}">
+                            </div>
+
+                            <!-- Spend By -->
+                            <div class="col-md-3">
+                                <label for="income_by"><b>Income By</b></label>
+                                <input type="text" name="income_by" id="income_by" class="form-control"
+                                    value="{{ request('income_by') }}" placeholder="Enter Name">
+                            </div>
+
+                            <!-- Category -->
+                            <div class="col-md-3">
+                                <label for="category_id"><b>Category</b></label>
+                                <select name="category_id" id="category_id" class="form-control show-tick">
+                                    <option value="">-- Select Category --</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Field -->
+                            <div class="col-md-3">
+                                <label for="field_id"><b>Field</b></label>
+                                <select name="field_id" id="field_id" class="form-control show-tick">
+                                    <option value="">-- Select Field --</option>
+                                    @foreach ($fields as $field)
+                                        <option value="{{ $field->id }}">{{ $field->field_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+                            </div>
+                        </form>
+
+                        <table id="incomeDataTable"
                             class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
                                 <tr>
@@ -84,37 +156,8 @@
                                 </tr>
                             </thead>
 
-                            <tbody id="costTableBody">
-                                @foreach ($incomes as $key => $income)
-                                    <tr id="incomeRow-{{ $income->id }}">
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $income->date }}</td>
-                                        <td>{{ $income->income_by ?? 'N/A' }}</td>
-                                        <td>{{ $income->category->category_name ?? 'N/A' }}</td>
-                                        <td>{{ $income->field->field_name ?? 'N/A' }}</td>
-                                        <td>{!! $income->description ?? 'N/A' !!}</td>
-                                        <td>{{ $income->amount }}</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm view-income-btn"
-                                                data-id="{{ $income->id }}"><i
-                                                    class="material-icons text-white">visibility</i> </a>
-
-                                            <a href="{{ route('income.edit', $income->id) }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="material-icons text-white">edit</i></a>
-
-
-                                            <form class="d-inline-block delete-income-form" data-id="{{ $income->id }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm delete-income-btn">
-                                                    <i class="material-icons">delete</i>
-                                                </button>
-                                            </form>
-
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            <tbody id="incomeTableBody">
+                                @include('admin.layouts.pages.income.partials.income_info_filter')
                             </tbody>
                         </table>
                         @include('admin.layouts.pages.income.show')
@@ -145,7 +188,7 @@
 
 
     <script>
-        
+        const incomeFilterUrl = "{{ route('income.filter') }}";
         const deleteIncomeData = "{{ route('income.destroy', ':id') }}";
         const showIncomeData = '/admin/income/show/';
     </script>

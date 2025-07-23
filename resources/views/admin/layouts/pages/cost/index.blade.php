@@ -11,7 +11,8 @@
         .filter-form {
             margin-bottom: 10px;
             margin-top: 0px;
-            padding-top: 6px !important;
+            padding-top: 12px !important;
+            padding-bottom: 6px !important;
         }
 
         .filter-form input[type="date"]::-webkit-calendar-picker-indicator {
@@ -42,6 +43,24 @@
                 flex-wrap: wrap;
             }
         }
+
+        #filterForm .form-group,
+        #filterForm>div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        #filterForm label {
+            white-space: nowrap;
+            margin-bottom: 0;
+            min-width: 70px;
+        }
+
+        #filterForm .form-control {
+            flex: 1;
+        }
     </style>
 @endpush
 
@@ -66,59 +85,63 @@
                     </div>
 
                     <div class="body">
-                        <form action="" method="GET" <form id="filterForm" action=""
-                            method="GET" class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
+                        <form id="filterForm" method="GET"
+                            class="border rounded shadow-sm d-flex align-items-end filter-form flex-wrap">
 
+                            <!-- From Date -->
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="from_date" class="mr-2">From</label>
-                                    <input style="border:1px solid #ccc;" type="date" name="from_date" id="from_date"
-                                        class="form-control" value="{{ request('from_date') }}">
-                                </div>
+                                <label for="from_date" class="mr-2">From</label>
+                                <input type="date" name="from_date" id="from_date" class="form-control"
+                                    value="{{ request('from_date') }}">
                             </div>
 
+                            <!-- To Date -->
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="to_date" class="mr-2">To</label>
-                                    <input style="border:1px solid #ccc;" type="date" name="to_date" id="to_date"
-                                        class="form-control" value="{{ request('to_date') }}">
-                                </div>
+                                <label for="to_date" class="mr-2">To</label>
+                                <input type="date" name="to_date" id="to_date" class="form-control"
+                                    value="{{ request('to_date') }}">
                             </div>
 
-                            <div class="col-md-2">
+                            <!-- Spend By -->
+                            <div class="col-md-3">
                                 <label for="spend_by"><b>Spend By</b></label>
-                                <div class="form-group">
-                                    <input type="text" style="border:1px solid #ccc;" name="spend_by" id="spend_by" class="form-control"
-                                        value="{{ request('spend_by') }}" placeholder="Spend By">
-                                </div>
+                                <input type="text" name="spend_by" id="spend_by" class="form-control"
+                                    value="{{ request('spend_by') }}" placeholder="Enter name">
                             </div>
 
-                            <div class="col-md-2">
+                            <!-- Category -->
+                            <div class="col-md-3">
                                 <label for="category_id"><b>Category</b></label>
-                                <div class="form-group">
-                                    <select name="category_id" class="form-control show-tick">
-                                        <option value="">-- Select Category --</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->category_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <select name="category_id" id="category_id" class="form-control show-tick">
+                                    <option value="">-- Select Category --</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary mr-2">Search</button>
-                                    <a href="" class="btn btn-secondary" id="resetBtn">Reset</a>
-                                </div>
+                            <!-- Field -->
+                            <div class="col-md-3">
+                                <label for="field_id"><b>Field</b></label>
+                                <select name="field_id" id="field_id" class="form-control show-tick">
+                                    <option value="">-- Select Field --</option>
+                                    @foreach ($fields as $field)
+                                        <option value="{{ $field->id }}">{{ $field->field_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
                             </div>
                         </form>
 
 
 
-                        <table id="productDataTable"
+
+                        <table id="costDataTable"
                             class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
                                 <tr>
@@ -134,33 +157,9 @@
                             </thead>
 
                             <tbody id="costTableBody">
-                                @foreach ($costs as $key => $cost)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $cost->date }}</td>
-                                        <td>{{ $cost->spend_by ?? 'N/A' }}</td>
-                                        <td>{{ $cost->category->category_name ?? 'N/A' }}</td>
-                                        <td>{{ $cost->field->field_name ?? 'N/A' }}</td>
-                                        <td>{!! $cost->description ?? 'N/A' !!}</td>
-                                        <td>{{ $cost->amount }}</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm view-cost-btn"
-                                                data-id="{{ $cost->id }}"><i
-                                                    class="material-icons text-white">visibility</i> </a>
-
-                                            <a href="{{ route('cost.edit', $cost->id) }}" class="btn btn-warning btn-sm">
-                                                <i class="material-icons text-white">edit</i></a>
-
-                                            <form class="d-inline-block" action="{{ route('cost.destroy', $cost->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm show_confirm"><i
-                                                        class="material-icons">delete</i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @include('admin.layouts.pages.cost.partials.cost_info_filter', [
+                                    'costs' => $costs,
+                                ])
                             </tbody>
                         </table>
                         @include('admin.layouts.pages.cost.show')
@@ -191,32 +190,10 @@
 
 
     <script>
-        $(document).ready(function() {
-            $('.view-cost-btn').click(function(e) {
-                e.preventDefault();
-
-                var costId = $(this).data('id');
-
-                $.ajax({
-                    url: '/admin/cost/' + costId, // Resource route show()
-                    type: 'GET',
-                    success: function(data) {
-                        $('#cost-date').text(data.date);
-                        $('#cost-category').text(data.category ? data.category.category_name :
-                            'N/A');
-                        $('#cost-field').text(data.field ? data.field.field_name : 'N/A');
-                        $('#cost-description').text(data.description);
-                        $('#cost-amount').text(data.amount);
-                        $('#cost-spend-by').text(data.spend_by);
-
-                        $('#costDetailsModal').modal('show');
-                    },
-                    error: function() {
-                        alert('Could not load cost details.');
-                    }
-                });
-            });
-        });
+        const costFilterUrl = "{{ route('cost.filter') }}";
+        const routes = {
+            costShow: "{{ url('/admin/cost') }}",
+        };
     </script>
 
     <script src="{{ asset('backend') }}/assets/js/cost.js"></script>

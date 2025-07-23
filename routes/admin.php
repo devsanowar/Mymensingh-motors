@@ -282,6 +282,7 @@ Route::prefix('admin')
             'destroy' => 'permission:cost.delete',
         ]);
 
+        Route::get('/costs/filter', [CostController::class, 'filter'])->name('cost.filter');
         Route::get('/All-trashed/cost', [CostController::class, 'trashedData'])->name('cost.trash');
         Route::get('/restore/{id}/costData', [CostController::class, 'restoreData'])->name('cost.restore');
         Route::delete('/permanant/{id}/costData', [CostController::class, 'forceDeleteData'])->name('cost.forceDelete');
@@ -311,9 +312,10 @@ Route::prefix('admin')
         Route::get('income/edit/{id}', [IncomeController::class, 'edit'])->name('income.edit');
         Route::put('income/edit/{id}', [IncomeController::class, 'update'])->name('income.update');
         Route::delete('income/delete/{id}', [IncomeController::class, 'destroy'])->name('income.destroy');
-        Route::get('/All-trashed/cost', [IncomeController::class, 'trashedData'])->name('income.trash');
-        Route::get('/restore/{id}/costData', [IncomeController::class, 'restoreData'])->name('income.restore');
-        Route::delete('/permanant/{id}/costData', [IncomeController::class, 'forceDeleteData'])->name('income.forceDelete');
+        Route::get('/incomes/filter', [IncomeController::class, 'filter'])->name('income.filter');
+        Route::get('/All-trashed/income', [IncomeController::class, 'trashedData'])->name('income.trash');
+        Route::get('/restore/{id}/incomeData', [IncomeController::class, 'restoreData'])->name('income.restore');
+        Route::delete('/permanant/{id}/incomeData', [IncomeController::class, 'forceDeleteData'])->name('income.forceDelete');
 
         
         // Post Category
