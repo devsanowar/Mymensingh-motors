@@ -19,6 +19,7 @@
 
     $isPostActive = request()->routeIs('post.*') || request()->routeIs('post_category.*');
 
+    $isSupplierActive = request()->routeIs('supplier.*');
     $isCostActive =
         request()->routeIs('cost.*') || request()->routeIs('cost-category.*') || request()->routeIs('field-of-cost.*');
 
@@ -179,21 +180,23 @@
 
 
             @if (Auth::user()->system_admin == 'Super_admin' || in_array('cost', $userPermissions))
-                <li class="">
+                <li class="{{ $isSupplierActive ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-toggle">
                         <i class="zmdi zmdi-accounts"></i>
                         <span>Supplier</span>
                     </a>
                     <ul class="ml-menu">
+                        <li class="{{ request()->routeIs('supplier.create') ? 'active' : '' }}">
+                            <a href="{{ route('supplier.create') }}">Create Supplier</a>
+                        </li>
+
                         <li class="{{ request()->routeIs('supplier.index') ? 'active' : '' }}">
                             <a href="{{ route('supplier.index') }}">All Supplier</a>
                         </li>
-                        {{-- <li class="{{ request()->routeIs('field-of-cost.index') ? 'active' : '' }}">
-                            <a href="{{ route('field-of-cost.index') }}">Field Of Cost</a>
-                        </li> --}}
                     </ul>
                 </li>
             @endif
+
 
 
 
