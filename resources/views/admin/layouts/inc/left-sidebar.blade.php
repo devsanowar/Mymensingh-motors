@@ -198,6 +198,25 @@
             @endif
 
 
+            @if (Auth::user()->system_admin == 'Super_admin' || in_array('cost', $userPermissions))
+                <li class="">
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="zmdi zmdi-shopping-cart"></i>
+                        <span>Purchase</span>
+                    </a>
+                    <ul class="ml-menu">
+                        {{-- <li class="{{ request()->routeIs('supplier.create') ? 'active' : '' }}">
+                            <a href="{{ route('supplier.create') }}">Create Supplier</a>
+                        </li> --}}
+
+                        <li class="{{ request()->routeIs('purchase.index') ? 'active' : '' }}">
+                            <a href="{{ route('purchase.index') }}">All Purchase</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
+
 
 
             @if (Auth::user()->system_admin == 'Super_admin' || in_array('cost', $userPermissions))

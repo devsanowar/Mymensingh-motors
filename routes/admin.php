@@ -44,6 +44,7 @@ use App\Http\Controllers\Admin\WebsiteColorController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\PrivacypolicyController;
 use App\Http\Controllers\Admin\PrivilegeController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\StockLogController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
@@ -211,6 +212,11 @@ Route::prefix('admin')
         Route::put('/supplier/update/{id}', [SupplierController::class, 'update'])->name('supplier.update');
         Route::delete('/supplier/delete/{id}', [SupplierController::class, 'destroy'])->name('supplier.destroy');
         Route::post('/supplier/status-change', [SupplierController::class, 'supplierChangeStatus'])->name('supplier.status');
+
+
+
+        // Purchase Route here
+        Route::get('purchase', [PurchaseController::class, 'index'])->name('purchase.index');
 
 
 
