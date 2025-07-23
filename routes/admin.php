@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\PrivacypolicyController;
 use App\Http\Controllers\Admin\PrivilegeController;
 use App\Http\Controllers\Admin\StockLogController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
 use App\Http\Controllers\Admin\TermsAdnCondiotnController;
 use App\Http\Controllers\Admin\VisitLogController;
@@ -200,6 +201,18 @@ Route::prefix('admin')
         Route::get('/restore/{id}/productData', [ProductController::class, 'restoreData'])->name('product.restore');
         Route::delete('/permanant/{id}/productdata', [ProductController::class, 'forceDeleteData'])->name('product.forceDelete');
         Route::get('changeStatus/{id}', [ProductController::class, 'changeStatus'])->name('changeStatus');
+
+        
+        // Supplier Route here
+        Route::get('supplier', [SupplierController::class, 'index'])->name('supplier.index');
+        Route::get('supplier/create', [SupplierController::class, 'create'])->name('supplier.create');
+        Route::post('/supplier', [SupplierController::class, 'store'])->name('supplier.store');
+        Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit'])->name('supplier.edit');
+        Route::put('/supplier/update/{id}', [SupplierController::class, 'update'])->name('supplier.update');
+        Route::delete('/supplier/delete/{id}', [SupplierController::class, 'destroy'])->name('supplier.destroy');
+        Route::post('/supplier/status-change', [SupplierController::class, 'supplierChangeStatus'])->name('supplier.status');
+
+
 
         // Stock route here
         Route::get('/stocks', [StockController::class, 'index'])->name('admin.stock.index')->middleware('permission:stock.management');
