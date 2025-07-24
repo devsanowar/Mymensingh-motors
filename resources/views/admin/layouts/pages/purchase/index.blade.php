@@ -17,11 +17,11 @@
                         <h4>All Purchase Info</h4>
                         
                         <div>
-                            <a href="" class="btn btn-primary">Create Purchase</a>
+                            <a href="{{ route('purchase.create') }}" class="btn btn-primary">+ Create Purchase</a>
                         </div>
                     </div>
                     <div class="body">
-                        <table id="orderDataTable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                        <table id="purchaseDataTable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
                                 <tr>
                                     <th>S/N</th>
@@ -61,4 +61,5 @@
     </script>
 
     <script src="{{ asset('backend') }}/assets/js/pages/forms/basic-form-elements.js"></script>
+    <script src="{{ asset('backend') }}/assets/js/purchase.js"></script>
 @endpush

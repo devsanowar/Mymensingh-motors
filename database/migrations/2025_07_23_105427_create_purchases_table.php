@@ -13,34 +13,32 @@ return new class extends Migration {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
 
-            // Supplier
+            // Foreign key to supplier
             $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
 
-            // Basic Info
+            // Purchase metadata
             $table->date('purchase_date')->nullable();
-            $table->string('invoice_number')->nullable(); //->unique(); // uncomment if needed
-            $table->string('reference_no')->nullable();
+            $table->string('voucher_number')->unique()->nullable();
 
-            // Financial Info
-            $table->decimal('subtotal', 15, 2)->default(0);
-            $table->decimal('discount_amount', 15, 2)->default(0);
-            $table->decimal('tax_amount', 15, 2)->default(0);
-            $table->decimal('shipping_charge', 15, 2)->default(0)->nullable();
+            // Financial fields
+            $table->decimal('total', 10, 2)->default(0); // Before discount & transport
+            $table->decimal('total_discount', 10, 2)->default(0);
+            $table->decimal('transport_cost', 10, 2)->default(0);
+            $table->decimal('grand_total', 10, 2)->default(0); // total - discount + transport
 
-            $table->decimal('total_amount', 15, 2)->default(0);
-            $table->decimal('paid_amount', 15, 2)->default(0);
-            $table->decimal('due_amount', 15, 2)->default(0);
+            $table->decimal('previous_balance', 10, 2)->default(0);
+            $table->decimal('paid_amount', 10, 2)->default(0);
+            $table->decimal('current_balance', 10, 2)->default(0); // grand_total + prev_balance - paid
 
-            // Status
+            // Payment details
             $table->enum('payment_status', ['Paid', 'Partial', 'Due'])->default('Due');
-            $table->enum('purchase_status', ['Received', 'Pending', 'Ordered', 'Cancelled'])->default('Received');
+            $table->enum('payment_type', ['Cash', 'Bank', 'Mobile'])->default('Cash');
 
-            // Extra
-            $table->string('payment_method')->nullable();
-            $table->text('notes')->nullable();
-            $table->text('document')->nullable();
+            // Misc
+            $table->enum('status', ['Pending', 'Confirmed', 'Cancelled'])->default('Confirmed');
+            $table->text('note')->nullable();
 
-            // Created by
+            // Created by user (admin)
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->timestamps();
