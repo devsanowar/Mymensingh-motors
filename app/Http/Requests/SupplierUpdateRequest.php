@@ -28,6 +28,7 @@ class SupplierUpdateRequest extends FormRequest
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|string',
             'opening_balance' => 'nullable|numeric',
+            'balance_type' => 'required',
             'is_active' => 'required|boolean',
         ];
     }

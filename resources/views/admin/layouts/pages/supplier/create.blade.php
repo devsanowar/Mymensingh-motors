@@ -9,7 +9,6 @@
             border: 1px solid #ddd !important;
         }
     </style>
-
 @endpush
 @section('admin_content')
     <div class="container-fluid">
@@ -81,15 +80,31 @@
                             </div>
 
                             <!-- Opening Balance -->
-                            <div class="form-group">
-                                <label for="opening_balance">Opening Balance</label>
-                                <input type="number" step="0.01" name="opening_balance" id="opening_balance"
-                                    class="form-control @error('opening_balance') is-invalid @enderror" placeholder="0.00"
-                                    value="{{ old('opening_balance', 0) }}">
-                                @error('opening_balance')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="opening_balance">Opening Balance</label>
+                                        <input type="number" step="0.01" name="opening_balance" id="opening_balance"
+                                            class="form-control @error('opening_balance') is-invalid @enderror"
+                                            placeholder="0.00" value="{{ old('opening_balance', 0) }}">
+                                        @error('opening_balance')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="balance_type">Balance Type</label>
+                                        <select name="balance_type" id="balance_type" class="form-control show-tick">
+                                            <option value="payable">Payable</option>
+                                            <option value="receivable">Receivable</option>
+                                        </select>
+                                    </div>
+
+                                </div>
                             </div>
+
 
                             <!-- Is Active -->
                             <div class="form-group">
@@ -110,7 +125,8 @@
                                 <div class="col-lg-12">
                                     <button type="submit" class="btn btn-primary right" id="submitBtn">
                                         <span id="submitBtnText">Save Supplier</span></span>
-                                        <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                        <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status"
+                                            aria-hidden="true"></span>
                                     </button>
                                 </div>
                             </div>

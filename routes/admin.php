@@ -219,7 +219,6 @@ Route::prefix('admin')
         Route::get('purchase', [PurchaseController::class, 'index'])->name('purchase.index');
         Route::get('purchase/create', [PurchaseController::class, 'create'])->name('purchase.create');
         Route::post('purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
-
         Route::get('/get-supplier-balance/{id}', [PurchaseController::class, 'getSupplierBalance']);
 
 
