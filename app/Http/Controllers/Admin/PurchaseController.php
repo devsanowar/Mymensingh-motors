@@ -16,7 +16,12 @@ class PurchaseController extends Controller
 {
     public function index()
     {
-        return view('admin.layouts.pages.purchase.index');
+        $suppliers = Supplier::where('is_active', 1)
+            ->select(['id', 'supplier_name'])
+            ->get();
+
+        $purchases = Purchase::with('supplier')->get();
+        return view('admin.layouts.pages.purchase.index', compact('suppliers', 'purchases'));
     }
 
     public function create()
@@ -42,43 +47,6 @@ class PurchaseController extends Controller
             'balance_type' => $supplier->balance_type,
         ]);
     }
-
-    // public function store(PurchaseStoreRequest $request)
-    // {
-
-    //     DB::transaction(function () use ($request, &$purchase) {
-    //         $purchase = Purchase::create([
-    //             'purchase_date' => $request->purchase_date,
-    //             'supplier_id' => $request->supplier_id,
-    //             'voucher_number' => $request->voucher_number,
-    //             'total_amount' => $request->total,
-    //             'total_discount' => $request->total_discount ?? 0,
-    //             'transport_cost' => $request->transport_cost ?? 0,
-    //             'grand_total' => $request->grand_total,
-    //             'previous_balance' => $request->previous_balance ?? 0,
-    //             'paid_amount' => $request->paid_amount ?? 0,
-    //             'current_balance' => $request->current_balance ?? 0,
-    //             'payment_method' => $request->payment_type ?? "Cash",
-    //             'payment_status' => $request->payment_status ?? "Paid",
-    //         ]);
-
-    //         foreach ($request->products as $item) {
-    //             $purchase->items()->create([
-    //                 'product_id' => $item['id'],
-    //                 'quantity' => $item['qty'],
-    //                 'purchase_price' => $item['price'],
-    //                 'total' => $item['qty'] * $item['price'],
-    //             ]);
-
-    //             ProductStock::updateOrCreate(['product_id' => $item['id']],
-    //             ['quantity' => DB::raw('quantity + ' . $item['qty'])]);
-    //         }
-    //     });
-
-    //     // return response()->json(['status' => true, 'id' => $purchase->id]);
-    //     Toastr::success("Purchase successfully done!");
-    //     return redirect()->back();
-    // }
 
     public function store(PurchaseStoreRequest $request)
     {
@@ -158,4 +126,74 @@ class PurchaseController extends Controller
         Toastr::success('Purchase successfully done!');
         return redirect()->back();
     }
+
+    public function edit($id) {}
+
+    public function filter(Request $request)
+    {
+        $query = Purchase::with('supplier');
+
+        // Filter by Voucher No
+        if ($request->voucher_no) {
+            $query->where('voucher_number', 'like', '%' . $request->voucher_no . '%');
+        }
+
+        // Filter by Supplier
+        if ($request->supplier_id) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+
+        // Filter by Date Range
+        if ($request->from_date && $request->to_date) {
+            $query->whereBetween('purchase_date', [$request->from_date, $request->to_date]);
+        } elseif ($request->from_date) {
+            $query->whereDate('purchase_date', '>=', $request->from_date);
+        } elseif ($request->to_date) {
+            $query->whereDate('purchase_date', '<=', $request->to_date);
+        }
+
+        $purchases = $query->get();
+
+        $grandTotalSum = $purchases->sum('grand_total');
+        $dueSum = $purchases->sum('current_balance');
+
+        return response()->json([
+            'purchases' => $purchases,
+            'grand_total_sum' => $grandTotalSum,
+            'due_sum' => $dueSum,
+        ]);
+    }
+
+
+    public function destroy(Purchase $purchase)
+    {
+        $purchase->delete();
+        return response()->json(['status' => 'success', 'message' => 'Purchase deleted successfully.']);
+    }
+
+
+    public function trashedData()
+    {
+        $purchases = Purchase::with('supplier')->onlyTrashed()->get();
+
+        return view('admin.layouts.pages.purchase.recyclebin.trashed-data', compact('purchases'));
+    }
+
+
+    public function restoreData($id)
+    {
+        Purchase::withTrashed()->where('id', $id)->restore();
+
+        return response()->json(['success' => 'Purchase restored successfully.']);
+    }
+
+    public function forceDeleteData($id)
+    {
+        $purchase = Purchase::withTrashed()->where('id', $id)->first();
+        $purchase->forceDelete();
+
+       return response()->json(['success' => 'Purchase successfully deleted.']);
+    }
+
+    
 }

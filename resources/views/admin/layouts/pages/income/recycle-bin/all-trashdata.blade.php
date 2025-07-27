@@ -5,8 +5,6 @@
 @endpush
 @section('admin_content')
 
-
-
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
@@ -53,14 +51,6 @@
                                                 </button>
                                             </form>
 
-
-                                            {{-- <form class="d-inline-block"
-                                                action="{{ route('income.forceDelete', $income->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="btn btn-danger btn-sm show_confirm">Permanently delete</button>
-                                            </form> --}}
                                             <form class="d-inline-block permanent-delete-income-form" data-id="{{ $income->id }}">
                                                 @csrf
                                                 @method('DELETE')

@@ -218,8 +218,15 @@ Route::prefix('admin')
         // Purchase Route here
         Route::get('purchase', [PurchaseController::class, 'index'])->name('purchase.index');
         Route::get('purchase/create', [PurchaseController::class, 'create'])->name('purchase.create');
-        Route::post('purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
+        Route::post('purchase', [PurchaseController::class, 'store'])->name('purchase.store');
+        Route::get('purchase/edit/{id}', [PurchaseController::class, 'edit'])->name('purchase.edit');
         Route::get('/get-supplier-balance/{id}', [PurchaseController::class, 'getSupplierBalance']);
+        Route::get('/purchase/filter', [PurchaseController::class, 'filter'])->name('purchase.filter');
+        Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+
+        Route::get('/All-trashed/data', [PurchaseController::class, 'trashedData'])->name('purchase.trash');
+        Route::get('/restore/{id}/purchaseData', [PurchaseController::class, 'restoreData'])->name('purchase.restore');
+        Route::delete('/permanant/{id}/purchaseData', [PurchaseController::class, 'forceDeleteData'])->name('purchase.forceDelete');
 
 
 
