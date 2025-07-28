@@ -205,9 +205,9 @@
                         <span>Purchase</span>
                     </a>
                     <ul class="ml-menu">
-                        {{-- <li class="{{ request()->routeIs('supplier.create') ? 'active' : '' }}">
-                            <a href="{{ route('supplier.create') }}">Create Supplier</a>
-                        </li> --}}
+                        <li class="{{ request()->routeIs('purchase.create') ? 'active' : '' }}">
+                            <a href="{{ route('purchase.create') }}">Create Purchase</a>
+                        </li>
 
                         <li class="{{ request()->routeIs('purchase.index') ? 'active' : '' }}">
                             <a href="{{ route('purchase.index') }}">All Purchase</a>

@@ -19,7 +19,13 @@
                 $('#submitBtn').attr('disabled', false);
                 $('#spinner').addClass('d-none');
                 $('#submitBtnText').text('SAVE PURCHASE');
+
+                // সম্পূর্ণ form reset
                 $('#purchaseForm')[0].reset();
+                $('#purchaseForm').find('select').val('').trigger('change'); // select2 বা dropdown রিসেট
+                $('#purchaseForm').find('textarea').val(''); // textarea রিসেট
+                $('#purchaseForm').find('input[type="file"]').val(''); // file input রিসেট
+                $('#productTable tbody').empty(); // dynamic product row clear (যদি থাকে)
 
                 // Toastr Success
                 toastr.success('Purchase successfully done!');
@@ -125,7 +131,7 @@
                                 ${productName}
                                 <input type="hidden" name="products[${idx}][id]" value="${productId}">
                             </td>
-                            <td>${productModel}</td>
+
                             <td>
                                 <input type="number" name="products[${idx}][qty]" class="form-control qty" value="1" min="1">
                             </td>
@@ -337,11 +343,11 @@
                         <td>${purchase.paid_amount}</td>
                         <td>${purchase.current_balance}</td>
                         <td>
-                            <a href="/purchase/${purchase.id}" class="btn btn-info btn-sm view-purchase-btn" data-id="${purchase.id}">
+                            <a href="/admin/purchase/${purchase.id}" class="btn btn-info btn-sm view-purchase-btn" data-id="${purchase.id}">
                                 <i class="material-icons text-white">visibility</i>
                             </a>
 
-                            <a href="/purchase/${purchase.id}/edit" class="btn btn-warning btn-sm">
+                            <a href="/admin/purchase/${purchase.id}/edit" class="btn btn-warning btn-sm">
                                 <i class="material-icons text-white">edit</i>
                             </a>
 

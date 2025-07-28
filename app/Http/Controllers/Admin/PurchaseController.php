@@ -37,7 +37,7 @@ class PurchaseController extends Controller
     {
         $supplier = Supplier::findOrFail($id);
 
-        $balance = $supplier->opening_balance ?? 0;
+        $balance = $supplier->current_balance ?? 0;
         $type = $supplier->balance_type ?? 'payable';
 
         $previous_balance = $type === 'receivable' ? -1 * $balance : $balance;
@@ -70,7 +70,7 @@ class PurchaseController extends Controller
             $paid = (float) ($request->paid_amount ?? 0);
             $grandTotal = $total - $discount + $transport;
 
-            $previousBalance = (float) ($supplier->opening_balance ?? 0);
+            $previousBalance = (float) ($supplier->current_balance ?? 0);
 
             // মোট হিসাব = আগের বকেয়া + নতুন purchase
             $totalPayable =
@@ -90,7 +90,7 @@ class PurchaseController extends Controller
                 'purchase_date' => $request->purchase_date,
                 'supplier_id' => $request->supplier_id,
                 'voucher_number' => $request->voucher_number,
-                'total_amount' => $total,
+                'total' => $total,
                 'total_discount' => $discount,
                 'transport_cost' => $transport,
                 'grand_total' => $grandTotal,
@@ -115,7 +115,7 @@ class PurchaseController extends Controller
                 ]);
             } else {
                 $supplier->update([
-                    'opening_balance' => abs($currentBalance),
+                    'current_balance' => abs($currentBalance),
                     'balance_type' => $currentBalance > 0 ? 'payable' : 'receivable',
                 ]);
             }
@@ -127,7 +127,15 @@ class PurchaseController extends Controller
         return redirect()->back();
     }
 
-    public function edit($id) {}
+    public function edit($id)
+    {
+        $products = Product::all();
+        $purchase = Purchase::with(['supplier', 'items.product'])->findOrFail($id);
+
+        return view('admin.layouts.pages.purchase.edit', compact('products', 'purchase'));
+    }
+
+
 
     public function filter(Request $request)
     {

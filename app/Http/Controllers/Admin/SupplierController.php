@@ -31,6 +31,7 @@ class SupplierController extends Controller
             'email' => $request->email,
             'address' => $request->address,
             'opening_balance' => $request->opening_balance ?? 0,
+            'current_balance' => $request->opening_balance ?? 0,
             'balance_type' => $request->balance_type,
             'is_active' => $request->is_active,
         ]);
@@ -53,6 +54,7 @@ class SupplierController extends Controller
             'email' => $request->email,
             'address' => $request->address,
             'opening_balance' => $request->opening_balance ?? 0,
+            'current_balance' => $request->opening_balance ?? 0,
             'balance_type' => $request->balance_type,
             'is_active' => $request->is_active,
         ]);

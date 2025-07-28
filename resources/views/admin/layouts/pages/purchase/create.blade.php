@@ -46,7 +46,7 @@
                                             <option value="{{ $product->id }}" data-name="{{ $product->product_name }}"
                                                 data-model="{{ $product->model }}"
                                                 data-price="{{ $product->purchase_price }}">
-                                                {{ $product->product_name }} - {{ $product->model }}
+                                                {{ $product->product_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -60,7 +60,7 @@
                                         <tr>
                                             <th>SL</th>
                                             <th>Product Name</th>
-                                            <th>Model</th>
+                                            {{-- <th>Model</th> --}}
                                             <th>Qty</th>
                                             <th>Purchase Price</th>
                                             <th>Total</th>

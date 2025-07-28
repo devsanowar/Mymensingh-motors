@@ -83,14 +83,28 @@
                             </div>
 
                             <!-- Opening Balance -->
-                            <div class="form-group">
-                                <label for="opening_balance">Opening Balance</label>
-                                <input type="number" step="0.01" name="opening_balance" id="opening_balance"
-                                    class="form-control @error('opening_balance') is-invalid @enderror" placeholder="0.00"
-                                    value="{{ old('opening_balance', $supplier->opening_balance) }}">
-                                @error('opening_balance')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="opening_balance">Opening Balance</label>
+                                        <input type="number" step="0.01" name="opening_balance" id="opening_balance"
+                                            class="form-control @error('opening_balance') is-invalid @enderror" placeholder="0.00"
+                                            value="{{ old('opening_balance', $supplier->opening_balance) }}">
+                                        @error('opening_balance')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="balance_type">Balance Type</label>
+                                        <select name="balance_type" id="balance_type" class="form-control show-tick">
+                                            <option value="payable" @selected($supplier->balance_type == 'payable')>Payable</option>
+                                            <option value="receivable" @selected($supplier->balance_type == 'receivable')>Receivable</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Status -->
