@@ -137,87 +137,82 @@ class PurchaseController extends Controller
     }
 
     public function update(PurchaseUpdateRequest $request, Purchase $purchase)
-{
-    DB::transaction(function () use ($request, $purchase) {
-        $supplier = Supplier::lockForUpdate()->findOrFail($request->supplier_id);
+    {
+        DB::transaction(function () use ($request, $purchase) {
+            $supplier = Supplier::lockForUpdate()->findOrFail($request->supplier_id);
 
-        // পুরানো স্টক ফেরত দেওয়া (ডিক্রিমেন্ট)
-        foreach ($purchase->items as $oldItem) {
-            ProductStock::where('product_id', $oldItem->product_id)
-                ->decrement('quantity', $oldItem->quantity);
-        }
+            // পুরানো স্টক ফেরত দেওয়া (ডিক্রিমেন্ট)
+            foreach ($purchase->items as $oldItem) {
+                ProductStock::where('product_id', $oldItem->product_id)->decrement('quantity', $oldItem->quantity);
+            }
 
-        // পুরানো purchase_items ডিলিট করা
-        $purchase->items()->delete();
+            // পুরানো purchase_items ডিলিট করা
+            $purchase->items()->delete();
 
-        $total = 0;
+            $total = 0;
 
-        // নতুন purchase_items তৈরি করা
-        if ($request->has('items') && is_array($request->items)) {
-            foreach ($request->items as $item) {
-                if (isset($item['product_id'], $item['quantity'], $item['purchase_price'])) {
-                    $subtotal = $item['quantity'] * $item['purchase_price'];
-                    $total += $subtotal;
+            // নতুন purchase_items তৈরি করা
+            if ($request->has('items') && is_array($request->items)) {
+                foreach ($request->items as $item) {
+                    if (isset($item['product_id'], $item['quantity'], $item['purchase_price'])) {
+                        $subtotal = $item['quantity'] * $item['purchase_price'];
+                        $total += $subtotal;
 
-                    $purchase->items()->create([
-                        'product_id' => $item['product_id'],
-                        'quantity' => $item['quantity'],
-                        'purchase_price' => $item['purchase_price'],
-                        'total' => $subtotal,
-                    ]);
+                        $purchase->items()->create([
+                            'product_id' => $item['product_id'],
+                            'quantity' => $item['quantity'],
+                            'purchase_price' => $item['purchase_price'],
+                            'total' => $subtotal,
+                        ]);
 
-                    // স্টক আপডেট
-                    ProductStock::updateOrCreate(
-                        ['product_id' => $item['product_id']],
-                        ['quantity' => DB::raw('quantity + ' . $item['quantity'])]
-                    );
+                        // স্টক আপডেট
+                        ProductStock::updateOrCreate(['product_id' => $item['product_id']], ['quantity' => DB::raw('quantity + ' . $item['quantity'])]);
+                    }
                 }
             }
-        }
 
-        // হিসাব
-        $discount = (float) ($request->total_discount ?? 0);
-        $transport = (float) ($request->transport_cost ?? 0);
-        $paid = (float) ($request->paid_amount ?? 0);
-        $grandTotal = $total - $discount + $transport;
+            // হিসাব
+            $discount = (float) ($request->total_discount ?? 0);
+            $transport = (float) ($request->transport_cost ?? 0);
+            $paid = (float) ($request->paid_amount ?? 0);
+            $grandTotal = $total - $discount + $transport;
 
-        // Important: পুরাতন Purchase এর current_balance বাদ দিতে হবে Supplier থেকে
-        $previousSupplierBalance = $supplier->current_balance;
-        $oldPurchaseBalance = $purchase->current_balance;
+            // Important: পুরাতন Purchase এর current_balance বাদ দিতে হবে Supplier থেকে
+            $previousSupplierBalance = $supplier->current_balance;
+            $oldPurchaseBalance = $purchase->current_balance;
 
-        // নতুন হিসাব
-        $newCurrentBalance = ($previousSupplierBalance - $oldPurchaseBalance) + ($grandTotal - $paid);
+            // নতুন হিসাব
+            $newCurrentBalance = $previousSupplierBalance - $oldPurchaseBalance + ($grandTotal - $paid);
 
-        // Payment Status
-        $paymentStatus = $newCurrentBalance == 0 ? 'Paid' : ($paid > 0 ? 'Partial' : 'Due');
+            // Payment Status
+            $paymentStatus = $newCurrentBalance == 0 ? 'Paid' : ($paid > 0 ? 'Partial' : 'Due');
 
-        // Purchase আপডেট
-        $purchase->update([
-            'purchase_date' => $request->purchase_date,
-            'supplier_id' => $request->supplier_id,
-            'voucher_number' => $request->voucher_number,
-            'total' => $total,
-            'total_discount' => $discount,
-            'transport_cost' => $transport,
-            'grand_total' => $grandTotal,
-            'previous_balance' => $previousSupplierBalance,
-            'paid_amount' => $paid,
-            'current_balance' => $grandTotal - $paid,
-            'payment_method' => $request->payment_type ?? 'Cash',
-            'payment_status' => $paymentStatus,
-        ]);
+            // Purchase আপডেট
+            $purchase->update([
+                'purchase_date' => $request->purchase_date,
+                'supplier_id' => $request->supplier_id,
+                'voucher_number' => $request->voucher_number,
+                'total' => $total,
+                'total_discount' => $discount,
+                'transport_cost' => $transport,
+                'grand_total' => $grandTotal,
+                'previous_balance' => $previousSupplierBalance,
+                'paid_amount' => $paid,
+                'current_balance' => $grandTotal - $paid,
+                'payment_method' => $request->payment_type ?? 'Cash',
+                'payment_status' => $paymentStatus,
+            ]);
 
-        // Supplier আপডেট
-        $supplier->update([
-            'current_balance' => abs($newCurrentBalance),
-            'balance_type' => $newCurrentBalance > 0 ? 'payable' : ($newCurrentBalance < 0 ? 'receivable' : 'payable'),
-        ]);
-    });
+            // Supplier আপডেট
+            $supplier->update([
+                'current_balance' => abs($newCurrentBalance),
+                'balance_type' => $newCurrentBalance > 0 ? 'payable' : ($newCurrentBalance < 0 ? 'receivable' : 'payable'),
+            ]);
+        });
 
-    Toastr::success('Purchase successfully updated!');
-    return redirect()->route('purchase.index');
-}
-
+        Toastr::success('Purchase successfully updated!');
+        return redirect()->route('purchase.index');
+    }
 
     public function filter(Request $request)
     {

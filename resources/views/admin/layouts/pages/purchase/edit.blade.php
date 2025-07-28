@@ -15,7 +15,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('purchase.update',$purchase->id ) }}" method="POST">
+                        <form action="{{ route('purchase.update', $purchase->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             {{-- Top Section --}}
@@ -71,8 +71,8 @@
                                                 <td>{{ $productName }}</td>
                                                 <td>
                                                     <input type="number" step="1" min="0"
-                                                        name="items[{{ $loop->index }}][quantity]" class="form-control qty"
-                                                        value="{{ $totalQty }}">
+                                                        name="items[{{ $loop->index }}][quantity]"
+                                                        class="form-control qty" value="{{ $totalQty }}">
                                                 </td>
                                                 <td>
                                                     <input type="number" step="0.01" min="0"
@@ -234,13 +234,9 @@
                                 <tr data-row="__INDEX__">
                                     <td class="sl"></td>
                                     <td>
-                                        <select name="items[__INDEX__][product_id]" class="form-control product_id">
-                                            <option value="">-- Select --</option>
-                                            @foreach ($products as $p)
-                                                <option value="{{ $p->id }}">{{ $p->product_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input type="hidden" name="items[__INDEX__][id]" value="">
+                                        <span class="product_name_display"></span>
+                                        <input type="hidden" name="items[__INDEX__][product_id]"
+                                            class="product_id_input" value="">
                                     </td>
                                     <td>
                                         <input type="number" step="1" min="0"
@@ -260,6 +256,7 @@
                                 </tr>
                             </template>
 
+
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary right" id="submitBtn">
                                     <span id="submitBtnText">Save Purchase</span></span>
@@ -273,6 +270,18 @@
             </div>
         </div>
     </div>
+
+
+    @php
+        $productData = $products->map(function ($p) {
+            return [
+                'id' => $p->id,
+                'name' => $p->product_name,
+                'price' => (float) ($p->purchase_price ?? 0),
+            ];
+        });
+    @endphp
+
 @endsection
 
 
@@ -316,32 +325,19 @@
             }
 
             function recalcSummary() {
-                // 1) Sum of rows
                 let total = 0;
                 $tbody.find('tr').each(function() {
                     total += recalcRow($(this));
                 });
 
-                // 2) Discount, transport
                 const discount = parseFloat($('#total_discount').val()) || 0;
                 const transport = parseFloat($('#transport_cost').val()) || 0;
-
-                // 3) Grand total
                 const grandTotal = total - discount + transport;
-
-                // 4) Previous balance
                 const prevBal = parseFloat($('#opening_balance_signed').val()) || 0;
-
-                // 5) Paid
                 const paid = parseFloat($('#paid_amount').val()) || 0;
-
-                // 6) Current balance = prev + grand - paid
                 const current = prevBal + grandTotal - paid;
-
-                // 7) Payment status
                 const paymentStatus = calcPaymentStatus(grandTotal, paid);
 
-                // Update fields
                 $('#total').val(nf(total));
                 $('#grand_total').val(nf(grandTotal));
 
@@ -353,7 +349,6 @@
 
                 $('#payment_status').val(paymentStatus);
 
-                // Also update previous balance visual/type if needed
                 const prevType = prevBal >= 0 ? 'Payable' : 'Receivable';
                 setBalanceType($('#balance_type'), prevType);
                 $('#opening_balance_view').val(nf(Math.abs(prevBal)));
@@ -369,26 +364,22 @@
             }
 
             // ---------- Events ----------
-            // Qty / Price change => recalc
             $(document).on('input', '.qty, .price', function() {
                 const $tr = $(this).closest('tr');
                 recalcRow($tr);
                 recalcSummary();
             });
 
-            // Summary fields change
             $('#total_discount, #transport_cost, #paid_amount').on('input', function() {
                 recalcSummary();
             });
 
-            // Delete row
             $(document).on('click', '.delete-item', function() {
                 $(this).closest('tr').remove();
                 renumberSL();
                 recalcSummary();
             });
 
-            // Add row
             $('#add_row').on('click', function() {
                 const tpl = $('#row_template').html().replace(/__INDEX__/g, rowIndex);
                 const $row = $(tpl);
@@ -398,13 +389,37 @@
                 rowIndex++;
             });
 
-            // Product change করলে চাইলে default price বসাতে পারো (যদি তোমার কাছে থাকে)
-            // এখানে দেখালাম কীভাবে products array থেকে price বসাতে পারো
-            const products = @json(
-                $products->map(fn($p) => [
-                        'id' => $p->id,
-                        'price' => (float) ($p->purchase_price ?? 0),
-                    ]));
+            const products = @json($productData);
+
+
+            $('#product_model').on('change', function() {
+                const productId = parseInt($(this).val());
+                if (!productId) return;
+
+                const product = products.find(p => p.id === productId);
+                if (!product) return;
+
+                const tpl = $('#row_template').html().replace(/__INDEX__/g, rowIndex);
+                const $row = $(tpl);
+
+                // Set product name display
+                $row.find('.product_name_display').text(product.name);
+
+                // Set hidden product_id input
+                $row.find('.product_id_input').val(product.id);
+
+                // Set price input
+                $row.find('.price').val(product.price);
+
+                $tbody.append($row);
+                renumberSL();
+                recalcSummary();
+                rowIndex++;
+
+                // Reset the select box after adding
+                $(this).val('').trigger('change');
+            });
+
 
             $(document).on('change', '.product_id', function() {
                 const $tr = $(this).closest('tr');
@@ -417,22 +432,9 @@
                 recalcSummary();
             });
 
-            // Initial calc
             $(document).ready(function() {
                 recalcSummary();
             });
         })();
     </script>
-    <script src="{{ asset('backend') }}/assets/js/purchase.js"></script>
 @endpush
-
-
-
-
-{{-- @push('scripts')
-    <script>
-        const purchaseStoreRoute = "{{ route('purchase.store') }}";
-        const supplierBalanceUrl = "{{ url('/admin/get-supplier-balance') }}";
-    </script>
-    <script src="{{ asset('backend') }}/assets/js/purchase.js"></script>
-@endpush --}}
