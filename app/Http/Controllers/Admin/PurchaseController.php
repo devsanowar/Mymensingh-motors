@@ -141,17 +141,17 @@ class PurchaseController extends Controller
         DB::transaction(function () use ($request, $purchase) {
             $supplier = Supplier::lockForUpdate()->findOrFail($request->supplier_id);
 
-            // পুরানো স্টক ফেরত দেওয়া (ডিক্রিমেন্ট)
+            // 1. পুরানো স্টক ফেরত (কমানো)
             foreach ($purchase->items as $oldItem) {
                 ProductStock::where('product_id', $oldItem->product_id)->decrement('quantity', $oldItem->quantity);
             }
 
-            // পুরানো purchase_items ডিলিট করা
+            // 2. পুরানো purchase_items ডিলিট
             $purchase->items()->delete();
 
             $total = 0;
 
-            // নতুন purchase_items তৈরি করা
+            // 3. নতুন purchase_items তৈরি এবং স্টক যোগ
             if ($request->has('items') && is_array($request->items)) {
                 foreach ($request->items as $item) {
                     if (isset($item['product_id'], $item['quantity'], $item['purchase_price'])) {
@@ -165,29 +165,31 @@ class PurchaseController extends Controller
                             'total' => $subtotal,
                         ]);
 
-                        // স্টক আপডেট
+                        // স্টক বাড়ানো
                         ProductStock::updateOrCreate(['product_id' => $item['product_id']], ['quantity' => DB::raw('quantity + ' . $item['quantity'])]);
                     }
                 }
             }
 
-            // হিসাব
+            // 4. নতুন হিসাব ক্যালকুলেশন
             $discount = (float) ($request->total_discount ?? 0);
             $transport = (float) ($request->transport_cost ?? 0);
             $paid = (float) ($request->paid_amount ?? 0);
             $grandTotal = $total - $discount + $transport;
 
-            // Important: পুরাতন Purchase এর current_balance বাদ দিতে হবে Supplier থেকে
+            // 5. আগের current_balance বাদ দিয়ে নতুন হিসাব
+            $oldPurchaseBalance = $purchase->current_balance; // পুরনো ব্যালেন্স
             $previousSupplierBalance = $supplier->current_balance;
-            $oldPurchaseBalance = $purchase->current_balance;
 
-            // নতুন হিসাব
-            $newCurrentBalance = $previousSupplierBalance - $oldPurchaseBalance + ($grandTotal - $paid);
+            // 6. নতুন current_balance হিসাব
+            $newPurchaseCurrentBalance = $grandTotal - $paid; // এই পারচেস এর নতুন ব্যালেন্স
 
-            // Payment Status
-            $paymentStatus = $newCurrentBalance == 0 ? 'Paid' : ($paid > 0 ? 'Partial' : 'Due');
+            $updatedSupplierBalance = $previousSupplierBalance - $oldPurchaseBalance + $newPurchaseCurrentBalance;
 
-            // Purchase আপডেট
+            // 7. Payment Status
+            $paymentStatus = $newPurchaseCurrentBalance == 0 ? 'Paid' : ($paid > 0 ? 'Partial' : 'Due');
+
+            // 8. Purchase আপডেট
             $purchase->update([
                 'purchase_date' => $request->purchase_date,
                 'supplier_id' => $request->supplier_id,
@@ -198,15 +200,15 @@ class PurchaseController extends Controller
                 'grand_total' => $grandTotal,
                 'previous_balance' => $previousSupplierBalance,
                 'paid_amount' => $paid,
-                'current_balance' => $grandTotal - $paid,
+                'current_balance' => $newPurchaseCurrentBalance,
                 'payment_method' => $request->payment_type ?? 'Cash',
                 'payment_status' => $paymentStatus,
             ]);
 
-            // Supplier আপডেট
+            // 9. Supplier আপডেট
             $supplier->update([
-                'current_balance' => abs($newCurrentBalance),
-                'balance_type' => $newCurrentBalance > 0 ? 'payable' : ($newCurrentBalance < 0 ? 'receivable' : 'payable'),
+                'current_balance' => abs($updatedSupplierBalance),
+                'balance_type' => $updatedSupplierBalance > 0 ? 'payable' : ($updatedSupplierBalance < 0 ? 'receivable' : 'payable'),
             ]);
         });
 
