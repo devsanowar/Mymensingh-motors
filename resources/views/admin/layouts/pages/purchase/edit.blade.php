@@ -15,9 +15,9 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form id="purchaseForm" method="POST">
+                        <form action="{{ route('purchase.update',$purchase->id ) }}" method="POST">
                             @csrf
-
+                            @method('PUT')
                             {{-- Top Section --}}
                             <div class="row mb-3">
                                 <div class="col-md-3">
@@ -54,43 +54,35 @@
                                         </tr>
                                     </thead>
                                     <tbody id="purchase_items">
-                                        @foreach ($purchase->items as $index => $item)
-                                            <tr data-row="{{ $index }}">
-                                                <td class="sl">{{ $index + 1 }}</td>
+                                        @php
+                                            $groupedItems = $purchase->items->groupBy('product_id');
+                                        @endphp
 
-                                                {{-- Product (edit করতে চাইলে select দাও; না চাইলে শুধু text + hidden id) --}}
-                                                <td>
-                                                    <select name="items[{{ $index }}][product_id]"
-                                                        class="form-control product_id">
-                                                        <option value="">-- Select --</option>
-                                                        @foreach ($products as $p)
-                                                            <option value="{{ $p->id }}"
-                                                                {{ $p->id == $item->product_id ? 'selected' : '' }}>
-                                                                {{ $p->product_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <input type="hidden" name="items[{{ $index }}][id]"
-                                                        value="{{ $item->id }}">
-                                                </td>
+                                        @foreach ($groupedItems as $productId => $items)
+                                            @php
+                                                $productName = $items->first()->product->product_name;
+                                                $totalQty = $items->sum('quantity');
+                                                $unitPrice = $items->first()->purchase_price; // ধরে নিচ্ছি সব purchase_price একই
+                                                $totalPrice = $totalQty * $unitPrice;
+                                            @endphp
 
+                                            <tr>
+                                                <td class="sl">{{ $loop->iteration }}</td>
+                                                <td>{{ $productName }}</td>
                                                 <td>
                                                     <input type="number" step="1" min="0"
-                                                        name="items[{{ $index }}][quantity]"
-                                                        class="form-control qty" value="{{ $item->quantity }}">
+                                                        name="items[{{ $loop->index }}][quantity]" class="form-control qty"
+                                                        value="{{ $totalQty }}">
                                                 </td>
-
                                                 <td>
                                                     <input type="number" step="0.01" min="0"
-                                                        name="items[{{ $index }}][purchase_price]"
-                                                        class="form-control price" value="{{ $item->purchase_price }}">
+                                                        name="items[{{ $loop->index }}][purchase_price]"
+                                                        class="form-control price" value="{{ $unitPrice }}">
                                                 </td>
-
                                                 <td>
                                                     <input type="text" readonly class="form-control row-total"
-                                                        value="{{ number_format($item->quantity * $item->purchase_price, 2) }}">
+                                                        value="{{ number_format($totalPrice, 2) }}">
                                                 </td>
-
                                                 <td>
                                                     <button type="button"
                                                         class="btn btn-sm btn-danger delete-item">Delete</button>

@@ -220,6 +220,7 @@ Route::prefix('admin')
         Route::get('purchase/create', [PurchaseController::class, 'create'])->name('purchase.create');
         Route::post('purchase', [PurchaseController::class, 'store'])->name('purchase.store');
         Route::get('purchase/{id}/edit/', [PurchaseController::class, 'edit'])->name('purchase.edit');
+        Route::put('purchase/{purchase}/update', [PurchaseController::class, 'update'])->name('purchase.update');
         Route::get('/get-supplier-balance/{id}', [PurchaseController::class, 'getSupplierBalance']);
         Route::get('/purchase/filter', [PurchaseController::class, 'filter'])->name('purchase.filter');
         Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
