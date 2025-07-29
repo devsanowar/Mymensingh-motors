@@ -136,84 +136,86 @@ class PurchaseController extends Controller
         return view('admin.layouts.pages.purchase.edit', compact('products', 'purchase'));
     }
 
-    public function update(PurchaseUpdateRequest $request, Purchase $purchase)
+    public function update(Request $request, Purchase $purchase)
     {
         DB::transaction(function () use ($request, $purchase) {
-            $supplier = Supplier::lockForUpdate()->findOrFail($request->supplier_id);
-
-            // 1. পুরানো স্টক ফেরত (কমানো)
+            // 1. Rollback stock
             foreach ($purchase->items as $oldItem) {
                 ProductStock::where('product_id', $oldItem->product_id)->decrement('quantity', $oldItem->quantity);
             }
 
-            // 2. পুরানো purchase_items ডিলিট
+            // 2. Delete old items
             $purchase->items()->delete();
 
-            $total = 0;
+            // 3. Recalculate items
+            $items = collect($request->items)->map(function ($item) {
+                $qty = (int) $item['quantity'];
+                $price = (float) $item['purchase_price'];
+                return [
+                    'product_id' => (int) $item['product_id'],
+                    'quantity' => $qty,
+                    'purchase_price' => $price,
+                    'total' => $qty * $price,
+                ];
+            });
 
-            // 3. নতুন purchase_items তৈরি এবং স্টক যোগ
-            if ($request->has('items') && is_array($request->items)) {
-                foreach ($request->items as $item) {
-                    if (isset($item['product_id'], $item['quantity'], $item['purchase_price'])) {
-                        $subtotal = $item['quantity'] * $item['purchase_price'];
-                        $total += $subtotal;
-
-                        $purchase->items()->create([
-                            'product_id' => $item['product_id'],
-                            'quantity' => $item['quantity'],
-                            'purchase_price' => $item['purchase_price'],
-                            'total' => $subtotal,
-                        ]);
-
-                        // স্টক বাড়ানো
-                        ProductStock::updateOrCreate(['product_id' => $item['product_id']], ['quantity' => DB::raw('quantity + ' . $item['quantity'])]);
-                    }
-                }
-            }
-
-            // 4. নতুন হিসাব ক্যালকুলেশন
+            $total = $items->sum('total');
             $discount = (float) ($request->total_discount ?? 0);
             $transport = (float) ($request->transport_cost ?? 0);
             $paid = (float) ($request->paid_amount ?? 0);
             $grandTotal = $total - $discount + $transport;
 
-            // 5. আগের current_balance বাদ দিয়ে নতুন হিসাব
-            $oldPurchaseBalance = $purchase->current_balance; // পুরনো ব্যালেন্স
-            $previousSupplierBalance = $supplier->current_balance;
+            // Supplier logic
+            $supplier = Supplier::lockForUpdate()->findOrFail($request->supplier_id);
+            $previousBalance = (float) $request->previous_balance;
 
-            // 6. নতুন current_balance হিসাব
-            $newPurchaseCurrentBalance = $grandTotal - $paid; // এই পারচেস এর নতুন ব্যালেন্স
+            $totalPayable = $request->balance_type === 'receivable' ? $grandTotal - $previousBalance : $previousBalance + $grandTotal;
 
-            $updatedSupplierBalance = $previousSupplierBalance - $oldPurchaseBalance + $newPurchaseCurrentBalance;
+            $rawCurrent = $totalPayable - $paid;
+            if (abs($rawCurrent) < 0.00001) {
+                $rawCurrent = 0;
+            }
+            $currentBalance = $rawCurrent;
 
-            // 7. Payment Status
-            $paymentStatus = $newPurchaseCurrentBalance == 0 ? 'Paid' : ($paid > 0 ? 'Partial' : 'Due');
+            $paymentStatus = $currentBalance == 0 ? 'Paid' : ($paid > 0 ? 'Partial' : 'Due');
 
-            // 8. Purchase আপডেট
+            // 4. Update purchase
             $purchase->update([
                 'purchase_date' => $request->purchase_date,
-                'supplier_id' => $request->supplier_id,
-                'voucher_number' => $request->voucher_number,
                 'total' => $total,
                 'total_discount' => $discount,
                 'transport_cost' => $transport,
                 'grand_total' => $grandTotal,
-                'previous_balance' => $previousSupplierBalance,
+                'previous_balance' => $previousBalance,
                 'paid_amount' => $paid,
-                'current_balance' => $newPurchaseCurrentBalance,
+                'current_balance' => $currentBalance,
                 'payment_method' => $request->payment_type ?? 'Cash',
                 'payment_status' => $paymentStatus,
             ]);
 
-            // 9. Supplier আপডেট
-            $supplier->update([
-                'current_balance' => abs($updatedSupplierBalance),
-                'balance_type' => $updatedSupplierBalance > 0 ? 'payable' : ($updatedSupplierBalance < 0 ? 'receivable' : 'payable'),
-            ]);
+            // 5. Insert new items and update stock
+            foreach ($items as $item) {
+                $purchase->items()->create($item);
+                ProductStock::updateOrCreate(['product_id' => $item['product_id']], ['quantity' => DB::raw('quantity + ' . $item['quantity'])]);
+            }
+
+            // 6. Update supplier
+            if ($currentBalance == 0) {
+                $supplier->update([
+                    'opening_balance' => 0,
+                    'balance_type' => 'payable',
+                    'current_balance' => 0,
+                ]);
+            } else {
+                $supplier->update([
+                    'current_balance' => abs($currentBalance),
+                    'balance_type' => $currentBalance > 0 ? 'payable' : 'receivable',
+                ]);
+            }
         });
 
-        Toastr::success('Purchase successfully updated!');
-        return redirect()->route('purchase.index');
+        Toastr::success('Purchase updated successfully!');
+        return redirect()->back();
     }
 
     public function filter(Request $request)
@@ -251,10 +253,46 @@ class PurchaseController extends Controller
         ]);
     }
 
-    public function destroy(Purchase $purchase)
+    public function destroy($id)
     {
-        $purchase->delete();
-        return response()->json(['status' => 'success', 'message' => 'Purchase deleted successfully.']);
+        DB::beginTransaction();
+
+        try {
+            $purchase = Purchase::with('items', 'supplier')->findOrFail($id);
+
+            // Step 1: Reverse stock
+            foreach ($purchase->items as $item) {
+                $product = Product::findOrFail($item->product_id);
+                $product->stock_quantity -= $item->quantity;
+                $product->save();
+
+                // Optional: Log stock decrease
+                ProductStock::create([
+                    'product_id' => $item->product_id,
+                    'type' => 'purchase_delete',
+                    'quantity' => -$item->quantity,
+                    'note' => 'Purchase deleted. Purchase ID: ' . $purchase->id,
+                ]);
+            }
+
+            // Step 2: Adjust Supplier balance
+            $supplier = $purchase->supplier;
+            $supplier->balance -= $purchase->grand_total;
+            $supplier->save();
+
+            // Step 3: Delete Purchase Items
+            $purchase->items()->delete();
+
+            // Step 4: Delete Purchase record
+            $purchase->delete();
+
+            DB::commit();
+
+            return redirect()->route('purchase.index')->with('success', 'Purchase deleted successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Failed to delete purchase: ' . $e->getMessage());
+        }
     }
 
     public function trashedData()

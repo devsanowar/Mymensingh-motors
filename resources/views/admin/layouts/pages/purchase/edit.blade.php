@@ -18,6 +18,10 @@
                         <form action="{{ route('purchase.update', $purchase->id) }}" method="POST">
                             @csrf
                             @method('PUT')
+
+                            <input type="hidden" name="supplier_id" value="{{ $purchase->supplier_id }}">
+                            <input type="hidden" name="voucher_number" value="{{ $purchase->voucher_number }}">
+
                             {{-- Top Section --}}
                             <div class="row mb-3">
                                 <div class="col-md-3">
@@ -54,42 +58,43 @@
                                         </tr>
                                     </thead>
                                     <tbody id="purchase_items">
-                                        @php
-                                            $groupedItems = $purchase->items->groupBy('product_id');
-                                        @endphp
+    @php $groupedItems = $purchase->items->groupBy('product_id'); @endphp
 
-                                        @foreach ($groupedItems as $productId => $items)
-                                            @php
-                                                $productName = $items->first()->product->product_name;
-                                                $totalQty = $items->sum('quantity');
-                                                $unitPrice = $items->first()->purchase_price; // ধরে নিচ্ছি সব purchase_price একই
-                                                $totalPrice = $totalQty * $unitPrice;
-                                            @endphp
+    @foreach ($groupedItems as $productId => $items)
+        @php
+            $productName = $items->first()->product->product_name;
+            $totalQty = $items->sum('quantity');
+            $unitPrice = $items->first()->purchase_price;
+            $totalPrice = $totalQty * $unitPrice;
+        @endphp
 
-                                            <tr>
-                                                <td class="sl">{{ $loop->iteration }}</td>
-                                                <td>{{ $productName }}</td>
-                                                <td>
-                                                    <input type="number" step="1" min="0"
-                                                        name="items[{{ $loop->index }}][quantity]"
-                                                        class="form-control qty" value="{{ $totalQty }}">
-                                                </td>
-                                                <td>
-                                                    <input type="number" step="0.01" min="0"
-                                                        name="items[{{ $loop->index }}][purchase_price]"
-                                                        class="form-control price" value="{{ $unitPrice }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" readonly class="form-control row-total"
-                                                        value="{{ number_format($totalPrice, 2) }}">
-                                                </td>
-                                                <td>
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-danger delete-item">Delete</button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
+        <tr>
+            <td class="sl">{{ $loop->iteration }}</td>
+            <td>
+                {{ $productName }}
+                <input type="hidden" name="items[{{ $loop->index }}][product_id]" value="{{ $productId }}">
+            </td>
+            <td>
+                <input type="number" step="1" min="0"
+                    name="items[{{ $loop->index }}][quantity]"
+                    class="form-control qty" value="{{ $totalQty }}">
+            </td>
+            <td>
+                <input type="number" step="0.01" min="0"
+                    name="items[{{ $loop->index }}][purchase_price]"
+                    class="form-control price" value="{{ $unitPrice }}">
+            </td>
+            <td>
+                <input type="text" readonly class="form-control row-total"
+                    value="{{ number_format($totalPrice, 2) }}">
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-danger delete-item">Delete</button>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
                                 </table>
                             </div>
 
@@ -231,30 +236,31 @@
 
                             {{-- Row template (hidden) --}}
                             <template id="row_template">
-                                <tr data-row="__INDEX__">
-                                    <td class="sl"></td>
-                                    <td>
-                                        <span class="product_name_display"></span>
-                                        <input type="hidden" name="items[__INDEX__][product_id]"
-                                            class="product_id_input" value="">
-                                    </td>
-                                    <td>
-                                        <input type="number" step="1" min="0"
-                                            name="items[__INDEX__][quantity]" class="form-control qty" value="1">
-                                    </td>
-                                    <td>
-                                        <input type="number" step="0.01" min="0"
-                                            name="items[__INDEX__][purchase_price]" class="form-control price"
-                                            value="0.00">
-                                    </td>
-                                    <td>
-                                        <input type="text" readonly class="form-control row-total" value="0.00">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-danger delete-item">Delete</button>
-                                    </td>
-                                </tr>
-                            </template>
+    <tr data-row="__INDEX__">
+        <td class="sl"></td>
+        <td>
+            <span class="product_name_display"></span>
+            <input type="hidden" name="items[__INDEX__][product_id]"
+                class="product_id_input" value="">
+        </td>
+        <td>
+            <input type="number" step="1" min="0"
+                name="items[__INDEX__][quantity]" class="form-control qty" value="1">
+        </td>
+        <td>
+            <input type="number" step="0.01" min="0"
+                name="items[__INDEX__][purchase_price]" class="form-control price"
+                value="0.00">
+        </td>
+        <td>
+            <input type="text" readonly class="form-control row-total" value="0.00">
+        </td>
+        <td>
+            <button type="button" class="btn btn-sm btn-danger delete-item">Delete</button>
+        </td>
+    </tr>
+</template>
+
 
 
                             <div class="d-flex justify-content-end">
@@ -287,154 +293,127 @@
 
 @push('scripts')
     <script>
-        (function() {
-            const $tbody = $('#purchase_items');
-            let rowIndex = {{ $purchase->items->count() }};
+    (function () {
+        const $tbody = $('#purchase_items');
+        let rowIndex = {{ $purchase->items->count() }};
 
-            // ---------- Helpers ----------
-            const nf = (n) => (parseFloat(n || 0).toFixed(2));
+        const nf = (n) => (parseFloat(n || 0).toFixed(2));
 
-            function renumberSL() {
-                $tbody.find('tr').each(function(i) {
-                    $(this).find('.sl').text(i + 1);
-                });
+        function renumberSL() {
+            $tbody.find('tr').each(function (i) {
+                $(this).find('.sl').text(i + 1);
+            });
+        }
+
+        function recalcRow($tr) {
+            const qty = parseFloat($tr.find('.qty').val()) || 0;
+            const price = parseFloat($tr.find('.price').val()) || 0;
+            const total = qty * price;
+            $tr.find('.row-total').val(nf(total));
+            return total;
+        }
+
+        function calcPaymentStatus(grandTotal, paid) {
+            if (paid >= grandTotal && grandTotal > 0) return 'Paid';
+            if (paid > 0 && paid < grandTotal) return 'Partial';
+            return 'Due';
+        }
+
+        function setBalanceType($el, type) {
+            $el.removeClass('bg-payable bg-receivable');
+            if (type === 'Payable') {
+                $el.addClass('bg-payable');
+            } else {
+                $el.addClass('bg-receivable');
             }
+            $el.val(type);
+        }
 
-            function recalcRow($tr) {
-                const qty = parseFloat($tr.find('.qty').val()) || 0;
-                const price = parseFloat($tr.find('.price').val()) || 0;
-                const total = qty * price;
-                $tr.find('.row-total').val(nf(total));
-                return total;
-            }
-
-            function calcPaymentStatus(grandTotal, paid) {
-                if (paid >= grandTotal && grandTotal > 0) return 'Paid';
-                if (paid > 0 && paid < grandTotal) return 'Partial';
-                return 'Due';
-            }
-
-            function setBalanceType($el, type) {
-                $el.removeClass('bg-payable bg-receivable');
-                if (type === 'Payable') {
-                    $el.addClass('bg-payable');
-                } else {
-                    $el.addClass('bg-receivable');
-                }
-                $el.val(type);
-            }
-
-            function recalcSummary() {
-                let total = 0;
-                $tbody.find('tr').each(function() {
-                    total += recalcRow($(this));
-                });
-
-                const discount = parseFloat($('#total_discount').val()) || 0;
-                const transport = parseFloat($('#transport_cost').val()) || 0;
-                const grandTotal = total - discount + transport;
-                const prevBal = parseFloat($('#opening_balance_signed').val()) || 0;
-                const paid = parseFloat($('#paid_amount').val()) || 0;
-                const current = prevBal + grandTotal - paid;
-                const paymentStatus = calcPaymentStatus(grandTotal, paid);
-
-                $('#total').val(nf(total));
-                $('#grand_total').val(nf(grandTotal));
-
-                $('#current_balance_signed').val(nf(current));
-                $('#current_balance_view').val(nf(Math.abs(current)));
-
-                const cbType = current >= 0 ? 'Payable' : 'Receivable';
-                setBalanceType($('#current_balance_type'), cbType);
-
-                $('#payment_status').val(paymentStatus);
-
-                const prevType = prevBal >= 0 ? 'Payable' : 'Receivable';
-                setBalanceType($('#balance_type'), prevType);
-                $('#opening_balance_view').val(nf(Math.abs(prevBal)));
-            }
-
-            function fixInputNames($tr, idx) {
-                $tr.attr('data-row', idx);
-                $tr.find('[name]').each(function() {
-                    const name = $(this).attr('name');
-                    const newName = name.replace(/\[\d+\]/g, '[' + idx + ']');
-                    $(this).attr('name', newName);
-                });
-            }
-
-            // ---------- Events ----------
-            $(document).on('input', '.qty, .price', function() {
-                const $tr = $(this).closest('tr');
-                recalcRow($tr);
-                recalcSummary();
+        function recalcSummary() {
+            let total = 0;
+            $tbody.find('tr').each(function () {
+                total += recalcRow($(this));
             });
 
-            $('#total_discount, #transport_cost, #paid_amount').on('input', function() {
-                recalcSummary();
+            const discount = parseFloat($('#total_discount').val()) || 0;
+            const transport = parseFloat($('#transport_cost').val()) || 0;
+            const grandTotal = total - discount + transport;
+            const prevBal = parseFloat($('#opening_balance_signed').val()) || 0;
+            const paid = parseFloat($('#paid_amount').val()) || 0;
+            const current = prevBal + grandTotal - paid;
+            const paymentStatus = calcPaymentStatus(grandTotal, paid);
+
+            $('#total').val(nf(total));
+            $('#grand_total').val(nf(grandTotal));
+            $('#current_balance_signed').val(nf(current));
+            $('#current_balance_view').val(nf(Math.abs(current)));
+
+            const cbType = current >= 0 ? 'Payable' : 'Receivable';
+            setBalanceType($('#current_balance_type'), cbType);
+            $('#payment_status').val(paymentStatus);
+
+            const prevType = prevBal >= 0 ? 'Payable' : 'Receivable';
+            setBalanceType($('#balance_type'), prevType);
+            $('#opening_balance_view').val(nf(Math.abs(prevBal)));
+        }
+
+        function fixInputNames($tr, idx) {
+            $tr.attr('data-row', idx);
+            $tr.find('[name]').each(function () {
+                const name = $(this).attr('name');
+                const newName = name.replace(/\[\d+\]/g, '[' + idx + ']');
+                $(this).attr('name', newName);
             });
+        }
 
-            $(document).on('click', '.delete-item', function() {
-                $(this).closest('tr').remove();
-                renumberSL();
-                recalcSummary();
-            });
+        $(document).on('input', '.qty, .price', function () {
+            const $tr = $(this).closest('tr');
+            recalcRow($tr);
+            recalcSummary();
+        });
 
-            $('#add_row').on('click', function() {
-                const tpl = $('#row_template').html().replace(/__INDEX__/g, rowIndex);
-                const $row = $(tpl);
-                $tbody.append($row);
-                renumberSL();
-                recalcSummary();
-                rowIndex++;
-            });
+        $('#total_discount, #transport_cost, #paid_amount').on('input', function () {
+            recalcSummary();
+        });
 
-            const products = @json($productData);
+        $(document).on('click', '.delete-item', function () {
+            $(this).closest('tr').remove();
+            renumberSL();
+            recalcSummary();
+        });
 
+        // Load product data from controller
+        const products = @json($productData);
 
-            $('#product_model').on('change', function() {
-                const productId = parseInt($(this).val());
-                if (!productId) return;
+        $('#product_model').on('change', function () {
+            const productId = parseInt($(this).val());
+            if (!productId) return;
 
-                const product = products.find(p => p.id === productId);
-                if (!product) return;
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
 
-                const tpl = $('#row_template').html().replace(/__INDEX__/g, rowIndex);
-                const $row = $(tpl);
+            const tpl = $('#row_template').html().replace(/__INDEX__/g, rowIndex);
+            const $row = $(tpl);
 
-                // Set product name display
-                $row.find('.product_name_display').text(product.name);
+            $row.find('.product_name_display').text(product.name);
+            $row.find('.product_id_input').val(product.id);
+            $row.find('.price').val(nf(product.price));
+            $row.find('.qty').val(1);
 
-                // Set hidden product_id input
-                $row.find('.product_id_input').val(product.id);
+            fixInputNames($row, rowIndex);
+            $tbody.append($row);
 
-                // Set price input
-                $row.find('.price').val(product.price);
+            renumberSL();
+            recalcSummary();
+            rowIndex++;
 
-                $tbody.append($row);
-                renumberSL();
-                recalcSummary();
-                rowIndex++;
+            $(this).val('').trigger('change');
+        });
 
-                // Reset the select box after adding
-                $(this).val('').trigger('change');
-            });
+        $(document).ready(function () {
+            recalcSummary();
+        });
+    })();
+</script>
 
-
-            $(document).on('change', '.product_id', function() {
-                const $tr = $(this).closest('tr');
-                const id = parseInt($(this).val());
-                const found = products.find(p => p.id === id);
-                if (found) {
-                    $tr.find('.price').val(nf(found.price));
-                }
-                recalcRow($tr);
-                recalcSummary();
-            });
-
-            $(document).ready(function() {
-                recalcSummary();
-            });
-        })();
-    </script>
 @endpush
